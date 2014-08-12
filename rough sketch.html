@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sentence Gen 2</title>
+<script type="text/javascript">
+		
+	function copula(){
+			VP("cop", {name: "be"})
+			NP("subject")		
+			choose(
+				5, NP({proper: 0, }),
+				5, Adj(),
+				4, Compl({finite: 1}),
+				3, PP({temporal: 0})
+			)
+	}
+	
+	function NP(){
+			N()
+			Det()
+			optional(0.2, Num())
+			repeat(0.25, optional(0.3, Adj()))
+	}
+	
+</script>
+</head>
+
+<body>
+</body>
+</html>

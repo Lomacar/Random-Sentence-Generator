@@ -1,0 +1,480 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sentence Gen 2</title>
+<script src="jquery.js" type="text/javascript"></script>
+<script type="text/javascript" src="database.js"></script>
+<script type="text/javascript" src="constructions.js"></script>
+<script type="text/javascript" src="utilities.js"></script>
+<script type="text/javascript">
+
+/***** GLOBAL VAARRRRRSSZ! ******/
+
+var error_num = 0
+
+/********************************/
+
+function tamnp(){
+	factored = factorPermutations(paradigms["verb"])
+	
+	for(perm in factored){
+		C = new branch(clause, {tense:factored[perm][0], number: factored[perm][1], person: factored[perm][2], aspect: factored[perm][3]})
+		
+		//$(document).ready(function(e) {
+			//$("body").html(stringOut(C))
+			console.log(stringOut(C))
+			//console.log([C.head.head.head.aspect, C.head.head.head.tense, C.head.head.head.number, C.head.head.head.person])
+		//})
+	}
+}
+function oneRandom(){
+	C = new branch(clause)
+	console.log(stringOut(C))
+	console.log([C.head.head.head.aspect, C.head.head.head.tense, C.head.head.head.number, C.head.head.head.person])
+}
+
+function loopy(iters){
+	for(i=0;i<iters;i++) oneRandom();
+}
+
+var start = new Date().getTime()
+//oneRandom()
+loopy(50)
+//tamnp()
+var end = new Date().getTime()
+console.log(end-start)
+
+
+/*-------------------------------------   BRANCH -------------------------------------*/
+
+function branch(c, r, p, l){
+	this.parent = p || null
+	this.label = l || null
+	
+	this.parseRestrictions = parseRestrictions
+	var r = this.parseRestrictions(r)
+	
+	var c = c(r)
+	//if the 'construction' retrieved point to another function 
+	while(typeOf(c)==='array' && typeof c[0] == 'function'){
+			c = c[0]( $.extend({}, r, c[1]) )
+	}
+	
+	//evaluate head first
+	if("head".in(c)){
+		this.order = c.order
+		this.children = {}
+		
+		this.head = this.children[c.head] = new branch(c.children[c.head][0], $.extend({}, c.restrictions, r, c.children[c.head][1]), this, c.head)
+		
+		//remove properties from the head that have dots in them like the inflections list
+		//this is supposed avoid problems with these ending up in the restrictions and then getting
+		//parsed as obj.prop. Hopefully this doesn't cause other problems
+		for (var prop in this.head) {
+			if(typeof this.head[prop] == 'string' && this.head[prop].indexOf('.')!=-1)	delete this.head[prop]
+		}
+		//add the head itself to the restrictions (useful at the word level)
+		var r = $.extend({}, r, this.head)
+	}
+	
+	//evaluate rest of children
+	if("children".in(c)){
+		for(var child in c.children){		
+			if(this.children[child] != this.head){
+				if(typeOf(c.children[child])=='array'){
+					
+					var R = this.parseRestrictions(c.children[child][1])
+					if(R=="LEAVE") this.children[child] = {text: ""} //this is how we deal with branches that our restrictions told us not to follow
+					
+					else this.children[child] = new branch(c.children[child][0], $.extend({}, c.restrictions, r, R), this, child) 
+				}
+				else //presumably this is just a straight object rather than a construction + restrictions to evaluate
+					{this.children[child] = c.children[child]}
+			}
+		}
+	}
+	
+	//dump almost all other c.properties into this
+	for(prop in c){
+		if(prop!='head' && prop!='children')
+		this[prop] = c[prop];	
+	}
+	
+	//words need a text property
+	if(!"children".in(c)) {
+		if(!"text".in(c)) this.text = c.inflected || c.name
+	}
+	
+	
+	
+	/*-------------------------------------   RESTRICTIONS -------------------------------------*/
+	
+	function parseRestrictions(restrictions){
+		if (typeof restrictions==='undefined' || isEmpty(restrictions)) return
+		
+		var obj_to_search //these two variables are needed for the error messages
+		var prop_to_search
+		
+		//strings can be passed as restrictions. they are expected to eval to just an object, no property
+		if (typeof restrictions==='string') {
+			
+			//if restriction string is like 'some.thing'
+			if (restrictions.match(/\./)){
+				var obj = objectSearch(restrictions, this)
+				obj_to_search = restrictions.split('.')[0]
+				if(!obj) {
+					console.warn('Object "'+obj_to_search.label+'" could not be found from "'+this.label+'".')
+					return
+				}
+				var prop = restrictions.split('.')[1]
+				
+				if(!prop.in(obj)){
+					obj = propertySearch(obj, prop)				
+					if (!obj){
+						console.warn('Property "'+prop+'" under object "'+obj_to_search.label+'" could not be found from "'+this.label+'".')
+						return
+					}
+				}
+				restrictions = obj[prop]
+			}
+			
+			else if (restrictions.in(this.children))
+				return this.children[restrictions]
+			else
+				if ('parent'.in(this)){
+					var path = restrictions.match("parent.children") ? restrictions.replace("parent.", "parent.parent.") : "this.parent.children."+restrictions
+					restrictions = this.parseRestrictions(path)
+				}else{
+					console.warn('Object "'+restrictions+'" could not be found from "'+this.label+'".')
+					return
+				}
+		}
+		
+		//TODO: Use these variables!
+		var last_obj //this caches the last object found so that you don't have to recursively search every time
+		var last_obj_str //this is the string to make the actually comparison
+		
+		//if restrictions is an object (usually), parse the strings in each element
+		for(var r in restrictions){
+			if(typeof restrictions[r] === 'object' || typeof restrictions[r] === 'function'){
+				//we don't allow objects or other crazy nonsense inside the restrictions object
+				delete restrictions[r]
+				continue
+			}
+			if(typeof restrictions[r] != 'string') continue //numbers could make it up to this point 
+			
+			if(restrictions[r].match(/\./)) {
+				//if obj can't be found among siblings recurse to uncles, great-uncles...
+				var obj = objectSearch(restrictions[r], this)
+				//prop is just the string after the dot
+				var prop =prop_to_search= restrictions[r].split('.')[1]
+				obj_to_search = restrictions[r].split('.')[0]
+				
+				//if an object was found
+				if(obj){
+					//if that object has the property congratulations
+					if(prop.in(obj)){
+						restrictions[r] = obj[prop]
+					}else{//if no property found you sadly must search down through all the sub-heads of the found object
+						obj = propertySearch(obj, prop)				
+						if (obj) { //if an object with prop was finally found, congratulations!
+							restrictions[r] = obj[prop]
+						}	else { //admit defeat
+							console.warn('Property "'+prop_to_search+'" under object "'+obj_to_search+'" could not be found for "'+r+'" from "'+this.label+'".')
+							delete restrictions[r] //remove this pesky restriction
+							continue
+						}
+					}
+				} else {
+					console.warn('Object "'+obj_to_search.label+'" could not be found for "'+r+'" from "'+this.label+'".')
+					delete restrictions[r] //remove this pesky restriction
+					continue
+				}
+				
+				//try {	restrictions[r] = eval(restrictions[r]) }
+				//catch(e) { restrictions[r] = eval("this.parent.children."+restrictions[r]) }
+			}
+			if (r=='exist' && !restrictions[r]) return "LEAVE"
+		}
+		return restrictions
+	}
+
+}
+
+//processing of special instruction characters in 
+function r_special(r){
+	matcha = '!@~<>='.substr(0,1).match(/[@~$&#!<>=]/)[0];
+	
+	if(!matcha) return false
+	
+	switch(matcha){
+		case '#': console.log('Pound it.'); 
+							break; 	
+		case '!': console.log("n't!")
+	}
+	
+	return matcha 
+}
+
+/*-------------------------------------   INFLECT -------------------------------------*/
+
+//picks a specific inflection of/for a word if it has anything special
+//returns false if regular inflection can be used
+function inflect(word, r){
+		if(!"inflections".in(word)) {
+			word.inflected = ""
+			return
+		}
+	
+		r = r || {}
+		var query = []
+		var pdigms = $.extend({}, paradigms[word.type])
+		
+		for(var cat in pdigms){
+				//remove prohibited categories from paradigm
+				if('prohibitions'.in(word)){
+					for(var p=pdigms[cat].length-1; p>0; p--){
+						//if()
+					}
+				}
+				for(var cg=pdigms[cat].length-1; cg>0; cg--){
+					var prohibz = prohibitions.descend(word.type, cat, pdigms[cat][cg]) || false
+					if(prohibz){
+						for(var p in prohibz){
+							if(prohibz[p]==word.descend(p)) pdigms[cat].splice(cg)
+						}
+					}	
+				}
+				
+				//if a category has already been specified use it
+				if(cat.in(r)  && r[cat]!='') {
+					if (pdigms[cat].indexOf(r[cat].toString())>-1 || pdigms[cat].indexOf(r[cat])>-1)
+						{word[cat] = r[cat]}
+					else {
+						console.warn(
+							"Category '"+cat+':'+r[cat]+"' not found for "+word.type+" '"+word.name+"'. "
+							+"A random category will be assigned."
+						)
+						word[cat] = pickOne(pdigms[cat])	
+					}
+				}
+				//otherwise pick one at random
+				else word[cat] = pickOne(pdigms[cat])
+				
+				query.push(word[cat])
+		}
+	
+		query = query.join("|")
+		var regex = "(^|,) *("+query+"|\\.)*("+query+ ")+ *:[^,]*"
+		var outcome = word.inflections.match( new RegExp(regex, "gi"))
+		
+		if(outcome!=null){
+			
+			word.inflected = outcome.sort(function(a,b){
+					return a.split(".").length>b.split(".").length
+			})
+			.pop().split(":").pop().trim()
+			
+			return word
+						
+		} else { 
+			word.inflected = ""
+			return word 
+		}
+}
+
+function parse(r, rules){
+		if(!r || !'type'.in(r)) return error('No word type specified for parse function.')
+		if(typeof rules != 'string' || rules == '') return error('No parsing rules specified for parse function.')
+		
+		var type = r.type
+		var query = []
+		
+		for(var cat in paradigms[type]){
+				//if a category has already been specified use it
+				if(cat.in(r) && r[cat]!='') {
+					if (paradigms[type][cat].indexOf(r[cat])>-1)
+						{}
+					else {
+						console.warn(
+							"Category '"+cat+':'+r[cat]+"' not found for "+type+". "
+							+"A random category will be assigned."
+						)
+						r[cat] = pickOne(paradigms[type][cat])	
+					}
+				}
+				//otherwise pick one at random
+				else r[cat] = pickOne(paradigms[type][cat])
+				
+				query.push(r[cat])
+		}
+		
+		query = query.join("|")
+		var regex = "(^|,) *("+query+"|\\.)*("+query+ ")+ *:[^,]*"
+		var outcome = rules.match( new RegExp(regex, "gi"))
+		
+		if(outcome!=null){
+			
+			outcome = outcome.sort(function(a,b){
+					return a.split(".").length>b.split(".").length
+			})
+			.pop().split(":").pop().trim()
+			
+			return outcome
+						
+		} else { 
+			return ""
+		}
+}
+
+
+
+
+/*-------------------------------------   WORD GETTING -------------------------------------*/
+
+//selects a word from the database that matches the given restrictions
+function get(r){
+	var word = $.extend({'type': r.type}, pickOne(database[r.type], r)  ) || false
+	if(!'name'.in(word)) 
+		return {text: error("No word could be get'd with the following restrictions: "+JSON.stringify(r))}
+	
+	inflect(word,r)
+	
+	return word
+}
+
+//utility function for randomly picking one element from an array
+function pickOne(arr, r){
+	
+	if(typeOf(arr) == 'object') var arr = toArray(arr) //in case object was past in
+	var r = r || null;
+	
+	if(!isEmpty(r)){
+		var slim = $.grep(arr, slimmer)
+		return slim[Math.floor(Math.random()*slim.length)]
+	}
+	//just pick one at random
+	else return arr[Math.floor(Math.random()*arr.length)]	
+	
+	function slimmer(a){
+		return r_match(r,a)	
+	}
+}
+
+//tests an object against a restrictions template
+//if they have the same properties they must match, otherwise, who cares
+//also rejected if restrictions match prohibitions on object
+function r_match(restrictions, test_object){
+	if (isEmpty(restrictions)) return true
+	var prohib = 'prohibitions'.in(test_object) ? test_object.prohibitions : false
+	if(prohib) prohib = prohib.replace(/ /g, '')
+	
+	for(var r in restrictions){
+			
+			//reject based on prohibitions
+			var regex = '(^|,)'+r+':'+restrictions[r]+'($|,)'
+			if(prohib && prohib.match(new RegExp(regex, "i")))
+			 return false
+			var prohibz = prohibitions.descend(restrictions.type,r,restrictions[r]) //prohibitions: wordtype: restrictionttype: restriction
+			if(prohibz){
+				for(var p in prohibz){
+					if(prohibz[p]==test_object.descend(p))return false
+				}
+			}
+			
+			if (r.in(test_object)){
+				
+				//in this system numbers are assumed to match if they are equal to or higher than the restriction
+				if (parseInt(test_object[r])+parseInt(restrictions[r]) != NaN && parseInt(test_object[r]) >= parseInt(restrictions[r])) continue
+				if(test_object[r] == restrictions[r]) continue
+				else return false
+			} else continue
+	}
+	return true
+}
+
+
+
+/*-------------------------------------   BRANCH NAVIGATION   -------------------------------------*/
+
+function objectSearch(start, context){
+	//break obj.prop into array
+	var obj = start.split('.')[0]
+	//if obj can't be found among siblings recurse to uncles, great-uncles...
+	return obj.in(context.children) ? context.children[obj] : context.parseRestrictions(obj)
+}
+
+function propertySearch(object, property){
+	//if the search is being done we automatically assume the passed in object doesn't have the property
+	if('head'.in(object)){
+		if(property.in(object.head))
+			return object.head
+		else
+			return propertySearch(object.head, property)
+	}	else {
+		return false
+	}
+}
+
+
+/*-------------------------------------   OUTPUT -------------------------------------*/
+
+//essentially the toString method for constructions
+function stringOut(c){
+	if("children".in(c)){
+		
+		var c = c
+	
+		var string = c.order.replace(/([^_ ])+/g, function(a){
+			return stringOut(c.children[a])
+		})
+		
+		if (typeof c.postlogic==='function') {
+			string = c.postlogic(string)
+			return string.replace("_", "")
+		}
+		else return string.replace("_", "")
+	}
+	else return c.text
+	
+}
+
+
+
+/*------------------------------------- Construction Instructions -------------------------------------*/
+
+function route(r, choices){
+	if (typeof r==='undefined') {
+		error('Undefined selector for route function.')
+		return pickOne(choices)
+	}
+	
+	if (r==='' || r===null) return pickOne(choices)
+	
+	return choices[r] || choices["rest"] || ""
+}
+
+function choose(){
+	var total = 0
+	var weights = []
+	for(var arg in arguments){
+			//even numbers need to be the weights
+			if(arg%2==0) {
+				total += arguments[arg]
+				weights.push(total)
+			}
+	}
+	var rand = Math.random()*total
+	for (var w=0; w<weights.length; w++){
+		if(weights[w] > rand)	return arguments[w*2+1]
+	}
+}
+
+	
+</script>
+</head>
+
+<body>
+</body>
+</html>

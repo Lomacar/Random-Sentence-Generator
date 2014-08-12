@@ -1,0 +1,14 @@
+1 Clause
+2 Nucleus:VP
+3 Subject:NP
+4 Object:NP
+5 Indirect:NP
+#
+1 2
+1 3
+4 4
+1 4 
+2 4 trans?
+5 5
+1 5
+2 5 ditrans?

@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Multi Dimensional Array Thingy</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+variations = {
+    past:{
+        sg:{
+            "1": "was",
+            "2": "were",
+            "3": "was"
+        },
+        pl:{
+            "1": "were",
+            "2": "were",
+            "3": "were"
+        }
+    },
+    pres:{
+        sg:{
+            "1": "am",
+            "2": "are",
+            "3": "is"
+        },
+        pl:{
+            "1": "are",
+            "2": "are",
+            "3": "are"
+        }
+    }
+}
+
+vvv = initVariants({}, ["past present future","male_sbj female_sbj","sg_abs pl_abs"])
+
+function initVariants(obj, columns){
+		//obj.columns = columns
+			
+		var cols = columns[0].split(" ")
+
+		//if this is not the last set of columns recurse
+		if (columns[1]!=undefined)	{
+			for(var c=0;c<cols.length;c++){
+				obj[cols[c]] = initVariants({}, columns.slice(1));
+			}
+		} else { //end of the line, deepest column set
+			for(var c=0;c<cols.length;c++){
+				obj[cols[c]] = "";
+			}
+		}
+		
+		return obj
+}
+
+function pickVariant(v, r, path){
+    var R = r.split(" ")
+    var out = v
+    var temp
+		var path = path || "";
+    
+		$.each(R, function(rkey, rval){
+			temp = []
+			$.each(out, function(vkey, vval){
+				if(vkey === rval || r=="*") {
+					//temp.push(vval)
+					if(typeof vval == "string" && vval != "") temp.push(vval)
+					//forge on until you find a lone string
+					else temp = temp.concat( vval ); //temp.push( pickVariant(pickOne($.makeArray(vval)), "*", path+" "+vkey))
+				}
+				else if(typeof vval != "string") temp.push( pickVariant(vval, rval, path+" "+vkey) )
+			})
+			//this moves this function on to the next restriction in r
+			out = temp
+		})
+		
+		if (path==""){
+				return pickOne(toArrayR(out).filter(function(a){return a})) || false
+		}
+
+		return $.makeArray(out)
+}
+
+//example setVariant(vvv.past, "sg", "ya")
+
+function setVariant(obj, key, val){
+	var affected = 0
+	
+	if (key=="*"){
+			
+	}
+	
+	if (typeof obj[key] === "object"){
+		for(el in obj[key]){
+			affected += setVariant(obj[key], el, val)
+		}
+	} else if (typeof obj[key] === "string"){
+		obj[key] = val
+		affected +=1	
+	}
+	
+	return affected
+}
+
+//the R is for recursion!
+function toArrayR(obj){
+		var arr = []
+		
+		$.each(obj, function(a,b){
+			if(typeof b == "object") arr = arr.concat(toArrayR(b))
+			else arr.push(b);
+		})
+		return arr
+}
+
+
+rules = "present.sg.3:is, past:were, present: are, past.sg:was, past.sg.2:were, present.sg.1: am"
+
+function getVariant(rules, query){
+		query = query.replace(/\./g, "|")
+		regex = "(^|,) *("+query+"|\\.)*("+query+ ")+ *:[^,]*"
+
+		outcome = rules.match( new RegExp(regex, "gi"))
+		
+		if(outcome!=null){
+			return outcome.sort(function(a,b){
+					return a.split(".").length>b.split(".").length
+			})
+			.pop().split(":").pop().trim()
+		} else { return false }
+}
+
+
+
+//utility function for randomly picking one element from an array
+function pickOne(arr){
+	return arr[Math.floor(Math.random()*arr.length)]	
+}
+</script>
+
+</head>
+
+<body>
+</body>
+</html>
