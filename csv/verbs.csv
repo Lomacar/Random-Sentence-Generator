@@ -1,0 +1,18 @@
+name,anim1,class,complements,inflections
+be,0,state,"1,A","simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, retroprog:being, prog:being"
+have,1,state,,"simp.past:had, simp.pres.sg.3:has, retro:had"
+walk,3,activity,"0.85, to NP{case:acc}",
+skate,3,activity,,
+erupt,2,activity,,
+snap,2,event,,
+melt,2,process,,
+read,4,process,"1, N","simp.past:read, retro:read"
+shoot,4,event,,"simp.past:shot, retro:shot"
+see,3,state,,"simp.past:saw, retro:seen"
+know,3,state,"0.2, how to VP{tense: pres; aspect: simp; person: 1}, 0.8, that CLAUSE","simp.past:knew, retro:known"
+believe,4,state,,
+answer,4,event,,"prog:answering, simp.past:answered, retro:answered"
+smoke,4,activity,,
+tickle,3,activity,,
+fight,3,activity,,"simp.past:fought, retro:fought"
+give,4,event,"1, DP/to NP{case:acc; anim:1}","simp.past:gave, retro:given"
