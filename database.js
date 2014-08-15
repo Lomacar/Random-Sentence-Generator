@@ -14,17 +14,50 @@ class: state, activity, event, semel, process
 
 \***************************************************/
 var templates = {
-	general: {name: '', inflections: '', prohibitions: ''},
+	general: {name: '', inflections: '', prohibitions: '', tags: ''},
 	verb: {class: '', trans: '', anim: ''},
 	noun: {anim: '', proper:'', gender: ''},
 	adjective: {anim: '', rank:''}
 }
 
-var database = {
-	verb: $.get("nouns.csv", function(data){
-	    return CSV2JSON(data).pop();
+function loadVerbs(){
+
+    var d = $.Deferred();
+
+    $.get("csv/verbs.csv", function(data){
+        database.verb = CSV2JSON(data).slice(0, -1);
+        database.verb.forEach(function(a){
+            $.each(a, function(b,val){
+                //turn numbers and boolean into the real things
+                if (/^(-?[0-9.]+|false|true)$/i.test(val)) a[b] = JSON.parse(val.toLowerCase())
+            })
+        })
+        d.resolve();
     })
     
+    return d
+}
+function loadNouns(){
+
+    var d = $.Deferred();
+
+    $.get("csv/nouns.csv", function(data){
+        database.noun = CSV2JSON(data).slice(0, -1);
+        database.noun.forEach(function(a){
+            $.each(a, function(b,val){
+                //turn numbers and boolean into the real things
+                if (/^(-?[0-9.]+|false|true)$/i.test(val)) a[b] = JSON.parse(val.toLowerCase())
+            })
+        })
+        d.resolve();
+    })
+
+    return d
+}
+
+var database = {
+	verb: []
+
     /*[
 		{name: "be", trans: 1, anim1: 0, anim2: 0, class: "state",
             complements: "1,A",
@@ -55,13 +88,13 @@ var database = {
 		{name: "fight", trans: 1, anim1: 3, anim2: 3, class: "activity", inflections: "simp.past:fought, retro:fought"},
         {name: "give", anim1: 4, class: "event", complements: "1, DP/to NP{case:acc; anim:1}", inflections: "simp.past:gave, retro:given"}
 	]*/,	
-	noun: [
+	noun: [] /*[
 		{name: "Jack", proper: true, anim: 4, gender: 'm'},
 		{name: "the Canucks", proper: true, anim: 4, prohibitions:'number:sg,proper:'},
 		{name: "the Borg", proper: true, anim: 3, prohibitions:'number:sg,proper:'},
 		{name: "queen", proper: false, anim: 4, gender: 'f'},
 		{name: "Aunt Jemima", proper: true, anim: 4, gender: 'f'},
-		{name: "New York", proper: true, anim: 2},
+		{name: "New York", proper: true, anim: 2, tags: "place|test"},
 		{name: "mother", proper: false, anim: 4, gender: 'f'},
 		{name: "child", proper: false, anim: 4, inflections: "pl:children"},
 		{name: "wolf", proper: false, anim: 3, inflections: "pl:wolves"},
@@ -75,8 +108,10 @@ var database = {
 		{name: 'idea', proper: false, anim: 0},
 		{name: 'category', proper: false, anim: 0},
         {name: 'law', proper: false, anim: 0},
-		{name: 'sensation', proper: false, anim: 1}
-	],
+		{name: 'sensation', proper: false, anim: 1},
+        {name: 'mailman', proper: false, anim: 4, inflections: "pl:mailmen"},
+        {name: 'Japan', proper: true, anim: 2, tags: "place"}
+	]*/,
 	adjective: [
 		{name: "big", rank: 6},
 		{name: "nice", rank: 7},
@@ -86,8 +121,8 @@ var database = {
 		{name: "bad", rank: 5},
 		{name: "red", rank: 0, anim: 1},
 		{name: "clever", rank: 3, anim: 3},
-        {name: "outrageous", rank: 2},
-        {name: "boring", rank: 2},
+        {name: "outrageous", rank: 3},
+        {name: "boring", rank: 3},
         {name: "fuzzy", rank: 1, anim: 1},
         {name: "oblong", rank: 1, anim: 2},
         {name: "friendly", rank: 2, anim: 3},
@@ -96,7 +131,13 @@ var database = {
         {name: "nervous", rank: 1, anim: 4},
         {name: "pretentious", rank: 2, anim: 4},
         {name: "ugly", rank: 2, anim: 1},
-        {}//{name: "expensive", rank: }
+        {name: "average", rank: 6},
+        {name: "fake", rank: 4, anim: 1},
+        {name: "wooden", rank: -2, anim: 2},
+        {name: "Canadian", rank: -1, anim: 1},
+        {name: "perfect", rank: 5},
+        {name: "delicious", rank: 5, anim: 1}
+            //{name: "expensive", rank: }
 	]
 }
 
@@ -112,7 +153,10 @@ var prohibitions = {
 		aspect: {
 			prog: {class: 'state'},
 			retroprog: {class: 'state'}
-		}
+		},
+        tense: {
+            //future: {aspect: 'retro', class: 'state'} //just tends to sound too awkward
+        }
 	},
 	noun: {
 		number: {
@@ -126,6 +170,7 @@ var probabilities = {
     //nounish
     number: [1,'pl', 3,'sg'],
     def: [3,true, 2,false],
+    proper: [1,true, 2,false],
     
     //pronominal
     person: [1,1, 1,2, 4,3],

@@ -105,11 +105,6 @@ Object.defineProperty(Object.prototype, 'descend', {
     }
 });
 
-//subtract one array from another
-Array.prototype.diff = function(a) {
-    return this.filter(function(i) {return !(a.indexOf(i) > -1);});
-}
-
 //returns a random integer from 0 to max-1, seeded by seed + current millisecond
 function niceRand(seed, max){
 	var dt=new Date();
@@ -137,6 +132,7 @@ can have multiple categories in the format:
 
 function doYouHas(one, two, all){
 	var all = all || false
+    var has = all
 
 	//break down One into array of strings
 	if(typeof one=="object") {
@@ -160,14 +156,17 @@ function doYouHas(one, two, all){
 	two = new RegExp("^("+two+")$")
 	
 	//loop through One and match each item against Two
-	for(thing in one){		
-		var match = two.test(one[thing])
+	$.each(one, function(key,val){
+		var match = two.test(val)
 		//if something is found and any are wanted (all=false), return true
 		//if nothing is found and all are wanted (all=true), return false
-		if(match!=all) return (match)
-	}
+		if(match!=all) {
+            has = match
+            return
+        }
+	})
 	
-	return all
+	return has
 }
 
 //takes a string like "key:(val1|val2)", makes "key:val1,key:val2"
@@ -175,3 +174,220 @@ function expandOptions(str){
 	str.replace(/(\w+):\(([^)]+)\)/gi, function(match,item,values)
 		{return item + ':' + values.split("|").join(','+item+':')})
 }
+
+function magicCompare (one, two, operator) {
+
+    if(two.indexOf(',') > -1){
+        var results = two.split(',').map(function(x){
+            return magicCompare(one, x)
+        })
+        return _.some(results)
+    }
+
+    var ops = "<>!"
+    var coms = "\|&"
+    var optest = new RegExp("["+ops+"]", 'g')
+    var comtest = new RegExp("["+coms+"]", 'g')
+
+    var dealWithComs = function(){
+        var parts, results
+
+        if (comtest.test(one)){
+            parts = one.split(' & ')
+            if (parts.length > 1) {
+                results = parts.map(function(me){
+                    return magicCompare(me,two,'')
+                })
+                return _.every(results)
+
+            } else {
+                parts = one.split('|')
+                if (parts.length > 1) {
+                    results = parts.map(function(me){
+                       return magicCompare(me,two,'|')
+                    })
+                    return _.some(results)
+
+                } else {
+                    parts = one.split('&')
+                    if (parts.length > 1) {
+                        results = parts.map(function(me){
+                            return magicCompare(me,two,'&')
+                        })
+                        return _.every(results)
+                    }
+                }
+            }
+
+        } else { //done with coms
+            return 'done'
+        }
+
+    }
+
+    var outcome = dealWithComs()
+
+    if (outcome=='done'){
+
+//        var regex = new RegExp('['+ops+']')
+//        var op = one.search(regex)
+
+        //if there is an authorized operator at the beginning of the string, store it
+        var op,cleaned
+        op = one.substr(0,1)
+        if (ops.indexOf(op) > -1) {
+            cleaned = one.substr(1)
+        } else {
+            op = false
+            cleaned = one
+        }
+
+
+        switch (op) {
+            case '!':
+                var neg = true
+                break
+            case '<':
+                var lt = true
+                break
+            case '>':
+                var gt = true
+        }
+
+
+       /* //check for negation
+        var cleaned = one.replace('!','')
+        var neg = cleaned.length < one.length
+
+        //check for less than
+        cleaned = one.replace('<','')
+        var lt = cleaned.length < one.length
+
+        //check for greater than
+        cleaned = one.replace('>','')
+        var gt = cleaned.length < one.length*/
+
+        if( !(lt||gt) ) { //simple comparison
+
+//            var regex = new RegExp("^" + two.replace(/,/g,'$|^') + "$")
+//            var match = regex.test(cleaned)
+
+            return (cleaned==two) ^ neg //true if string found unless it wasn't supposed to be found
+
+        } else {
+
+            cleaned = parseFloat(cleaned)
+
+//            if(two.search(',') > -1) {
+//                var split = two.split(",")
+//
+//                if (lt){
+//
+//                    var lt_results = split.map(function(x){
+//                        return x < cleaned
+//                    })
+//
+//                    return _.some(lt_results)
+//
+//                } else if (gt) {
+//
+//                    var gt_results = split.map(function(x){
+//                        return x > cleaned
+//                    })
+//
+//                    return _.some(gt_results)
+//
+//                }
+//
+//            } else {
+
+                return lt ? two < cleaned : two > cleaned
+
+//            }
+
+        }
+
+        //var neg = one.search('!') > -1
+        //console.log(one + " : " + JSON.stringify(match) + " /" + operator + " /" + ((match^neg)&&operator==''))
+
+    } else {
+        return outcome
+    }
+
+}
+
+function nestTest(r, testee){
+    var regex = /\([^()]+\)/g
+    var replace = []
+    var match = []
+    var lvl = 0
+
+    match[0] = r.match(regex)
+    replace[0] = r.replace(regex,'xXx')
+
+    while (match[lvl].length > 1) {
+        match[lvl+1] = replace[lvl].match(regex)
+        if (match[lvl+1]!==null) {
+            replace[lvl+1] = replace[lvl].replace(/xXx/g, 'yYy')
+            replace[lvl+1] = replace[lvl+1].replace(regex, 'xXx')
+        } else {
+            break
+        }
+        lvl++
+    }
+
+    return {'match':match, 'replace': replace}
+
+}
+
+function splitz(r,t){
+    //r = r.split(" & ").sort().join(" .*")
+    //r = r.split("&").sort().join(" .*")
+    r = r.split(" & ").sort().join(" .*")
+    r = r.replace(/([^&| ]+&[^&| ]+)/g, function($1){
+            return '('+ $1.split("&").sort().join(" .*") +')'
+        })
+    t = t.split(",").sort().join(" ")
+
+    return new RegExp(r, 'g').test(t)
+}
+
+
+
+function unitTest(func, expect){
+    return func.apply(this, toArray(arguments).slice(2)) //=== expect
+}
+
+function unitTester(arrayOfTests){
+    var result,color
+
+    arrayOfTests.forEach(function(unit){
+        result = unitTest.apply(this, unit)
+        color = result==unit[1] ? 'green' : 'red'
+        console.log ("%c " + unit[0].name + "\t\t\t" + unit.slice(1).join('\t\t\t') + "\t\t\t:\t\t\t" + result,
+                     "font-weight: bold; color:" + color)
+    })
+}
+
+units = [
+    [magicCompare, true, "1", "1"],
+    [magicCompare, true, "1", "1,2"],
+    [magicCompare, true, ">1", "2"],
+    [magicCompare, true, ">1", "0,2"],
+    [magicCompare, false, ">1", "0,1"],
+    [magicCompare, false, "<1", "23"],
+    [magicCompare, false, "<1", "hi!"],
+    [magicCompare, true, "<1|>5", "7"],
+    [magicCompare, true, "<1|>5", "3,4,7"],
+    [magicCompare, false, "<1|>5", "3,4"],
+    [magicCompare, false, "!7 & >5", "3,7"],
+    [magicCompare, true, "!7&>5", "6,7"],
+    [magicCompare, true, "!7 & >5", "234"],
+    [magicCompare, false, "location|person", "thing,edible"],
+    [magicCompare, true, "location|person", "thing,location"],
+
+]
+
+unitTester(units)
+
+

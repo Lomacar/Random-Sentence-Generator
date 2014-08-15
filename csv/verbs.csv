@@ -1,18 +1,21 @@
-name,anim1,class,complements,inflections
-be,0,state,"1,A","simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, retroprog:being, prog:being"
-have,1,state,,"simp.past:had, simp.pres.sg.3:has, retro:had"
-walk,3,activity,"0.85, to NP{case:acc}",
-skate,3,activity,,
-erupt,2,activity,,
-snap,2,event,,
-melt,2,process,,
-read,4,process,"1, N","simp.past:read, retro:read"
-shoot,4,event,,"simp.past:shot, retro:shot"
-see,3,state,,"simp.past:saw, retro:seen"
-know,3,state,"0.2, how to VP{tense: pres; aspect: simp; person: 1}, 0.8, that CLAUSE","simp.past:knew, retro:known"
-believe,4,state,,
-answer,4,event,,"prog:answering, simp.past:answered, retro:answered"
-smoke,4,activity,,
-tickle,3,activity,,
-fight,3,activity,,"simp.past:fought, retro:fought"
-give,4,event,"1, DP/to NP{case:acc; anim:1}","simp.past:gave, retro:given"
+name,anim1,class,trans,complements,inflections
+be,0,state,1,"1,A","simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, retroprog:being, prog:being"
+have,1,state,1,,"simp.past:had, simp.pres.sg.3:has, retro:had"
+walk,3,activity,,"0.85, to NP{case:acc; tags: place}",
+skate,3,activity,0,,
+erupt,2,activity,0,,
+snap,2,event,,,
+melt,2,process,,,
+read,4,process,1,"1, DP","simp.past:read, retro:read"
+shoot,4,event,1,,"simp.past:shot, retro:shot"
+see,3,state,1,"1, NP{case:acc}","simp.past:saw, retro:seen"
+know,3,state,1,"0.2, how to VP{tense: pres; aspect: simp; person: 1}, 0.8, that CLAUSE","simp.past:knew, retro:known"
+believe,4,state,,,
+answer,4,event,,,"prog:answering, simp.past:answered, retro:answered"
+smoke,4,activity,,,
+tickle,3,activity,1,"1, NP{case:acc}",
+fight,3,activity,,,"simp.past:fought, retro:fought"
+give,4,event,1,"1, DP/to NP{case:acc; anim:1}","simp.past:gave, retro:given"
+go,3,process,1,"1, to NP{number:sg; tags: place}","simp.past:went, retro: gone"
+stink,2,state,0,,"simp.past:stank, retro: stunk"
+kill,2,event,1,"1, NP{case:acc}",

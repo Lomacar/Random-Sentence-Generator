@@ -72,15 +72,3 @@ function CSV2JSON(csv) {
 //
 //    return str;
 }
-
-$("#convert").click(function() {
-    var csv = $("#csv").val();
-    var json = CSV2JSON(csv);
-    $("#json").val(json);
-});
-
-$("#download").click(function() {
-    var csv = $("#csv").val();
-    var json = CSV2JSON(csv);
-    window.open("data:text/json;charset=utf-8," + escape(json))
-});

@@ -7,19 +7,21 @@
             p {margins: 2em}
         </style>
         <script src="jquery.js" type="text/javascript"></script>
-        <script type="text/javascript" src="csv2json.js"></script>
+        <script src="underscore-min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="csv/csv2json.js"></script>
         <script type="text/javascript" src="database.js"></script>
         <script type="text/javascript" src="constructions.js"></script>
         <script type="text/javascript" src="utilities.js"></script>
         <script type="text/javascript">
 
-            /* TODO *\
+/*       TODO        *\
 
 -split this obscenely long document up
 -use last_obj in parse_restrictions
 -filter restrictions in word getting based on word type template
--enable greater then & less than for number restrictions
+-enable greater than & less than for number restrictions
 -make probabilities take an array like [1,0.3], allow passing down of probs and declare make probs a property of constructions
+-allow restriction to target sub-constructions like {'NP.name': 'example'} or maybe {'adj.name': 'exampley'}
 
 \********/
 
@@ -58,11 +60,16 @@
     }
 
     var start = new Date().getTime()
-    //oneRandom()
-    loopy(100)
-    //tamnp()
-    var end = new Date().getTime()
-    console.log(end-start)
+
+    $.when(loadNouns(),loadVerbs()).done(function(){
+
+        //loopy(200);
+
+        var end = new Date().getTime();
+        console.log(end-start);
+
+    })
+
 
 
     /*-------------------------------------   BRANCH -------------------------------------*/
@@ -445,7 +452,7 @@
 
         if (isEmpty(restrictions)) return true
         var prohib = test_object.prohibitions
-        if(prohib!=undefined) {//prohib = prohib.replace(/ /g, '')
+        if(prohib!=undefined && prohib!='') {//prohib = prohib.replace(/ /g, '')
             //reject if restrictions match prohibitions
             if (prohibited(restrictions, prohib)===true) return false
             prohib = toObject(prohib)
@@ -506,8 +513,8 @@
             if(/[(|)]/.test(prohb)) {
                 prohb = prohb.match(/[^(|)]+/g)
                 testy = testy.match(/[^(|)]+/g)
-                if (testy.diff(prohb).length==0) return true
-                    }
+                if (_.difference(testy, prohb).length==0) return true
+            }
             //if testee has options and prohibs doesn't then obviously we're good
         }
 

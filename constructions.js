@@ -30,7 +30,7 @@ function VP(){
 }}
 
 function NP(r){
-	r = decide(r, "person")
+	r = decide(r, "person,proper")
     
 	return route(r.person, {
 			rest: [PRONOUN],
@@ -47,7 +47,7 @@ function NP(r){
 		
 }
 
-function DP(){
+function DP(r){
 	return {
 		order : "det adj noun",
 		head : "noun",
@@ -55,7 +55,11 @@ function DP(){
 			noun: [N, {proper: false}],
 			adj: [A, {anim:'noun.anim'}, 0.3, 'rank'], //TODO: adj anim cannot be greater than noun anim {anim:'<noun.anim'}
 			det: [DET, 'noun.head']
-		}
+		},
+        postlogic:function(text){
+            text = text.replace(/\ba ([aeio])/g, "an $1")
+            return text
+        }
 	}
 }
 
