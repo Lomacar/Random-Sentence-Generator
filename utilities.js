@@ -175,7 +175,16 @@ function expandOptions(str){
 		{return item + ':' + values.split("|").join(','+item+':')})
 }
 
-function magicCompare (one, two, operator) {
+function magicCompare (one, two) {
+
+    //make sure valid values are passed in
+    if (  !goodVal(one) || !goodVal(two) ) return false
+
+    //shortcut for simple equality
+    if (one==two) return true
+
+    //convert everything to strings to make life simple
+    one = one.toString(); two = two.toString()
 
     if(two.indexOf(',') > -1){
         var results = two.split(',').map(function(x){
@@ -186,7 +195,6 @@ function magicCompare (one, two, operator) {
 
     var ops = "<>!"
     var coms = "\|&"
-    var optest = new RegExp("["+ops+"]", 'g')
     var comtest = new RegExp("["+coms+"]", 'g')
 
     var dealWithComs = function(){
@@ -196,7 +204,7 @@ function magicCompare (one, two, operator) {
             parts = one.split(' & ')
             if (parts.length > 1) {
                 results = parts.map(function(me){
-                    return magicCompare(me,two,'')
+                    return magicCompare(me,two)
                 })
                 return _.every(results)
 
@@ -204,7 +212,7 @@ function magicCompare (one, two, operator) {
                 parts = one.split('|')
                 if (parts.length > 1) {
                     results = parts.map(function(me){
-                       return magicCompare(me,two,'|')
+                       return magicCompare(me,two)
                     })
                     return _.some(results)
 
@@ -212,7 +220,7 @@ function magicCompare (one, two, operator) {
                     parts = one.split('&')
                     if (parts.length > 1) {
                         results = parts.map(function(me){
-                            return magicCompare(me,two,'&')
+                            return magicCompare(me,two)
                         })
                         return _.every(results)
                     }
@@ -225,12 +233,9 @@ function magicCompare (one, two, operator) {
 
     }
 
-    var outcome = dealWithComs()
+    var outcome = dealWithComs() //comparators like | and &
 
     if (outcome=='done'){
-
-//        var regex = new RegExp('['+ops+']')
-//        var op = one.search(regex)
 
         //if there is an authorized operator at the beginning of the string, store it
         var op,cleaned
@@ -255,22 +260,7 @@ function magicCompare (one, two, operator) {
         }
 
 
-       /* //check for negation
-        var cleaned = one.replace('!','')
-        var neg = cleaned.length < one.length
-
-        //check for less than
-        cleaned = one.replace('<','')
-        var lt = cleaned.length < one.length
-
-        //check for greater than
-        cleaned = one.replace('>','')
-        var gt = cleaned.length < one.length*/
-
         if( !(lt||gt) ) { //simple comparison
-
-//            var regex = new RegExp("^" + two.replace(/,/g,'$|^') + "$")
-//            var match = regex.test(cleaned)
 
             return (cleaned==two) ^ neg //true if string found unless it wasn't supposed to be found
 
@@ -278,37 +268,9 @@ function magicCompare (one, two, operator) {
 
             cleaned = parseFloat(cleaned)
 
-//            if(two.search(',') > -1) {
-//                var split = two.split(",")
-//
-//                if (lt){
-//
-//                    var lt_results = split.map(function(x){
-//                        return x < cleaned
-//                    })
-//
-//                    return _.some(lt_results)
-//
-//                } else if (gt) {
-//
-//                    var gt_results = split.map(function(x){
-//                        return x > cleaned
-//                    })
-//
-//                    return _.some(gt_results)
-//
-//                }
-//
-//            } else {
-
                 return lt ? two < cleaned : two > cleaned
 
-//            }
-
         }
-
-        //var neg = one.search('!') > -1
-        //console.log(one + " : " + JSON.stringify(match) + " /" + operator + " /" + ((match^neg)&&operator==''))
 
     } else {
         return outcome
