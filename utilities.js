@@ -116,7 +116,28 @@ String.prototype.findChar = function (needle) {
 }
 
 
-function magicCompare (one, two, operator) {
+/*  MAGIC COMPARE
+*
+*   I don't know exactly how this works but it does!
+*
+*   Compares two strings. The first one can have special formatting.
+*   The second one can be a single value or comma separated values
+*
+*   Special formatting:
+*    !red        not equal to red
+*    <5          less than 5
+*    >0          greater than 0
+*    red|blue    red or blue
+*    >5 & !7     greater than 5 but not 7
+*    >5&!7       same as above but processed before |
+*
+*   'every' flag determines whether every value in a comma separated
+*           list must match (every==true) or only one value needs to
+*           match (every==false, default)
+*/
+
+function magicCompare (one, two, every, operator) {
+    every = every || false
 
     //make sure valid values are passed in
     if (  !goodVal(one) || !goodVal(two) ) return false
@@ -127,16 +148,18 @@ function magicCompare (one, two, operator) {
     //convert everything to strings to make life simple
     one = one.toString().trim(); two = two.toString().trim() //ain't nobody got time for no whitespaces
 
-    if( two.findChar(',') && (operator == '|' || !one.findChar('&')) ){
+    //if second string is comma separated, split it up and run two separate compares
+    //here is where 'every' makes commas act like AND or OR
+    if( two.findChar(',') ){
         var parts = two.split(',')
         var part
         while(part = parts.pop()) {
 
-            if (magicCompare(one, part)) return true
+            if (every ^ magicCompare(one, part, every)) return !every
 
         }
 
-        return false
+        return every
     }
 
     var ops = "<>!"
@@ -153,7 +176,7 @@ function magicCompare (one, two, operator) {
                 var part
                 while(part = parts.pop()) {
 
-                    if (!magicCompare(part, two, '&')) return false
+                    if (!magicCompare(part, two, every, '&')) return false
 
                 }
 
@@ -172,7 +195,7 @@ function magicCompare (one, two, operator) {
                     var part
                     while(part = parts.pop()) {
 
-                        if (magicCompare(part, two, '|')) return true
+                        if (magicCompare(part, two, every, '|')) return true
 
                     }
 
@@ -189,7 +212,7 @@ function magicCompare (one, two, operator) {
                         var part
                         while(part = parts.pop()) {
 
-                            if (!magicCompare(part, two, '&')) return false
+                            if (!magicCompare(part, two, every, '&')) return false
 
                         }
 
@@ -237,6 +260,7 @@ function magicCompare (one, two, operator) {
 
             //return true if string found unless it wasn't supposed to be found
             return (cleaned==two) ^ neg
+            //return (new RegExp("^"+two.replace(',','|')+"$")).test(cleaned) ^ neg
 
         } else {
 
@@ -293,12 +317,43 @@ units = [
     [magicCompare, false, "location|person", "thing,edible"],
     [magicCompare, true, "location|person", "thing,location"],
     [magicCompare, false, 'tall|fat&!blonde & !albino & french','blonde,brunette,french'],
-    [magicCompare, true, 'tall|fat&!blonde & !albino & french','blonde,brunette,french,tall'],
-    [magicCompare, false, 'true|fat&!blonde & !albino & french','blonde,brunette,french,tall,albino'],
-    [magicCompare, true, "location & person", "location,person"],
-    [magicCompare, true, "location & person", "location, person"],
-
-
+    [magicCompare, false, 'tall|fat&!blonde & !albino & french','blonde,brunette,french,tall,albino'],
+    [magicCompare, true, "<9&>3 | 3 & !2", "1,2,3"],
+    [magicCompare, true, "<9&>3 | 1 & !2", "1,2,3"],
+    [magicCompare, true, ">1 | 1 & !1", "1,2,3"],
+    [magicCompare, true, ">1 | 1 & !2", "1,2,3"],
 ]
 
-unitTester(units)
+units2 = [
+    [magicCompare, true, "1", "1", true],
+    [magicCompare, true, "1,2", "1,2", true],
+    [magicCompare, false, "2", "1,2", true],
+    [magicCompare, true, true, true, true],
+    [magicCompare, true, false, false, true],
+    [magicCompare, false, ">1", "0,2", true],
+    [magicCompare, true, ">1", "2,2", true],
+    [magicCompare, false, ">1", "0,1", true],
+    [magicCompare, false, "<1", "1,2,3", true],
+    [magicCompare, true, "<1", "-1,-2,0,-3", true],
+    [magicCompare, false, "<1", "hi!", true],
+    [magicCompare, false, "<1", "poop,junk", true],
+    [magicCompare, true, "<1|>5", "7", true],
+    [magicCompare, false, "<1|>5", "3,4,7", true],
+    [magicCompare, true, "<1|>5", "0,9", true],
+    [magicCompare, false, "!7 & >5", "3,7", true],
+    [magicCompare, false, "!7&>5", "6,7", true],
+    [magicCompare, true, "!7 & >5", "234", true],
+    [magicCompare, false, "location|person", "thing,edible", true],
+    [magicCompare, false, "location|person", "thing,location", true],
+    [magicCompare, true, "location|person", "person,location", true],
+    [magicCompare, false, 'tall|fat&!blonde & !albino & french','blonde,brunette,french', true],
+    [magicCompare, true, 'tall|!fat&blonde|brunette|french & brunette|french|!brunette|!french & !albino','blonde,brunette,french,tall', true],
+    [magicCompare, true, 'tall|blonde|brunette|french & tall|blonde|brunette|french & !albino','blonde,brunette,french,tall', true],
+    [magicCompare, false, "location & person", "locationperson", true],
+    [magicCompare, false, "loc", "location", true],
+    [magicCompare, false, ">1&!2 | 3", "1,2,3", true],
+    [magicCompare, true, ">1&!2 | 1 | <3&!1", "1,2,3", true],
+    [magicCompare, false, ">1 | 1 & !1", "1,2,3", true],
+]
+
+unitTester(units2)

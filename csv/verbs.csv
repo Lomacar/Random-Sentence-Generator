@@ -18,4 +18,5 @@ fight,>2,activity,,,"simp.past:fought, retro:fought"
 give,>3,event,1,"1, DP/to NP{case:acc; anim:>0}","simp.past:gave, retro:given"
 go,>2,process,1,"1, to NP{number:sg; tags: place; case:acc}","simp.past:went, retro: gone"
 stink,>1,state,0,,"simp.past:stank, retro: stunk"
-kill,>1,event,1,"1, NP{case:acc}",
+kill,>1,event,1,"1, NP{case:acc;anim:>2}",
+build,>3,process,1,"1, DP{anim: 2}","simp.past:built, retro:built"

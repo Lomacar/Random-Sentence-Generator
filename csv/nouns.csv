@@ -28,3 +28,5 @@ communist,FALSE,4,,,,,,
 Fido,TRUE,3,m,,,animal,,
 book,FALSE,2,,,,readable,,
 letter,FALSE,2,,,,readable,,
+snowman,FALSE,"2,4",,,,,pl:snowmen,
+dirt,FALSE,2,,,,,,number:pl
