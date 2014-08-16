@@ -170,43 +170,40 @@ function magicCompare (one, two, every, operator) {
         var comtest = new RegExp("["+coms+"]", 'g')
 
         if (comtest.test(one)){
+
+            //first deal with & surrounded by spaces
             parts = one.split(' & ')
             if (parts.length > 1) {
 
                 var part
                 while(part = parts.pop()) {
 
+                    // if/when one sub-comparison fails, return false
                     if (!magicCompare(part, two, every, '&')) return false
 
                 }
 
                 return true
 
-//                results = parts.map(function(me){
-//                    return magicCompare(me,two,'&')
-//                })
-//                return _.every(results)
-
             } else {
-                parts = one.split('|')
 
+                //next deal with !
+                parts = one.split('|')
                 if (parts.length > 1) {
 
                     var part
                     while(part = parts.pop()) {
 
+                        // as soon as one sub-comparison turns up true, rejoice!
                         if (magicCompare(part, two, every, '|')) return true
 
                     }
 
                     return false
 
-//                    results = parts.map(function(me){
-//                       return magicCompare(me,two)
-//                    })
-//                    return _.some(results)
-
                 } else {
+
+                    //finally deal with 'tight' &s, same as the loose & above
                     parts = one.split('&')
                     if (parts.length > 1) {
                         var part
@@ -256,23 +253,23 @@ function magicCompare (one, two, every, operator) {
         }
 
 
-        if( !(lt||gt) ) { //simple comparison
+        if( gt || lt ) {
+
+            //return whether number is greater than or less than, as the case may be
+            cleaned = parseFloat(cleaned)
+            return lt ? two < cleaned : two > cleaned
+
+        } else { //simple comparison
 
             //return true if string found unless it wasn't supposed to be found
             return (cleaned==two) ^ neg
-            //return (new RegExp("^"+two.replace(',','|')+"$")).test(cleaned) ^ neg
-
-        } else {
-
-            //return whether number is greater than or less than as the case may be
-            cleaned = parseFloat(cleaned)
-            return lt ? two < cleaned : two > cleaned
 
         }
 
     } else {
 
         //this is how recursive results are sent up the stack
+        //and the final result is returned
         return outcome
     }
 
