@@ -6,7 +6,7 @@ skate,>2,activity,0,,
 erupt,>1,activity,0,,
 snap,>1,event,,,
 melt,>1,process,,,
-read,>3,process,1,"1, DP","simp.past:read, retro:read"
+read,>3,process,1,"1, DP{tags:readable}","simp.past:read, retro:read"
 shoot,>3,event,1,,"simp.past:shot, retro:shot"
 see,>2,state,1,"1, NP{case:acc}","simp.past:saw, retro:seen"
 know,>2,state,1,"0.2, how to VP{tense: pres; aspect: simp; person: 1}, 0.8, that CLAUSE","simp.past:knew, retro:known"

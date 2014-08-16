@@ -306,7 +306,7 @@ function complement(word, r, context){
 //take string complement description, return complement construction object
 function parseComplement(complement, r){
 
-    var c = complement.match(/\b[A-Z]+({.+})*\S*/g)[0] //for now we assume there is only one
+    var c = complement.match(/\b[A-Z]+({.+})*/g)[0] //for now we assume there is only one
 
     var func = c.match(/[A-Z]+/)[0]
 
