@@ -1,22 +1,25 @@
-name,anim1,class,trans,complements,inflections
-be,>-1,state,1,"1,A","simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, retroprog:being, prog:being"
-have,>0,state,1,,"simp.past:had, simp.pres.sg.3:has, retro:had"
-walk,>2,activity,,"0.85, to NP{case:acc; tags: place}",
-skate,>2,activity,0,,
-erupt,>1,activity,0,,
-snap,>1,event,,,
-melt,>1,process,,,
-read,>3,process,1,"1, DP{tags:readable}","simp.past:read, retro:read"
-shoot,>3,event,1,,"simp.past:shot, retro:shot"
-see,>2,state,1,"1, NP{case:acc}","simp.past:saw, retro:seen"
-know,>2,state,1,"0.2, how to VP{tense: pres; aspect: simp; person: 1}, 0.8, that CLAUSE","simp.past:knew, retro:known"
-believe,>3,state,,,
-answer,>3,event,,,"prog:answering, simp.past:answered, retro:answered"
-smoke,>3,activity,,,
-tickle,>2,activity,1,"1, NP{case:acc}",
-fight,>2,activity,,,"simp.past:fought, retro:fought"
-give,>3,event,1,"1, DP/to NP{case:acc; anim:>0}","simp.past:gave, retro:given"
-go,>2,process,1,"1, to NP{number:sg; tags: place; case:acc}","simp.past:went, retro: gone"
-stink,>1,state,0,,"simp.past:stank, retro: stunk"
-kill,>1,event,1,"1, NP{case:acc;anim:>2}",
-build,>3,process,1,"1, DP{anim: 2}","simp.past:built, retro:built"
+name,proto,anim1,class,trans,complements,inflections
+be,,>-1,state,1,"1,A","simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, retroprog:being, prog:being"
+have,,>0,state,1,"1, DP{anim: 2|3}","simp.past:had, simp.pres.sg.3:has, retro:had"
+walk,,>2,activity,,"0.85, to NP{case:acc; tags: place}",
+skate,,>2,activity,0,,
+erupt,,>1,activity,0,,
+snap,,>1,event,,,
+melt,,2,process,,,
+read,,>3,process,1,"1, DP{tags:readable}","simp.past:read, retro:read"
+write,read,,,,,"simp.past:wrote, retro:written"
+shoot,,>3,event,1,,"simp.past:shot, retro:shot"
+see,,>2,state,1,"1, NP{case:acc}","simp.past:saw, retro:seen"
+know,,>2,state,1,"0.2, how to VP{tense: pres; aspect: simp; person: 1}, 0.5, that CLAUSE, 0.3, about NP{case:acc}","simp.past:knew, retro:known"
+believe,,>3,state,,,
+answer,,>3,event,,"0.5, NP{case: acc; anim:4}","prog:answering,retroprog:answering, simp.past:answered, retro:answered"
+smoke,,>3,activity,,,
+tickle,,>2,activity,1,"1, NP{case:acc}",
+fight,,>2,activity,,,"simp.past:fought, retro:fought"
+give,,>3,event,1,"1, DP{anim:>1}/to NP{case:acc; anim:>3}","simp.past:gave, retro:given"
+go,,>2,process,1,"1, to NP{number:sg; tags: place; case:acc}","simp.past:went, retro: gone"
+stink,,>1,state,0,,"simp.past:stank, retro: stunk"
+kill,,>1,event,1,"1, NP{case:acc;anim:>2}",
+build,,>3,process,1,"1, DP{anim: 2}","simp.past:built, retro:built"
+think,,4,activity,1," 0.6, about NP{case:acc}","simp.past:thought, retro:thought"
+think1,think,,state,,"1, that CLAUSE",

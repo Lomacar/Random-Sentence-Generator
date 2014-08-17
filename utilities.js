@@ -60,6 +60,15 @@ function toObject(str){
 	} else {return str}
 }
 
+//removes properties from an object that are empty strings or null
+function prune(obj){
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key) && !goodVal(obj[key])) {
+            delete obj[key];
+        }
+    }
+}
+
 //takes an array of arrays like [[abc][xyz][123]]
 //and returns all permutations like [[ax1][ax2][ax3][ay1][ay2][ay3][az1]...]
 function factorPermutations(lists) {  
@@ -353,4 +362,4 @@ units2 = [
     [magicCompare, false, ">1 | 1 & !1", "1,2,3", true],
 ]
 
-unitTester(units2)
+//unitTester(units2)

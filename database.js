@@ -20,6 +20,26 @@ var templates = {
 	adjective: {anim: '', rank:''}
 }
 
+function mergeProtos(type){
+    for (var aye in type) {
+        var i = type[aye]
+        var proto = i['proto']
+        if(proto){
+            prune(i)
+            protobj = pickOne(type, {name: proto})
+            //if the proto object has a proto of it's own, resolve it first
+            //if ( proto = protobj['proto'] ) mergeProto
+
+            type[aye] = $.extend({}, proto, i)
+            delete type[aye]['proto']
+        }
+    }
+
+    function mergeProto(obj, prot){
+
+    }
+}
+
 function loadVerbs(){
 
     var d = $.Deferred();
@@ -32,6 +52,10 @@ function loadVerbs(){
                 if (/^(-?[0-9.]+|false|true)$/i.test(val)) a[b] = JSON.parse(val.toLowerCase())
             })
         })
+
+        //get data from prototypes for words that refer to a prototype
+        mergeProtos(database.verb)
+
         d.resolve();
     })
     
@@ -49,6 +73,10 @@ function loadNouns(){
                 if (/^(-?[0-9.]+|false|true)$/i.test(val)) a[b] = JSON.parse(val.toLowerCase())
             })
         })
+
+        //get data from prototypes for words that refer to a prototype
+        mergeProtos(database.noun)
+
         d.resolve();
     })
 
@@ -120,7 +148,7 @@ var database = {
 		{name: "strange", rank: 6},
 		{name: "bad", rank: 5},
 		{name: "red", rank: 0, anim: 1},
-		{name: "clever", rank: 3, anim: 3},
+		{name: "clever", rank: 3, anim: '>2'},
         {name: "outrageous", rank: 3},
         {name: "boring", rank: 3},
         {name: "fuzzy", rank: 1, anim: 1},

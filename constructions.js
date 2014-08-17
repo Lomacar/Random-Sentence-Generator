@@ -57,8 +57,7 @@ function DP(r){
 			det: [DET, 'noun.head']
 		},
         postlogic:function(text){
-            text = text.replace(/\ba ([aeio])/g, "an $1")
-            return text
+            return text.replace(/\ba +([aeio])/g, "an $1")
         }
 	}
 }

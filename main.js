@@ -507,7 +507,10 @@ function stringOut(c){
 
         if (typeof c.postlogic==='function') string = c.postlogic(string)
 
-        return string.replace("_", "")
+        return string.replace("_", "")                      // remove underscores between morphemes
+                     .replace(/\ba +([aeio])/g, "an $1")    // a -> an
+                     .replace(/\d/g,'')                     // remove numbers
+                     .replace(/  +/g,' ')                   // remove extra spaces
     }
     else return c.text
 
