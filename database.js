@@ -20,151 +20,60 @@ var templates = {
 	adjective: {anim: '', rank:''}
 }
 
-function mergeProtos(type){
-    for (var aye in type) {
-        var i = type[aye]
-        var proto = i['proto']
-        if(proto){
-            prune(i)
-            protobj = pickOne(type, {name: proto})
-            //if the proto object has a proto of it's own, resolve it first
-            //if ( proto = protobj['proto'] ) mergeProto
-
-            type[aye] = $.extend({}, proto, i)
-            delete type[aye]['proto']
-        }
-    }
-
-    function mergeProto(obj, prot){
-
-    }
-}
-
-function loadVerbs(){
+function loadLexicon(type){
 
     var d = $.Deferred();
 
-    $.get("csv/verbs.csv", function(data){
-        database.verb = CSV2JSON(data).slice(0, -1);
-        database.verb.forEach(function(a){
+    $.get("csv/"+type+"s.csv", function(data){
+        database[type] = CSV2JSON(data).slice(0, -1);
+        database[type].forEach(function(a){
             $.each(a, function(b,val){
                 //turn numbers and boolean into the real things
                 if (/^(-?[0-9.]+|false|true)$/i.test(val)) a[b] = JSON.parse(val.toLowerCase())
             })
-        })
 
-        //get data from prototypes for words that refer to a prototype
-        mergeProtos(database.verb)
+            if (a['proto']) {
+                prune(a)
+                a.__proto__ = pickOne(database[type], {name: a['proto']})
+                if (a.__proto__ === Object.prototype) //didn't take
+                    error('Prototype"' + pro + '"could not be found for'+obj.name+'.')
+            }
+        })
 
         d.resolve();
     })
     
     return d
 }
-function loadNouns(){
 
-    var d = $.Deferred();
 
-    $.get("csv/nouns.csv", function(data){
-        database.noun = CSV2JSON(data).slice(0, -1);
-        database.noun.forEach(function(a){
-            $.each(a, function(b,val){
-                //turn numbers and boolean into the real things
-                if (/^(-?[0-9.]+|false|true)$/i.test(val)) a[b] = JSON.parse(val.toLowerCase())
-            })
-        })
-
-        //get data from prototypes for words that refer to a prototype
-        mergeProtos(database.noun)
-
-        d.resolve();
-    })
-
-    return d
-}
-
-var database = {
-	verb: []
-
-    /*[
-		{name: "be", trans: 1, anim1: 0, anim2: 0, class: "state",
-            complements: "1,A",
-			inflections: 
-				  "simp.past:were, simp.past.sg:was, simp.past.sg.2:were, "
-				+ "simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, "
-				+ "retro:been, retroprog:being, prog:being"
-		},
-		{name: "have", trans: 1, anim1: 1, anim2: 0, class: "state", 
-			inflections: 
-				  "simp.past:had, simp.pres.sg.3:has, "
-				+ "retro:had"
-		},
-		{name: "walk", arg1: "anim:3<", class: "activity"}
-		{name: "walk", trans: 0, anim1: 3, class: "activity", complements: "0.85, to NP{case:acc}"},
-		{name: "skate", trans: 0, anim1: 3, class: "activity"},
-        {name: "erupt", trans: 0, anim1: 2, class: "activity"},
-		{name: "snap", trans: 0, anim1: 2, class: "event"},
-		{name: "melt", trans: 0, anim1: 2, class: "process"},
-        {name: "read", trans: 1, anim1: 4, class: "process", complements: "1, N", inflections: "simp.past:read, retro:read"}, //TODO: anim2: <3 >1?
-		{name: "shoot", trans: 1, anim1: 4, anim2: 2, class: "event", inflections: "simp.past:shot, retro:shot"},
-		{name: "see", trans: 1, anim1: 3, anim2: 1, class: "state", inflections: "simp.past:saw, retro:seen"},
-		{name: "know", trans: 1, anim1: 3, anim2: 0, class: "state", complements: "0.2, how to VP{tense: pres; aspect: simp; person: 1}, 0.8, that CLAUSE", inflections: "simp.past:knew, retro:known"},
-		{name: "believe", trans: 1, anim1: 4, anim2: 4, class: "state"},
-        {name: "answer", trans: 1, anim1: 4, anim2: 4, class: "event", inflections:"prog:answering, simp.past:answered, retro:answered"},
-        {name: "smoke", trans: 1, anim1: 4, class: "activity"}, //TODO: anim2: <3 >1?
-        {name: "tickle", trans: 1, anim1: 3, anim2: 3, class: "activity"},
-		{name: "fight", trans: 1, anim1: 3, anim2: 3, class: "activity", inflections: "simp.past:fought, retro:fought"},
-        {name: "give", anim1: 4, class: "event", complements: "1, DP/to NP{case:acc; anim:1}", inflections: "simp.past:gave, retro:given"}
-	]*/,	
-	noun: [] /*[
-		{name: "Jack", proper: true, anim: 4, gender: 'm'},
-		{name: "the Canucks", proper: true, anim: 4, prohibitions:'number:sg,proper:'},
-		{name: "the Borg", proper: true, anim: 3, prohibitions:'number:sg,proper:'},
-		{name: "queen", proper: false, anim: 4, gender: 'f'},
-		{name: "Aunt Jemima", proper: true, anim: 4, gender: 'f'},
-		{name: "New York", proper: true, anim: 2, tags: "place|test"},
-		{name: "mother", proper: false, anim: 4, gender: 'f'},
-		{name: "child", proper: false, anim: 4, inflections: "pl:children"},
-		{name: "wolf", proper: false, anim: 3, inflections: "pl:wolves"},
-		{name: "house", proper: false, anim: 2},
-		{name: "poison", proper: false, anim: 2},
-		{name: "bee", proper: false, anim: 3},
-		{name: "dinosaur", proper: false, anim: 3},
-		{name: "belly", proper: false, anim: 2},
-		{name: "toy", proper: false, anim: 2},
-		{name: 'color', proper: false, anim: 1},
-		{name: 'idea', proper: false, anim: 0},
-		{name: 'category', proper: false, anim: 0},
-        {name: 'law', proper: false, anim: 0},
-		{name: 'sensation', proper: false, anim: 1},
-        {name: 'mailman', proper: false, anim: 4, inflections: "pl:mailmen"},
-        {name: 'Japan', proper: true, anim: 2, tags: "place"}
-	]*/,
+var database = {verb: [],noun: []
+    ,
 	adjective: [
 		{name: "big", rank: 6},
 		{name: "nice", rank: 7},
 		{name: "old", rank: 1},
-		{name: "shiny", rank: 5, anim: 1},
+		{name: "shiny", rank: 5, anim: '>0'},
 		{name: "strange", rank: 6},
 		{name: "bad", rank: 5},
-		{name: "red", rank: 0, anim: 1},
+		{name: "red", rank: 0, anim: '>0'},
 		{name: "clever", rank: 3, anim: '>2'},
         {name: "outrageous", rank: 3},
         {name: "boring", rank: 3},
-        {name: "fuzzy", rank: 1, anim: 1},
+        {name: "fuzzy", rank: 1, anim: '>1&<4'},
         {name: "oblong", rank: 1, anim: 2},
-        {name: "friendly", rank: 2, anim: 3},
+        {name: "friendly", rank: 2, anim: '>2'},
         {name: "special", rank: 5},
-        {name: "naive", rank: 2, anim: 4},
+        {name: "naive", rank: 2, anim: '>2'},
         {name: "nervous", rank: 1, anim: 4},
         {name: "pretentious", rank: 2, anim: 4},
-        {name: "ugly", rank: 2, anim: 1},
+        {name: "ugly", rank: 2, anim: '>0'},
         {name: "average", rank: 6},
-        {name: "fake", rank: 4, anim: 1},
+        {name: "fake", rank: 4, anim: '>0'},
         {name: "wooden", rank: -2, anim: 2},
-        {name: "Canadian", rank: -1, anim: 1},
+        {name: "Canadian", rank: -1, anim: '>0'},
         {name: "perfect", rank: 5},
-        {name: "delicious", rank: 5, anim: 1}
+        {name: "delicious", rank: 5, anim: '>0'}
             //{name: "expensive", rank: }
 	]
 }

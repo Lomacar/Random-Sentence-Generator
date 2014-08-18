@@ -62,7 +62,7 @@
 
     var start = new Date().getTime()
 
-    $.when(loadNouns(),loadVerbs()).done(function(){
+    $.when(loadLexicon('noun'),loadLexicon('verb')).done(function(){
 
         var start2 = new Date().getTime()
 

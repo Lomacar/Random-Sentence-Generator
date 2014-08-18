@@ -103,3 +103,34 @@ function splitz(r,t){
 
     return new RegExp(r, 'g').test(t)
 }
+
+//this wonderful function turned out to be unecessary because you can just use Javascripts built in prototype feature
+function mergeProtos(type){
+    for (var i in type) {
+        var thisword = type[i]
+        var proto
+        if ( proto = thisword['proto'] )
+            type[i] = mergeProto(thisword, proto)
+            }
+
+    function mergeProto(obj, pro){
+        var protobj = pickOne(type, {name: pro})
+        if(protobj){
+
+            //recurse if the prototype object has it's own prototype
+            var proto
+            if( proto = protobj['proto']) {
+                mergeProto(protobj, proto)
+            }
+            prune(obj)                          //remove empty properties before merging
+            obj = $.extend({}, protobj, obj)    //here's where it happens!
+            delete obj.proto                    //this word has been resolved so delete proto
+            // to avoid unncessary recursion when resolving other words
+            return obj
+
+        } else {
+            error('Prototype"' + pro + '"could not be found for'+obj.name+'.')
+            return obj
+        }
+    }
+}
