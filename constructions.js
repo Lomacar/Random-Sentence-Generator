@@ -53,7 +53,7 @@ function DP(r){
 		head : "noun",
 		children: {
 			noun: [N, {proper: false}],
-			adj: [A, {anim:'noun.anim'}, 0.3, 'rank'], //TODO: adj anim cannot be greater than noun anim {anim:'<noun.anim'}
+			adj: [A, {anim:'noun.anim', reverse: true}, 0.3, 'rank'], //TODO: adj anim cannot be greater than noun anim {anim:'<noun.anim'}
 			det: [DET, 'noun.head']
 		},
         postlogic:function(text){

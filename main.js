@@ -52,7 +52,7 @@ function branch(c, r, p, l){
                             tempchildren.push( new branch(c.children[child][0], $.extend({}, c.restrictions, r, R), this, child) )
 
                             if (probability==1) probability = 0
-                            //else probability *= probability
+                            else probability *= 0.85
                                 }
                         //sort the multiple child instances if there is sort criteria
                         if (c.children[child][3]!=undefined) {
@@ -394,14 +394,16 @@ function r_match(restrictions, test_object){
         if (prohib!=undefined) $.extend(prohibz, prohib)
         if (prohibz && prohibited(test_object, prohibz)===true) return false
 
-        if (r.in(test_object)){
+        if (r.in(test_object)) {
+            
+            var compareUs = 'reverse'.in(restrictions) ? [test_object[r],rval] : [rval, test_object[r]]
+            if (magicCompare(compareUs[0], compareUs[1])) {
+                continue
+            } else return false
 
-            if (magicCompare(rval, test_object[r])) {continue}
-            else return false
+        } else continue
 
-                } else continue
-
-                    }
+        }
     return true
 }
 
