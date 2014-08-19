@@ -1,3 +1,8 @@
+function SENTENCE(){
+    window.recentlyUsed = [] //keep track of recently used words so you don't sound dumb repeating yourself
+    return CLAUSE()
+}
+
 function CLAUSE(){   
 	return {
 	order: "subject nucleus",

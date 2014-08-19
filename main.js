@@ -343,6 +343,8 @@ function get(r){
 
         complement(word, r, arguments.callee.caller.arguments[2])
 
+        if (r.type == 'noun' || r.type == 'adjective') recentlyUsed.push(word.name)
+
         return word
 }
 
@@ -377,6 +379,9 @@ function pickOne(arr, r){
 function r_match(restrictions, test_object){
 
     if (isEmpty(restrictions)) return true
+
+    if (typeof recentlyUsed !== 'undefined' && recentlyUsed.indexOf(test_object.name) > -1) return false
+
     var prohib = test_object.prohibitions
     if(prohib!=undefined && prohib!='') {//prohib = prohib.replace(/ /g, '')
         //reject if restrictions match prohibitions
@@ -509,9 +514,8 @@ function stringOut(c){
 
         if (typeof c.postlogic==='function') string = c.postlogic(string)
 
-        return string.replace("_", "")                      // remove underscores between morphemes
+        return string.replace(/[_0-9]+/g, "")                 // remove non-alphanumeric junk
                      .replace(/\ba +([aeio])/g, "an $1")    // a -> an
-                     .replace(/\d/g,'')                     // remove numbers
                      .replace(/  +/g,' ')                   // remove extra spaces
     }
     else return c.text
