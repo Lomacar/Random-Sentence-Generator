@@ -46,7 +46,7 @@ function branch(c, r, p, l){
                     else {
                         var probability = c.children[child][2]||1 //if children have a probability of occurence
                         var tempchildren = []
-                        while(probability>0 && probability>Math.random()){ //repeat until the probability dies
+                        while(probability>Math.random()){ //repeat until the probability dies
 
                             //Fetch the child branch
                             tempchildren.push( new branch(c.children[child][0], $.extend({}, c.restrictions, r, R), this, child) )

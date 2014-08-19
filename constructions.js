@@ -124,8 +124,8 @@ function V(r){
 		asp:  [aspect],//{aspect: 'word.aspect', inflection: 'word.inflected'}
 		aux:  [auxiliary],
 		tns:  [tense],
-		num:  [vNum]/*,
-        comp: [blank]*/
+		num:  [vNum],
+        comp: [blank]
 	},
 	postlogic: function(text){
 		text = text.replace(/([^aeou])y_+e([ds])/, "$1ie$2")
@@ -135,6 +135,10 @@ function V(r){
 		return text
 	}
 }}
+
+function new_comp(r){
+
+}
 
 //verb aspect morphology
 function aspect(r){
