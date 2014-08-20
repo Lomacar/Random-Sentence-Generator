@@ -65,7 +65,7 @@ var database = {verb: [],noun: []
         {name: "friendly", rank: 2, anim: '>2'},
         {name: "special", rank: 5},
         {name: "naive", rank: 2, anim: '>2'},
-        {name: "nervous", rank: 1, anim: 4},
+        {name: "nervous", rank: 1, anim: 4, complements: "1, about NP"},
         {name: "pretentious", rank: 2, anim: 4},
         {name: "ugly", rank: 2, anim: '>0'},
         {name: "average", rank: 6},
@@ -73,7 +73,11 @@ var database = {verb: [],noun: []
         {name: "wooden", rank: -2, anim: 2},
         {name: "Canadian", rank: -1, anim: '>0'},
         {name: "perfect", rank: 5},
-        {name: "delicious", rank: 5, anim: '>0'}
+        {name: "delicious", rank: 5, anim: '>0'},
+        {name: "hungry", rank: 2, anim: '>2'},
+        {name: "tired", rank: 2, anim: '>2', complements: "0.25, of NP, 0.25, of V{tense:pres;aspect:prog}"},
+        {name: "happy", rank: 3, anim: '>2', complements: "1, that CLAUSE"}
+
             //{name: "expensive", rank: }
 	]
 }

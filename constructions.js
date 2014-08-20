@@ -58,7 +58,7 @@ function DP(r){
 		head : "noun",
 		children: {
 			noun: [N, {proper: false}],
-			adj: [A, {anim:'noun.anim', reverse: true}, 0.3, 'rank'], //TODO: adj anim cannot be greater than noun anim {anim:'<noun.anim'}
+			adj: [AP, {anim:'noun.anim', reverse: true, nocomplement: true}, 0.3, 'rank'],
 			det: [DET, 'noun.head']
 		},
         postlogic:function(text){
@@ -109,6 +109,18 @@ function PRONOUN(r) {
 									 " acc.sg.3.f:her, acc.pl.1:us, acc.pl.3: them"}
 	
 	return inflect(word,r)
+}
+
+function AP(r) {
+    return {
+        order: "adv a comp*",
+        head: "a",
+        children: {
+            adv: [blank],
+            a: [A],
+            comp: [complement, {'complements': 'a.complements'}]
+        }
+    }
 }
 
 function A(r){

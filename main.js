@@ -103,7 +103,14 @@ function branch(c, r, p, l){
                             if (c.children[child][3]!=undefined) {
                                 var sortby = c.children[child][3]
                                 tempchildren = tempchildren.sort(function(b,a){
-                                    return a[sortby] - b[sortby]
+                                    if (a[sortby]) {
+                                        //items being sorted have property directly, like when sorting words
+                                        return a[sortby] - b[sortby]
+                                    } else {
+                                        //items being sorted do not have property, such as when sorting phrases
+                                        //property must exist on the head or grandhead etc.
+                                        return propertySearch(a,sortby)[sortby] - propertySearch(b,sortby)[sortby]
+                                    }
                                 })
                             }
 

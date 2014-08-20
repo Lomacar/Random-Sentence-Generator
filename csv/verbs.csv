@@ -1,5 +1,5 @@
 name,proto,anim1,class,trans,complements,inflections
-be,,>-1,state,1,"1,A","simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, retroprog:being, prog:being"
+be,,>-1,state,1,"1,AP","simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, retroprog:being, prog:being"
 have,,>0,state,1,"1, DP{anim: 2|3}","simp.past:had, simp.pres.sg.3:has, retro:had"
 walk,,>2,activity,,"0.85, to NP{tags: place}",
 skate,,>2,activity,0,,
@@ -24,3 +24,4 @@ build,,>3,process,1,"1, DP{anim: 2}","simp.past:built, retro:built"
 think,,4,activity,1," 0.6, about NP","simp.past:thought, retro:thought"
 think1,think,,state,,"1, that CLAUSE",
 imagine,think1,,,,, 
+become,be,,event,,,"simp.past:became, retro:become"
