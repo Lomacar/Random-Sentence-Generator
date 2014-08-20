@@ -125,19 +125,19 @@ function V(r){
 		aux:  [auxiliary],
 		tns:  [tense],
 		num:  [vNum],
-        comp: [blank]
+        comp: [complement, {'case':'acc','complements': 'word.complements','reset': true}]
 	},
 	postlogic: function(text){
 		text = text.replace(/([^aeou])y_+e([ds])/, "$1ie$2")
-		text = text.replace(/e_+ed/, "ed")
-		text = text.replace(/([^eu])e_+ing/, "$1ing")
-		text = text.replace(/([^aeiou])([aeiou])([^aeiouyw])_+(ed|ing)/, '$1$2$3$3$4')
+		           .replace(/e_+ed/, "ed")
+		           .replace(/([^eu])e_+ing/, "$1ing")
+		           .replace(/([^aeiou])([aeiou])([^aeiouyw])_+(ed|ing)/, '$1$2$3$3$4')
 		return text
 	}
 }}
 
 function new_comp(r){
-
+    return [complement]
 }
 
 //verb aspect morphology

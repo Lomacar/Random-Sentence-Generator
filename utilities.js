@@ -64,6 +64,7 @@ function toObject(str){
 function prune(obj){
     for(var key in obj) {
         if(obj.hasOwnProperty(key) && !goodVal(obj[key])) {
+            //obj[key] = null;
             delete obj[key];
         }
     }

@@ -10,68 +10,35 @@ function branch(c, r, p, l){
 
     //load the requested construction
     var c = c(r)
-    //some constructions just reroute to other constuctions
-    while(typeOf(c)==='array' && typeof c[0] == 'function'){
-        c = c[0]( $.extend({}, r, c[1]) )
-    }
+    if(!c) return {text: ''} //this is necessary for some reason
 
-    //evaluate head first
-    if("head".in(c)){
-        this.order = c.order
-        this.children = {}
+    //some constructions just reroute to other constructions
+    while(typeOf(c)==='array'){
+        if(typeof c[0] == 'function') {
 
-        this.head = this.children[c.head] = new branch(c.children[c.head][0], $.extend({}, c.restrictions, r, c.children[c.head][1]), this, c.head)
+            c = c[0]( $.extend({}, r, c[1]) )
 
-        //remove properties from the head that have dots in them like the inflections list
-        //this is supposed avoid problems with these ending up in the restrictions and then getting
-        //parsed as obj.prop. Hopefully this doesn't cause other problems
-        for (var prop in this.head) {
-            if(typeof this.head[prop] == 'string' && this.head[prop].indexOf('.')!=-1)	delete this.head[prop]
-                }
-        //add the head itself to the restrictions (useful at the word level)
-        var r = $.extend({}, r, this.head)
-        }
+        } else if ("children".in(c[0])) {
 
-    //run special functions after head is loaded, if any
-    //if(this.head.midlogic)
-
-    //evaluate rest of children
-    if("children".in(c)){
-        for(var child in c.children){
-            if(this.children[child] != this.head){
-                if(typeOf(c.children[child])=='array'){
-                    var R = this.parseRestrictions(c.children[child][1]) //restrictions explicitly passed in to branch
-                    if(R=="LEAVE") this.children[child] = {text: ""} //this is how we deal with branches that our restrictions told us not to follow
-
-                    else {
-                        var probability = c.children[child][2]||1 //if children have a probability of occurence
-                        var tempchildren = []
-                        while(probability>Math.random()){ //repeat until the probability dies
-
-                            //Fetch the child branch
-                            tempchildren.push( new branch(c.children[child][0], $.extend({}, c.restrictions, r, R), this, child) )
-
-                            if (probability==1) probability = 0
-                            else probability *= 0.85
-                                }
-                        //sort the multiple child instances if there is sort criteria
-                        if (c.children[child][3]!=undefined) {
-                            var sortby = c.children[child][3]
-                            tempchildren = tempchildren.sort(function(b,a){
-                                return a[sortby] - b[sortby]
-                            })
-                        }
-
-                        if (tempchildren.length==1) tempchildren = tempchildren[0]
-                        else if (tempchildren.length==0) tempchildren = {text: ""}
-                        this.children[child] = tempchildren
-                    }
-                }
-                else //presumably this is just a straight object rather than a construction + restrictions to evaluate
-                {this.children[child] = c.children[child]}
+/*            var cs = $.map(c[0].children, function(x){
+                //executeBranch.apply(this, [y[0], y[1]])
+                return new branch(x[0], x[1])
+            })
+            return cs*/
+            var multi = []
+            for (var cx in c ) {
+                multi[cx] = $.extend({},c[cx])
+                executeBranch.apply(multi[cx], [c[cx],{}])
             }
+
+            return multi
+            //return c[0]
         }
+
+        else break
     }
+    this.executeBranch = executeBranch;
+    executeBranch.apply(this, [c, r])
 
     //dump almost all other c.properties into this
     for(prop in c){
@@ -82,9 +49,89 @@ function branch(c, r, p, l){
     //words need a text property
     if(!"children".in(c)) {
         if(!"text".in(c)) this.text = c.inflected || c.name
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function executeBranch(c, r){
+        //evaluate head first
+        if("head".in(c)){
+            this.order = c.order
+            this.children = {}
+
+            var newbranch = c.children[c.head][0]
+            r = $.extend({}, c.restrictions, r, c.children[c.head][1])
+            this.head = this.children[c.head] = new branch(newbranch, r, this, c.head)
+
+            //remove properties from the head that have dots in them like the inflections list
+            //this is supposed avoid problems with these ending up in the restrictions and then getting
+            //parsed as obj.prop. Hopefully this doesn't cause other problems
+            delete this.head.inflections
+
+            /*for (var prop in this.head) {
+                if(typeof this.head[prop] == 'string' && this.head[prop].indexOf('.')!=-1)	delete this.head[prop]
+            }*/
+
+            //add the head itself to the restrictions (useful at the word level)
+            //if (this.head.text && this.head.type && this.head.type.in(database)){ //basically, if this is a word
+               /* var r
+                for (var prop in database[this.head.type]){
+                    r[prop]
+                }*/
+                var r = $.extend({}, r, this.head)
+            //}
+
+        }
+
+        //run special functions after head is loaded, if any
+        //if(this.head.midlogic)
+
+        //evaluate rest of children
+        if("children".in(c)){
+            for(var child in c.children){
+                if(this.children[child] != this.head){
+                    if(typeOf(c.children[child])=='array'){
+                        var R = this.parseRestrictions(c.children[child][1]) //restrictions explicitly passed in to branch
+                        if(R=="LEAVE") this.children[child] = {text: ""} //this is how we deal with branches that our restrictions told us not to follow
+
+                        else {
+                            var probability = c.children[child][2]||1 //if children have a probability of occurence
+                            var tempchildren = []
+                            while (probability > Math.random()) { //repeat until the probability dies
+
+                                //Fetch the child branch
+                                if (c.children[child][1] && c.children[child][1].reset) r = null
+
+                                ////////////????????????????????????????????????????????????///////////
+                                var blarg = new branch(c.children[child][0], $.extend({}, c.restrictions, r, R), this, child)
+                                if (typeOf(blarg) == 'array')
+                                    { tempchildren = tempchildren.concat(blarg) }
+                                else
+                                    { tempchildren.push(blarg) }
+
+                                if (probability == 1) probability = 0
+                                else probability *= 0.85
+                            }
+
+                            //sort the multiple child instances if there is sort criteria
+                            if (c.children[child][3]!=undefined) {
+                                var sortby = c.children[child][3]
+                                tempchildren = tempchildren.sort(function(b,a){
+                                    return a[sortby] - b[sortby]
+                                })
+                            }
+
+                            if (tempchildren.length==1) tempchildren = tempchildren[0]
+                            else if (tempchildren.length==0) tempchildren = {text: ""}
+                            this.children[child] = tempchildren
+                        }
+                    }
+                    else //presumably this is just a straight object rather than a construction + restrictions to evaluate
+                    {this.children[child] = c.children[child]}
+                }
             }
-
-
+        }
+    }
 
     /*-------------------------------------   RESTRICTIONS -------------------------------------*/
 
@@ -99,7 +146,7 @@ function branch(c, r, p, l){
         if (typeof restrictions==='string') {
 
             //if restriction string is like 'some.thing'
-            if (restrictions.match(/\./)){
+            if (restrictions.match(/^\w+\.\w+$/)){
                 var obj = objectSearch(restrictions, this)
                 obj_to_search = restrictions.split('.')[0]
                 if(!obj) {
@@ -147,7 +194,7 @@ function branch(c, r, p, l){
 
 
             //expand "object.property" to property value
-            if(restrictions[r].indexOf('.') > 0) {
+            if(restrictions[r].match(/^\w+\.\w+$/)) {
 
                 /*//remove special notation like ! from the beginning of strings that are supposed to be "object.property"
                 if ((special = restrictions[r].match(/^[^A-Za-z]+/g)) != null){
@@ -288,17 +335,17 @@ function inflect(word, r){
 /*-------------------------------------   COMPLEMENT   -------------------------------------*/
 
 //expand a word with a complement, if it has one
-function complement(word, r, context){
-    if (word.complements && !r.nocomplement){
-        var complement = word.complements.split(",")
+function complement(r){
+    if (goodVal(r.complements) && !r.nocomplement){
+        var complement = r.complements.split(",")
         var chosen = choose2(complement)
         if (chosen) {
             chosen = chosen.split('/') //some things have multiple complements
             var parsed = chosen.map(function(a){
-                return parseComplement(a, r, context)
+                return parseComplement(a, r)
             })
 
-            return context.children.comp = parsed
+            return parsed
         }
     }
 }
@@ -311,7 +358,14 @@ function parseComplement(complement, r){
     var func = c.match(/[A-Z]+/)[0]
 
     var arg = c.match(/{.+}/)
-    arg = arg==null ? '' : toObject(arg[0].slice(1,-1))
+    if (arg===null) {
+        arg = ''
+    } else {
+        arg = toObject(arg[0].slice(1,-1))
+        arg = $.extend(arg,r)
+        delete arg.complements
+        delete arg.reset
+    }
 
     if (window[func]===undefined) {
         return {text: error("No such construction exists as '"+func+"'.")}
@@ -319,11 +373,12 @@ function parseComplement(complement, r){
 
     complement = complement.replace(c, 'c')
 
+    //return [window[func],arg]
     return {
         order: complement,
         head: "c",
         children: {
-            c: new branch(window[func], arg, null, 'complement')
+            c: [window[func], arg]//new branch(window[func], arg, null, 'complement')
         }
     }
 }
@@ -341,7 +396,7 @@ function get(r){
 
         inflect(word,r)
 
-        complement(word, r, arguments.callee.caller.arguments[2])
+        //complement(word, r, arguments.callee.caller.arguments[2])
 
         if (r.type == 'noun' || r.type == 'adjective') recentlyUsed.push(word.name)
 
