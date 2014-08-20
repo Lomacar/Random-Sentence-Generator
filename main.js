@@ -10,33 +10,32 @@ function branch(c, r, p, l){
 
     //load the requested construction
     var c = c(r)
-    if(!c) return {text: ''} //this is necessary for some reason
+    if(!c) return {text: ''} //this is necessary for some reason, since reworking complements
 
-    //some constructions just reroute to other constructions
+    //if c returned an array
     while(typeOf(c)==='array'){
+
         if(typeof c[0] == 'function') {
 
+            //some constructions just reroute to other constructions
             c = c[0]( $.extend({}, r, c[1]) )
 
         } else if ("children".in(c[0])) {
 
-/*            var cs = $.map(c[0].children, function(x){
-                //executeBranch.apply(this, [y[0], y[1]])
-                return new branch(x[0], x[1])
-            })
-            return cs*/
+            //here we are dealing with a complement which provides an array of one or more fake branches
+            //so we run the branch processing on each branch and return the processed array
+            //but a copy of each branch must be made because executeBranch expects a real branch for context
+            //and the return value of a construction function for its first argument
             var multi = []
             for (var cx in c ) {
                 multi[cx] = $.extend({},c[cx])
                 executeBranch.apply(multi[cx], [c[cx],{}])
             }
-
             return multi
-            //return c[0]
         }
-
-        else break
+        else break //just prevent infinite loops
     }
+
     this.executeBranch = executeBranch;
     executeBranch.apply(this, [c, r])
 
@@ -54,6 +53,7 @@ function branch(c, r, p, l){
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
     function executeBranch(c, r){
+
         //evaluate head first
         if("head".in(c)){
             this.order = c.order
@@ -63,23 +63,10 @@ function branch(c, r, p, l){
             r = $.extend({}, c.restrictions, r, c.children[c.head][1])
             this.head = this.children[c.head] = new branch(newbranch, r, this, c.head)
 
-            //remove properties from the head that have dots in them like the inflections list
-            //this is supposed avoid problems with these ending up in the restrictions and then getting
-            //parsed as obj.prop. Hopefully this doesn't cause other problems
-            delete this.head.inflections
-
-            /*for (var prop in this.head) {
-                if(typeof this.head[prop] == 'string' && this.head[prop].indexOf('.')!=-1)	delete this.head[prop]
-            }*/
-
             //add the head itself to the restrictions (useful at the word level)
-            //if (this.head.text && this.head.type && this.head.type.in(database)){ //basically, if this is a word
-               /* var r
-                for (var prop in database[this.head.type]){
-                    r[prop]
-                }*/
+            if (this.head.text && this.head.type && this.head.type.in(database)){ //basically, if this is a word
                 var r = $.extend({}, r, this.head)
-            //}
+            }
 
         }
 
@@ -102,12 +89,11 @@ function branch(c, r, p, l){
                                 //Fetch the child branch
                                 if (c.children[child][1] && c.children[child][1].reset) r = null
 
-                                ////////////????????????????????????????????????????????????///////////
-                                var blarg = new branch(c.children[child][0], $.extend({}, c.restrictions, r, R), this, child)
-                                if (typeOf(blarg) == 'array')
-                                    { tempchildren = tempchildren.concat(blarg) }
+                                var sprout = new branch(c.children[child][0], $.extend({}, c.restrictions, r, R), this, child)
+                                if (typeOf(sprout) == 'array')
+                                    { tempchildren = tempchildren.concat(sprout) }
                                 else
-                                    { tempchildren.push(blarg) }
+                                    { tempchildren.push(sprout) }
 
                                 if (probability == 1) probability = 0
                                 else probability *= 0.85
@@ -373,12 +359,11 @@ function parseComplement(complement, r){
 
     complement = complement.replace(c, 'c')
 
-    //return [window[func],arg]
     return {
         order: complement,
         head: "c",
         children: {
-            c: [window[func], arg]//new branch(window[func], arg, null, 'complement')
+            c: [window[func], arg]
         }
     }
 }
