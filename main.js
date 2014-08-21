@@ -6,10 +6,10 @@ function branch(c, r, p, l){
 
     //parse and filter restrictions
     this.parseRestrictions = parseRestrictions
-    var r = this.parseRestrictions(r)
+    r = this.parseRestrictions(r)
 
     //load the requested construction
-    var c = c(r)
+    c = c(r)
     if(!c) return {text: ''} //this is necessary for some reason, since reworking complements
 
     //if c returned an array
@@ -40,7 +40,7 @@ function branch(c, r, p, l){
     executeBranch.apply(this, [c, r])
 
     //dump almost all other c.properties into this
-    for(prop in c){
+    for(var prop in c){
         if(prop!='head' && prop!='children')
             this[prop] = c[prop];
     }
@@ -65,7 +65,7 @@ function branch(c, r, p, l){
 
             //add the head itself to the restrictions (useful at the word level)
             if (this.head.text && this.head.type && this.head.type.in(database)){ //basically, if this is a word
-                var r = $.extend({}, r, this.head)
+                r = $.extend({}, r, this.head)
             }
 
         }
@@ -82,13 +82,14 @@ function branch(c, r, p, l){
                         if(R=="LEAVE") this.children[child] = {text: ""} //this is how we deal with branches that our restrictions told us not to follow
 
                         else {
-                            var probability = c.children[child][2]||1 //if children have a probability of occurence
+                            //if a restriction reset has been requested, clear everything accept nocomplement
+                            if (c.children[child][1] && c.children[child][1].reset) r = {nocomplement: r.nocomplement}
+
+                            var probability = c.children[child][2] || 1 //if children have a probability of occurence
                             var tempchildren = []
                             while (probability > Math.random()) { //repeat until the probability dies
 
                                 //Fetch the child branch
-                                if (c.children[child][1] && c.children[child][1].reset) r = null
-
                                 var sprout = new branch(c.children[child][0], $.extend({}, c.restrictions, r, R), this, child)
                                 if (typeOf(sprout) == 'array')
                                     { tempchildren = tempchildren.concat(sprout) }
@@ -100,7 +101,7 @@ function branch(c, r, p, l){
                             }
 
                             //sort the multiple child instances if there is sort criteria
-                            if (c.children[child][3]!=undefined) {
+                            if (c.children[child][3]!==undefined) {
                                 var sortby = c.children[child][3]
                                 tempchildren = tempchildren.sort(function(b,a){
                                     if (a[sortby]) {
@@ -115,7 +116,7 @@ function branch(c, r, p, l){
                             }
 
                             if (tempchildren.length==1) tempchildren = tempchildren[0]
-                            else if (tempchildren.length==0) tempchildren = {text: ""}
+                            else if (tempchildren.length===0) tempchildren = {text: ""}
                             this.children[child] = tempchildren
                         }
                     }
@@ -193,12 +194,12 @@ function branch(c, r, p, l){
                 if ((special = restrictions[r].match(/^[^A-Za-z]+/g)) != null){
                     special = special[0];
                     restrictions[r] = restrictions[r].slice(restrictions[r].search(/[A-Za-z]+/g));
-                } else {special = ''}*/ var special = ''
+                } else {special = ''}*/ special = ''
 
                 //if obj can't be found among siblings recurse to uncles, great-uncles...
-                var obj = objectSearch(restrictions[r], this)
+                obj = objectSearch(restrictions[r], this)
                 //prop is just the string after the dot
-                var prop =prop_to_search= restrictions[r].split('.')[1]
+                prop = prop_to_search = restrictions[r].split('.')[1]
                 obj_to_search = restrictions[r].split('.')[0]
 
                 //if an object was found
@@ -274,14 +275,14 @@ function inflect(word, r){
         //remove prohibited categories from paradigm
         for(var cg=pdigms[para].length-1; cg>=0; cg--){
             //word level prohibitions
-            if(prohib!=undefined){
+            if(prohib!==undefined){
                 prohib = prohib.replace(/ /g, '')
                 var regex = '(^|,)'+para+':'+ pdigms[para][cg]+'($|,)'
                 if (prohib.match(new RegExp(regex, "i"))) pdigms[para].splice(cg,1)
                     }
             //universal prohibitions
             var prohibz = prohibitions.descend(word.type, para, pdigms[para][cg])
-            if(prohibz!=undefined){
+            if(prohibz!==undefined){
                 for(var p in prohibz){
                     if(prohibz[p]==word.descend(p)) pdigms[para].splice(cg,1)
                         }
@@ -289,7 +290,7 @@ function inflect(word, r){
         }
 
         //if a category has already been specified use it
-        if(para.in(r)  && r[para]!='') {
+        if(para.in(r)  && goodVal(r[para])) {
             if (pdigms[para].indexOf(r[para].toString())>-1 || pdigms[para].indexOf(r[para])>-1)
             {word[para] = r[para]}
             else {
@@ -310,7 +311,7 @@ function inflect(word, r){
     var regex = "(^|,) *("+query+"|\\.)*("+query+ ")+ *:[^,]*"
     var outcome = word.inflections.match( new RegExp(regex, "gi"))
 
-    if(outcome!=null){
+    if(outcome!==null){
 
         word.inflected = outcome.sort(function(a,b){
             return a.split(".").length>b.split(".").length
@@ -346,19 +347,19 @@ function complement(r){
 //take string complement description, return complement construction object
 function parseComplement(complement, r){
 
-    var c = complement.match(/\b[A-Z]+({.+})*/g)[0] //for now we assume there is only one
+    var c = complement.match(/\b[A-Z]+\w*({.+})*/g)[0] //for now we assume there is only one
 
-    var func = c.match(/[A-Z]+/)[0]
+    var func = c.match(/[A-Z]+\w*/)[0]
 
     var arg = c.match(/{.+}/)
     if (arg===null) {
-        arg = ''
+        arg = r
     } else {
         arg = toObject(arg[0].slice(1,-1))
         arg = $.extend(arg,r)
-        delete arg.complements
-        delete arg.reset
     }
+    delete arg.complements
+    delete arg.reset
 
     if (window[func]===undefined) {
         return {text: error("No such construction exists as '"+func+"'.")}
@@ -398,9 +399,9 @@ function get(r){
 //utility function for randomly picking one element from an array
 function pickOne(arr, r){
 
-    if(typeOf(arr) == 'object') var arr = toArray(arr).slice() //in case object was past in
-    else var arr = arr.slice();
-    var r = r || null;
+    if(typeOf(arr) == 'object') arr = toArray(arr).slice() //in case object was past in
+    else arr = arr.slice();
+    r = r || null;
     var randex;
 
     if(!isEmpty(r)){
@@ -430,7 +431,7 @@ function r_match(restrictions, test_object){
     if (typeof recentlyUsed !== 'undefined' && recentlyUsed.indexOf(test_object.name) > -1) return false
 
     var prohib = test_object.prohibitions
-    if(prohib!=undefined && prohib!='') {//prohib = prohib.replace(/ /g, '')
+    if(goodVal(prohib)) {//prohib = prohib.replace(/ /g, '')
         //reject if restrictions match prohibitions
         if (prohibited(restrictions, prohib)===true) return false
         prohib = toObject(prohib)
@@ -482,7 +483,7 @@ function prohibited(testee,prohibs){
         if(/[(|)]/.test(prohb)) {
             prohb = prohb.match(/[^(|)]+/g)
             testy = testy.match(/[^(|)]+/g)
-            if (_.difference(testy, prohb).length==0) return true
+            if (_.difference(testy, prohb).length===0) return true
                 }
         //if testee has options and prohibs doesn't then obviously we're good
     }
@@ -561,13 +562,14 @@ function stringOut(c){
 
         if (typeof c.postlogic==='function') string = c.postlogic(string)
 
-        return string.replace(/[_0-9]+/g, "")                 // remove non-alphanumeric junk
+        return string.replace(/[_0-9]+/g, "")               // remove non-alphanumeric junk
                      .replace(/\ba +([aeio])/g, "an $1")    // a -> an
                      .replace(/  +/g,' ')                   // remove extra spaces
     }
+
     else return c.text
 
-        }
+}
 
 
 
@@ -605,7 +607,7 @@ function choose(){
     var rand = Math.random()*total
     for (var w=0; w<weights.length; w++){
         if(weights[w] > rand)	return values[w]
-            }
+    }
 }
 
 //assumes sum of weights <= 1.0
@@ -639,7 +641,7 @@ function choose2 () {
 //according to the global probabilities settings
 function decide(r, pdgms){
     var new_r = {}
-    var pdgms = pdgms.split(',')
+    pdgms = pdgms.split(',')
 
     /*for(p in pdgms){
 new_r[pdgms[p]] = r[pdgms[p]] || 'qweqwrqewt'

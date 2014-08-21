@@ -91,6 +91,7 @@ function factorPermutations(lists) {
 } 
 
 function error(msg){
+    if(typeof error_num === 'undefined') error_num = 1
 	console.warn('e'+error_num+': '+msg)
 	error_num++
 	return '[e'+(error_num-1)+']'
@@ -125,6 +126,22 @@ String.prototype.findChar = function (needle) {
     return false
 }
 
+//because changing __proto__ is a bad idea apparently
+function setPrototypeOf(obj, proto) {
+    var type = typeof proto;
+    if (typeof obj == "object" && (type == "object" || type == "function")) {
+        var constructor = function (obj) {
+            var ownPropertyNames = Object.getOwnPropertyNames(obj);
+            var length = ownPropertyNames.length;
+            for (var i = 0; i < length; i++) {
+                var ownPropertyName = ownPropertyNames[i];
+                this[ownPropertyName] = obj[ownPropertyName];
+            }
+        };
+        constructor.prototype = proto;
+        return new constructor(obj);
+    } else throw new TypeError("Expected both the arguments to be objects.");
+}
 
 /*  MAGIC COMPARE
 *

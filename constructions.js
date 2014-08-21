@@ -9,7 +9,7 @@ function CLAUSE(){
 	head: "nucleus",
 	children: {
 		nucleus: [VP],
-		subject: [NP, { number: 'nucleus.number', person: 'nucleus.person', anim: 'nucleus.anim1', case: 'nom'}],
+		subject: [NP, {number: 'nucleus.number', person: 'nucleus.person', anim: 'nucleus.anim1', case: 'nom'}],
 		//object: [NP, {exist: 'nucleus.trans', anim: 'nucleus.anim2', case: 'acc', number: '', person: '', name:'!subject.name'}]
 	},
 	restrictions: decide({}, "number,person,aspect,tense")
@@ -118,7 +118,7 @@ function AP(r) {
         children: {
             adv: [blank],
             a: [A],
-            comp: [complement, {'complements': 'a.complements'}]
+            comp: [complement, {'case': 'acc','complements': 'a.complements','reset':true}]
         }
     }
 }
@@ -132,7 +132,7 @@ function V(r){
 	order: "aux word_asp_tns_num comp*",
 	head: "word",
 	children: {
-		word: [get, {type: "verb"}],
+        word: [get, {type: "verb"}],
 		asp:  [aspect],//{aspect: 'word.aspect', inflection: 'word.inflected'}
 		aux:  [auxiliary],
 		tns:  [tense],
@@ -140,10 +140,11 @@ function V(r){
         comp: [complement, {'case':'acc','complements': 'word.complements','reset': true}]
 	},
 	postlogic: function(text){
-		text = text.replace(/([^aeou])y_+e([ds])/, "$1ie$2")
-		           .replace(/e_+ed/, "ed")
-		           .replace(/([^eu])e_+ing/, "$1ing")
-		           .replace(/([^aeiou])([aeiou])([^aeiouyw])_+(ed|ing)/, '$1$2$3$3$4')
+		text = text.replace(/([^aeou])y_+e([ds])/, "$1ie$2") //change -yes to -ies and -yed to -ied
+		           .replace(/e_+ed/, "ed") // -eed to -ed
+		           .replace(/([^eu])e_+ing/, "$1ing") // -eing to -ing
+		           .replace(/([^aeiou])([aeiou])([^aeiouyw])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
+                   .replace(/o_+s\b/g, 'oes') // -os to -oes
 		return text
 	}
 }}
@@ -183,10 +184,10 @@ function auxiliary(r){
                 retro: route(r.tense, {past: "had",	pres: route(r.person+r.number, {'3sg': "has", rest: "have"}), fut: "have"}),
                 prog: route(r.tense, {
                     past: get({
-                            type:'verb', name:'be', aspect: 'simp', tense: 'past', person: r.person, number: r.number, nocomplement: true,
+                            type:'verb', name:'be', aspect: 'simp', tense: 'past', person: r.person, number: r.number,
                           }).inflected, 
                     pres: get({
-                            type:'verb', name:'be', aspect: 'simp', tense: 'pres', person: r.person, number: r.number, nocomplement: true,
+                            type:'verb', name:'be', aspect: 'simp', tense: 'pres', person: r.person, number: r.number,
                           }).inflected,
                     fut: "be"}),
                 retroprog: route(r.tense, {past: "had been",	pres: route(r.person+r.number, {'3sg': "has been", rest: "have been"}), fut: "have been"})
@@ -197,6 +198,12 @@ function auxiliary(r){
 function vNum(r){
 	return {text: route(r.number+r.person+r.aspect+r.tense+r.inflected, {sg3simppres:"s"})}	
 }
+
+
+function WH_CLAUSE() {
+
+}
+
 
 function blank(){
     return {text: ""}

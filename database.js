@@ -26,19 +26,22 @@ function loadLexicon(type){
 
     $.get("csv/"+type+"s.csv", function(data){
         database[type] = CSV2JSON(data).slice(0, -1);
-        database[type].forEach(function(a){
+        for (var x in database[type]) {
+            var a = database[type][x]
+
             $.each(a, function(b,val){
                 //turn numbers and boolean into the real things
                 if (/^(-?[0-9.]+|false|true)$/i.test(val)) a[b] = JSON.parse(val.toLowerCase())
             })
 
-            if (a['proto']) {
+            if (a.proto) {
                 prune(a)
-                a.__proto__ = pickOne(database[type], {name: a['proto']})
-                if (a.__proto__ === Object.prototype) //didn't take
-                    error('Prototype"' + pro + '"could not be found for'+obj.name+'.')
+                //a.__proto__ = pickOne(database[type], {name: a.proto})
+                a = database[type][x] = setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
+                if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
+                    error('Prototype"' + a.proto + '"could not be found for'+a.name+'.')
             }
-        })
+        }
 
         d.resolve();
     })
@@ -47,9 +50,9 @@ function loadLexicon(type){
 }
 
 
-var database = {verb: [],noun: []
-    ,
+var database = {verb: [],noun: [],
 	adjective: [
+        {name: "happy", rank: 3, anim: '>2', complements: "1, that CLAUSE"},
 		{name: "big", rank: 6},
 		{name: "nice", rank: 7},
 		{name: "old", rank: 1},
@@ -76,7 +79,7 @@ var database = {verb: [],noun: []
         {name: "delicious", rank: 5, anim: '>0'},
         {name: "hungry", rank: 2, anim: '>2'},
         {name: "tired", rank: 2, anim: '>2', complements: "0.25, of NP, 0.25, of V{tense:pres;aspect:prog}"},
-        {name: "happy", rank: 3, anim: '>2', complements: "1, that CLAUSE"}
+        {name: "tired", rank: 2, anim: '>2', complements: "0.25, of NP, 0.25, of V{tense:pres;aspect:prog}"}
 
             //{name: "expensive", rank: }
 	]
@@ -117,6 +120,6 @@ var probabilities = {
     person: [1,1, 1,2, 4,3],
     
     //verby
-    tense: [2, 'pres', 4, 'past', 1, 'fut'],
+    tense: [3, 'pres', 6, 'past', 1, 'fut'],
     aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog']
 }
