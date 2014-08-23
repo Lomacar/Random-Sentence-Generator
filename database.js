@@ -50,53 +50,20 @@ function loadLexicon(type){
 }
 
 
-var database = {verb: [],noun: [],
-	adjective: [
-        {name: "happy", rank: 3, anim: '>2', complements: "1, that CLAUSE"},
-		{name: "big", rank: 6},
-		{name: "nice", rank: 7},
-		{name: "old", rank: 1},
-		{name: "shiny", rank: 5, anim: '>0'},
-		{name: "strange", rank: 6},
-		{name: "bad", rank: 5},
-		{name: "red", rank: 0, anim: '>0'},
-		{name: "clever", rank: 3, anim: '>2'},
-        {name: "outrageous", rank: 3},
-        {name: "boring", rank: 3},
-        {name: "fuzzy", rank: 1, anim: '>1&<4'},
-        {name: "oblong", rank: 1, anim: 2},
-        {name: "friendly", rank: 2, anim: '>2'},
-        {name: "special", rank: 5},
-        {name: "naive", rank: 2, anim: '>2'},
-        {name: "nervous", rank: 1, anim: 4, complements: "1, about NP"},
-        {name: "pretentious", rank: 2, anim: 4},
-        {name: "ugly", rank: 2, anim: '>0'},
-        {name: "average", rank: 6},
-        {name: "fake", rank: 4, anim: '>0'},
-        {name: "wooden", rank: -2, anim: 2},
-        {name: "Canadian", rank: -1, anim: '>0'},
-        {name: "perfect", rank: 5},
-        {name: "delicious", rank: 5, anim: '>0'},
-        {name: "hungry", rank: 2, anim: '>2'},
-        {name: "tired", rank: 2, anim: '>2', complements: "0.25, of NP, 0.25, of V{tense:pres;aspect:prog}"},
-        {name: "tired", rank: 2, anim: '>2', complements: "0.25, of NP, 0.25, of V{tense:pres;aspect:prog}"}
-
-            //{name: "expensive", rank: }
-	]
-}
+var database = { verb: [],noun: [], adjective: [] }
 
 var paradigms = {
 		verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
 		noun: {number: ['pl', 'sg']},
-		pronoun: {case: ['nom', 'acc'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f']}
+		pronoun: {case: ['nom', 'acc'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
 }
 
 //universal prohibitions
 var prohibitions = {
 	verb: {
 		aspect: {
-			prog: {class: 'state'},
-			retroprog: {class: 'state'}
+			prog: {class: 'state,event,semel'},
+			retroprog: {class: 'state,event,semel'}
 		},
         tense: {
             //future: {aspect: 'retro', class: 'state'} //just tends to sound too awkward
@@ -111,10 +78,13 @@ var prohibitions = {
 
 //default probabilities for paradigms (used by "decide()")
 var probabilities = {
+    //general
+    anim: [1,0,1,1,1,2,1,3],
+
     //nounish
     number: [1,'pl', 3,'sg'],
     def: [3,true, 2,false],
-    proper: [1,true, 2,false],
+    proper: [2,true, 7,false],
     
     //pronominal
     person: [1,1, 1,2, 4,3],

@@ -171,6 +171,8 @@ function magicCompare (one, two, every, operator) {
 
     //shortcut for simple equality
     if (one==two) return true
+    //if simple equality failed and there are no special characters, then they will never match
+    else if (!/\W/.test(one) && !/\W/.test(two)) return false
 
     //convert everything to strings to make life simple
     one = one.toString().trim(); two = two.toString().trim() //ain't nobody got time for no whitespaces

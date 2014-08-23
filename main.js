@@ -29,7 +29,7 @@ function branch(c, r, p, l){
             var multi = []
             for (var cx in c ) {
                 multi[cx] = $.extend({},c[cx])
-                executeBranch.apply(multi[cx], [c[cx],{}])
+                executeBranch.apply( multi[cx],  [c[cx], {}, this, c[cx].head] )
             }
             return multi
         }
@@ -60,13 +60,13 @@ function branch(c, r, p, l){
             this.children = {}
 
             var newbranch = c.children[c.head][0]
-            r = $.extend({}, c.restrictions, r, c.children[c.head][1])
-            this.head = this.children[c.head] = new branch(newbranch, r, this, c.head)
+            var headr = $.extend({}, c.restrictions, r, c.children[c.head][1])
+            this.head = this.children[c.head] = new branch(newbranch, headr, this, c.head)
 
             //add the head itself to the restrictions (useful at the word level)
-            if (this.head.text && this.head.type && this.head.type.in(database)){ //basically, if this is a word
-                r = $.extend({}, r, this.head)
-            }
+//            if (this.head.text && this.head.type && this.head.type.in(database)){ //basically, if this is a word
+//                r = $.extend({}, r, this.head)
+//            }
 
         }
 
@@ -157,18 +157,19 @@ function branch(c, r, p, l){
                     }
                 }
                 restrictions = obj[prop]
-            }
+            } else if (restrictions.in(this.children)) {
 
-            else if (restrictions.in(this.children))
                 return this.children[restrictions]
-                else
-                    if ('parent'.in(this)){
-                        var path = restrictions.match("parent.children") ? restrictions.replace("parent.", "parent.parent.") : "this.parent.children."+restrictions
-                        restrictions = this.parseRestrictions(path)
-                    }else{
-                        console.warn('Object "'+restrictions+'" could not be found from "'+this.label+'".')
-                        return
-                    }
+
+            } else {
+                if ('parent'.in(this)){
+                    var path = restrictions.match("parent.children") ? restrictions.replace("parent.", "parent.parent.") : "this.parent.children."+restrictions
+                    restrictions = this.parseRestrictions(path)
+                }else{
+                    console.warn('Object "'+restrictions+'" could not be found from "'+this.label+'".')
+                    return
+                }
+            }
         }
 
         //TODO: Use these variables!
@@ -284,19 +285,19 @@ function inflect(word, r){
             var prohibz = prohibitions.descend(word.type, para, pdigms[para][cg])
             if(prohibz!==undefined){
                 for(var p in prohibz){
-                    if(prohibz[p]==word.descend(p)) pdigms[para].splice(cg,1)
-                        }
+                    if(magicCompare(word.descend(p), prohibz[p])/*prohibz[p]==word.descend(p)*/) pdigms[para].splice(cg,1)
+                }
             }
         }
 
         //if a category has already been specified use it
         if(para.in(r)  && goodVal(r[para])) {
-            if (pdigms[para].indexOf(r[para].toString())>-1 || pdigms[para].indexOf(r[para])>-1)
-            {word[para] = r[para]}
+            /////////////////////////////////////////if (pdigms[para].indexOf(r[para].toString())>-1 || pdigms[para].indexOf(r[para])>-1)
+            if (magicCompare(r[para], pdigms[para].toString())) {word[para] = r[para]}
             else {
                 console.warn(
-                    "Category '"+para+':'+r[para]+"' not found for "+word.type+" '"+word.name+"'. "
-                    +"A random category will be assigned."
+                    "Category '"+para+':'+r[para]+"' not found for "+word.type+" '"+word.name+"'. " +
+                    "A random category will be assigned."
                 )
                 word[para] = pickOne(pdigms[para])
             }
@@ -307,12 +308,16 @@ function inflect(word, r){
         query.push(word[para])
     }
 
+    //magical CSS-like application of inflections
+
+    //find all rules that possibly apply to the given restrictions
     query = query.join("|")
     var regex = "(^|,) *("+query+"|\\.)*("+query+ ")+ *:[^,]*"
     var outcome = word.inflections.match( new RegExp(regex, "gi"))
 
     if(outcome!==null){
 
+        //pick the most specific rule (the one with the most dots)
         word.inflected = outcome.sort(function(a,b){
             return a.split(".").length>b.split(".").length
         })
@@ -428,6 +433,7 @@ function r_match(restrictions, test_object){
 
     if (isEmpty(restrictions)) return true
 
+    //prevent the repetitive use of words
     if (typeof recentlyUsed !== 'undefined' && recentlyUsed.indexOf(test_object.name) > -1) return false
 
     var prohib = test_object.prohibitions
@@ -444,10 +450,10 @@ function r_match(restrictions, test_object){
         //merge word-level and universal prohibitions for given paradigm (r)
         //word level overwrites universal
         var prohibz = $.extend({}, prohibitions.descend(restrictions.type,r,rval))
-        if (prohib!=undefined) $.extend(prohibz, prohib)
+        if (typeOf(prohib)=='object') $.extend(prohibz, prohib)
         if (prohibz && prohibited(test_object, prohibz)===true) return false
 
-        if (r.in(test_object)) {
+        if (typeof test_object[r] !== 'undefined') {
             
             var compareUs = 'reverse'.in(restrictions) ? [test_object[r],rval] : [rval, test_object[r]]
             if (magicCompare(compareUs[0], compareUs[1])) {
@@ -508,11 +514,11 @@ function propertySearch(object, property){
     if('head'.in(object)){
         if(property.in(object.head))
             return object.head
-            else
-                return propertySearch(object.head, property)
-                }	else {
-                    return false
-                }
+        else
+            return propertySearch(object.head, property)
+    }	else {
+        return false
+    }
 }
 
 
@@ -533,15 +539,15 @@ function stringOut(c){
                 //optional undefined or empty words return ''
                 if (!c.children[a.slice(0,-1)])
                     return ''
-                    else
-                        a = a.slice(0,-1)
+                else
+                    a = a.slice(0,-1)
 
-                        }else{ //not optional
+            }else{ //not optional
 
-                            //if there is no child with the given name then treat it as litteral
-                            if (!c.children[a])
-                                return a
-                                }
+                //if there is no child with the given name then treat it as litteral
+                if (!c.children[a])
+                    return a
+            }
 
             //break down arrays of adjectives or whatnot
             if(typeOf(c.children[a])=='array') {
@@ -554,7 +560,7 @@ function stringOut(c){
             else {
                 var furtherIn = stringOut(c.children[a])
 
-                if (!furtherIn) {} //error("There was no child '"+a+"' to render.")
+                //if (!furtherIn) {} //error("There was no child '"+a+"' to render.")
                 return furtherIn===undefined ? '???' : furtherIn
             }
 
@@ -562,9 +568,10 @@ function stringOut(c){
 
         if (typeof c.postlogic==='function') string = c.postlogic(string)
 
-        return string.replace(/[_0-9]+/g, "")               // remove non-alphanumeric junk
-                     .replace(/\ba +([aeio])/g, "an $1")    // a -> an
-                     .replace(/  +/g,' ')                   // remove extra spaces
+        return string.replace(/(^|\s)([^\[\d]+)[0-9]+/g,"$2")       // remove numbers, except for [e123] errors
+                     .replace("_","")                               // remove underscores
+                     .replace(/\ba +([aeio])/g, "an $1")            // a -> an
+                     .replace(/  +/g,' ')                           // remove extra spaces
     }
 
     else return c.text
@@ -586,7 +593,7 @@ function route(r, choices){
         return pickOne(choices)
     }
 
-    return choices[r] || choices["rest"] || ""
+    return choices[r] || choices.rest || ""
 }
 
 function choose(){
@@ -640,7 +647,6 @@ function choose2 () {
 //if a paradigm hasn't been specified then add a random choice for it
 //according to the global probabilities settings
 function decide(r, pdgms){
-    var new_r = {}
     pdgms = pdgms.split(',')
 
     /*for(p in pdgms){
@@ -648,9 +654,9 @@ new_r[pdgms[p]] = r[pdgms[p]] || 'qweqwrqewt'
 }*/
 
     $.each(pdgms, function (index, value){
-        new_r[value] = r[value] || choose(probabilities[value])
-        if (new_r[value]==undefined) error("No probability defined for '"+value+"'.")
-            })
+        r[value] = r[value] || choose(probabilities[value])
+        if (r[value]===undefined) error("No probability defined for '"+value+"'.")
+    })
 
-    return new_r
+    return r
 }
