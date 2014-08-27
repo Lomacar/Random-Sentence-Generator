@@ -79,7 +79,8 @@ var prohibitions = {
 //default probabilities for paradigms (used by "decide()")
 var probabilities = {
     //general
-    anim: [1,0,1,1,1,2,1,3],
+    anim: [3,0, 3,1, 5,2, 5,3],
+    tang: [1,0, 1,1, 2,2],
 
     //nounish
     number: [1,'pl', 3,'sg'],
@@ -87,9 +88,10 @@ var probabilities = {
     proper: [2,true, 7,false],
     
     //pronominal
-    person: [1,1, 1,2, 4,3],
+    person: [1,1, 1,2, 5,3],
     
     //verby
     tense: [3, 'pres', 6, 'past', 1, 'fut'],
-    aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog']
+    aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog'],
+    neg: [1, false, 1, true]
 }

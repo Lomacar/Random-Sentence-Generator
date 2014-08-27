@@ -1,6 +1,6 @@
 function SENTENCE(){
     recentlyUsed = [] //keep track of recently used words so you don't sound dumb repeating yourself
-    return choose(5, [CLAUSE2], 1, [COPULA])
+    return choose(3, [CLAUSE2], 0, [COPULA])
 }
 
 function CLAUSE(){   
@@ -15,7 +15,9 @@ function CLAUSE(){
         restrictions: decide({}, "number,person,aspect,tense")
     }}
 
-function CLAUSE2(){
+function CLAUSE2(r){
+    decide(r, "number,person,aspect,tense")
+
     return {
         order: "subject predicate",
         head: "subject",
@@ -24,7 +26,7 @@ function CLAUSE2(){
             predicate: [VP, {copulant: false, number: 'subject.number', tang: 'subject.tang',
                              person: 'subject.person', anim: 'subject.anim', reverse: true}]
         },
-        restrictions: decide({}, "number,person,aspect,tense")
+        //restrictions: decide({}, "number,person,aspect,tense")
     }}
 
 function COPULA(){
@@ -43,15 +45,6 @@ function COPULA(){
     }
 }
 
-function VP(){
-    return {
-        order: "verb",
-        head: "verb",
-        children: {
-            verb: [V]
-        }
-    }}
-
 function NP(r) {
     r = decide(r, "person,proper,number")
 
@@ -59,7 +52,7 @@ function NP(r) {
                 rest: [PRONOUN],
                 3: choose(
                     1, [PRONOUN],
-                    3, route(r.number, {
+                    4, route(r.number, {
                             rest: route(r.proper, {
                                     true: [get, {type: 'noun',proper: true}],
                                     false: [DP]
@@ -101,6 +94,7 @@ function DET(r){
 }
 
 function N(r){
+
     return {
         order: "word_num",
         head: "word",
@@ -152,29 +146,39 @@ function A(r){
     return get($.extend({type: 'adjective'}, r))
 }
 
-function V(r){
-    //r = decide(r, "tense,aspect,number,person,anim")
+function VP(r){
+    decide(r, "number,person")
 
     return {
-        order: "aux word_asp_tns_num comp*",
-        head: "word",
+        order: "aux word",
+        head: "aux",
         children: {
-            word: [get, {type: "verb"}],
-            asp:  [aspect, 'word'],
-            aux:  [auxiliary, 'word'],
-            tns:  [tense, 'word'],
-            num:  [vNum, 'word'],
-            comp: [complement, {'case':'acc','complements': 'word.complements','reset': true}]
+            aux:  [auxiliary2],
+            word: [V, {'tense': 'aux.tense','aspect': 'aux.next_aspect','noinflection': 'aux.noinflection'}]
+        }
+    }
+}
+
+function V(r) {
+    return {
+        order: "verb_asp_tns_num comp*",
+        head: "verb",
+        children: {
+            verb: [get, {type: 'verb'}],
+            asp:  [aspect, 'verb'],
+            tns:  [tense, 'verb'],
+            num:  [vNum, 'verb'],
+            comp: [complement, {'case':'acc','complements': 'verb.complements','reset': true}]
         },
         postlogic: verb_cleanup
-    }}
-
+    }
+}
 
 //verb aspect morphology
 function aspect(r){
     return {
-        text: route(r.inflected=="", {
-            true: route(r.aspect,{
+        text: route(goodVal(r.inflected) || r.noinflection, {
+            false: route(r.aspect,{
                 prog: "ing",
                 retroprog: "ing"
             })
@@ -184,8 +188,8 @@ function aspect(r){
 //verb tense morphology
 function tense(r){
     return {
-        text: route(r.inflected=="", {
-            true: route(r.aspect,{
+        text: route(goodVal(r.inflected) || r.noinflection, {
+            false: route(r.aspect,{
                 simp: route(r.tense, {past: "ed"}),
                 retro: "ed"
             })
@@ -212,6 +216,55 @@ function auxiliary(r){
     }
 }
 
+function auxiliary2(r){
+    var text = ""
+    var last_bit = ""
+    r = decide(r,"neg,tense,aspect,number,person", true)
+    var r2 = $.extend({}, r)
+    r2.aspect = 'simp'
+
+    function wellthen(aspect){
+        if(last_bit){
+            if (aspect) {
+                r2.aspect = aspect
+                r2.noinflection = false
+            }
+            else r2.noinflection = true //infinitive
+
+            text += r2.neg ? " not" : ""
+            r2.neg = false
+        }
+    }
+
+    //future tense and modals
+    if(r.tense=="fut") text = last_bit = "will"
+    else text = ( last_bit = choose(1,"would",1,"could",1,"should",1,"might",1,"must",6,"") )
+    wellthen()
+
+    //retro
+    if(r.aspect.indexOf("retro") >= 0) {
+        last_bit = get($.extend(r2, {type: 'verb', name: 'have'}))
+        text += " " + (last_bit.inflected || last_bit.name)
+        wellthen("retro")
+    }
+
+    //prog
+    if(r.aspect.indexOf("prog") >= 0) {
+        last_bit = get($.extend(r2, {type: 'verb', name: 'be'}))
+        text += " " + (last_bit.inflected || last_bit.name)
+        wellthen("prog")
+    }
+
+    //dummy 'do' for bare negative
+    if (/^ *$/.test(text) && r.neg) {
+        last_bit = get($.extend(r2, {type: 'verb', name: 'do'}))
+        text = (last_bit.inflected || last_bit.name ) + " not"
+        r2.noinflection = true
+    }
+
+    return $.extend(r, {'text': text, 'noinflection': r2.noinflection, 'next_aspect': r2.aspect})
+}
+
 //s inflection on verbs
 function vNum(r){
     return {text: route(r.number+r.person+r.aspect+r.tense+r.inflected, {sg3simppres:"s"})}
@@ -227,27 +280,28 @@ function verb_cleanup(text){
     return text
 }
 
-/*function copula(){
-    return auxiliary() || {
-        text: route
-    }
-}*/
-
 function WH_CLAUSE() {
 
 }
 
-function GP(){
+function GP(r){
+    r.tense = 'present'
+    r.aspect = 'prog'
+
     return {
         order: "v_asp comp*",
         head: "v",
         children: {
-            v: [get, {type: "verb", tense: 'present', aspect: 'prog'}],
-            asp:  [aspect],
+            v: [get, {type: "verb"}],
+            asp:  [aspect, 'v'],
             comp: [complement, {'case': 'acc','complements': 'v.complements','reset':true}]
         },
         postlogic: verb_cleanup
     }
+}
+
+function GOAL_LOC() {
+
 }
 
 

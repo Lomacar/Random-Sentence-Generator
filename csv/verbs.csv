@@ -15,27 +15,32 @@ feel,be,>1,,activity,,0,"1,AP","simp.past:felt, retro:felt"
 fight,,>1,!0,activity,,0,,"simp.past:fought, retro:fought"
 find,,>1,!0,event,,0,"1, NP{anim:>0}","simp.past:found, retro:found"
 give,,3,!0,event,1,0,"0.5, DP{anim:<3;tang:2}/to NP{anim:3}, 0.5, NP{anim:3}/ DP{anim:<3;tang:2}","simp.past:gave, retro:given"
-go,,>1,!0,process,1,FALSE,"1, to NP{number:sg; tags: place }","simp.pres.sg.3:goes, simp.past:went, retro: gone"
+go,,>1,!0,process,1,0,"1, to NP{number:sg; tags: place }","simp.pres.sg.3:goes, simp.past:went, retro: gone"
 have,,>0,!0,state,1,0,"1, DP{anim: <3; tang:0|2}","simp.past:had, simp.pres.sg.3:has, retro:had"
+think,,3,<9,activity,1,0," 0.6, about NP","simp.past:thought, retro:thought"
+think1,think,,,state,,0,"1, that CLAUSE",
 imagine,think1,,,,,,, 
 kill,,!0,!0,event,1,0,"1, NP{anim:>2}",
 know,,>1,!0,state,1,0,"0.2, how to VP{tense: pres; aspect: simp; person: 1}, 0.5, that CLAUSE, 0.3, about NP","simp.past:knew, retro:known"
 melt,,<2,!0,process,,0,,
 miss,,>1,!0,state,,0,"1, NP{anim:>0}",
-read,,3,!0,process,1,0,"1, NP{tags:readable; anim:<2}","simp.past:read, retro:read"
+read,,3,<9,process,1,0,"1, NP{tags:readable; anim:<2}","simp.past:read, retro:read"
 search,,>1,!0,activity,,0,"1, for NP{anim:>0}",
 see,,>1,!0,state,1,0,"0.7, NP{tang: >0}, 0.25, NP/GP","simp.past:saw, retro:seen"
 shoot,,3,!0,event,1,0,"0.6, NP{tang: 2}, 0.4, at NP{tang: 2}","simp.past:shot, retro:shot"
-skate,,3,!0,activity,0,0,,
+skate,,3,>0,activity,0,0,,
 smoke,,1|3,!0,activity,,0,,
 snap,,<2,!0,event,,0,,
 stink,,<9,!0,state,0,0,,"simp.past:stank, retro: stunk"
-think,,3,!0,activity,1,0," 0.6, about NP","simp.past:thought, retro:thought"
-think1,think,,,state,,0,"1, that CLAUSE",
-tickle,,3,!0,activity,1,0,"1, NP{anim:>2}",
-touch,,<9,!0,semel,,0,"1, NP{anim:>1}",
+tickle,,3,!0,activity,1,0,"1, NP{anim:>1}",
+touch,,<9,!0,semel,,0,"1, NP{tang:>1}",
 touch1,touch,,!0,activity,,,,
-trick,,4,,event,,0,"1, NP{anim:>2}",
+trick,,3,,event,,0,"1, NP{anim:>2}",
 walk,go,,,,,,,
 walk1,walk,,,activity,,, ,
 write,read,,,,,,,"simp.past:wrote, retro:written"
+eat,,>1,<9,activity,0,0,,"simp.past:ate, retro:eaten"
+eat1,eat,,,process,1,0,"1, NP{tang:2}",
+test,,3,<9,process,,0,"1,NP",
+like,,2|3,<9,state,1,0,"0.5, NP, 0.5, GP",
+do,,3,<9,activity,,,,"simp.pres.sg.3:does, simp.past:did, retro: done"

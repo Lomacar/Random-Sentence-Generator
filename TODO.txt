@@ -1,0 +1,39 @@
+##############       TODO        ##############
+
+prospective aspect
+
+passive voice
+
+reflexive, reciprocal
+
+adverbs
+
+negation
+
+other modals
+
+wh-clause
+
+wh-phrase?
+
+relative clause
+
+PP adjunct for nouns and verbs
+
+adjective comparative and superlative
+
+'and'
+
+mutators - "DEAD man", "bottle OF RUM"
+
+implications - for hierarchical tags, implemented whithin lexicon
+
+
+
+
+Other things I said before:
+
+-use last_obj in parse_restrictions
+-filter restrictions in word getting based on word type template
+-make probabilities take an array like [1,0.3], allow passing down of probs and declare make probs a property of constructions
+-allow restriction to target sub-constructions like {'NP.name': 'example'} or maybe {'adj.name': 'exampley'}

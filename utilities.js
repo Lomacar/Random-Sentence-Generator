@@ -315,7 +315,7 @@ function unitTester(arrayOfTests){
     arrayOfTests.forEach(function(unit){
         result = unitTest.apply(this, unit)
         color = result==unit[1] ? 'green' : 'red'
-        console.log ("%c " + unit[0].name + "\t\t\t" + unit.slice(1).join('\t\t\t') + "\t\t\t:\t\t\t" + result,
+        console.log ("%c " + unit[0].name + "\t\t\t" + unit.slice(1).map(function(a){return JSON.stringify(a)}).join('\t\t\t') + "\t\t\t:\t\t\t" + result,
                      "font-weight: bold; color:" + color)
     })
 }
@@ -350,36 +350,6 @@ units = [
     [magicCompare, true, ">1 | 1 & !2", "1,2,3"],
 ]
 
-units2 = [
-    [magicCompare, true, "1", "1", true],
-    [magicCompare, true, "1,2", "1,2", true],
-    [magicCompare, false, "2", "1,2", true],
-    [magicCompare, true, true, true, true],
-    [magicCompare, true, false, false, true],
-    [magicCompare, false, ">1", "0,2", true],
-    [magicCompare, true, ">1", "2,2", true],
-    [magicCompare, false, ">1", "0,1", true],
-    [magicCompare, false, "<1", "1,2,3", true],
-    [magicCompare, true, "<1", "-1,-2,0,-3", true],
-    [magicCompare, false, "<1", "hi!", true],
-    [magicCompare, false, "<1", "poop,junk", true],
-    [magicCompare, true, "<1|>5", "7", true],
-    [magicCompare, false, "<1|>5", "3,4,7", true],
-    [magicCompare, true, "<1|>5", "0,9", true],
-    [magicCompare, false, "!7 & >5", "3,7", true],
-    [magicCompare, false, "!7&>5", "6,7", true],
-    [magicCompare, true, "!7 & >5", "234", true],
-    [magicCompare, false, "location|person", "thing,edible", true],
-    [magicCompare, false, "location|person", "thing,location", true],
-    [magicCompare, true, "location|person", "person,location", true],
-    [magicCompare, false, 'tall|fat&!blonde & !albino & french','blonde,brunette,french', true],
-    [magicCompare, true, 'tall|!fat&blonde|brunette|french & brunette|french|!brunette|!french & !albino','blonde,brunette,french,tall', true],
-    [magicCompare, true, 'tall|blonde|brunette|french & tall|blonde|brunette|french & !albino','blonde,brunette,french,tall', true],
-    [magicCompare, false, "location & person", "locationperson", true],
-    [magicCompare, false, "loc", "location", true],
-    [magicCompare, false, ">1&!2 | 3", "1,2,3", true],
-    [magicCompare, true, ">1&!2 | 1 | <3&!1", "1,2,3", true],
-    [magicCompare, false, ">1 | 1 & !1", "1,2,3", true],
-]
+
 
 //unitTester(units2)

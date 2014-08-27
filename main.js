@@ -63,11 +63,6 @@ function branch(c, r, p, l){
             var headr = $.extend({}, c.restrictions, r, c.children[c.head][1])
             this.head = this.children[c.head] = new branch(newbranch, headr, this, c.head)
 
-            //add the head itself to the restrictions (useful at the word level)
-//            if (this.head.text && this.head.type && this.head.type.in(database)){ //basically, if this is a word
-//                r = $.extend({}, r, this.head)
-//            }
-
         }
 
         //run special functions after head is loaded, if any
@@ -211,7 +206,7 @@ function branch(c, r, p, l){
                     }else{//if no property found you sadly must search down through all the sub-heads of the found object
                         obj = propertySearch(obj, prop)
                         if (obj) { //if an object with prop was finally found, congratulations!
-                            restrictions[r] = special.length ? special + obj[prop] : obj[prop]
+                            restrictions[r] = special + obj[prop]
                         }	else { //admit defeat
                             console.warn('Property "'+prop_to_search+'" under object "'+obj_to_search+'" could not be found for "'+r+'" from "'+this.label+'".')
                             delete restrictions[r] //remove this pesky restriction
@@ -388,17 +383,18 @@ function parseComplement(complement, r){
 function get(r){
     if(r.type==undefined) error("Word type not specified for get function.")
 
-    var word = $.extend({'type': r.type}, pickOne(database[r.type], r)  ) || false
+    var word = pickOne(database[r.type], r) || false/*$.extend({}, r, pickOne(database[r.type]), r )*/ || false
+
     if(!'name'.in(word))
         return {text: error("No word could be get'd with the following restrictions: "+JSON.stringify(r))}
 
-        inflect(word,r)
+    word = $.extend({},r,word)
 
-        //complement(word, r, arguments.callee.caller.arguments[2])
+    if(!r.noinflection) inflect(word,r)
 
-        if (r.type == 'noun' || r.type == 'adjective') recentlyUsed.push(word.name)
+    if (r.type == 'noun' || r.type == 'adjective') recentlyUsed.push(word.name)
 
-        return word
+    return word
 }
 
 //utility function for randomly picking one element from an array
@@ -646,7 +642,9 @@ function choose2 () {
 //take a restriction object and return just the ones specified in 'pdgms'
 //if a paradigm hasn't been specified then add a random choice for it
 //according to the global probabilities settings
-function decide(r, pdgms){
+function decide(r, pdgms, filter){
+    var out_r = filter ? {} : r //filter==true removes all restrictions except the ones passed in to pdgms
+
     pdgms = pdgms.split(',')
 
     /*for(p in pdgms){
@@ -654,9 +652,9 @@ new_r[pdgms[p]] = r[pdgms[p]] || 'qweqwrqewt'
 }*/
 
     $.each(pdgms, function (index, value){
-        r[value] = r[value] || choose(probabilities[value])
+        out_r[value] = r[value] || choose(probabilities[value])
         if (r[value]===undefined) error("No probability defined for '"+value+"'.")
     })
 
-    return r
+    return out_r
 }
