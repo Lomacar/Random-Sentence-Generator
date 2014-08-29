@@ -79,6 +79,7 @@ function factorPermutations(lists) {
 	while (1) {
 			$num = $iter++;
 			$pick = []; 
+            var l
 			for (l in lists) {
 					$r = $num % (lists[l].length );
 					$num = ($num - $r) / lists[l].length;
@@ -192,7 +193,7 @@ function magicCompare (one, two, every, operator) {
     }
 
     var ops = "<>!"
-    var coms = "\|&"
+    var coms = "|&"
 
     var dealWithComs = function(){
         var parts, results

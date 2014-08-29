@@ -85,7 +85,7 @@ function branch(c, r, p, l){
                             while (probability > Math.random()) { //repeat until the probability dies
 
                                 //Fetch the child branch
-                                var sprout = new branch(c.children[child][0], $.extend({}, c.restrictions, r, R), this, child)
+                                var sprout = new branch(c.children[child][0], $.extend({}, c.restrictions, R), this, child)
                                 if (typeOf(sprout) == 'array')
                                     { tempchildren = tempchildren.concat(sprout) }
                                 else
@@ -388,10 +388,13 @@ function get(r){
     if(!'name'.in(word))
         return {text: error("No word could be get'd with the following restrictions: "+JSON.stringify(r))}
 
+    //add existing restrictions to the word
     word = $.extend({},r,word)
 
+    //inflect the word
     if(!r.noinflection) inflect(word,r)
 
+    //record this word so it isn't overused within the same sentence
     if (r.type == 'noun' || r.type == 'adjective') recentlyUsed.push(word.name)
 
     return word
@@ -557,7 +560,7 @@ function stringOut(c){
                 var furtherIn = stringOut(c.children[a])
 
                 //if (!furtherIn) {} //error("There was no child '"+a+"' to render.")
-                return furtherIn===undefined ? '???' : furtherIn
+                return furtherIn===undefined ? '[???]' : furtherIn
             }
 
         })
@@ -657,4 +660,15 @@ new_r[pdgms[p]] = r[pdgms[p]] || 'qweqwrqewt'
     })
 
     return out_r
+}
+
+//clear out all possible troublesome proporties from a restriction object
+function safe(r){
+    rr = $.extend({}, r)
+    delete rr.prohibitions
+    delete rr.inflections
+    delete rr.name
+    delete rr.prohibitions
+    delete rr.complements
+    return rr
 }

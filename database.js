@@ -93,5 +93,5 @@ var probabilities = {
     //verby
     tense: [3, 'pres', 6, 'past', 1, 'fut'],
     aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog'],
-    neg: [1, false, 1, true]
+    neg: [5, false, 1, true]
 }

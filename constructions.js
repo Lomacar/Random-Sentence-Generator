@@ -1,9 +1,9 @@
 function SENTENCE(){
     recentlyUsed = [] //keep track of recently used words so you don't sound dumb repeating yourself
-    return choose(3, [CLAUSE2], 0, [COPULA])
+    return choose(3, [CLAUSE], 0, [COPULA])
 }
 
-function CLAUSE(){   
+/*function CLAUSE(){
     return {
         order: "subject predicate",
         head: "predicate",
@@ -13,9 +13,9 @@ function CLAUSE(){
             //object: [NP, {exist: 'nucleus.trans', anim: 'nucleus.anim2', case: 'acc', number: '', person: '', name:'!subject.name'}]
         },
         restrictions: decide({}, "number,person,aspect,tense")
-    }}
+    }}*/
 
-function CLAUSE2(r){
+function CLAUSE(r){
     decide(r, "number,person,aspect,tense")
 
     return {
@@ -57,8 +57,8 @@ function NP(r) {
                                     true: [get, {type: 'noun',proper: true}],
                                     false: [DP]
                                 }),
-                            //
-                            //pl: [DP, {number:'sg'}]
+
+                            pl: [DP, {number:'sg'}]
                     })
                 )
             })
@@ -74,7 +74,7 @@ function DP(r){
             det: [DET, 'noun.head']
         },
         postlogic:function(text){
-            return text.replace(/\ba +([aeio])/g, "an $1")
+            return text.replace(/\ba +([aeiou])/g, "an $1")
         }
     }
 }
@@ -119,7 +119,7 @@ function PRONOUN(r) {
     r.anim = r.person < 3 ? 3 : decide(r, 'anim') //not sure if this is actually the right way to handle this
     r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
 
-    var word = $.extend(r, //problem with jerry-rigging a construction is you have to manually do stuff like this
+    var word = $.extend(r,
                     {type:'pronoun',
                      inflections:"nom.sg.1:I, 2:you, sg.3:it, nom.sg.3.m:he, nom.sg.3.f:she," +
                                  " nom.pl.1:we, nom.pl.3:they, acc.sg.1:me, acc.sg.3.m: him," +
@@ -137,7 +137,7 @@ function AP(r) {
         children: {
             adv: [blank],
             a: [A],
-            comp: [complement, {'case': 'acc','complements': 'a.complements','reset':true}]
+            comp: [complement, {'case': 'acc','complements': 'a.complements', 'nocomplement': r.nocomplement, reset:true}]
         }
     }
 }
@@ -147,14 +147,14 @@ function A(r){
 }
 
 function VP(r){
-    decide(r, "number,person")
+    decide(r, "tense,aspect,number,person")
 
     return {
         order: "aux word",
         head: "aux",
         children: {
             aux:  [auxiliary2],
-            word: [V, {'tense': 'aux.tense','aspect': 'aux.next_aspect','noinflection': 'aux.noinflection'}]
+            word: [V, $.extend(safe(r), {unpack: 'aux.tense-aspect-noinflection', reverse: true}, {'tense': 'aux.tense','aspect': 'aux.aspect','noinflection': 'aux.noinflection'})]
         }
     }
 }
@@ -238,7 +238,7 @@ function auxiliary2(r){
 
     //future tense and modals
     if(r.tense=="fut") text = last_bit = "will"
-    else text = ( last_bit = choose(1,"would",1,"could",1,"should",1,"might",1,"must",6,"") )
+    else text = ( last_bit = choose(1,"would",1,"could",1,"should",1,"might",1,"must",8,"") )
     wellthen()
 
     //retro
@@ -262,7 +262,7 @@ function auxiliary2(r){
         r2.noinflection = true
     }
 
-    return $.extend(r, {'text': text, 'noinflection': r2.noinflection, 'next_aspect': r2.aspect})
+    return $.extend(r, {'text': text, 'noinflection': r2.noinflection, 'aspect': r2.aspect})
 }
 
 //s inflection on verbs

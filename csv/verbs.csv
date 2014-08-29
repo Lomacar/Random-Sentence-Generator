@@ -21,7 +21,7 @@ think,,3,<9,activity,1,0," 0.6, about NP","simp.past:thought, retro:thought"
 think1,think,,,state,,0,"1, that CLAUSE",
 imagine,think1,,,,,,, 
 kill,,!0,!0,event,1,0,"1, NP{anim:>2}",
-know,,>1,!0,state,1,0,"0.2, how to VP{tense: pres; aspect: simp; person: 1}, 0.5, that CLAUSE, 0.3, about NP","simp.past:knew, retro:known"
+know,,>1,!0,state,1,0,"0.2, how to V{noinflection: true}, 0.5, that CLAUSE, 0.3, about NP","simp.past:knew, retro:known"
 melt,,<2,!0,process,,0,,
 miss,,>1,!0,state,,0,"1, NP{anim:>0}",
 read,,3,<9,process,1,0,"1, NP{tags:readable; anim:<2}","simp.past:read, retro:read"
