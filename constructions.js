@@ -154,7 +154,7 @@ function VP(r){
         head: "aux",
         children: {
             aux:  [auxiliary2],
-            word: [V, $.extend(safe(r), {unpack: 'aux.tense-aspect-noinflection', reverse: true}, {'tense': 'aux.tense','aspect': 'aux.aspect','noinflection': 'aux.noinflection'})]
+            word: [V, $.extend(safe(r), {unpack: 'aux.tense-aspect-noinflection', reverse: true})]
         }
     }
 }

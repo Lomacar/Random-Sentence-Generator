@@ -104,8 +104,8 @@ function branch(c, r, p, l){
                                         return a[sortby] - b[sortby]
                                     } else {
                                         //items being sorted do not have property, such as when sorting phrases
-                                        //property must exist on the head or grandhead etc.
-                                        return propertySearch(a,sortby)[sortby] - propertySearch(b,sortby)[sortby]
+                                        //property must exist on the head or grandchildhead etc.
+                                        return propertySearch2(a,sortby) - propertySearch2(b,sortby)
                                     }
                                 })
                             }
@@ -128,110 +128,88 @@ function branch(c, r, p, l){
         if (typeof restrictions==='undefined') return;
         if (isEmpty(restrictions)) return restrictions;
 
-        var obj_to_search //these two variables are needed for the error messages
-        var prop_to_search
-
         //strings can be passed as restrictions. they are expected to eval to just an object, no property
         if (typeof restrictions==='string') {
-
-            //if restriction string is like 'some.thing'
-            if (restrictions.match(/^\w+\.\w+$/)){
-                var obj = objectSearch(restrictions, this)
-                obj_to_search = restrictions.split('.')[0]
-                if(!obj) {
-                    console.warn('Object "'+obj_to_search.label+'" could not be found from "'+this.label+'".')
-                    return
-                }
-                var prop = restrictions.split('.')[1]
-
-                if(!prop.in(obj)){
-                    obj = propertySearch(obj, prop)
-                    if (!obj){
-                        console.warn('Property "'+prop+'" under object "'+obj_to_search.label+'" could not be found from "'+this.label+'".')
-                        return
-                    }
-                }
-                restrictions = obj[prop]
-            } else if (restrictions.in(this.children)) {
-
-                return this.children[restrictions]
-
-            } else {
-                if ('parent'.in(this)){
-                    var path = restrictions.match("parent.children") ? restrictions.replace("parent.", "parent.parent.") : "this.parent.children."+restrictions
-                    restrictions = this.parseRestrictions(path)
-                }else{
-                    console.warn('Object "'+restrictions+'" could not be found from "'+this.label+'".')
-                    return
-                }
-            }
+            return parseSingleRestriction(restrictions, this, true) || {}
         }
 
-        //TODO: Use these variables!
-        var last_obj //this caches the last object found so that you don't have to recursively search every time
-        var last_obj_str //this is the string to make the actually comparison
-
-        var special
-
         //if restrictions is an object (usually), parse the string values of each element
-        for(var r in restrictions){
-            if(typeof restrictions[r] === 'object' || typeof restrictions[r] === 'function'){
-                //we don't allow objects or other crazy nonsense inside the restrictions object
-                delete restrictions[r]
-                continue
-            }
-            if(typeof restrictions[r] != 'string') continue //numbers could make it up to this point
+        var that = this
+        var out_restrictions = {}
 
+        $.each(restrictions, function(r){
 
-            //expand "object.property" to property value
-            if(restrictions[r].match(/^\w+\.\w+$/)) {
+            //parse normal restrictions (besides 'unpack') and merge them into the output
+            var arrr = parseSingleRestriction(restrictions[r], that)
+            if (arrr===null) error(r + " evaluated to null in " + that.label)
+            else if (typeOf(arrr)=='object') $.extend( out_restrictions, arrr )
+            else if (arrr===true) out_restrictions[r] = restrictions[r] //plain strings and numbers
 
-                /*//remove special notation like ! from the beginning of strings that are supposed to be "object.property"
-                if ((special = restrictions[r].match(/^[^A-Za-z]+/g)) != null){
-                    special = special[0];
-                    restrictions[r] = restrictions[r].slice(restrictions[r].search(/[A-Za-z]+/g));
-                } else {special = ''}*/ special = ''
+        }) //end each restriction
 
-                //if obj can't be found among siblings recurse to uncles, great-uncles...
-                obj = objectSearch(restrictions[r], this)
-                //prop is just the string after the dot
-                prop = prop_to_search = restrictions[r].split('.')[1]
-                obj_to_search = restrictions[r].split('.')[0]
+        return out_restrictions
 
-                //if an object was found
-                if(obj){
-                    //if that object has the property, congratulations
-                    if(prop.in(obj)){
-                        restrictions[r] = special.length ? special + obj[prop] : obj[prop]
-                    }else{//if no property found you sadly must search down through all the sub-heads of the found object
-                        obj = propertySearch(obj, prop)
-                        if (obj) { //if an object with prop was finally found, congratulations!
-                            restrictions[r] = special + obj[prop]
-                        }	else { //admit defeat
-                            console.warn('Property "'+prop_to_search+'" under object "'+obj_to_search+'" could not be found for "'+r+'" from "'+this.label+'".')
-                            delete restrictions[r] //remove this pesky restriction
-                            continue
-                        }
-                    }
-                } else {
-                    console.warn('Object "'+obj_to_search.label+'" could not be found for "'+r+'" from "'+this.label+'".')
-                    delete restrictions[r] //remove this pesky restriction
-                    continue
-                }
+    } //end parseRestrictions
 
-                /*if (special.length){ //this was an already expanded restriction, re-attach special notation if applicable
-                    restrictions[r] = special + restrictions[r]
-                }*/
-            }
+} //end branch
 
-            if (r=='exist' && !restrictions[r]) return "LEAVE"
-                }
-        return restrictions
+function parseSingleRestriction(s, context, expandPlainStrings){
+    //type check
+    if(typeof s === 'object' || typeof s === 'function'){
+        //we don't allow objects or other crazy nonsense inside the restrictions object
+        return false
+    }
+    if(typeof s != 'string') return true //numbers could make it up to this point
+
+    //expand "object.property(-property)(,obj.property)" to {property:value}
+    if(/^\w+\.(\w+(-\w+)*)(,\w+\.(\w+(-\w+)*))*$/.test(s)) {
+
+        //split comma separated values and parse each one
+        if(s.findChar(",")) {
+            var multi =  s.split(",").map(function(x){
+                return parseSingleRestriction(x)
+            })
+            //collapse array of objects down to one
+            multi = _.reduce( _.compact(multi), function(a,b){ return _.extend(a,b) } )
+            return multi
+        }
+
+        //split 'object.property'
+        var obj_prop = s.split('.')
+        var obj = objectSearch2(obj_prop[0],context)
+        var prop = obj_prop[1]
+
+        if (prop.findChar('-')){
+
+            //parse properties that are like anim-class-thing
+            var props = prop.split('-')
+            props = props.map(function(x){
+                //get the {property:value} for each x under obj
+                var p = propertySearch2(obj,x)
+                var out = {}
+                out[x] = p
+                return out
+            })
+            return _.reduce( _.compact(props) , function(a,b){ return _.extend(a,b) } )
+
+        } else {
+            //parse simple properties
+            var found = propertySearch2(obj,prop)
+            if (typeOf(found) == 'object') return found
+            var out = {}
+            out[prop] = found
+            return out
+        }
     }
 
+    //restriction has no dots or dashes
+    if (expandPlainStrings) return objectSearch2(s, context) // it is either asking for an object
+    else return true
 }
 
-//processing of special instruction characters in
+
+
+/*//processing of special instruction characters in
 function r_special(r){
     matcha = '!@~<>='.match(/[@~$&#!<>=]/g)[0];
 
@@ -244,7 +222,10 @@ function r_special(r){
     }
 
     return matcha
-}
+}*/
+
+
+
 
 /*-------------------------------------   INFLECT -------------------------------------*/
 
@@ -501,24 +482,57 @@ function prohibited(testee,prohibs){
 
 /*-------------------------------------   BRANCH NAVIGATION   -------------------------------------*/
 
-function objectSearch(start, context){
-    //break obj.prop into array
-    var obj = start.split('.')[0]
-    //if obj can't be found among siblings recurse to uncles, great-uncles...
-    return obj.in(context.children) ? context.children[obj] : context.parseRestrictions(obj)
+//function objectSearch(start, context){
+//    //break obj.prop into array
+//    var obj = start.split('.')[0]
+//    //if obj can't be found among siblings recurse to uncles, great-uncles...
+//    return obj.in(context.children) ? context.children[obj] : context.parseRestrictions(obj)
+//}
+
+function objectSearch2(what, context){
+    if (!context) {
+        error("Object search failed for "+what)
+        return null
+    }
+    if (!context.children) {
+        if (!context.parent) {
+            error("Object search failed for "+what)
+            return null
+        }
+        else {
+            return objectSearch2(what, context.parent)
+        }
+    }
+    return what.in(context.children) ? context.children[what] : objectSearch2(what, context.parent)
 }
 
-function propertySearch(object, property){
-    //if the search is being done we automatically assume the passed in object doesn't have the property
-    if('head'.in(object)){
-        if(property.in(object.head))
-            return object.head
-        else
-            return propertySearch(object.head, property)
-    }	else {
-        return false
+function propertySearch2(object, property) {
+    if (typeOf(object)!=='object') {
+        error("Invalid object passed to propertySearch.")
+        return null
+    }
+
+    if (property.in(object)) return object[property]
+
+    if ('head'.in(object)) {
+        return propertySearch2(object.head, property)
+    } else {
+        error("Property search failed for " + property)
+        return null
     }
 }
+
+//function propertySearch(object, property){
+//    //if the search is being done we automatically assume the passed in object doesn't have the property
+//    if('head'.in(object)){
+//        if(property.in(object.head))
+//            return object.head
+//        else
+//            return propertySearch(object.head, property)
+//    }	else {
+//        return false
+//    }
+//}
 
 
 /*-------------------------------------   OUTPUT -------------------------------------*/

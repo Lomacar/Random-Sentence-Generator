@@ -1,6 +1,6 @@
 SPECIAL INSTRUCTIONS FOR RESTRICTION OBJECTS
 
-exist: if false this branch will return ""
+//exist: if false this branch will return ""
 
 reset: used for complements, blocks all upstream restrictions 
 
