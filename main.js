@@ -20,15 +20,15 @@ function branch(c, r, p, l){
             //some constructions just reroute to other constructions
             c = c[0]( $.extend({}, r, c[1]) )
 
-        } else if ("children".in(c[0])) {
+        } else if ("children".in(c[0]) || "text".in(c[0])) {
 
-            //here we are dealing with a complement which provides an array of one or more fake branches
-            //so we run the branch processing on each branch and return the processed array
+            //here we are dealing with a complement which provides an array of one or more pseudo-branches
+            //so we run the branch processing on each "branch" and return the processed array
             //but a copy of each branch must be made because executeBranch expects a real branch for context
             //and the return value of a construction function for its first argument
             var multi = []
             for (var cx in c ) {
-                multi[cx] = $.extend({},c[cx])
+                multi[cx] = _.clone(c[cx])
                 executeBranch.apply( multi[cx],  [c[cx], {}, this, c[cx].head] )
             }
             return multi
@@ -45,9 +45,13 @@ function branch(c, r, p, l){
             this[prop] = c[prop];
     }
 
-    //words need a text property
+    //this is probably a word
     if(!"children".in(c)) {
+        //words need a text property
         if(!"text".in(c)) this.text = c.inflected || c.name
+
+        //create a happy package of all the important restrictions on this word, for grabbing from elsewhere
+        this.R = safe(this)
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,9 +143,9 @@ function branch(c, r, p, l){
 
         $.each(restrictions, function(r){
 
-            //parse normal restrictions (besides 'unpack') and merge them into the output
-            var arrr = parseSingleRestriction(restrictions[r], that)
-            if (arrr===null) error(r + " evaluated to null in " + that.label)
+            var expando = r=='unpack' ? true : false //this allows entire words to be unpacked in the restrictions
+            var arrr = parseSingleRestriction(restrictions[r], that, expando)
+            if (arrr===null) console.warn(r + " evaluated to null in " + that.label)
             else if (typeOf(arrr)=='object') $.extend( out_restrictions, arrr )
             else if (arrr===true) out_restrictions[r] = restrictions[r] //plain strings and numbers
 
@@ -328,7 +332,10 @@ function complement(r){
 //take string complement description, return complement construction object
 function parseComplement(complement, r){
 
-    var c = complement.match(/\b[A-Z]+\w*({.+})*/g)[0] //for now we assume there is only one
+    var c = complement.match(/\b[A-Z]+\w*({.+})*/g)
+
+    if(c) c = c[0] //for now we assume there is only one construction per complement
+    else return {text: complement} //this must be a simple word complement like fall _down_
 
     var func = c.match(/[A-Z]+\w*/)[0]
 
@@ -362,12 +369,12 @@ function parseComplement(complement, r){
 
 //selects a word from the database that matches the given restrictions
 function get(r){
-    if(r.type==undefined) error("Word type not specified for get function.")
+    if(r.type==undefined) console.warn("Word type not specified for get function.")
 
-    var word = pickOne(database[r.type], r) || false/*$.extend({}, r, pickOne(database[r.type]), r )*/ || false
+    var word = pickOne(database[r.type], r) || false
 
     if(!'name'.in(word))
-        return {text: error("No word could be get'd with the following restrictions: "+JSON.stringify(r))}
+        return {text: console.warn("No word could be get'd with the following restrictions: "+JSON.stringify(r))}
 
     //add existing restrictions to the word
     word = $.extend({},r,word)
@@ -491,12 +498,12 @@ function prohibited(testee,prohibs){
 
 function objectSearch2(what, context){
     if (!context) {
-        error("Object search failed for "+what)
+        console.warn("Object search failed for "+what)
         return null
     }
     if (!context.children) {
         if (!context.parent) {
-            error("Object search failed for "+what)
+            console.warn("Object search failed for "+what)
             return null
         }
         else {
@@ -508,7 +515,7 @@ function objectSearch2(what, context){
 
 function propertySearch2(object, property) {
     if (typeOf(object)!=='object') {
-        error("Invalid object passed to propertySearch.")
+        console.warn("Invalid object passed to propertySearch.")
         return null
     }
 
@@ -517,7 +524,7 @@ function propertySearch2(object, property) {
     if ('head'.in(object)) {
         return propertySearch2(object.head, property)
     } else {
-        error("Property search failed for " + property)
+        console.warn("Property search failed for " + property)
         return null
     }
 }
@@ -597,12 +604,12 @@ function stringOut(c){
 
 function route(r, choices){
     if (typeof r==='undefined') {
-        error('Undefined selector for route function.')
+        console.warn('Undefined selector for route function.')
         return pickOne(choices)
     }
 
     if (r==='' || r===null) {
-        error('Empty selector for route function.')
+        console.warn('Empty selector for route function.')
         return pickOne(choices)
     }
 
@@ -670,19 +677,30 @@ new_r[pdgms[p]] = r[pdgms[p]] || 'qweqwrqewt'
 
     $.each(pdgms, function (index, value){
         out_r[value] = r[value] || choose(probabilities[value])
-        if (r[value]===undefined) error("No probability defined for '"+value+"'.")
+        if (out_r[value]===undefined) console.warn("No probability defined for '"+value+"'.")
     })
 
     return out_r
 }
 
-//clear out all possible troublesome proporties from a restriction object
+//clear out all possible troublesome properties from a restriction object
 function safe(r){
-    rr = $.extend({}, r)
-    delete rr.prohibitions
-    delete rr.inflections
+    var rr = _.clone(r)
     delete rr.name
+    delete rr.proto
     delete rr.prohibitions
     delete rr.complements
+    delete rr.inflections
+
+    delete rr.inflected
+    delete rr.type
+
+    delete rr.label
+    delete rr.text
+
+    rr = _.omit(rr, function(x){
+        return typeof x == 'object' || typeof x == 'function'
+    })
+
     return rr
 }

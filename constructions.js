@@ -23,8 +23,7 @@ function CLAUSE(r){
         head: "subject",
         children: {
             subject: [NP, {case: 'nom'}],
-            predicate: [VP, {copulant: false, number: 'subject.number', tang: 'subject.tang',
-                             person: 'subject.person', anim: 'subject.anim', reverse: true}]
+            predicate: [VP, {copulant: false, unpack: "subject.R", reverse: true}]
         },
         //restrictions: decide({}, "number,person,aspect,tense")
     }}
@@ -153,8 +152,8 @@ function VP(r){
         order: "aux word",
         head: "aux",
         children: {
-            aux:  [auxiliary2],
-            word: [V, $.extend(safe(r), {unpack: 'aux.tense-aspect-noinflection', reverse: true})]
+            aux:  [auxiliary],
+            word: [V, _.extend(r, {unpack: 'aux.tense-aspect-noinflection', reverse: true})]
         }
     }
 }
@@ -168,7 +167,7 @@ function V(r) {
             asp:  [aspect, 'verb'],
             tns:  [tense, 'verb'],
             num:  [vNum, 'verb'],
-            comp: [complement, {'case':'acc','complements': 'verb.complements','reset': true}]
+            comp: [complement, {'case':'acc','complements': 'verb.complements'}]
         },
         postlogic: verb_cleanup
     }
@@ -196,31 +195,11 @@ function tense(r){
         })
     }}
 
-//verb auxiliaries for tense/aspect
 function auxiliary(r){
-    return {
-        text: route(r.tense, {fut: "will "})
-        +
-        route(r.aspect,{
-            retro: route(r.tense, {past: "had",	pres: route(r.person+r.number, {'3sg': "has", rest: "have"}), fut: "have"}),
-            prog: route(r.tense, {
-                past: get({
-                    type:'verb', name:'be', aspect: 'simp', tense: 'past', person: r.person, number: r.number,
-                }).inflected,
-                pres: get({
-                    type:'verb', name:'be', aspect: 'simp', tense: 'pres', person: r.person, number: r.number,
-                }).inflected,
-                fut: "be"}),
-            retroprog: route(r.tense, {past: "had been",	pres: route(r.person+r.number, {'3sg': "has been", rest: "have been"}), fut: "have been"})
-        })
-    }
-}
-
-function auxiliary2(r){
     var text = ""
     var last_bit = ""
     r = decide(r,"neg,tense,aspect,number,person", true)
-    var r2 = $.extend({}, r)
+    var r2 = _.clone(r)
     r2.aspect = 'simp'
 
     function wellthen(aspect){

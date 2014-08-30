@@ -79,7 +79,7 @@ var prohibitions = {
 //default probabilities for paradigms (used by "decide()")
 var probabilities = {
     //general
-    anim: [3,0, 3,1, 5,2, 5,3],
+    anim: [1,0, 2,1, 5,2, 5,3],
     tang: [1,0, 1,1, 2,2],
 
     //nounish

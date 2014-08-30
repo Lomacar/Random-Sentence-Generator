@@ -12,7 +12,7 @@ die,,>1,!0,process,0,0,,"prog:dying,retroprog:dying"
 erupt,,!0,!0,activity,0,0,,
 exist,,<9,<9,state,,0,,
 feel,be,>1,,activity,,0,"1,AP","simp.past:felt, retro:felt"
-fight,,>1,!0,activity,,0,,"simp.past:fought, retro:fought"
+fight,,>1,!0,activity,,0,"0.3, NP{anim:>1},0.3, with NP{anim:>1}","simp.past:fought, retro:fought"
 find,,>1,!0,event,,0,"1, NP{anim:>0}","simp.past:found, retro:found"
 give,,3,!0,event,1,0,"0.5, DP{anim:<3;tang:2}/to NP{anim:3}, 0.5, NP{anim:3}/ DP{anim:<3;tang:2}","simp.past:gave, retro:given"
 go,,>1,!0,process,1,0,"1, to NP{number:sg; tags: place }","simp.pres.sg.3:goes, simp.past:went, retro: gone"
@@ -20,9 +20,9 @@ have,,>0,!0,state,1,0,"1, DP{anim: <3; tang:0|2}","simp.past:had, simp.pres.sg.3
 think,,3,<9,activity,1,0," 0.6, about NP","simp.past:thought, retro:thought"
 think1,think,,,state,,0,"1, that CLAUSE",
 imagine,think1,,,,,,, 
-kill,,!0,!0,event,1,0,"1, NP{anim:>2}",
-know,,>1,!0,state,1,0,"0.2, how to V{noinflection: true}, 0.5, that CLAUSE, 0.3, about NP","simp.past:knew, retro:known"
-melt,,<2,!0,process,,0,,
+kill,,!0,!0,event,1,0,"1, NP{anim:>1}",
+know,,>1,!0,state,1,0,"0.2, how to V{noinflection: true; anim: >1}, 0.5, that CLAUSE, 0.3, about NP","simp.past:knew, retro:known"
+melt,,<2,2,process,,0,,
 miss,,>1,!0,state,,0,"1, NP{anim:>0}",
 read,,3,<9,process,1,0,"1, NP{tags:readable; anim:<2}","simp.past:read, retro:read"
 search,,>1,!0,activity,,0,"1, for NP{anim:>0}",
@@ -44,3 +44,5 @@ eat1,eat,,,process,1,0,"1, NP{tang:2}",
 test,,3,<9,process,,0,"1,NP",
 like,,2|3,<9,state,1,0,"0.5, NP, 0.5, GP",
 do,,3,<9,activity,,,,"simp.pres.sg.3:does, simp.past:did, retro: done"
+fall,,0,2,event,,0,"0.3,down,0.3,over","simp.past:fell, retro:fallen"
+yell,,3,2,activity,,0,"0.6, at NP{tang: >0; anim: >0}",

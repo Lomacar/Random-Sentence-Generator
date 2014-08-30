@@ -1,7 +1,7 @@
 name,proto,proper,anim,tang,gender,count,count2,tags,inflections,prohibitions
 apocalypse,,FALSE,0,1,,,,event,,"def:false,number:pl"
 Aunt Jemima,Jenny,,,,,,,,,
-bee,,FALSE,1,2,,,,,,
+bee,dog,,,,,,,,,
 belly,,FALSE,0,2,,,,,,
 book,,FALSE,0,2,,,,readable,,
 category,,FALSE,0,0,,,,,,
@@ -9,7 +9,7 @@ child,doctor,,,,,,,,pl:children,
 color,,FALSE,0,1,,,,,,
 communist,,FALSE,3,2,,,,,,
 company,,FALSE,3,1,,,,,,
-dinosaur,,FALSE,2,2,,,,,,
+dinosaur,dog,,,,,,,,,
 dirt,,FALSE,0,2,,,,,,number:pl
 Fido,,TRUE,2,2,m,,,animal,,
 house,,FALSE,0,2,,,,place,,
@@ -35,7 +35,7 @@ the Illuminati,the Canucks,,,,,,,,,
 the Taj Mahal,,TRUE,0,2,,,,place,,
 toy,,FALSE,0,2,,,,,,
 wind,,FALSE,1,1,,,,,,number:pl
-wolf,,FALSE,2,2,,,,,pl:wolves,
+wolf,dog,,,,,,,,pl:wolves,
 zombie,,FALSE,2,2,,,,,,
 storm,,FALSE,1,2,,,,weather,,
 weather,,FALSE,1,0,,,,weather,,number:pl
@@ -47,3 +47,11 @@ Godzilla,Jack,,2,,,,,,,
 Christmas,,TRUE,0,0,,,,,,
 doctor,,FALSE,3,2,,,,,,
 person,doctor,,,,,,,,pl:people,
+llama,dog,,,,,,,,,
+dog,,FALSE,2,2,,,,,,
+janitor,person,,,,,,,,,
+wookie,person,,,,,,,,,
+carpet,,FALSE,0,2,,,,,,
+computer,,FALSE,0,2,,,,,,
+sky,,FALSE,0,1,,,,,,"def:false,number:pl"
+ghost,,FALSE,3,1,,,,,,
