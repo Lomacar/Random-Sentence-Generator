@@ -69,7 +69,7 @@
 
         var start2 = new Date().getTime()
 
-        loopy(300);
+        loopy(getQueryVariable('howmany') || 50);
 
         var end = new Date().getTime();
         console.log(end-start);
