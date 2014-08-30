@@ -44,7 +44,7 @@ function toArray(obj,keyval){
 function toObject(str){
 	if(typeof str=='string'){
 		if(!/:/.test(str)){
-			error("Improper string passed to toObject. ':' is required.")
+			console.warn("Improper string passed to toObject. ':' is required.")
 			return
 		}
 		var obj = {}
@@ -59,6 +59,13 @@ function toObject(str){
 		return obj
 	} else {return str}
 }
+
+//safely converts values to numbers or boolean if that is what they are
+function toNumBool(val){
+    if (typeof val == 'string' && /^(-?[0-9.]+|false|true)$/i.test(val)) val = JSON.parse(val.toLowerCase())
+    return val
+}
+
 
 //removes properties from an object that are empty strings or null
 function prune(obj){

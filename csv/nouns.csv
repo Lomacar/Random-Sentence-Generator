@@ -1,5 +1,5 @@
 name,proto,proper,anim,tang,gender,count,count2,tags,inflections,prohibitions
-apocalypse,,FALSE,0,1,,1,,event,,
+apocalypse,,FALSE,0,1,,1,,event,,def:false
 Aunt Jemima,Jenny,,,,,,,,,
 bee,dog,,,,,,,,,
 belly,,FALSE,0,2,,2,,,,
@@ -10,7 +10,7 @@ color,,FALSE,0,1,,"0,2",,,,
 communist,,FALSE,3,2,,2,,,,
 company,,FALSE,3,1,,2,,,,
 dinosaur,dog,,,,,,,,,
-dirt,,FALSE,0,2,,0,,,,number:pl
+dirt,,FALSE,0,2,,0,,,,
 Fido,,TRUE,2,2,m,2,,animal,,
 house,,FALSE,0,2,,2,,place,,
 idea,,FALSE,0,0,,2,,,,
@@ -29,16 +29,16 @@ sensation,,FALSE,0,1,,"0,2",,,,
 snowman,,FALSE,"0,3",2,,2,,,pl:snowmen,
 Spaniard,doctor,,,,,,,,,
 the Borg,the Canucks,,2,,,,,,,
-the Canucks,,TRUE,3,1,,1,,,,"number:sg,proper:"
+the Canucks,,TRUE,3,1,,2,,,,"number:sg,proper:"
 the Harlem Globetrotters,the Canucks,,,,,,,,,
 the Illuminati,the Canucks,,,,,,,,,
 the Taj Mahal,,TRUE,0,2,,1,,place,,
 toy,,FALSE,0,2,,2,,,,
-wind,,FALSE,1,1,,0,,,,number:pl
+wind,,FALSE,1,1,,0,,,,
 wolf,dog,,,,,,,,pl:wolves,
 zombie,,FALSE,2,2,,2,,,,
 storm,,FALSE,1,2,,2,,weather,,
-weather,,FALSE,1,0,,0,,weather,,
+weather,,FALSE,1,0,,0,,weather,,def:false
 truth,,FALSE,0,0,,1,,,,
 Mr. Magoo ,Jack,,,,,,,,,
 Jenny,,TRUE,3,2,f,1,,,,
@@ -53,5 +53,5 @@ janitor,person,,,,,2,,,,
 wookie,person,,,,,2,,,,
 carpet,,FALSE,0,2,,"0,2",,,,
 computer,,FALSE,0,2,,2,,,,
-sky,,FALSE,0,1,,1,,,,"def:false,number:pl"
+sky,,FALSE,0,1,,1,,,,def:false
 ghost,,FALSE,3,1,,2,,,,

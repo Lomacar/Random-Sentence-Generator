@@ -31,7 +31,7 @@ function loadLexicon(type){
 
             $.each(a, function(b,val){
                 //turn numbers and boolean into the real things
-                if (/^(-?[0-9.]+|false|true)$/i.test(val)) a[b] = JSON.parse(val.toLowerCase())
+                a[b] = toNumBool(val)
             })
 
             if (a.proto) {
@@ -75,9 +75,6 @@ var prohibitions = {
         pl: {proper: true, count: '0,1'},
         //sg: {proper: true, anim: 3} //JUST A TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!
     },
-    def: {
-        false: {count: '0,1'}
-    }
 
 }
 

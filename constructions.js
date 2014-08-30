@@ -44,31 +44,21 @@ function COPULA(){
 }
 
 function NP(r) {
-    r = decide(r, "person,proper,number")
+    r = decide(r, "person")
 
     return route(r.person, {
                 rest: [PRONOUN],
-                3: choose(
-                    1, [PRONOUN],
-                    4, route(r.number, {
-                            rest: route(r.proper, {
-                                    true: [get, {type: 'noun',proper: true}],
-                                    false: [DP]
-                                }),
-
-                            pl: [DP, {number:'sg'}]
-                    })
-                )
+                3: choose(1, [PRONOUN], 4, [DP])
             })
 }
 
 function DP(r){
     return {
-        order : "det adj noun",
+        order : "det adj* noun",
         head : "noun",
         children: {
-            noun: [N, {proper: false}],
-            adj: [AP, {anim:'noun.anim', reverse: true, nocomplement: true}, 0.3, 'rank'],
+            noun: [N],
+            //adj: [AP, {exist: 'noun.proper', anim:'noun.anim', reverse: true, nocomplement: true}, 0.3, 'rank'],
             det: [DET, 'noun.head']
         },
         postlogic:function(text){
@@ -79,15 +69,23 @@ function DP(r){
 
 function DET(r){
 
+    if(r.proper) return {text: ''}
+
     r = decide( r, "number,def" )
 
     return {
         text: route(r.def,{
             true: "the",
             false: route(r.number,{
-                sg: "a", pl: choose(1,"some",1,"")
+                sg: route(r.count, {
+                        0: choose(1,"some",1,""),
+                        1: '',
+                        2: "a"
+                    }),
+                pl: choose(1,"some",1,"")
             })
         })
+
     }
 }
 
@@ -175,7 +173,7 @@ function V(r) {
 //verb aspect morphology
 function aspect(r){
     return {
-        text: route(goodVal(r.inflected) || r.noinflection, {
+        text: route(goodVal(r.inflected) || !!r.noinflection, {
             false: route(r.aspect,{
                 prog: "ing",
                 retroprog: "ing"
@@ -186,7 +184,7 @@ function aspect(r){
 //verb tense morphology
 function tense(r){
     return {
-        text: route(goodVal(r.inflected) || r.noinflection, {
+        text: route(goodVal(r.inflected) || !!r.noinflection, {
             false: route(r.aspect,{
                 simp: route(r.tense, {past: "ed"}),
                 retro: "ed"

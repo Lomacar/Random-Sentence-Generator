@@ -82,7 +82,7 @@ function branch(c, r, p, l){
 
                         else {
                             //if a restriction reset has been requested, clear everything accept nocomplement
-                            if (c.children[child][1] && c.children[child][1].reset) r = {nocomplement: r.nocomplement}
+//                            if (c.children[child][1] && c.children[child][1].reset) r = {nocomplement: r.nocomplement}
 
                             var probability = c.children[child][2] || 1 //if children have a probability of occurence
                             var tempchildren = []
@@ -174,7 +174,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
                 return parseSingleRestriction(x)
             })
             //collapse array of objects down to one
-            multi = _.reduce( _.compact(multi), function(a,b){ return $.extend(a,b) } )
+            multi = $.extend.apply( this, _.compact(multi) )
             return multi
         }
 
@@ -194,7 +194,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
                 out[x] = p
                 return out
             })
-            return _.reduce( _.compact(props) , function(a,b){ return $.extend(a,b) } )
+            return $.extend.apply( this, _.compact(props) )
 
         } else {
             //parse simple properties
@@ -238,11 +238,6 @@ function r_special(r){
 function inflect(word, r){
     word.inflections = word.inflections||""
 
-    if(!"inflections".in(word)) {
-        word.inflected = ""
-        return
-    }
-
 
     r = r || {}
     var query = []
@@ -250,24 +245,26 @@ function inflect(word, r){
     var pdigms = $.extend(true,{}, paradigms[word.type])
     //word level prohibitions
     var prohib = word.prohibitions
+    prohib = prohib ? toObject(prohib) : null
 
     for(var para in pdigms){
 
         //remove prohibited categories from paradigm
-        for(var cg=pdigms[para].length-1; cg>=0; cg--){
-            //word level prohibitions
-            if(prohib!==undefined){
-                prohib = prohib.replace(/ /g, '')
-                var regex = '(^|,)'+para+':'+ pdigms[para][cg]+'($|,)'
-                if (prohib.match(new RegExp(regex, "i"))) pdigms[para].splice(cg,1)
-                    }
-            //universal prohibitions
-            var prohibz = prohibitions.descend( para, pdigms[para][cg])
-            if(prohibz!==undefined){
-                for(var p in prohibz){
-                    if(magicCompare(word.descend(p), prohibz[p])) pdigms[para].splice(cg,1)
-                }
-            }
+        for (var cg = pdigms[para].length - 1; cg >= 0; cg--) {
+
+            var cat = pdigms[para][cg]
+            var uni = prohibitions.descend(para, cat)
+
+            //merge universal and word-level prohibitions
+            var prohibz = $.extend({}, uni, prohib)
+            var phb = prohibz[para] ? toNumBool(prohibz[para]) : null
+
+            //create modified word for collision detection
+            var wrd = _.extend({}, word, prohib) //if prohibs specify a word property they get to overwrite/mask that word prop
+
+            if( (goodVal(phb) && magicCompare(phb,cat)) || uni && collide(wrd, uni) )
+                pdigms[para].splice(cg, 1)
+
         }
 
         //if a category has already been specified use it
@@ -286,6 +283,12 @@ function inflect(word, r){
         else word[para] = pickOne(pdigms[para])
 
         query.push(word[para])
+    }
+
+    //if the word doesn't have a custom inflection we can stop here
+    if(word.inflections=="") {
+        word.inflected = ""
+        return word
     }
 
     //magical CSS-like application of inflections
@@ -588,7 +591,7 @@ function stringOut(c){
 
 function route(r, choices){
     if (typeof r==='undefined') {
-        console.warn('Undefined selector for route function.')
+        console.warn('Undefined selector for route function. Picking one of these at random: '+ JSON.stringify(choices))
         return pickOne(choices)
     }
 
