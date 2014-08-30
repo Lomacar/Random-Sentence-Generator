@@ -28,6 +28,8 @@ mutators - "DEAD man", "bottle OF RUM"
 
 implications - for hierarchical tags, implemented whithin lexicon
 
+WHY DO THE CANUCKS NOT WORK?
+
 
 
 

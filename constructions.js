@@ -25,7 +25,6 @@ function CLAUSE(r){
             subject: [NP, {case: 'nom'}],
             predicate: [VP, {copulant: false, unpack: "subject.R", reverse: true}]
         },
-        //restrictions: decide({}, "number,person,aspect,tense")
     }}
 
 function COPULA(){
@@ -115,7 +114,7 @@ function nNum(r){
 
 function PRONOUN(r) {
     decide(r,'person')
-    r.anim = r.person < 3 ? 3 : decide(r, 'anim') //not sure if this is actually the right way to handle this
+    r.anim = r.person < 3 ? 3 : decide(r, 'anim').anim //not sure if this is actually the right way to handle this
     r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
 
     var word = $.extend(r,
@@ -153,7 +152,7 @@ function VP(r){
         head: "aux",
         children: {
             aux:  [auxiliary],
-            word: [V, _.extend(r, {unpack: 'aux.tense-aspect-noinflection', reverse: true})]
+            word: [V, $.extend(r, {unpack: 'aux.tense-aspect-noinflection', reverse: true})]
         }
     }
 }
@@ -217,22 +216,31 @@ function auxiliary(r){
 
     //future tense and modals
     if(r.tense=="fut") text = last_bit = "will"
-    else text = ( last_bit = choose(1,"would",1,"could",1,"should",1,"might",1,"must",8,"") )
+    else text = ( last_bit = choose(1,"would",1,"could",1,"should",1,"might",1,"must",10,"") )
     wellthen()
 
-    //retro
+    //retrospective
     if(r.aspect.indexOf("retro") >= 0) {
         last_bit = get($.extend(r2, {type: 'verb', name: 'have'}))
         text += " " + (last_bit.inflected || last_bit.name)
         wellthen("retro")
     }
 
-    //prog
+    //proggressive
     if(r.aspect.indexOf("prog") >= 0) {
         last_bit = get($.extend(r2, {type: 'verb', name: 'be'}))
         text += " " + (last_bit.inflected || last_bit.name)
         wellthen("prog")
     }
+
+    //prospective
+    if ( /^ *$/.test(text) && r.aspect.indexOf("prosp") >= 0) {
+        last_bit = get($.extend(r2, {type: 'verb', name: 'be'}))
+        text = (last_bit.inflected || last_bit.name)
+        wellthen()
+        text += " going to"
+    }
+
 
     //dummy 'do' for bare negative
     if (/^ *$/.test(text) && r.neg) {
@@ -264,7 +272,7 @@ function WH_CLAUSE() {
 }
 
 function GP(r){
-    r.tense = 'present'
+    r.tense = 'pres'
     r.aspect = 'prog'
 
     return {

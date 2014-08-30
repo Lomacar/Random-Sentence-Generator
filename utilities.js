@@ -70,6 +70,13 @@ function prune(obj){
     }
 }
 
+//tells you if any two objects have matching keys with matching values
+function collide(obj1, obj2) {
+    for (k in obj1) {
+        if (obj2[k] !== undefined && magicCompare(obj1[k], obj2[k])) return true
+    }
+}
+
 //takes an array of arrays like [[abc][xyz][123]]
 //and returns all permutations like [[ax1][ax2][ax3][ay1][ay2][ay3][az1]...]
 function factorPermutations(lists) {  

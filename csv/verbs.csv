@@ -7,7 +7,7 @@ bother,,<9,<9,activity,1,0,"1,NP{anim:3}",
 bother1,bother,>1,,,,,"1,NP{anim:>1}",
 break,,!0,!0,event,,,,"simp.past:broke,retro:broken"
 build,,3,!0,process,1,0,"1, DP{anim: <2;tang:2}","simp.past:built, retro:built"
-change,,<9,<9,event,,0,,
+change,,<9,<9,"event,process",,0,,
 die,,>1,!0,process,0,0,,"prog:dying,retroprog:dying"
 erupt,,!0,!0,activity,0,0,,
 exist,,<9,<9,state,,0,,
@@ -27,13 +27,13 @@ miss,,>1,!0,state,,0,"1, NP{anim:>0}",
 read,,3,<9,process,1,0,"1, NP{tags:readable; anim:<2}","simp.past:read, retro:read"
 search,,>1,!0,activity,,0,"1, for NP{anim:>0}",
 see,,>1,!0,state,1,0,"0.7, NP{tang: >0}, 0.25, NP/GP","simp.past:saw, retro:seen"
-shoot,,3,!0,event,1,0,"0.6, NP{tang: 2}, 0.4, at NP{tang: 2}","simp.past:shot, retro:shot"
+shoot,,3,!0,"event,activity",1,0,"0.6, NP{tang: 2}, 0.4, at NP{tang: 2}","simp.past:shot, retro:shot"
 skate,,3,>0,activity,0,0,,
 smoke,,1|3,!0,activity,,0,,
 snap,,<2,!0,event,,0,,
 stink,,<9,!0,state,0,0,,"simp.past:stank, retro: stunk"
 tickle,,3,!0,activity,1,0,"1, NP{anim:>1}",
-touch,,<9,!0,semel,,0,"1, NP{tang:>1}",
+touch,,<9,!0,activity,,0,"1, NP{tang:>1}",
 touch1,touch,,!0,activity,,,,
 trick,,3,,event,,0,"1, NP{anim:>2}",
 walk,go,,,,,,,

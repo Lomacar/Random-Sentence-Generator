@@ -174,7 +174,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
                 return parseSingleRestriction(x)
             })
             //collapse array of objects down to one
-            multi = _.reduce( _.compact(multi), function(a,b){ return _.extend(a,b) } )
+            multi = _.reduce( _.compact(multi), function(a,b){ return $.extend(a,b) } )
             return multi
         }
 
@@ -194,7 +194,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
                 out[x] = p
                 return out
             })
-            return _.reduce( _.compact(props) , function(a,b){ return _.extend(a,b) } )
+            return _.reduce( _.compact(props) , function(a,b){ return $.extend(a,b) } )
 
         } else {
             //parse simple properties
@@ -262,10 +262,10 @@ function inflect(word, r){
                 if (prohib.match(new RegExp(regex, "i"))) pdigms[para].splice(cg,1)
                     }
             //universal prohibitions
-            var prohibz = prohibitions.descend(word.type, para, pdigms[para][cg])
+            var prohibz = prohibitions.descend( para, pdigms[para][cg])
             if(prohibz!==undefined){
                 for(var p in prohibz){
-                    if(magicCompare(word.descend(p), prohibz[p])/*prohibz[p]==word.descend(p)*/) pdigms[para].splice(cg,1)
+                    if(magicCompare(word.descend(p), prohibz[p])) pdigms[para].splice(cg,1)
                 }
             }
         }
@@ -436,7 +436,7 @@ function r_match(restrictions, test_object){
 
         //merge word-level and universal prohibitions for given paradigm (r)
         //word level overwrites universal
-        var prohibz = $.extend({}, prohibitions.descend(restrictions.type,r,rval))
+        var prohibz = $.extend({}, prohibitions.descend(r,rval))
         if (typeOf(prohib)=='object') $.extend(prohibz, prohib)
         if (prohibz && prohibited(test_object, prohibz)===true) return false
 
@@ -489,18 +489,14 @@ function prohibited(testee,prohibs){
 
 /*-------------------------------------   BRANCH NAVIGATION   -------------------------------------*/
 
-//function objectSearch(start, context){
-//    //break obj.prop into array
-//    var obj = start.split('.')[0]
-//    //if obj can't be found among siblings recurse to uncles, great-uncles...
-//    return obj.in(context.children) ? context.children[obj] : context.parseRestrictions(obj)
-//}
-
 function objectSearch2(what, context){
     if (!context) {
         console.warn("Object search failed for "+what)
         return null
     }
+
+    if (context.label==what) return context //haha!
+
     if (!context.children) {
         if (!context.parent) {
             console.warn("Object search failed for "+what)
@@ -515,7 +511,7 @@ function objectSearch2(what, context){
 
 function propertySearch2(object, property) {
     if (typeOf(object)!=='object') {
-        console.warn("Invalid object passed to propertySearch.")
+        //console.warn("Invalid object passed to propertySearch.")
         return null
     }
 
@@ -524,22 +520,10 @@ function propertySearch2(object, property) {
     if ('head'.in(object)) {
         return propertySearch2(object.head, property)
     } else {
-        console.warn("Property search failed for " + property)
+        //console.warn("Property search failed for " + property)
         return null
     }
 }
-
-//function propertySearch(object, property){
-//    //if the search is being done we automatically assume the passed in object doesn't have the property
-//    if('head'.in(object)){
-//        if(property.in(object.head))
-//            return object.head
-//        else
-//            return propertySearch(object.head, property)
-//    }	else {
-//        return false
-//    }
-//}
 
 
 /*-------------------------------------   OUTPUT -------------------------------------*/
@@ -671,13 +655,25 @@ function decide(r, pdgms, filter){
 
     pdgms = pdgms.split(',')
 
-    /*for(p in pdgms){
-new_r[pdgms[p]] = r[pdgms[p]] || 'qweqwrqewt'
-}*/
+    $.each(pdgms, function (index, pdm){
 
-    $.each(pdgms, function (index, value){
-        out_r[value] = r[value] || choose(probabilities[value])
-        if (out_r[value]===undefined) console.warn("No probability defined for '"+value+"'.")
+        if (!goodVal(r[pdm])) { //gotta choose one at random, sort of
+
+            var pdm_list = _.clone(probabilities[pdm])
+            for (var i=1; i<pdm_list.length; i+=2){
+
+                var pval = pdm_list[i]
+                var prohib = prohibitions.descend(pdm, pval)
+                if ( collide(prohib,r) ) pdm_list[i-1] = 0
+
+            }
+            out_r[pdm] = choose(pdm_list)
+
+        } else { //keep the existing value
+            out_r[pdm] = r[pdm]
+        }
+
+        if (out_r[pdm]===undefined) console.warn("Could not decide '"+pdm+"'.")
     })
 
     return out_r

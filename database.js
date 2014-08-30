@@ -54,26 +54,31 @@ var database = { verb: [],noun: [], adjective: [] }
 
 var paradigms = {
 		verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
-		noun: {number: ['pl', 'sg']},
+		noun: {number: ['pl', 'sg'], def: [true,false]},
 		pronoun: {case: ['nom', 'acc'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
 }
 
 //universal prohibitions
 var prohibitions = {
-	verb: {
-		aspect: {
-			prog: {class: 'state,event,semel'},
-			retroprog: {class: 'state,event,semel'}
-		},
-        tense: {
-            //future: {aspect: 'retro', class: 'state'} //just tends to sound too awkward
-        }
-	},
-	noun: {
-		number: {
-			pl: {proper: true}	
-		}	
-	}
+
+    //verb
+    aspect: {
+        prog: {class: 'state,event,semel'},
+        retroprog: {class: 'state,event,semel'}
+    },
+    tense: {
+        //future: {aspect: 'retro', class: 'state'} //just tends to sound too awkward
+    },
+
+    //noun
+    number: {
+        pl: {proper: true, count: '0,1'},
+        //sg: {proper: true, anim: 3} //JUST A TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    },
+    def: {
+        false: {count: '0,1'}
+    }
+
 }
 
 //default probabilities for paradigms (used by "decide()")
@@ -84,7 +89,7 @@ var probabilities = {
 
     //nounish
     number: [1,'pl', 3,'sg'],
-    def: [3,true, 2,false],
+    def: [2,true, 1,false],
     proper: [2,true, 7,false],
     
     //pronominal
@@ -92,6 +97,6 @@ var probabilities = {
     
     //verby
     tense: [3, 'pres', 6, 'past', 1, 'fut'],
-    aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog'],
+    aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog', 2, 'prosp'],
     neg: [5, false, 1, true]
 }
