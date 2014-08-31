@@ -1,4 +1,4 @@
-name,proto,anim,tang,class,trans,copulant,complements,inflections
+name,proto,anim,tang,class,trans,special,complements,inflections
 answer,,3,!0,event,,0,"0.5, NP{anim:3}",
 be,,!0,<9,state,1,1,,"simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, retroprog:being, prog:being"
 become,be,,,event,,0,"1,AP","simp.past:became, retro:become"
@@ -6,7 +6,7 @@ believe,,3,!0,state,,0,"0.2, NP{anim: 3}, 0.25, in NP, 0.3, that CLAUSE",
 bother,,<9,<9,activity,1,0,"1,NP{anim:3}",
 bother1,bother,>1,,,,,"1,NP{anim:>1}",
 break,,!0,!0,event,,,,"simp.past:broke,retro:broken"
-build,,3,!0,process,1,0,"1, DP{anim: <2;tang:2}","simp.past:built, retro:built"
+build,create,,,,,,,"simp.past:built, retro:built"
 change,,<9,<9,"event,process",,0,,
 die,,>1,!0,process,0,0,,"prog:dying,retroprog:dying"
 erupt,,!0,!0,activity,0,0,,
@@ -30,10 +30,10 @@ see,,>1,!0,state,1,0,"0.7, NP{tang: >0}, 0.25, NP/GP","simp.past:saw, retro:seen
 shoot,,3,!0,"event,activity",1,0,"0.6, NP{tang: 2}, 0.4, at NP{tang: 2}","simp.past:shot, retro:shot"
 skate,,3,>0,activity,0,0,,
 smoke,,1|3,!0,activity,,0,,
-snap,,<2,!0,event,,0,,
+snap,,<2,2,event,,0,,
 stink,,<9,!0,state,0,0,,"simp.past:stank, retro: stunk"
 tickle,,3,!0,activity,1,0,"1, NP{anim:>1}",
-touch,,<9,!0,activity,,0,"1, NP{tang:>1}",
+touch,,<9,2,activity,,0,"1, NP{tang:>1}",
 touch1,touch,,!0,activity,,,,
 trick,,3,,event,,0,"1, NP{anim:>2}",
 walk,go,,,,,,,
@@ -43,6 +43,17 @@ eat,,>1,<9,activity,0,0,,"simp.past:ate, retro:eaten"
 eat1,eat,,,process,1,0,"1, NP{tang:2}",
 test,,3,<9,process,,0,"1,NP",
 like,,2|3,<9,state,1,0,"0.5, NP, 0.5, GP",
-do,,3,<9,activity,,,,"simp.pres.sg.3:does, simp.past:did, retro: done"
-fall,,0,2,event,,0,"0.3,down,0.3,over","simp.past:fell, retro:fallen"
+do,,3,<9,activity,,1,,"simp.pres.sg.3:does, simp.past:did, retro: done"
+fall,,<9,2,event,,0,"0.3,down,0.3,over","simp.past:fell, retro:fallen"
 yell,,3,2,activity,,0,"0.6, at NP{tang: >0; anim: >0}",
+vanish,,<9,>0,event,0,0,,
+seem,,<9,<9,state,1,0,"1,AP",
+collect,,>1,>0,process,1,0,"0.5, DP{anim:<3;tang:2;number:pl},0.5, DP{tags:collective}",
+apologize,,3,<9,event,,0,"0.2, to NP{anim:3}, 0.2, for GP, 0.1, for NP{anim:3}, 0.1, for NP{def:true; anim:<3}",
+hate,like,,,,,,,
+create,,3,!0,process,1,0,"1, DP{anim: <2;tang:2}",
+float,,<9,2,activity,0,0,,
+fly,go,,,,,,,"simp.past:flew, retro:flown"
+fly1,fly,,,activity,,, ,
+swim,go,,,,,,,"simp.past:swam, retro:swum"
+swim1,swim,,,activity,,, ,

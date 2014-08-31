@@ -1,6 +1,6 @@
 function SENTENCE(){
-    recentlyUsed = [] //keep track of recently used words so you don't sound dumb repeating yourself
-    return choose(3, [CLAUSE], 0, [COPULA])
+    recentlyUsed = recentlyUsed.length > 10 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
+    return choose(3, [CLAUSE], 1, [COPULA])
 }
 
 /*function CLAUSE(){
@@ -23,7 +23,7 @@ function CLAUSE(r){
         head: "subject",
         children: {
             subject: [NP, {case: 'nom'}],
-            predicate: [VP, {copulant: false, unpack: "subject.R", reverse: true}]
+            predicate: [VP, {special: false, copulant: false, unpack: "subject.R", reverse: true}]
         },
     }}
 
@@ -36,7 +36,7 @@ function COPULA(){
         head: "subject",
         children: {
             subject: [NP, {case: 'nom'}],
-            copula: [VP, {copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
+            copula: [auxiliary, {copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
             predicate: [AP, {anim: 'subject.anim', tang: 'subject.tang', reverse: true}]
         },
         restrictions: decide({}, "number,person,tense")
@@ -58,7 +58,7 @@ function DP(r){
         head : "noun",
         children: {
             noun: [N],
-            //adj: [AP, {exist: 'noun.proper', anim:'noun.anim', reverse: true, nocomplement: true}, 0.3, 'rank'],
+            adj: [AP, {unpack:'noun.R', reverse: true, nocomplement: true}, 0.3, 'rank'],
             det: [DET, 'noun.head']
         },
         postlogic:function(text){
@@ -127,6 +127,8 @@ function PRONOUN(r) {
 }
 
 function AP(r) {
+    if (r.proper==true) return {text:''}
+
     return {
         order: "adv a comp*",
         head: "a",
@@ -195,7 +197,7 @@ function tense(r){
 function auxiliary(r){
     var text = ""
     var last_bit = ""
-    r = decide(r,"neg,tense,aspect,number,person", true)
+    r = decide(r,"neg,tense,aspect,number,person,copulant", true)
     var r2 = _.clone(r)
     r2.aspect = 'simp'
 
@@ -224,8 +226,8 @@ function auxiliary(r){
         wellthen("retro")
     }
 
-    //proggressive
-    if(r.aspect.indexOf("prog") >= 0) {
+    //progressive or copula
+    if(r.aspect.indexOf("prog") >= 0 || r.copulant) {
         last_bit = get($.extend(r2, {type: 'verb', name: 'be'}))
         text += " " + (last_bit.inflected || last_bit.name)
         wellthen("prog")
@@ -256,7 +258,7 @@ function vNum(r){
 }
 
 function verb_cleanup(text){
-    text = text.replace(/\d+[\b_]/, '') //strip verb sense numbers
+    text = text.replace(/\d+[\b_ ]/, '') //strip verb sense numbers
     .replace(/([^aeou])y_+e([ds])/, "$1ie$2") //change -yes to -ies and -yed to -ied
     .replace(/e_+ed/, "ed") // -eed to -ed
     .replace(/([^eu])e_+ing/, "$1ing") // -eing to -ing

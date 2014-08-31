@@ -3,10 +3,20 @@
     <head>
         <meta charset="UTF-8">
         <title>Sentence Gen 2</title>
-        <link href='http://fonts.googleapis.com/css?family=Crafty+Girls|Kelly+Slab|Limelight|Exo:600|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Merriweather|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Pinyon+Script|Special+Elite|Mountains+of+Christmas|Playfair+Display:700|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative|Lemon|Quattrocento' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Flavors|Niconne|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One' rel='stylesheet' type='text/css'>
+        <!--Crafty+Girls|Kelly+Slab|Limelight|Exo:600|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Merriweather|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Great+Vibes|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative-->
         <style>
             body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin-top: 1em }
-            p {margin: 0 2em 1.5em 2em; float: left; font-size: 1.5em; min-height: 2em; border-bottom: 1px solid #e0e0e0;}
+            p {margin: 0 1.8em 1.3em 1.8em; float: left; font-size: 3vw; min-height: 2em; border-bottom: 1px solid #e0e0e0;}
+
+            @media (max-width: 800px) {
+                p {font-size: 1.5em;}
+            }
+
+            @media (min-width: 1100px) {
+                p {font-size: 2.5em;}
+            }
+
         </style>
         <script src="vendor/jquery-2.1.1.min.js" type="text/javascript"></script>
         <script src="vendor/lodash.js" type="text/javascript"></script>
@@ -20,7 +30,9 @@
 
     /***** GLOBAL VAARRRRRSSZ! ******/
 
-    var fonts = "Crafty+Girls|Kelly+Slab|Limelight|Exo|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Merriweather|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Pinyon+Script|Special+Elite|Mountains+of+Christmas|Playfair+Display|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative|Lemon|Quattrocento".replace(/\+/g, " ").split('|')
+    //var fonts = "Crafty+Girls|Kelly+Slab|Limelight|Exo|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Merriweather|Raleway|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Great+Vibes|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative".replace(/\+/g, " ").split('|')
+            var fonts = "Flavors|Niconne|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One".replace(/\+/g, " ").split('|')
+    var recentlyUsed = []
 
     /********************************/
 
@@ -56,7 +68,7 @@
             oneline = oneRandom()
             oneline = oneline.trim()
             oneline = '<p>' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + '.</p>'
-            oneline = $(oneline).css("font-family", pickOne(fonts))
+            oneline = $(oneline).css({"font-family": fonts[i%fonts.length]})
             $('body').append(oneline)
         }
 
@@ -69,7 +81,7 @@
 
         var start2 = new Date().getTime()
 
-        loopy(getQueryVariable('howmany') || 50);
+        loopy(getQueryVariable('howmany') || 30);
 
         var end = new Date().getTime();
         console.log(end-start);

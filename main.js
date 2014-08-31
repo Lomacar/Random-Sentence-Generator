@@ -276,11 +276,11 @@ function inflect(word, r){
                     "Category '"+para+':'+r[para]+"' not found for "+word.type+" '"+word.name+"'. " +
                     "A random category will be assigned."
                 )
-                word[para] = pickOne(pdigms[para])
+                word[para] = _.sample(pdigms[para])
             }
         }
         //otherwise pick one at random
-        else word[para] = pickOne(pdigms[para])
+        else word[para] = _.sample(pdigms[para])
 
         query.push(word[para])
     }
@@ -592,12 +592,12 @@ function stringOut(c){
 function route(r, choices){
     if (typeof r==='undefined') {
         console.warn('Undefined selector for route function. Picking one of these at random: '+ JSON.stringify(choices))
-        return pickOne(choices)
+        return _.sample(choices)
     }
 
     if (r==='' || r===null) {
         console.warn('Empty selector for route function.')
-        return pickOne(choices)
+        return _.sample(choices)
     }
 
     return choices[r] || choices.rest || ""
