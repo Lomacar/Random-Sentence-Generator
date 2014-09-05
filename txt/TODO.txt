@@ -12,6 +12,8 @@ negation
 
 other modals
 
+light verbs
+
 wh-clause
 
 wh-phrase?
@@ -22,13 +24,13 @@ PP adjunct for nouns and verbs
 
 adjective comparative and superlative
 
+participles from verbs
+
 'and'
 
 mutators - "DEAD man", "bottle OF RUM"
 
 implications - for hierarchical tags, implemented whithin lexicon
-
-WHY DO THE CANUCKS NOT WORK?
 
 
 

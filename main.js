@@ -293,24 +293,32 @@ function inflect(word, r){
 
     //magical CSS-like application of inflections
 
+    word.inflected = resolve(query, word.inflections)
+    return word
+}
+
+
+//magical CSS-like application of inflections
+//takes array of different inflection categories, like [past, pl, 3]
+//and a string of 'selectors' + rules like 'past.pl:xyz, past.pl.3:abc'
+//returns the best matching 'rule' (ie. 'abc')
+function resolve(query,inf) {
+
     //find all rules that possibly apply to the given restrictions
     query = query.join("|")
     var regex = "(^|,) *("+query+"|\\.)*("+query+ ")+ *:[^,]*"
-    var outcome = word.inflections.match( new RegExp(regex, "gi"))
+    var outcome = inf.match( new RegExp(regex, "gi"))
 
     if(outcome!==null){
 
-        //pick the most specific rule (the one with the most dots)
-        word.inflected = outcome.sort(function(a,b){
+        //pick the last most specific rule (the one with the most dots), like CSS
+        return outcome.sort(function(a,b){
             return a.split(".").length>b.split(".").length
         })
         .pop().split(":").pop().trim()
 
-        return word
-
     } else {
-        word.inflected = ""
-        return word
+        return ''
     }
 }
 
@@ -386,7 +394,7 @@ function get(r){
     if(!r.noinflection) inflect(word,r)
 
     //record this word so it isn't overused within the same sentence
-    if (r.type == 'noun' || r.type == 'adjective') recentlyUsed.push(word.name)
+    if (recentlyUsed && r.type == 'noun' || r.type == 'adjective' || (r.type=='verb' && r.special==0)) recentlyUsed.push(word.name)
 
     return word
 }
@@ -420,7 +428,6 @@ function pickOne(arr, r){
 //if they have the same properties they must match, otherwise, who cares
 //also rejected if restrictions match prohibitions on object
 function r_match(restrictions, test_object){
-
     if (isEmpty(restrictions)) return true
 
     //prevent the repetitive use of words
@@ -635,7 +642,7 @@ function choose2 () {
 
     for(var arg in argz){
         //even numbers need to be the weights (0,2,4,6)
-        var a = parseFloat(argz[arg])
+        var a = +(argz[arg])
 
         if(arg%2==0) {
             if(a==0) continue
@@ -647,7 +654,7 @@ function choose2 () {
 
     for (var w=0; w<weights.length; w++){
         if(weights[w] > rand)	return values[w]
-            }
+    }
 }
 
 //take a restriction object and return just the ones specified in 'pdgms'

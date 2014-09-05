@@ -21,6 +21,9 @@
         <script src="vendor/jquery-2.1.1.min.js" type="text/javascript"></script>
         <script src="vendor/lodash.js" type="text/javascript"></script>
         <script type="text/javascript" src="csv/csv2json.js"></script>
+        <script type="text/javascript" src="vendor/seedrandom.js"></script>
+
+
         <script type="text/javascript" src="utilities.js"></script>
         <script type="text/javascript" src="main.js"></script>
         <script type="text/javascript" src="database.js"></script>
@@ -35,6 +38,14 @@
     var recentlyUsed = []
 
     /********************************/
+
+    var MODULE = (function (my) {
+        // add capabilities...
+
+        return my;
+    }(MODULE || {}));
+    //LABjs
+
 
     function tamnp(){
         factored = factorPermutations(paradigms["verb"])
@@ -51,8 +62,12 @@
             //})
         }
     }
-    function oneRandom(){
+    function oneRandom(seed){
         //C = new branch(CLAUSE, {tense: "pres", aspect:"simp", number:'pl'})
+        //if(seed) Math.seedrandom(seed)
+
+        recentlyUsed = recentlyUsed.length > 10 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
+
         C = new branch(SENTENCE)
         var sentence = stringOut(C);
         console.log(sentence)
@@ -63,6 +78,7 @@
     function loopy(iters){
         var output = ""
         var oneline
+        //Math.seedrandom(getQueryVariable('seed')||null);
 
         for(i=0;i<iters;i++) {
             oneline = oneRandom()
@@ -75,17 +91,17 @@
 
     }
 
-    var start = new Date().getTime()
+    console.time("full")
 
     $.when(loadLexicon('noun'),loadLexicon('verb'),loadLexicon('adjective')).done(function(){
 
-        var start2 = new Date().getTime()
+        console.time("sentence loop")
 
         loopy(getQueryVariable('howmany') || 30);
 
         var end = new Date().getTime();
-        console.log(end-start);
-        console.log(end-start2);
+        console.timeEnd("full");
+        console.timeEnd("sentence loop");
 
     })
 

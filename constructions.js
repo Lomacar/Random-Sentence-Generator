@@ -1,5 +1,4 @@
 function SENTENCE(){
-    recentlyUsed = recentlyUsed.length > 10 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
     return choose(3, [CLAUSE], 1, [COPULA])
 }
 
@@ -67,8 +66,7 @@ function DP(r){
     }
 }
 
-function DET(r){
-
+function DETold(r){
     if(r.proper) return {text: ''}
 
     r = decide( r, "number,def" )
@@ -87,6 +85,51 @@ function DET(r){
         })
 
     }
+}
+
+function DET(r) {
+    var out = {text: ''}
+
+    switch (parseInt(r.unique)) {
+        case 2:
+            break;
+        case 1:
+            out.text = 'the'
+            break;
+        default:
+            if (r.possessable > Math.random() * 2.5) {
+
+                if (Math.random() > 0.6) {
+                    out.text = "Bobby Joe's"//GENITIVE()
+                } else {
+                    decide(r, 'number')
+                    r.case = 'gen'
+                    r.person = choose(2,1, 2,2, 3,3)
+                    r.anim = r.person < 3 ? 3 : decide(r, 'anim').anim //copied from PRONOUN()
+                    r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
+
+                    var inflections = '1.sg:my,2:your,3.sg.m:his,3.sg.f:her,3.sg.n:its,1.pl:our,3.pl:their'
+                    out.text = resolve([r.number,r.person,r.gender], inflections)
+                }
+
+            } else {
+
+                decide(r, 'def,dem,number,partial')
+                if (r.count && r.number=='sg') delete r.partial //prevents 'some' on singular indefinite count nouns
+                if (!r.count && r.def=='indef' && !r.partial) {out.text = ''} //prevents 'a' on mass nouns
+                else {
+                    var inflections = 'def.prox.sg:this, def.prox.pl:these, def.dist.sg:that, def.dist.pl:those, indef.sg:a, indef.partial:some, def.def:the'
+                    out.text = resolve([r.def,r.dem,r.number,r.partial], inflections)
+                }
+
+            }
+    }
+
+    return out
+}
+
+function QUANT(r){
+    return {text: '123'}
 }
 
 function N(r){
@@ -258,7 +301,7 @@ function vNum(r){
 }
 
 function verb_cleanup(text){
-    text = text.replace(/\d+[\b_ ]/, '') //strip verb sense numbers
+    text = text.replace(/\d+/, '') //strip verb sense numbers
     .replace(/([^aeou])y_+e([ds])/, "$1ie$2") //change -yes to -ies and -yed to -ied
     .replace(/e_+ed/, "ed") // -eed to -ed
     .replace(/([^eu])e_+ing/, "$1ing") // -eing to -ing

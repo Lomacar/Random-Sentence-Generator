@@ -54,8 +54,8 @@ var database = { verb: [],noun: [], adjective: [] }
 
 var paradigms = {
 		verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
-		noun: {number: ['pl', 'sg'], def: [true,false]},
-		pronoun: {case: ['nom', 'acc'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
+		noun: {number: ['pl', 'sg'], def: ['def','indef']},
+		pronoun: {case: ['nom', 'acc','gen'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
 }
 
 //universal prohibitions
@@ -73,7 +73,6 @@ var prohibitions = {
     //noun
     number: {
         pl: {proper: true, count: '0,1'},
-        //sg: {proper: true, anim: 3} //JUST A TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!
     },
 
 }
@@ -86,11 +85,14 @@ var probabilities = {
 
     //nounish
     number: [1,'pl', 3,'sg'],
-    def: [2,true, 1,false],
+    def: [3,'def', 1,'indef'],
     proper: [2,true, 7,false],
+    partial: [1,'', 1,'partial'],
     
     //pronominal
     person: [1,1, 1,2, 5,3],
+    gender: [2,'m', 2,'f', 1,'n'],
+    dem: [1,'prox', 1,'dist', 5,''],
     
     //verby
     tense: [3, 'pres', 6, 'past', 1, 'fut'],
