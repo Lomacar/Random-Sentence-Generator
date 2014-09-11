@@ -60,17 +60,17 @@ var database = { verb: [],noun: [], adjective: [],
                 ],
 
                 quantifier: [
-                    {name: 'a lot of', count: '<9'},
-                    {name: 'some', count: '<9'},
-                    {name: 'all', count: '<9'},
-                    {name: 'no', count: '<9'},
-                    {name: 'plenty of', count: '<9'},
-                    {name: 'a bunch of', count: '<9'},
-                    {name: 'enough', count: '<9'},
-                    {name: 'not enough', count: '<9'},
+                    {name: 'a lot of'},
+                    {name: 'some'},
+                    {name: 'all'},
+                    {name: 'no'},
+                    {name: 'plenty of'},
+                    {name: 'a bunch of'},
+                    {name: 'enough'},
+                    {name: 'not enough'},
+                    {name: 'tons of'},
                     {name: 'several', count: '1'},
                     {name: 'a few', count: '1'},
-                    {name: 'tons of', count: '<9'},
                     {name: 'a couple of', count: '1'},
                     {name: 'dozens of', count: '1'},
                     {name: 'hundreds of', count: '1'},
@@ -120,7 +120,7 @@ var probabilities = {
     def: [3,'def', 1,'indef'],
     proper: [2,true, 7,false],
     partial: [1,'', 1,'partial'],
-    quantified: 1,
+    quantified: 0.5,
     
     //pronominal
     person: [1,1, 1,2, 5,3],
@@ -130,5 +130,6 @@ var probabilities = {
     //verby
     tense: [3, 'pres', 6, 'past', 1, 'fut'],
     aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog', 2, 'prosp'],
-    neg: [5, false, 1, true]
+    neg: [5, false, 1, true],
+    mood: [1,'deontic', 6,'other']
 }

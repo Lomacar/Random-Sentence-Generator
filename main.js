@@ -143,11 +143,25 @@ function branch(c, r, p, l){
 
         $.each(restrictions, function(r){
 
-            var expando = r=='unpack' ? true : false //this allows entire words to be unpacked in the restrictions
+            var expando = r=='unpack' //this allows entire words to be unpacked in the restrictions
             var arrr = parseSingleRestriction(restrictions[r], that, expando)
-            if (arrr===null) console.warn(r + " evaluated to null in " + that.label)
-            else if (typeOf(arrr)=='object') $.extend( out_restrictions, arrr )
-            else if (arrr===true) out_restrictions[r] = restrictions[r] //plain strings and numbers
+            if (arrr===null) {
+
+                console.warn(r + " evaluated to null in " + that.label)
+
+            } else if (typeOf(arrr)=='object') {
+
+                if( _.size(arrr)==1 && !expando ){
+                    out_restrictions[r] = arrr[_.keys(arrr)[0]] //for restrictions like {thing: 'subject.other'}
+                } else {
+                    $.extend( out_restrictions, arrr ) //for everything else
+                }
+
+            } else if (arrr===true) {
+
+                 out_restrictions[r] = restrictions[r] //plain strings and numbers
+
+            }
 
         }) //end each restriction
 
@@ -350,22 +364,22 @@ function parseComplement(complement, r){
 
     var func = c.match(/[A-Z]+\w*/)[0]
 
+    delete r.complements
+    //delete r.reset
+
     var arg = c.match(/{.+}/)
     if (arg===null) {
         arg = r
     } else {
         arg = arg[0].slice(1,-1)
         if(arg.findChar(':')){
-            arg = parseSingleRestriction()
             arg = toObject(arg)
-            arg = $.extend(arg,r)
+            arg = $.extend(r, arg)
         } else {
             arg = $.extend(r, {unpack: arg})
         }
 
     }
-    delete arg.complements
-    delete arg.reset
 
     if (window[func]===undefined) {
         return {text: error("No such construction exists as '"+func+"'.")}
@@ -671,6 +685,7 @@ function choose2 () {
 //if a paradigm hasn't been specified then add a random choice for it
 //according to the global probabilities settings
 function decide(r, pdgms, filter){
+    r = r||{}
     var out_r = filter ? {} : r //filter==true removes all restrictions except the ones passed in to pdgms
 
     pdgms = pdgms.split(',')

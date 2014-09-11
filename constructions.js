@@ -11,7 +11,7 @@ function CLAUSE(r){
         children: {
             subject: [NP, {case: 'nom'}],
             predicate: [VP, {special: false, copulant: false, unpack: "subject.R", reverse: true}]
-        },
+        }
     }}
 
 function COPULA(){
@@ -24,7 +24,7 @@ function COPULA(){
         children: {
             subject: [NP, {case: 'nom'}],
             copula: [auxiliary, {copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
-            predicate: [AP, {anim: 'subject.anim', tang: 'subject.tang', reverse: true}]
+            predicate: [AP, {unpack: 'subject.R', reverse: true}]
         },
         restrictions: decide({}, "number,person,tense")
     }
@@ -45,7 +45,7 @@ function DP(r){
         head : "noun",
         children: {
             noun: [N],
-            adj: [AP, {unpack:'noun.R', reverse: true, nocomplement: true}, 0.3, 'rank'],
+            adj: [AP, {unpack:'noun.R', reverse: true, nocomplement: true, no_adj: 'noun.unique'}, 0.3, 'rank'],
             det: [DET, 'noun.R']
         },
         postlogic:function(text){
@@ -87,12 +87,14 @@ function DET(r) {
                 }
 
                 decide(r, 'def,dem,number,partial')
-               // if (r.count==true && r.number=='sg') delete r.partial //prevents 'some' on singular indefinite count nouns
-               // if (r.count==false && r.def=='indef' && !r.partial) {out.text = ''} //prevents 'a' on mass nouns
-               // else {
+                // if (r.count==true && r.number=='sg') delete r.partial //prevents 'some' on singular indefinite count nouns
+                if (r.count == false && r.def == 'indef') {
+                    out.text = ''
+                } //prevents 'a' on mass nouns
+                 else {
                     var inflections = 'def.prox.sg:this, def.prox.pl:these, def.dist.sg:that, def.dist.pl:those, indef.sg:a, def.def:the'
-                    out.text = resolve([r.def,r.dem,r.number,r.partial], inflections)
-               // }
+                    out.text = resolve([r.def, r.dem, r.number, r.partial], inflections)
+                }
 
             }
     }
@@ -164,7 +166,7 @@ function PRONOUN(r) {
 }
 
 function AP(r) {
-    if (r.unique>1) return {text:''}
+    if (r.no_adj>1) return {text:''}
 
     return {
         order: "adv a comp*",
@@ -234,9 +236,10 @@ function tense(r){
 function auxiliary(r){
     var text = ""
     var last_bit = ""
-    r = decide(r,"neg,tense,aspect,number,person,copulant", true)
+    r = decide(r,"neg,tense,aspect,mood,number,person,copulant", true)
     var r2 = _.clone(r)
     r2.aspect = 'simp'
+
 
     function wellthen(aspect){
         if(last_bit){
@@ -253,7 +256,11 @@ function auxiliary(r){
 
     //future tense and modals
     if(r.tense=="fut") text = last_bit = "will"
-    else text = ( last_bit = choose(1,"would",1,"could",1,"should",1,"might",1,"must",16,"") )
+    else text = ( last_bit = route(r.mood, {
+                        deontic: choose(1,"could", 1,"should", 1,"must"),
+                        rest: choose(1,"would",1,"might",16,"")
+                    })
+                )
     wellthen()
 
     //retrospective
