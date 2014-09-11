@@ -34,8 +34,9 @@ function loadLexicon(type){
                 a[b] = toNumBool(val)
             })
 
+            prune(a)
+
             if (a.proto) {
-                prune(a)
                 //a.__proto__ = pickOne(database[type], {name: a.proto})
                 a = database[type][x] = setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
                 if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
@@ -50,10 +51,41 @@ function loadLexicon(type){
 }
 
 
-var database = { verb: [],noun: [], adjective: [] }
+var database = { verb: [],noun: [], adjective: [],
+
+                aux_verb: [
+                    { "name": "be", "inflections": "simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, retroprog:being, prog:being"},
+                    { "name": "do", "inflections": "simp.pres.sg.3:does, simp.past:did, retro: done"},
+                    { "name": "have", "inflections": "simp.past:had, simp.pres.sg.3:has, retro:had"}
+                ],
+
+                quantifier: [
+                    {name: 'a lot of', count: '<9'},
+                    {name: 'some', count: '<9'},
+                    {name: 'all', count: '<9'},
+                    {name: 'no', count: '<9'},
+                    {name: 'plenty of', count: '<9'},
+                    {name: 'a bunch of', count: '<9'},
+                    {name: 'enough', count: '<9'},
+                    {name: 'not enough', count: '<9'},
+                    {name: 'several', count: '1'},
+                    {name: 'a few', count: '1'},
+                    {name: 'tons of', count: '<9'},
+                    {name: 'a couple of', count: '1'},
+                    {name: 'dozens of', count: '1'},
+                    {name: 'hundreds of', count: '1'},
+                    {name: 'many', count: '1'},
+                    {name: 'a number of', count: '1'},
+                    {name: 'much', count: '0'},
+                    {name: 'a little', count: '0'},
+                    {name: 'a bit of', count: '0'}
+                ]
+
+}
 
 var paradigms = {
 		verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
+		aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
 		noun: {number: ['pl', 'sg'], def: ['def','indef']},
 		pronoun: {case: ['nom', 'acc','gen'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
 }
@@ -72,12 +104,12 @@ var prohibitions = {
 
     //noun
     number: {
-        pl: {proper: true, count: '0,1'},
+        pl: {count: false},
     },
 
 }
 
-//default probabilities for paradigms (used by "decide()")
+//default probabilities for paradigms ( used by decide() )
 var probabilities = {
     //general
     anim: [1,0, 2,1, 5,2, 5,3],
@@ -88,6 +120,7 @@ var probabilities = {
     def: [3,'def', 1,'indef'],
     proper: [2,true, 7,false],
     partial: [1,'', 1,'partial'],
+    quantified: 1,
     
     //pronominal
     person: [1,1, 1,2, 5,3],

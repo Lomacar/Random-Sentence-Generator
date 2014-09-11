@@ -29,7 +29,7 @@ function branch(c, r, p, l){
             var multi = []
             for (var cx in c ) {
                 multi[cx] = _.clone(c[cx])
-                executeBranch.apply( multi[cx],  [c[cx], {}, this, c[cx].head] )
+                executeBranch.apply( multi[cx],  [c[cx], {}, this] )
             }
             return multi
         }
@@ -37,7 +37,7 @@ function branch(c, r, p, l){
     }
 
     this.executeBranch = executeBranch;
-    executeBranch.apply(this, [c, r])
+    executeBranch.apply(this, [c, r, this])
 
     //dump almost all other c.properties into this
     for(var prop in c){
@@ -56,7 +56,7 @@ function branch(c, r, p, l){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    function executeBranch(c, r){
+    function executeBranch(c, r, p){
 
         //evaluate head first
         if("head".in(c)){
@@ -64,8 +64,8 @@ function branch(c, r, p, l){
             this.children = {}
 
             var newbranch = c.children[c.head][0]
-            var headr = $.extend({}, c.restrictions, r, c.children[c.head][1])
-            this.head = this.children[c.head] = new branch(newbranch, headr, this, c.head)
+            var headr = $.extend( {}, c.restrictions, r, c.children[c.head][1] )
+            this.head = this.children[c.head] = new branch(newbranch, headr, p, c.head)
 
         }
 
@@ -89,7 +89,7 @@ function branch(c, r, p, l){
                             while (probability > Math.random()) { //repeat until the probability dies
 
                                 //Fetch the child branch
-                                var sprout = new branch(c.children[child][0], $.extend({}, c.restrictions, R), this, child)
+                                var sprout = new branch(c.children[child][0], $.extend({}, c.restrictions, R), p, child)
                                 if (typeOf(sprout) == 'array')
                                     { tempchildren = tempchildren.concat(sprout) }
                                 else
@@ -354,8 +354,15 @@ function parseComplement(complement, r){
     if (arg===null) {
         arg = r
     } else {
-        arg = toObject(arg[0].slice(1,-1))
-        arg = $.extend(arg,r)
+        arg = arg[0].slice(1,-1)
+        if(arg.findChar(':')){
+            arg = parseSingleRestriction()
+            arg = toObject(arg)
+            arg = $.extend(arg,r)
+        } else {
+            arg = $.extend(r, {unpack: arg})
+        }
+
     }
     delete arg.complements
     delete arg.reset
@@ -394,7 +401,7 @@ function get(r){
     if(!r.noinflection) inflect(word,r)
 
     //record this word so it isn't overused within the same sentence
-    if (recentlyUsed && r.type == 'noun' || r.type == 'adjective' || (r.type=='verb' && r.special==0)) recentlyUsed.push(word.name)
+    if (recentlyUsed && r.type == 'noun' || r.type == 'adjective' || r.type=='verb' ) recentlyUsed.push(word.name)
 
     return word
 }
@@ -429,6 +436,9 @@ function pickOne(arr, r){
 //also rejected if restrictions match prohibitions on object
 function r_match(restrictions, test_object){
     if (isEmpty(restrictions)) return true
+
+    //short circuit for name mismatch
+    if (restrictions.name && restrictions.name != test_object.name) return false
 
     //prevent the repetitive use of words
     if (typeof recentlyUsed !== 'undefined' && recentlyUsed.indexOf(test_object.name) > -1) return false
@@ -691,6 +701,8 @@ function decide(r, pdgms, filter){
 
 //clear out all possible troublesome properties from a restriction object
 function safe(r){
+    if (typeof r == 'undefined') return
+
     var rr = _.clone(r)
     delete rr.name
     delete rr.proto
@@ -705,7 +717,7 @@ function safe(r){
     delete rr.text
 
     rr = _.omit(rr, function(x){
-        return typeof x == 'object' || typeof x == 'function'
+        return typeof x == 'object' || typeof x == 'function' || !goodVal(x)
     })
 
     return rr

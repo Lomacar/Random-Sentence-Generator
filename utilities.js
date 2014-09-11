@@ -52,7 +52,7 @@ function toObject(str){
 		str = str.split(/[;,]/)
 		$.each(str, function(a,b){
 			keyval = b.split(':')
-            val = parseFloat(keyval[1]) //attempt to treat numbers as numbers
+            val = toNumBool(keyval[1]) //attempt to treat numbers and booleans as such
             val = isNaN(val) ? keyval[1].trim() : val //but if they aren't numbers leave them as strings   
 			obj[keyval[0].trim()] = val
 		})

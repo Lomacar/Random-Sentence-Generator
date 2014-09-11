@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Sentence Gen 2</title>
-        <link href='http://fonts.googleapis.com/css?family=Flavors|Niconne|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One' rel='stylesheet' type='text/css'>
         <!--Crafty+Girls|Kelly+Slab|Limelight|Exo:600|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Merriweather|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Great+Vibes|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative-->
         <style>
             body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin-top: 1em }
@@ -34,7 +34,7 @@
     /***** GLOBAL VAARRRRRSSZ! ******/
 
     //var fonts = "Crafty+Girls|Kelly+Slab|Limelight|Exo|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Merriweather|Raleway|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Great+Vibes|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative".replace(/\+/g, " ").split('|')
-            var fonts = "Flavors|Niconne|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One".replace(/\+/g, " ").split('|')
+    var fonts = "Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One".replace(/\+/g, " ").split('|')
     var recentlyUsed = []
 
     /********************************/
@@ -91,17 +91,21 @@
 
     }
 
-    console.time("full")
+    //console.time("full")
+    var start = new Date().getTime();
 
     $.when(loadLexicon('noun'),loadLexicon('verb'),loadLexicon('adjective')).done(function(){
 
-        console.time("sentence loop")
+        //console.time("sentence loop")
+        var intheloop = new Date().getTime();
 
         loopy(getQueryVariable('howmany') || 30);
 
         var end = new Date().getTime();
-        console.timeEnd("full");
-        console.timeEnd("sentence loop");
+        console.log(end-start)
+        console.log(end-intheloop)
+        //console.timeEnd("full");
+        //console.timeEnd("sentence loop");
 
     })
 

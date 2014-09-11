@@ -2,18 +2,6 @@ function SENTENCE(){
     return choose(3, [CLAUSE], 1, [COPULA])
 }
 
-/*function CLAUSE(){
-    return {
-        order: "subject predicate",
-        head: "predicate",
-        children: {
-            predicate: [VP, {copulant: false}],
-            subject: [NP, {number: 'predicate.number', person: 'predicate.person', anim: 'predicate.anim', case: 'nom'}],
-            //object: [NP, {exist: 'nucleus.trans', anim: 'nucleus.anim2', case: 'acc', number: '', person: '', name:'!subject.name'}]
-        },
-        restrictions: decide({}, "number,person,aspect,tense")
-    }}*/
-
 function CLAUSE(r){
     decide(r, "number,person,aspect,tense")
 
@@ -58,34 +46,14 @@ function DP(r){
         children: {
             noun: [N],
             adj: [AP, {unpack:'noun.R', reverse: true, nocomplement: true}, 0.3, 'rank'],
-            det: [DET, 'noun.head']
+            det: [DET, 'noun.R']
         },
         postlogic:function(text){
-            return text.replace(/\ba +([aeiou])/g, "an $1")
+            return text.replace(/\ba +([aeiou])/g, "an $1") // 'a apple' to 'an apple'
         }
     }
 }
 
-function DETold(r){
-    if(r.proper) return {text: ''}
-
-    r = decide( r, "number,def" )
-
-    return {
-        text: route(r.def,{
-            true: "the",
-            false: route(r.number,{
-                sg: route(r.count, {
-                        0: choose(1,"some",1,""),
-                        1: '',
-                        2: "a"
-                    }),
-                pl: choose(1,"some",1,"")
-            })
-        })
-
-    }
-}
 
 function DET(r) {
     var out = {text: ''}
@@ -97,15 +65,15 @@ function DET(r) {
             out.text = 'the'
             break;
         default:
-            if (r.possessable > Math.random() * 2.5) {
+            if (r.possessable > Math.pow(Math.random(),0.7) * 9) {
 
-                if (Math.random() > 0.6) {
-                    out.text = "Bobby Joe's"//GENITIVE()
+                if (Math.random() > 0.5) {
+                    return GENITIVE(r)
                 } else {
                     decide(r, 'number')
                     r.case = 'gen'
                     r.person = choose(2,1, 2,2, 3,3)
-                    r.anim = r.person < 3 ? 3 : decide(r, 'anim').anim //copied from PRONOUN()
+                    r.anim = Math.max( r.anim, r.person < 3 ? 3 : decide(r, 'anim').anim ) //copied from PRONOUN()
                     r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
 
                     var inflections = '1.sg:my,2:your,3.sg.m:his,3.sg.f:her,3.sg.n:its,1.pl:our,3.pl:their'
@@ -114,22 +82,48 @@ function DET(r) {
 
             } else {
 
-                decide(r, 'def,dem,number,partial')
-                if (r.count && r.number=='sg') delete r.partial //prevents 'some' on singular indefinite count nouns
-                if (!r.count && r.def=='indef' && !r.partial) {out.text = ''} //prevents 'a' on mass nouns
-                else {
-                    var inflections = 'def.prox.sg:this, def.prox.pl:these, def.dist.sg:that, def.dist.pl:those, indef.sg:a, indef.partial:some, def.def:the'
-                    out.text = resolve([r.def,r.dem,r.number,r.partial], inflections)
+                if((r.count==false || r.number=='pl') && Math.random() < probabilities.quantified) {
+                    return QUANT(r)
                 }
+
+                decide(r, 'def,dem,number,partial')
+               // if (r.count==true && r.number=='sg') delete r.partial //prevents 'some' on singular indefinite count nouns
+               // if (r.count==false && r.def=='indef' && !r.partial) {out.text = ''} //prevents 'a' on mass nouns
+               // else {
+                    var inflections = 'def.prox.sg:this, def.prox.pl:these, def.dist.sg:that, def.dist.pl:those, indef.sg:a, def.def:the'
+                    out.text = resolve([r.def,r.dem,r.number,r.partial], inflections)
+               // }
 
             }
     }
-
     return out
 }
 
+function GENITIVE(r){
+    var r2 = decide(r, 'anim', true)
+    var anim = Math.max( r.anim, r2.anim ) || 3
+    var number = r.number=='sg' ? 'sg' : null
+
+    return {
+        order: 'fake gennoun_\'s',
+        head: 'fake',
+        children: {
+            fake: [blank],
+           gennoun: [DP, {'anim': anim, 'number': number, case: 'gen'}]
+        },
+        postlogic: function(text){
+            return text.replace('s_\'s','s\'')
+        }
+    }
+}
+
 function QUANT(r){
-    return {text: '123'}
+
+    if(r.count && Math.random() < 0.3) {
+        return {text: toWords(powerRandom())}
+    } else {
+        return [get, {type: 'quantifier'}]
+    }
 }
 
 function N(r){
@@ -150,7 +144,7 @@ function N(r){
 
 //plurals for nouns
 function nNum(r){
-    return {text: r.number+r.proper+r.inflected == 'plfalse' ? 's' : ''}
+    return {text: r.number+r.count+r.inflected == 'pltrue' ? 's' : ''}
 }
 
 function PRONOUN(r) {
@@ -170,7 +164,7 @@ function PRONOUN(r) {
 }
 
 function AP(r) {
-    if (r.proper==true) return {text:''}
+    if (r.unique>1) return {text:''}
 
     return {
         order: "adv a comp*",
@@ -259,26 +253,26 @@ function auxiliary(r){
 
     //future tense and modals
     if(r.tense=="fut") text = last_bit = "will"
-    else text = ( last_bit = choose(1,"would",1,"could",1,"should",1,"might",1,"must",10,"") )
+    else text = ( last_bit = choose(1,"would",1,"could",1,"should",1,"might",1,"must",16,"") )
     wellthen()
 
     //retrospective
     if(r.aspect.indexOf("retro") >= 0) {
-        last_bit = get($.extend(r2, {type: 'verb', name: 'have'}))
+        last_bit = get($.extend(r2, {type: 'aux_verb', name: 'have'}))
         text += " " + (last_bit.inflected || last_bit.name)
         wellthen("retro")
     }
 
     //progressive or copula
     if(r.aspect.indexOf("prog") >= 0 || r.copulant) {
-        last_bit = get($.extend(r2, {type: 'verb', name: 'be'}))
+        last_bit = get($.extend(r2, {type: 'aux_verb', name: 'be'}))
         text += " " + (last_bit.inflected || last_bit.name)
         wellthen("prog")
     }
 
     //prospective
     if ( /^ *$/.test(text) && r.aspect.indexOf("prosp") >= 0) {
-        last_bit = get($.extend(r2, {type: 'verb', name: 'be'}))
+        last_bit = get($.extend(r2, {type: 'aux_verb', name: 'be'}))
         text = (last_bit.inflected || last_bit.name)
         wellthen()
         text += " going to"
@@ -287,7 +281,7 @@ function auxiliary(r){
 
     //dummy 'do' for bare negative
     if (/^ *$/.test(text) && r.neg) {
-        last_bit = get($.extend(r2, {type: 'verb', name: 'do'}))
+        last_bit = get($.extend(r2, {type: 'aux_verb', name: 'do'}))
         text = (last_bit.inflected || last_bit.name ) + " not"
         r2.noinflection = true
     }
@@ -312,6 +306,29 @@ function verb_cleanup(text){
 
 function WH_CLAUSE() {
 
+}
+
+//inf clause
+function INF_CLAUSE(r){
+    return {
+        order: 'to predicate',
+        head: 'predicate',
+        children:{
+            predicate: [V, {noinflection: true}]
+        }
+    }
+}
+
+//gerund clause
+function G_CLAUSE(r){
+    return {
+        order: 'subject predicate',
+        head: 'subject',
+        children:{
+            subject: [NP],
+            predicate: [GP, "subject.R"]
+        }
+    }
 }
 
 function GP(r){
