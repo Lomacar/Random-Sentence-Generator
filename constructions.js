@@ -34,9 +34,9 @@ function NP(r) {
     r = decide(r, "person")
 
     return route(r.person, {
-                rest: [PRONOUN],
-                3: choose(1, [PRONOUN], 4, [DP])
-            })
+        rest: [PRONOUN,{subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}],
+        3: choose(1, [PRONOUN, {subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}], 4, [DP])
+    })
 }
 
 function DP(r){
@@ -150,15 +150,23 @@ function nNum(r){
 }
 
 function PRONOUN(r) {
-    decide(r,'person')
+    decide(r,'person,number')
     r.anim = r.person < 3 ? 3 : decide(r, 'anim').anim //not sure if this is actually the right way to handle this
     r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
+
+    if (r.person===r.subj_person && r.number===r.subj_number && r.gender==r.subj_gender) {
+        if(r.person < 3 || Math.random() < 0.5) r.case = 'reflex'
+    }
 
     var word = $.extend(r,
                     {type:'pronoun',
                      inflections:"nom.sg.1:I, 2:you, sg.3:it, nom.sg.3.m:he, nom.sg.3.f:she," +
                                  " nom.pl.1:we, nom.pl.3:they, acc.sg.1:me, acc.sg.3.m: him," +
-                                 " acc.sg.3.f:her, acc.pl.1:us, acc.pl.3: them",
+                                 " acc.sg.3.f:her, acc.pl.1:us, acc.pl.3: them," +
+                                 " reflex.sg.1:myself, reflex.pl.1:ourselves," +
+                                 " reflex.sg.2:yourself, reflex.pl.2:yourselves," +
+                                 " reflex.sg.3.m:himself, reflex.sg.3.f:herself, reflex.sg.3.n:itself," +
+                                 " reflex.pl.3:themselves"
                     }
                 )
 
@@ -303,7 +311,7 @@ function vNum(r){
 
 function verb_cleanup(text){
     text = text.replace(/\d+/, '') //strip verb sense numbers
-    .replace(/([^aeou])y_+e([ds])/, "$1ie$2") //change -yes to -ies and -yed to -ied
+    .replace(/([^aeou])y_+(ed|s)/, "$1i$2") //change -yes to -ies and -yed to -ied
     .replace(/e_+ed/, "ed") // -eed to -ed
     .replace(/([^eu])e_+ing/, "$1ing") // -eing to -ing
     .replace(/([^aeiou])([aeiou])([^aeiouywr])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx

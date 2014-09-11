@@ -16,8 +16,8 @@ function branch(c, r, p, l){
     while(typeOf(c)==='array'){
 
         if(typeof c[0] == 'function') {
-
             //some constructions just reroute to other constructions
+            c[1] = this.parseRestrictions(c[1])
             c = c[0]( $.extend({}, r, c[1]) )
 
         } else if ("children".in(c[0]) || "text".in(c[0])) {
@@ -374,9 +374,9 @@ function parseComplement(complement, r){
         arg = arg[0].slice(1,-1)
         if(arg.findChar(':')){
             arg = toObject(arg)
-            arg = $.extend(r, arg)
+            arg = $.extend({}, r, arg)
         } else {
-            arg = $.extend(r, {unpack: arg})
+            arg = $.extend({}, r, {unpack: arg})
         }
 
     }

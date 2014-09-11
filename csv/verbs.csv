@@ -28,7 +28,7 @@ find,,>1,!0,event,TRUE,,0,,"1, NP{anim:>0}","simp.past:found, retro:found"
 float,,,2,activity,TRUE,0,0,,,
 fly,go,,,,TRUE,,,,,"simp.past:flew, retro:flown"
 fly1,fly,,,activity,TRUE,,,, ,
-give,,3,!0,event,TRUE,1,0,,"0.5, DP{anim:<3;tang:2}/to NP{anim:3}, 0.5, NP{anim:3}/ DP{anim:<3;tang:2}","simp.past:gave, retro:given"
+give,,3,!0,event,TRUE,1,0,,"0.5, DP{anim:<3;tang:2}/ to NP{anim:3}, 0.5, NP{anim:3}/ DP{anim:<3;tang:2}","simp.past:gave, retro:given"
 go,,>1,!0,process,TRUE,1,0,,"1, to DP{number:sg; tags: place }","simp.pres.sg.3:goes, simp.past:went, retro: gone"
 hate,like,,,,FALSE,,,,,
 have,,<0,!0,state,FALSE,1,,,"1, DP{anim: <3; tang:0|2}","simp.past:had, simp.pres.sg.3:has, retro:had"
@@ -67,3 +67,5 @@ walk,go,,,,TRUE,,,,,
 walk1,walk,,,activity,TRUE,,,, ,
 write,read,,,,TRUE,,,,,"simp.past:wrote, retro:written"
 yell,,3,2,activity,TRUE,,0,,"0.6, at NP{tang: >0; anim: >0}",
+ride,,3,,activity,TRUE,,,,"0.6, NP{tags:rideable;number:subject.number}","simp.past:rode, retro:ridden"
+ride1,ride,,,process,,,,,"0.25, to NP{tags:place},0.25, NP{tags:rideable;number:subject.number}/to NP{tags:place}, 0.25, to NP{tags:place}/on a NP{tags:rideable;number:subject.number}",

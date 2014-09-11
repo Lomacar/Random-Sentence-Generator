@@ -38,7 +38,8 @@ function loadLexicon(type){
 
             if (a.proto) {
                 //a.__proto__ = pickOne(database[type], {name: a.proto})
-                a = database[type][x] = setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
+                a = database[type][x] = Object.setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
+                //a = database[type][x] = setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
                 if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
                     error('Prototype"' + a.proto + '"could not be found for'+a.name+'.')
             }
@@ -87,7 +88,7 @@ var paradigms = {
 		verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
 		aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
 		noun: {number: ['pl', 'sg'], def: ['def','indef']},
-		pronoun: {case: ['nom', 'acc','gen'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
+		pronoun: {case: ['nom', 'acc','gen','reflex'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
 }
 
 //universal prohibitions

@@ -141,7 +141,11 @@ String.prototype.findChar = function (needle) {
     return false
 }
 
-//because changing __proto__ is a bad idea apparently
+Object.setPrototypeOf = Object.setPrototypeOf || function (obj, proto) {
+    obj.__proto__ = proto;
+    return obj;
+}
+/*//because changing __proto__ is a bad idea apparently
 function setPrototypeOf(obj, proto) {
     var type = typeof proto;
     if (typeof obj == "object" && (type == "object" || type == "function")) {
@@ -156,7 +160,7 @@ function setPrototypeOf(obj, proto) {
         constructor.prototype = proto;
         return new constructor(obj);
     } else throw new TypeError("Expected both the arguments to be objects.");
-}
+}*/
 
 /*  MAGIC COMPARE
 *
