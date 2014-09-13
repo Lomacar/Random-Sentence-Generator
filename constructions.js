@@ -3,7 +3,7 @@ function SENTENCE(){
 }
 
 function CLAUSE(r){
-    decide(r, "number,person,aspect,tense")
+    decide(r, "number,person,aspect,tense,anim")
 
     return {
         order: "subject predicate",
@@ -16,7 +16,7 @@ function CLAUSE(r){
 
 function COPULA(){
 
-    //SHOULD ALLOW PPs, GPs and NPs too
+    //SHOULD ALLOW PPs and NPs too
 
     return {
         order: "subject copula predicate",
@@ -26,7 +26,7 @@ function COPULA(){
             copula: [auxiliary, {copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
             predicate: [AP, {unpack: 'subject.R', reverse: true}]
         },
-        restrictions: decide({}, "number,person,tense")
+        restrictions: decide({}, "number,person,tense,anim")
     }
 }
 
@@ -41,12 +41,13 @@ function NP(r) {
 
 function DP(r){
     return {
-        order : "det adj* noun",
+        order : "det adj* noun comp*",
         head : "noun",
         children: {
             noun: [N],
             adj: [AP, {unpack:'noun.R', reverse: true, nocomplement: true, no_adj: 'noun.unique'}, 0.3, 'rank'],
-            det: [DET, 'noun.R']
+            det: [DET, 'noun.R'],
+            comp: [complement, {case: 'acc', complements: 'noun.complements'}]
         },
         postlogic:function(text){
             return text.replace(/\ba +([aeiou])/g, "an $1") // 'a apple' to 'an apple'
@@ -65,7 +66,7 @@ function DET(r) {
             out.text = 'the'
             break;
         default:
-            if (r.possessable > Math.pow(Math.random(),0.7) * 9) {
+            if (r.possessable > Math.pow(Math.random(),0.6) * 9) {
 
                 if (Math.random() > 0.5) {
                     return GENITIVE(r)
@@ -114,7 +115,8 @@ function GENITIVE(r){
            gennoun: [DP, {'anim': anim, 'number': number, case: 'gen'}]
         },
         postlogic: function(text){
-            return text.replace('s_\'s','s\'')
+            return text.replace(/[_ ]+'s/,"'s")
+                        .replace("s's","s'")
         }
     }
 }
@@ -150,13 +152,21 @@ function nNum(r){
 }
 
 function PRONOUN(r) {
-    decide(r,'person,number')
-    r.anim = r.person < 3 ? 3 : decide(r, 'anim').anim //not sure if this is actually the right way to handle this
-    r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
+    decide(r,'person,number,gender')
+//    r.anim = r.person < 3 ? 3 : decide(r, 'anim').anim //not sure if this is actually the right way to handle this
 
-    if (r.person===r.subj_person && r.number===r.subj_number && r.gender==r.subj_gender) {
-        if(r.person < 3 || Math.random() < 0.5) r.case = 'reflex'
+    r = $.extend( r, safe(get($.extend(r,{type:'noun'}))) )
+
+    //reflexive logic
+    if (r.person===r.subj_person) {
+        if (r.number===r.subj_number || r.person==2){ // you(sg) verb you(pl) just sounds wrong
+            if (r.person < 3 || r.person==3 && r.gender===r.subj_gender){ //gender only needs to match in third person
+                if(r.person < 3 || Math.random() < 0.5) r.case = 'reflex'
+            }
+        }
     }
+
+    r.gender = r.gender || magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
 
     var word = $.extend(r,
                     {type:'pronoun',
@@ -182,7 +192,7 @@ function AP(r) {
         children: {
             adv: [blank],
             a: [A],
-            comp: [complement, {'case': 'acc','complements': 'a.complements', 'nocomplement': r.nocomplement, reset:true}]
+            comp: [complement, {'case': 'acc','complements': 'a.complements', 'nocomplement': r.nocomplement}]
         }
     }
 }
@@ -311,11 +321,12 @@ function vNum(r){
 
 function verb_cleanup(text){
     text = text.replace(/\d+/, '') //strip verb sense numbers
-    .replace(/([^aeou])y_+(ed|s)/, "$1i$2") //change -yes to -ies and -yed to -ied
+    .replace(/([^aeou])y_+s/, "$1ies") //change -ys to -ies
+    .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
     .replace(/e_+ed/, "ed") // -eed to -ed
     .replace(/([^eu])e_+ing/, "$1ing") // -eing to -ing
     .replace(/([^aeiou])([aeiou])([^aeiouywr])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
-    .replace(/(ch|sh|s)_+s\b/g, '$1es') // -s to -es
+    .replace(/(ch|sh|s|z)_+s\b/g, '$1es') // -s to -es
     return text
 }
 

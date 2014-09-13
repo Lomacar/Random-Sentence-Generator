@@ -4,17 +4,25 @@
         <meta charset="UTF-8">
         <title>Sentence Gen 2</title>
         <link href='http://fonts.googleapis.com/css?family=Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One' rel='stylesheet' type='text/css'>
-        <!--Crafty+Girls|Kelly+Slab|Limelight|Exo:600|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Merriweather|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Great+Vibes|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative-->
+        <link href='http://fonts.googleapis.com/css?family=Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative' rel='stylesheet' type='text/css'>
         <style>
-            body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin-top: 1em }
-            p {margin: 0 1.8em 1.3em 1.8em; float: left; font-size: 3vw; min-height: 2em; border-bottom: 1px solid #e0e0e0;}
+            body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0 }
+            .hello {margin: 0 1.8em; margin-bottom: 1em; padding: 2em; text-align: center; font-family: 'Roboto Slab','Yanone Kaffeesatz'; color: #0a2376; background: #d8eaff; border-radius: 0 0 1vw 1vw}
+                .hello h1 {margin-bottom: 0.25em; font-weight: normal; font-size: 2vw;}
+                    .hello h1::first-line {font-size: 1.5em;}
+                .hello h2 {margin-top: 0;}
+                .hello p {margin: 2em 1em 1em 1em;}
+            .sentence {margin: 0 1.8em; padding: 2em 1em; font-size: 3vw; text-align: center; border-bottom: 1px solid #e0e0e0;}
 
             @media (max-width: 800px) {
-                p {font-size: 1.5em;}
+                .hello h1 {font-size: 1.2em;}
+                .hello br {display: none}
+                .sentence {font-size: 1.5em;}
             }
 
             @media (min-width: 1100px) {
-                p {font-size: 2.5em;}
+                .hello h1 {font-size: 1.5em;}
+                .sentence {font-size: 2.5em;}
             }
 
         </style>
@@ -33,8 +41,11 @@
 
     /***** GLOBAL VAARRRRRSSZ! ******/
 
-    //var fonts = "Crafty+Girls|Kelly+Slab|Limelight|Exo|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Merriweather|Raleway|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Great+Vibes|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative".replace(/\+/g, " ").split('|')
-    var fonts = "Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One".replace(/\+/g, " ").split('|')
+    var fonts = ("Oswald|Raleway|Roboto+Slab|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite"
+                + "|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Cinzel+Decorative|Abril+Fatface|Pirata+One"
+                + "|Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Stint+Ultra+Expanded|Flavors|Ribeye+Marrow|Griffy|Alex+Brush|Ceviche+One")
+                .replace(/\+/g, " ").split('|')
+    var fcounter = 0
     var recentlyUsed = []
 
     /********************************/
@@ -80,11 +91,11 @@
         var oneline
         //Math.seedrandom(getQueryVariable('seed')||null);
 
-        for(i=0;i<iters;i++) {
+        for(i=0;i<iters;i++,fcounter++) {
             oneline = oneRandom()
             oneline = oneline.trim()
-            oneline = '<p>' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + '.</p>'
-            oneline = $(oneline).css({"font-family": fonts[i%fonts.length]})
+            oneline = '<p class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + '.</p>'
+            oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length]})
             $('body').append(oneline)
         }
 
@@ -99,7 +110,7 @@
         //console.time("sentence loop")
         var intheloop = new Date().getTime();
 
-        loopy(getQueryVariable('howmany') || 30);
+        loopy(getQueryVariable('howmany') || 10);
 
         var end = new Date().getTime();
         console.log(end-start)
@@ -114,7 +125,7 @@
         var wintop = $(window).scrollTop(), docheight = $(document).height(), winheight = $(window).height();
 
         if  ($(window).scrollTop() > $(document).height() - $(window).height() - 100) {
-            loopy(20)
+            loopy(5)
         }
 
     });
@@ -123,5 +134,11 @@
     </head>
 
     <body>
+        <div class="hello">
+            <h1>The following sentences have been randomly generated<br>
+            according to the rules of English grammar, with some semantic awareness.</h1>
+            <p>You can refresh the page to get new sentences, or you can scroll infinitely!</p>
+            <!--<p><small>If anything you read offends you, it is your fault for reading it.</small></p>-->
+        </div>
     </body>
 </html>

@@ -82,7 +82,7 @@ function branch(c, r, p, l){
 
                         else {
                             //if a restriction reset has been requested, clear everything accept nocomplement
-//                            if (c.children[child][1] && c.children[child][1].reset) r = {nocomplement: r.nocomplement}
+                            if (c.children[child][1] && c.children[child][1].reset) r = {nocomplement: r.nocomplement}
 
                             var probability = c.children[child][2] || 1 //if children have a probability of occurence
                             var tempchildren = []
