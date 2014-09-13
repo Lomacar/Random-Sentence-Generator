@@ -35,7 +35,7 @@ function NP(r) {
 
     return route(r.person, {
         rest: [PRONOUN,{subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}],
-        3: choose(1, [PRONOUN, {subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}], 4, [DP])
+        3: choose(1, [PRONOUN, {subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}], 5, [DP])
     })
 }
 

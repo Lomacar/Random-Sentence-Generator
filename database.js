@@ -124,13 +124,13 @@ var probabilities = {
     quantified: 0.5,
     
     //pronominal
-    person: [1,1, 1,2, 5,3],
+    person: [1,1, 1,2, 7,3],
     gender: [2,'m', 2,'f', 1,'n'],
     dem: [1,'prox', 1,'dist', 5,''],
     
     //verby
     tense: [3, 'pres', 6, 'past', 1, 'fut'],
     aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog', 2, 'prosp'],
-    neg: [5, false, 1, true],
+    neg: [6, false, 1, true],
     mood: [1,'deontic', 6,'other']
 }
