@@ -1,5 +1,5 @@
 function SENTENCE(){
-    return choose(3, [CLAUSE], 1, [COPULA])
+    return choose(6, [CLAUSE], 1, [COPULA])
 }
 
 function CLAUSE(r){
@@ -23,10 +23,10 @@ function COPULA(){
         head: "subject",
         children: {
             subject: [NP, {case: 'nom'}],
-            copula: [auxiliary, {copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
+            copula: [auxiliary, {unpack: 'subject.R', copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
             predicate: [AP, {unpack: 'subject.R', reverse: true}]
         },
-        restrictions: decide({}, "number,person,tense,anim")
+        //restrictions: decide({}, "number,person,tense,anim")
     }
 }
 
@@ -152,10 +152,12 @@ function nNum(r){
 }
 
 function PRONOUN(r) {
-    decide(r,'person,number,gender')
 //    r.anim = r.person < 3 ? 3 : decide(r, 'anim').anim //not sure if this is actually the right way to handle this
 
-    r = $.extend( r, safe(get($.extend(r,{type:'noun'}))) )
+    r = $.extend( r, get($.extend(r,{type:'noun'})) )
+    //if (r.anim < 3) r.person = 3 //no such thing as inanimate 1st or 2nd person
+    r.gender = r.gender || (magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n')
+    decide(r,'person,number,gender')
 
     //reflexive logic
     if (r.person===r.subj_person) {
@@ -166,7 +168,6 @@ function PRONOUN(r) {
         }
     }
 
-    r.gender = r.gender || magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
 
     var word = $.extend(r,
                     {type:'pronoun',
@@ -334,13 +335,23 @@ function WH_CLAUSE() {
 
 }
 
-//inf clause
-function INF_CLAUSE(r){
+function INF_PHRASE(r){
     return {
         order: 'to predicate',
         head: 'predicate',
         children:{
             predicate: [V, {noinflection: true}]
+        }
+    }
+}
+
+function INF_CLAUSE(r){
+    return {
+        order: 'subject to predicate',
+        head: 'subject',
+        children:{
+            subject: [NP],
+            predicate: [V, {noinflection: true, unpack: 'subject.R'}]
         }
     }
 }

@@ -97,16 +97,27 @@ var prohibitions = {
     //verb
     aspect: {
         prog: {class: 'state,event,semel'},
-        retroprog: {class: 'state,event,semel'}
+        retroprog: {class: 'state,event,semel', perm: true},
+        retro: {perm: true},
+        prosp: {volition: false}
     },
     tense: {
         //future: {aspect: 'retro', class: 'state'} //just tends to sound too awkward
+    },
+    mood: {
+        deontic: {volition: false}
     },
 
     //noun
     number: {
         pl: {count: false},
     },
+
+    //pronoun
+    person: {
+        1: {anim:'0,1,2'},
+        2: {anim:'0,1,2'}
+    }
 
 }
 
