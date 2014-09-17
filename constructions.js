@@ -82,9 +82,9 @@ function DET(r) {
                 }
 
             } else {
-
-                if((r.count==false || r.number=='pl') && Math.random() < probabilities.quantified) {
-                    return QUANT(r)
+                if(r.count==false || r.number=='pl') {
+                    decide(r, 'quantified')
+                    if (r.quantified) return QUANT(r)
                 }
 
                 decide(r, 'def,dem,number,partial')
@@ -140,8 +140,8 @@ function N(r){
             num: [nNum, 'word']
         },
         postlogic:function(text){
-            text = text.replace(/([^aeou])y_+(s)/g, "$1ie$2")
-            return text
+            return text.replace(/([^aeou])y_+(s)/g, "$1ie$2")
+                       .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
         }
     }
 }
@@ -327,7 +327,7 @@ function verb_cleanup(text){
     .replace(/e_+ed/, "ed") // -eed to -ed
     .replace(/([^eu])e_+ing/, "$1ing") // -eing to -ing
     .replace(/([^aeiou])([aeiou])([^aeiouywr])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
-    .replace(/(ch|sh|s|z)_+s\b/g, '$1es') // -s to -es
+    .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
     return text
 }
 

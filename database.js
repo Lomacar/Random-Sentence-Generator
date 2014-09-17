@@ -13,38 +13,61 @@ var templates = {
 	adjective: {anim: '', rank:''}
 }
 
-function loadLexicon(type){
+function loadLexicon(){
 
     var d = $.Deferred();
 
-    //$.get("csv/"+type+"s.csv", function(data){
     Tabletop.init({
         key: google_key,
         callback: function(data){
-            database[type] = data[type].elements //CSV2JSON(data).slice(0, -1);
-            for (var x in database[type]) {
-                var a = database[type][x]
-
-                $.each(a, function(b,val){
-                    //turn numbers and boolean into the real things
-                    a[b] = toNumBool(val)
-                })
-
-                prune(a)
-                delete a.rowNumber //something that Tabletop seems to add in
-
-                if (a.proto) {
-                    a = database[type][x] = Object.setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
-                    if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
-                        error('Prototype"' + a.proto + '"could not be found for'+a.name+'.')
-                }
-            }
-
+            processLexicon(data.noun.elements, 'noun')
+            processLexicon(data.verb.elements, 'verb')
+            processLexicon(data.adjective.elements, 'adjective')
             d.resolve();
         }
     })
     
+    /*var a = $.Deferred();
+    var b = $.Deferred();
+    var c = $.Deferred();
+    $.get('csv/nouns.csv',function(data){
+        processLexicon(CSV2JSON(data), 'noun')
+        a.resolve()
+    })
+    $.get('csv/verbs.csv',function(data){
+        processLexicon(CSV2JSON(data), 'verb')
+        b.resolve()
+    })
+    $.get('csv/adjectives.csv',function(data){
+        processLexicon(CSV2JSON(data), 'adjective')
+        c.resolve()
+    })
+    $.when(a,b,c).done(function() {
+        d.resolve();
+    })*/
+
     return d
+}
+
+function processLexicon(data, type){
+    database[type] = data
+    for (var x in database[type]) {
+        var a = database[type][x]
+
+        $.each(a, function(b,val){
+            //turn numbers and boolean into the real things
+            a[b] = toNumBool(val)
+        })
+
+        delete a.rowNumber //something that Tabletop seems to add in
+        prune(a)
+
+        if (a.proto) {
+            a = database[type][x] = Object.setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
+            if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
+                error('Prototype"' + a.proto + '"could not be found for'+a.name+'.')
+        }
+    }
 }
 
 
@@ -83,7 +106,7 @@ var database = { verb: [],noun: [], adjective: [],
 var paradigms = {
 		verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
 		aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
-		noun: {number: ['pl', 'sg'], def: ['def','indef']},
+		noun: {number: ['pl', 'sg'], def: ['def','indef'], quantified: [true,false]},
 		pronoun: {case: ['nom', 'acc','gen','reflex'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
 }
 
@@ -109,12 +132,6 @@ var prohibitions = {
         pl: {count: false},
     },
 
-    //pronoun
-    person: {
-        1: {anim:'0,1,2'},
-        2: {anim:'0,1,2'}
-    }
-
 }
 
 //default probabilities for paradigms ( used by decide() )
@@ -128,7 +145,7 @@ var probabilities = {
     def: [3,'def', 1,'indef'],
     proper: [2,true, 7,false],
     partial: [1,'', 1,'partial'],
-    quantified: 0.5,
+    quantified: [0.3, true, 0.7, false],
     
     //pronominal
     person: [1,1, 1,2, 7,3],

@@ -3,8 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Sentence Gen 2.2</title>
-        <link href='http://fonts.googleapis.com/css?family=Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One|Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative' rel='stylesheet' type='text/css'>
         <style>
             body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0 }
             .hello {margin: 0 1.8em; margin-bottom: 1em; padding: 2em; text-align: center; font-family: 'Roboto Slab','Yanone Kaffeesatz'; color: #0a2376; background: #d8eaff; border-radius: 0 0 1vw 1vw}
@@ -47,6 +46,7 @@
                 + "|Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Stint+Ultra+Expanded|Flavors|Ribeye+Marrow|Griffy|Alex+Brush|Ceviche+One")
                 .replace(/\+/g, " ").split('|')
     var fcounter = 0
+
     var recentlyUsed = []
 
     /********************************/
@@ -106,7 +106,7 @@
     //console.time("full")
     var start = new Date().getTime();
 
-    $.when(loadLexicon('noun'),loadLexicon('verb'),loadLexicon('adjective')).done(function(){
+    $.when(loadLexicon()).done(function(){
 
         //console.time("sentence loop")
         var intheloop = new Date().getTime();
