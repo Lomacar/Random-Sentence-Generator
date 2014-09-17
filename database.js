@@ -1,18 +1,11 @@
-/***************** Word attributes *****************\
-* General *
-name: the actual word
-inflections: para.digm:exception[, para.digm:exception]
-prohibitions: like inflections, also whatever:(val1|val2|val3)[,whatever:(val1|val2|val3)]
+var google_key = "1FYbVHIMfwPJcYl_UgJFEQQ2zee4FkRzQMLWXhyz4qAI"
 
-* Verbs *
-trans: 0, 1, 2
-anim: 0 (abstract), 1 (physical), 2 (tangible), 3 (animate), 4 (sentient)
-class: state, activity, event, semel, process
+/*var sheets = {
+    verb: "https://docs.google.com/spreadsheets/d/1FsuaUt7RancW9JE89zEkJ8XZaV3zZiMwq2nc1Wpvm14/export?gid=352633850&format=csv",
+    noun: "https://docs.google.com/spreadsheets/d/1HD29811teFW_LJKlm6INFXoxLNriLNRO7CLSMoDVve4/export?gid=433756195&format=csv",
+    adjective: "https://docs.google.com/spreadsheets/d/1FYbVHIMfwPJcYl_UgJFEQQ2zee4FkRzQMLWXhyz4qAI/export?format=csv#gid=948204870"
+}*/
 
-* Nouns *
-
-
-\***************************************************/
 var templates = {
 	general: {name: '', inflections: '', prohibitions: '', tags: ''},
 	verb: {class: '', trans: '', anim: ''},
@@ -24,28 +17,31 @@ function loadLexicon(type){
 
     var d = $.Deferred();
 
-    $.get("csv/"+type+"s.csv", function(data){
-        database[type] = CSV2JSON(data).slice(0, -1);
-        for (var x in database[type]) {
-            var a = database[type][x]
+    //$.get("csv/"+type+"s.csv", function(data){
+    Tabletop.init({
+        key: google_key,
+        callback: function(data){
+            database[type] = data[type].elements //CSV2JSON(data).slice(0, -1);
+            for (var x in database[type]) {
+                var a = database[type][x]
 
-            $.each(a, function(b,val){
-                //turn numbers and boolean into the real things
-                a[b] = toNumBool(val)
-            })
+                $.each(a, function(b,val){
+                    //turn numbers and boolean into the real things
+                    a[b] = toNumBool(val)
+                })
 
-            prune(a)
+                prune(a)
+                delete a.rowNumber //something that Tabletop seems to add in
 
-            if (a.proto) {
-                //a.__proto__ = pickOne(database[type], {name: a.proto})
-                a = database[type][x] = Object.setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
-                //a = database[type][x] = setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
-                if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
-                    error('Prototype"' + a.proto + '"could not be found for'+a.name+'.')
+                if (a.proto) {
+                    a = database[type][x] = Object.setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
+                    if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
+                        error('Prototype"' + a.proto + '"could not be found for'+a.name+'.')
+                }
             }
-        }
 
-        d.resolve();
+            d.resolve();
+        }
     })
     
     return d

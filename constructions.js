@@ -3,7 +3,7 @@ function SENTENCE(){
 }
 
 function CLAUSE(r){
-    decide(r, "number,person,aspect,tense,anim")
+    //decide(r, "number,person,aspect,tense,anim")
 
     return {
         order: "subject predicate",
@@ -152,12 +152,12 @@ function nNum(r){
 }
 
 function PRONOUN(r) {
-//    r.anim = r.person < 3 ? 3 : decide(r, 'anim').anim //not sure if this is actually the right way to handle this
+    decide(r,'person,number,case')
+    if (r.person<3) r.anim=3
 
+    //get a dummy noun so that we can make realistic pronouns
     r = $.extend( r, get($.extend(r,{type:'noun'})) )
-    //if (r.anim < 3) r.person = 3 //no such thing as inanimate 1st or 2nd person
     r.gender = r.gender || (magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n')
-    decide(r,'person,number,gender')
 
     //reflexive logic
     if (r.person===r.subj_person) {

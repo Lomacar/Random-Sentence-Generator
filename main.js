@@ -316,6 +316,8 @@ function inflect(word, r){
 //takes array of different inflection categories, like [past, pl, 3]
 //and a string of 'selectors' + rules like 'past.pl:xyz, past.pl.3:abc'
 //returns the best matching 'rule' (ie. 'abc')
+//differs from css in that an over-specified rule will still match whatever it can
+//so acc.sg.1.m will match acc.sg.1:me
 function resolve(query,inf) {
 
     //find all rules that possibly apply to the given restrictions
@@ -451,11 +453,16 @@ function pickOne(arr, r){
 function r_match(restrictions, test_object){
     if (isEmpty(restrictions)) return true
 
-    //short circuit for name mismatch
-    if (restrictions.name && restrictions.name != test_object.name) return false
+    //short circuit for name match or mismatch
+    if (restrictions.name) {
+        if (restrictions.name != test_object.name) return false
+        else return true
+    }
+    //don't use disabled words
+    if(test_object.disabled) return false
 
     //prevent the repetitive use of words
-    if (typeof recentlyUsed !== 'undefined' && recentlyUsed.indexOf(test_object.name) > -1) return false
+    if (recentlyUsed.indexOf(test_object.name) > -1) return false
 
     var prohib = test_object.prohibitions
     if(goodVal(prohib)) {//prohib = prohib.replace(/ /g, '')
