@@ -1,50 +1,40 @@
 var google_key = "1FYbVHIMfwPJcYl_UgJFEQQ2zee4FkRzQMLWXhyz4qAI"
-
-/*var sheets = {
-    verb: "https://docs.google.com/spreadsheets/d/1FsuaUt7RancW9JE89zEkJ8XZaV3zZiMwq2nc1Wpvm14/export?gid=352633850&format=csv",
-    noun: "https://docs.google.com/spreadsheets/d/1HD29811teFW_LJKlm6INFXoxLNriLNRO7CLSMoDVve4/export?gid=433756195&format=csv",
-    adjective: "https://docs.google.com/spreadsheets/d/1FYbVHIMfwPJcYl_UgJFEQQ2zee4FkRzQMLWXhyz4qAI/export?format=csv#gid=948204870"
-}*/
-
-var templates = {
-	general: {name: '', inflections: '', prohibitions: '', tags: ''},
-	verb: {class: '', trans: '', anim: ''},
-	noun: {anim: '', proper:'', gender: ''},
-	adjective: {anim: '', rank:''}
-}
+var datasource = "google" // "google" or else it will use local
 
 function loadLexicon(){
 
     var d = $.Deferred();
 
-    Tabletop.init({
-        key: google_key,
-        callback: function(data){
-            processLexicon(data.noun.elements, 'noun')
-            processLexicon(data.verb.elements, 'verb')
-            processLexicon(data.adjective.elements, 'adjective')
+    if (datasource == "google") {
+        Tabletop.init({
+            key: google_key,
+            callback: function (data) {
+                processLexicon(data.noun.elements, 'noun')
+                processLexicon(data.verb.elements, 'verb')
+                processLexicon(data.adjective.elements, 'adjective')
+                d.resolve();
+            }
+        })
+    } else { //use local csv
+        var a = $.Deferred();
+        var b = $.Deferred();
+        var c = $.Deferred();
+        $.get('csv/nouns.csv',function(data){
+            processLexicon(CSV2JSON(data), 'noun')
+            a.resolve()
+        })
+        $.get('csv/verbs.csv',function(data){
+            processLexicon(CSV2JSON(data), 'verb')
+            b.resolve()
+        })
+        $.get('csv/adjectives.csv',function(data){
+            processLexicon(CSV2JSON(data), 'adjective')
+            c.resolve()
+        })
+        $.when(a,b,c).done(function() {
             d.resolve();
-        }
-    })
-    
-    /*var a = $.Deferred();
-    var b = $.Deferred();
-    var c = $.Deferred();
-    $.get('csv/nouns.csv',function(data){
-        processLexicon(CSV2JSON(data), 'noun')
-        a.resolve()
-    })
-    $.get('csv/verbs.csv',function(data){
-        processLexicon(CSV2JSON(data), 'verb')
-        b.resolve()
-    })
-    $.get('csv/adjectives.csv',function(data){
-        processLexicon(CSV2JSON(data), 'adjective')
-        c.resolve()
-    })
-    $.when(a,b,c).done(function() {
-        d.resolve();
-    })*/
+        })
+    }
 
     return d
 }
