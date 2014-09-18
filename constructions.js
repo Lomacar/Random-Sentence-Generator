@@ -24,9 +24,8 @@ function COPULA(){
         children: {
             subject: [NP, {case: 'nom'}],
             copula: [auxiliary, {unpack: 'subject.R', copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
-            predicate: [AP, {unpack: 'subject.R', reverse: true}]
+            predicate: [AP, {unpack: 'subject.R', copulant: true, reverse: true}]
         },
-        //restrictions: decide({}, "number,person,tense,anim")
     }
 }
 
@@ -46,7 +45,7 @@ function DP(r){
         children: {
             noun: [N],
             adj: [AP, {unpack:'noun.R', reverse: true, nocomplement: true, no_adj: 'noun.unique'}, 0.3, 'rank'],
-            det: [DET, 'noun.R'],
+            det: r.nodeterminer ? [blank] : [DET, 'noun.R'],
             comp: [complement, {case: 'acc', complements: 'noun.complements'}]
         },
         postlogic:function(text){
@@ -140,7 +139,8 @@ function N(r){
             num: [nNum, 'word']
         },
         postlogic:function(text){
-            return text.replace(/([^aeou])y_+(s)/g, "$1ie$2")
+            return text.replace(/\d+/, '') //strip verb sense numbers
+                       .replace(/([^aeou])y_+(s)/g, "$1ie$2")
                        .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
         }
     }
@@ -153,7 +153,8 @@ function nNum(r){
 
 function PRONOUN(r) {
     decide(r,'person,number,case')
-    if (r.person<3) r.anim=3
+    if (!magicCompare(r.anim,3)) r.person=3 //if restrictions demands something less than sentient than 1st and 2nd person are excluded
+    //if (r.person<3) r.anim=3
 
     //get a dummy noun so that we can make realistic pronouns
     r = $.extend( r, get($.extend(r,{type:'noun'})) )
@@ -199,6 +200,7 @@ function AP(r) {
 }
 
 function A(r){
+    r.copulant = r.copulant || false
     return get($.extend({type: 'adjective'}, r))
 }
 

@@ -15,8 +15,14 @@ the special Spaniard had thought   that the old toys have had   the special snow
 -Aunt Jemima has known how to give wolves to the colors
 The *Kraken* would be trying to *shoot* that llama.
 the nice *tendencys* of an old category to sleep had seemed strange
+gymnastics kept persuading a bowling ball to touch two alive Canadian Krakens 
 
 A shiny weather becomes special .
 We are writing me.
 The wolves had been happy that the snowmen find you.
 Twenty nine bees did not become blue.
+
+
+No word could be get'd with the following restrictions: {"case":"acc","volition":true,"reset":true,"person":3,"number":"sg","anim":0,"tang":0,"unique":2,"possessable":0,"count":false,"tags":"activity","def":"def","quantified":false,"gender":"n","tense":"pres","aspect":"prog","type":"verb"} main.js:411
+Undefined selector for route function. Picking one of these at random: {"prog":"ing","retroprog":"ing"} main.js:632
+ Darth Vader's upside-down house persuaded it to keep [???]ing 

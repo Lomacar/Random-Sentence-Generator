@@ -77,6 +77,11 @@ function prune(obj){
     }
 }
 
+Object.setPrototypeOf = Object.setPrototypeOf || function (obj, proto) {
+    obj.__proto__ = proto;
+    return obj;
+}
+
 //tells you if any two objects have matching keys with matching values
 function collide(obj1, obj2) {
     for (k in obj1) {
@@ -140,27 +145,6 @@ String.prototype.findChar = function (needle) {
     }
     return false
 }
-
-Object.setPrototypeOf = Object.setPrototypeOf || function (obj, proto) {
-    obj.__proto__ = proto;
-    return obj;
-}
-/*//because changing __proto__ is a bad idea apparently
-function setPrototypeOf(obj, proto) {
-    var type = typeof proto;
-    if (typeof obj == "object" && (type == "object" || type == "function")) {
-        var constructor = function (obj) {
-            var ownPropertyNames = Object.getOwnPropertyNames(obj);
-            var length = ownPropertyNames.length;
-            for (var i = 0; i < length; i++) {
-                var ownPropertyName = ownPropertyNames[i];
-                this[ownPropertyName] = obj[ownPropertyName];
-            }
-        };
-        constructor.prototype = proto;
-        return new constructor(obj);
-    } else throw new TypeError("Expected both the arguments to be objects.");
-}*/
 
 /*  MAGIC COMPARE
 *

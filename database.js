@@ -52,12 +52,56 @@ function processLexicon(data, type){
         delete a.rowNumber //something that Tabletop seems to add in
         prune(a)
 
-        if (a.proto) {
+        setProto(a,type,x)
+        /*if (a.proto) {
             a = database[type][x] = Object.setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
             if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
                 error('Prototype"' + a.proto + '"could not be found for'+a.name+'.')
-        }
+            else //there is a proto
+                senseFetch(a,type)
+        }*/
     }
+}
+
+function setProto(a,type,x){
+    if (a.proto) {
+        a = database[type][x] = Object.setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
+        if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
+            error('Prototype"' + a.proto + '"could not be found for'+a.name+'.')
+        else //there is a proto
+            createSenses(a,type,x)
+    }
+    return a
+}
+
+//takes a word in the lexicon and creates all the same senses as its prototype (the word should have a prototype)
+function createSenses(word,type,x,number) {
+    number = number || 1
+    var sense = word.proto+number
+    var proto_sense
+
+    if(proto_sense = pickOne(database[type], {name: sense}) ) {
+        if (proto_sense.name==word.name) return //don't create a sense when the word already is the sense
+        if (pickOne(database[type], {name: word.name+number})) return //don't create a sense if it is already defined
+
+        var new_sense = {}
+
+        //set prototype to the main word
+        new_sense.proto = word.name
+        new_sense = setProto(new_sense,type,-1)
+
+        //overwrite this senses values with the overwrite-values from the prototype sense
+        new_sense = _.extend(new_sense,proto_sense) //must be lo-dash extend because it only copies objects real properties!
+
+        new_sense.name = word.name+number
+
+        //throw it in the database
+        database[type].push(new_sense)
+
+        //check for more senses
+        createSenses(word,type,x,number+1)
+    }
+    return new_sense
 }
 
 

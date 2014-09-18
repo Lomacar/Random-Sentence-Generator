@@ -96,7 +96,7 @@ function branch(c, r, p, l){
                                     { tempchildren.push(sprout) }
 
                                 if (probability == 1) probability = 0
-                                else probability *= 0.85
+                                else probability *= 0.6
                             }
 
                             //sort the multiple child instances if there is sort criteria
