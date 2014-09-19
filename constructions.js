@@ -1,5 +1,5 @@
 function SENTENCE(){
-    return choose(6, [CLAUSE], 1, [COPULA])
+    return choose(5, [CLAUSE], 1, [COPULA], 0.09, [ALLYOURBASE])
 }
 
 function CLAUSE(r){
@@ -9,7 +9,7 @@ function CLAUSE(r){
         order: "subject predicate",
         head: "subject",
         children: {
-            subject: [NP, {case: 'nom'}],
+            subject: [NP, {case: 'nom', anim: choose(1,0, 3,1, 5,2, 7,3)}],
             predicate: [VP, {special: false, copulant: false, unpack: "subject.R", reverse: true}]
         }
     }}
@@ -395,12 +395,6 @@ function blank(){
     return {text: ""}
 }
 
-/*----------------------------- COMPLEMENTS --------------------------------*/
-
-/*function to_NP {
-    return {
-        restrictions: {
-            case: 'acc'
-        }
-    }
-}*/
+function ALLYOURBASE(){
+    return {text: "ALL YOUR BASE ARE BELONG TO US"}
+}

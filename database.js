@@ -115,6 +115,7 @@ var database = { verb: [],noun: [], adjective: [],
 
                 quantifier: [
                     {name: 'a lot of'},
+                    {name: 'heaps of'},
                     {name: 'some'},
                     {name: 'all'},
                     {name: 'no'},
@@ -123,7 +124,9 @@ var database = { verb: [],noun: [], adjective: [],
                     {name: 'enough'},
                     {name: 'not enough'},
                     {name: 'tons of'},
+                    {name: 'most of the'},
                     {name: 'several', count: '1'},
+                    {name: 'numerous', count: '1'},
                     {name: 'a few', count: '1'},
                     {name: 'a couple of', count: '1'},
                     {name: 'dozens of', count: '1'},
@@ -131,7 +134,9 @@ var database = { verb: [],noun: [], adjective: [],
                     {name: 'many', count: '1'},
                     {name: 'a number of', count: '1'},
                     {name: 'much', count: '0'},
+                    {name: 'too much', count: '0'},
                     {name: 'a little', count: '0'},
+                    {name: 'too little', count: '0'},
                     {name: 'a bit of', count: '0'}
                 ]
 
@@ -171,7 +176,7 @@ var prohibitions = {
 //default probabilities for paradigms ( used by decide() )
 var probabilities = {
     //general
-    anim: [1,0, 2,1, 5,2, 5,3],
+    anim: [1,0, 1,1, 4,2, 5,3],
     tang: [1,0, 1,1, 2,2],
 
     //nounish
@@ -187,8 +192,8 @@ var probabilities = {
     dem: [1,'prox', 1,'dist', 5,''],
     
     //verby
-    tense: [3, 'pres', 6, 'past', 1, 'fut'],
-    aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog', 2, 'prosp'],
-    neg: [6, false, 1, true],
+    tense: [4, 'pres', 8, 'past', 1, 'fut'],
+    aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog', 1.5, 'prosp'],
+    neg: [7, false, 1, true],
     mood: [1,'deontic', 6,'other']
 }
