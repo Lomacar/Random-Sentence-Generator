@@ -89,6 +89,18 @@ function collide(obj1, obj2) {
     }
 }
 
+function patricide(x,y) {
+    if(typeOf(y)!='object') return;
+    if(x=="R") return
+    console.log(x)
+    delete y.parent;
+    delete y.head;
+    for(var key in y) {
+        if(typeOf(y[key]) != 'object' & key!='gap') delete y[key];
+    }
+    $.each(y,patricide)
+}
+
 //takes an array of arrays like [[abc][xyz][123]]
 //and returns all permutations like [[ax1][ax2][ax3][ay1][ay2][ay3][az1]...]
 function factorPermutations(lists) {  

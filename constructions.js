@@ -1,5 +1,5 @@
 function SENTENCE(){
-    return choose(5, [CLAUSE], 1, [COPULA], 0.09, [ALLYOURBASE])
+    return choose(5, [CLAUSE], 1, [COPULA], 0.0005, [ALLYOURBASE])
 }
 
 function CLAUSE(r){
@@ -42,9 +42,10 @@ function DP(r){
     return {
         order : "det adj* noun comp*",
         head : "noun",
+        gap : [blank],
         children: {
             noun: [N],
-            adj: [AP, {unpack:'noun.R', reverse: true, nocomplement: true, no_adj: 'noun.unique'}, 0.3, 'rank'],
+            adj: [AP, {unpack:'noun.R', reverse: true, nocomplement: true, no_adj: 'noun.unique'}, 0.25, 'rank'],
             det: r.nodeterminer ? [blank] : [DET, 'noun.R'],
             comp: [complement, {case: 'acc', complements: 'noun.complements'}]
         },
@@ -178,7 +179,8 @@ function PRONOUN(r) {
                                  " reflex.sg.1:myself, reflex.pl.1:ourselves," +
                                  " reflex.sg.2:yourself, reflex.pl.2:yourselves," +
                                  " reflex.sg.3.m:himself, reflex.sg.3.f:herself, reflex.sg.3.n:itself," +
-                                 " reflex.pl.3:themselves"
+                                 " reflex.pl.3:themselves",
+                     gap : [blank]
                     }
                 )
 
@@ -221,6 +223,7 @@ function V(r) {
     return {
         order: "verb_asp_tns_num comp*",
         head: "verb",
+        gap: [get, {type: 'aux_verb', name: 'do'}],
         children: {
             verb: [get, {type: 'verb'}],
             asp:  [aspect, 'verb'],
@@ -333,8 +336,47 @@ function verb_cleanup(text){
     return text
 }
 
-function WH_CLAUSE() {
+function WH_CLAUSE(r) {
+    r = r || {}
 
+    var B = new branch(CLAUSE,_.extend(r,{number:'sg'}))
+
+    var gaps = []
+
+    var findGaps = function(branch,parent) {
+        $.each(branch, function(k,v){
+            if (k=='parent') return
+            if (k=='gap' && v) gaps.push(branch)
+            if (typeOf(v)=='object') findGaps(v,branch)
+        })
+    }
+    findGaps(B)
+    var g = _.sample(gaps)
+    var gapr = propertySearch2(g,'R')
+
+    g.parent.children[g.label] = new branch( g.gap[0], _.extend(g.gap[1], gapr) )
+
+    var wh
+    if (g.label=='gennoun') {
+        g.parent.parent.parent.order = g.parent.parent.label + " " + g.parent.parent.parent.order.replace(g.parent.parent.label,'')
+        wh = 'whose'
+    } else {
+        wh = gapr.anim != 3 || g.parent.label == 'predicate' ? 'what' : 'who'
+    }
+    B.order = wh + " " + B.order
+
+    return B
+}
+
+function THAT_CLAUSE(){
+    return {
+        order: 'that clause',
+        head: 'predicate',
+        gap: [blank],
+        children:{
+            clause: [SENTENCE]
+        }
+    }
 }
 
 function INF_PHRASE(r){

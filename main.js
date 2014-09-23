@@ -5,19 +5,23 @@ function branch(c, r, p, l){
     this.label = l || null
 
     //parse and filter restrictions
-    this.parseRestrictions = parseRestrictions
-    r = this.parseRestrictions(r)
+    r = parseRestrictions.apply(this, [r])
 
     //load the requested construction
     c = c(r)
+
     if(!c) return {text: ''} //this is necessary for some reason, since reworking complements
+
+    //wh clauses return a fully evaluated branch, so no need to process them
+    if (c.constructor == branch) return c
+
 
     //if c returned an array
     while(typeOf(c)==='array'){
 
         if(typeof c[0] == 'function') {
             //some constructions just reroute to other constructions
-            c[1] = this.parseRestrictions(c[1])
+            c[1] = parseRestrictions.apply(this, [c[1]])
             c = c[0]( $.extend({}, r, c[1]) )
 
         } else if ("children".in(c[0]) || "text".in(c[0])) {
@@ -36,7 +40,6 @@ function branch(c, r, p, l){
         else break //just prevent infinite loops
     }
 
-    this.executeBranch = executeBranch;
     executeBranch.apply(this, [c, r, this])
 
     //dump almost all other c.properties into this
@@ -54,122 +57,122 @@ function branch(c, r, p, l){
         this.R = safe(this)
     }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
+} //end branch
 
-    function executeBranch(c, r, p){
 
-        //evaluate head first
-        if("head".in(c)){
-            this.order = c.order
-            this.children = {}
 
-            var newbranch = c.children[c.head][0]
-            var headr = $.extend( {}, c.restrictions, r, c.children[c.head][1] )
-            this.head = this.children[c.head] = new branch(newbranch, headr, p, c.head)
+function executeBranch(c, r, p){
 
-        }
+    //evaluate head first
+    if("head".in(c)){
+        this.order = c.order
+        this.children = {}
 
-        //run special functions after head is loaded, if any
-        //if(this.head.midlogic)
+        var newbranch = c.children[c.head][0]
+        var headr = $.extend( {}, c.restrictions, r, c.children[c.head][1] )
+        this.head = this.children[c.head] = new branch(newbranch, headr, p, c.head)
 
-        //evaluate rest of children
-        if("children".in(c)){
-            for(var child in c.children){
-                if(this.children[child] != this.head){
-                    if(typeOf(c.children[child])=='array'){
-                        var R = this.parseRestrictions(c.children[child][1]) //restrictions explicitly passed in to branch
-                        if(R=="LEAVE") this.children[child] = {text: ""} //this is how we deal with branches that our restrictions told us not to follow
+    }
 
-                        else {
-                            //if a restriction reset has been requested, clear everything accept nocomplement
-                            if (c.children[child][1] && c.children[child][1].reset) r = {nocomplement: r.nocomplement}
+    //run special functions after head is loaded, if any
+    //if(this.head.midlogic)
 
-                            var probability = c.children[child][2] || 1 //if children have a probability of occurence
-                            var tempchildren = []
-                            while (probability > Math.random()) { //repeat until the probability dies
+    //evaluate rest of children
+    if("children".in(c)){
+        for(var child in c.children){
+            if(this.children[child] != this.head){
+                if(typeOf(c.children[child])=='array'){
+                    var R = parseRestrictions.apply( this, [c.children[child][1]] ) //restrictions explicitly passed in to branch
+                    if(R=="LEAVE") this.children[child] = {text: ""} //this is how we deal with branches that our restrictions told us not to follow
 
-                                //Fetch the child branch
-                                var sprout = new branch(c.children[child][0], $.extend({}, c.restrictions, R), p, child)
-                                if (typeOf(sprout) == 'array')
-                                    { tempchildren = tempchildren.concat(sprout) }
-                                else
-                                    { tempchildren.push(sprout) }
+                    else {
+                        //if a restriction reset has been requested, clear everything accept nocomplement
+                        if (c.children[child][1] && c.children[child][1].reset) r = {nocomplement: r.nocomplement}
 
-                                if (probability == 1) probability = 0
-                                else probability *= 0.6
-                            }
+                        var probability = c.children[child][2] || 1 //if children have a probability of occurence
+                        var tempchildren = []
+                        while (probability > Math.random()) { //repeat until the probability dies
 
-                            //sort the multiple child instances if there is sort criteria
-                            if (c.children[child][3]!==undefined) {
-                                var sortby = c.children[child][3]
-                                tempchildren = tempchildren.sort(function(b,a){
-                                    if (a[sortby]) {
-                                        //items being sorted have property directly, like when sorting words
-                                        return a[sortby] - b[sortby]
-                                    } else {
-                                        //items being sorted do not have property, such as when sorting phrases
-                                        //property must exist on the head or grandchildhead etc.
-                                        return propertySearch2(a,sortby) - propertySearch2(b,sortby)
-                                    }
-                                })
-                            }
+                            //Fetch the child branch
+                            var sprout = new branch(c.children[child][0], $.extend({}, c.restrictions, R), p, child)
+                            if (typeOf(sprout) == 'array')
+                            { tempchildren = tempchildren.concat(sprout) }
+                            else
+                            { tempchildren.push(sprout) }
 
-                            if (tempchildren.length==1) tempchildren = tempchildren[0]
-                            else if (tempchildren.length===0) tempchildren = {text: ""}
-                            this.children[child] = tempchildren
+                            if (probability == 1) probability = 0
+                            else probability *= 0.6
+                                }
+
+                        //sort the multiple child instances if there is sort criteria
+                        if (c.children[child][3]!==undefined) {
+                            var sortby = c.children[child][3]
+                            tempchildren = tempchildren.sort(function(b,a){
+                                if (a[sortby]) {
+                                    //items being sorted have property directly, like when sorting words
+                                    return a[sortby] - b[sortby]
+                                } else {
+                                    //items being sorted do not have property, such as when sorting phrases
+                                    //property must exist on the head or grandchildhead etc.
+                                    return propertySearch2(a,sortby) - propertySearch2(b,sortby)
+                                }
+                            })
                         }
+
+                        if (tempchildren.length==1) tempchildren = tempchildren[0]
+                        else if (tempchildren.length===0) tempchildren = {text: ""}
+                        this.children[child] = tempchildren
                     }
-                    else //presumably this is just a straight object rather than a construction + restrictions to evaluate
-                    {this.children[child] = c.children[child]}
                 }
+                else //presumably this is just a straight object rather than a construction + restrictions to evaluate
+                {this.children[child] = c.children[child]}
             }
         }
     }
+}
 
-    /*-------------------------------------   RESTRICTIONS -------------------------------------*/
+/*-------------------------------------   RESTRICTIONS -------------------------------------*/
 
-    function parseRestrictions(restrictions){
-        if (typeof restrictions==='undefined') return;
-        if (isEmpty(restrictions)) return restrictions;
+function parseRestrictions(restrictions){
+    if (typeof restrictions==='undefined') return;
+    if (isEmpty(restrictions)) return restrictions;
 
-        //strings can be passed as restrictions. they are expected to eval to just an object, no property
-        if (typeof restrictions==='string') {
-            return parseSingleRestriction(restrictions, this, true) || {}
-        }
+    //strings can be passed as restrictions. they are expected to eval to just an object, no property
+    if (typeof restrictions==='string') {
+        return parseSingleRestriction(restrictions, this, true) || {}
+    }
 
-        //if restrictions is an object (usually), parse the string values of each element
-        var that = this
-        var out_restrictions = {}
+    //if restrictions is an object (usually), parse the string values of each element
+    var that = this
+    var out_restrictions = {}
 
-        $.each(restrictions, function(r){
+    $.each(restrictions, function(r){
 
-            var expando = r=='unpack' //this allows entire words to be unpacked in the restrictions
-            var arrr = parseSingleRestriction(restrictions[r], that, expando)
-            if (arrr===null) {
+        var expando = r=='unpack' //this allows entire words to be unpacked in the restrictions
+        var arrr = parseSingleRestriction(restrictions[r], that, expando)
+        if (arrr===null) {
 
-                console.warn(r + " evaluated to null in " + that.label)
+            console.warn(r + " evaluated to null in " + that.label)
 
-            } else if (typeOf(arrr)=='object') {
+        } else if (typeOf(arrr)=='object') {
 
-                if( _.size(arrr)==1 && !expando ){
-                    out_restrictions[r] = arrr[_.keys(arrr)[0]] //for restrictions like {thing: 'subject.other'}
-                } else {
-                    $.extend( out_restrictions, arrr ) //for everything else
-                }
-
-            } else if (arrr===true) {
-
-                 out_restrictions[r] = restrictions[r] //plain strings and numbers
-
+            if( _.size(arrr)==1 && !expando ){
+                out_restrictions[r] = arrr[_.keys(arrr)[0]] //for restrictions like {thing: 'subject.other'}
+            } else {
+                $.extend( out_restrictions, arrr ) //for everything else
             }
 
-        }) //end each restriction
+        } else if (arrr===true) {
 
-        return out_restrictions
+            out_restrictions[r] = restrictions[r] //plain strings and numbers
 
-    } //end parseRestrictions
+        }
 
-} //end branch
+    }) //end each restriction
+
+    return out_restrictions
+
+} //end parseRestrictions
 
 function parseSingleRestriction(s, context, expandPlainStrings){
     //type check
@@ -396,6 +399,38 @@ function parseComplement(complement, r){
             c: [window[func], arg]
         }
     }
+}
+
+function options(str){
+    if(typeOf(str)!='string') return error("Non-string passed to options function.")
+
+    out = str.replace(/\([^()]*\)/g, function(match){
+
+        if(match.findChar('|')){
+
+            if(/(^\(|\|)?[0-9.] /.test(match)) return choose(
+                _.flatten(
+                    match.slice(1,-1)
+                    .split("|")
+                    .map(function(x){
+                        return x.match(/^([0-9.]*) +([^ ].*)$/).slice(1)
+                    })
+                )
+            )
+            else {
+                return _.sample( match.slice(1,-1).split("|") )
+            }
+
+        } else {
+
+            var threshold = match.match(/^\(?([0-9.]+ )/)
+            threshold = threshold ? threshold.pop() : 50 //percentage
+            return Math.random()*100 < threshold ? match.replace(/^\(([0-9.]+ +)?(.*)\)$/, '$2') : ''
+
+        }
+    })
+
+    return out==str ? str : options(out)
 }
 
 
@@ -649,9 +684,11 @@ function choose(){
 
     for(var arg in argz){
         //even numbers need to be the weights (0,2,4,6)
+        var a = +(argz[arg])
+
         if(arg%2==0) {
-            if(argz[arg]==0) continue
-            total += argz[arg]
+            if(a==0) continue
+            total += a
             weights.push(total)
             values.push(argz[parseInt(arg)+1])
         }

@@ -76,13 +76,13 @@ function setProto(a,type,x){
 
 //takes a word in the lexicon and creates all the same senses as its prototype (the word should have a prototype)
 function createSenses(word,type,x,number) {
-    number = number || 1
+    number = number || word.name.replace(/.*?(\d*)$/g,'$1') || 1
     var sense = word.proto+number
     var proto_sense
 
     if(proto_sense = pickOne(database[type], {name: sense}) ) {
         if (proto_sense.name==word.name) return //don't create a sense when the word already is the sense
-        if (pickOne(database[type], {name: word.name+number})) return //don't create a sense if it is already defined
+        if (pickOne(database[type], {name: word.name.replace(/(.*?)\d*$/,'$1')+number})) return //don't create a sense if it is already defined
 
         var new_sense = {}
 
@@ -109,7 +109,7 @@ var database = { verb: [],noun: [], adjective: [],
 
                 aux_verb: [
                     { "name": "be", "inflections": "simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, retroprog:being, prog:being"},
-                    { "name": "do", "inflections": "simp.pres.sg.3:does, simp.past:did, retro: done"},
+                    { "name": "do", "inflections": "simp.pres.sg.3:does, simp.past:did, retro: done, retroprog:doing, prog:doing"},
                     { "name": "have", "inflections": "simp.past:had, simp.pres.sg.3:has, retro:had"}
                 ],
 
