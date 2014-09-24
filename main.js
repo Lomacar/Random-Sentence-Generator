@@ -1,8 +1,6 @@
 /*-------------------------------------   BRANCH -------------------------------------*/
 
 function branch(c, r, p, l){
-    if (typeof c=='string') return {text: "X"}
-
     this.parent = p || null
     this.label = l || null
 
@@ -12,34 +10,14 @@ function branch(c, r, p, l){
     //load the requested construction
     c = c(r)
 
-    if(!c) return {text: ''} //this is necessary for some reason, since reworking complements
-
     //wh clauses return a fully evaluated branch, so no need to process them
     if (c.constructor == branch) return c
 
 
-    //if c returned an array
-    while(typeOf(c)==='array'){
-
-        if(typeof c[0] == 'function') {
-            //some constructions just reroute to other constructions
-            c[1] = parseRestrictions.apply(this, [c[1]])
-            c = c[0]( $.extend({}, r, c[1]) )
-
-        } else if ("children".in(c[0]) || "text".in(c[0])) {
-
-            //here we are dealing with a complement which provides an array of one or more pseudo-branches
-            //so we run the branch processing on each "branch" and return the processed array
-            //but a copy of each branch must be made because executeBranch expects a real branch for context
-            //and the return value of a construction function for its first argument
-            var multi = []
-            for (var cx in c ) {
-                multi[cx] = _.clone(c[cx])
-                executeBranch.apply( multi[cx],  [c[cx], {}, this] )
-            }
-            return multi
-        }
-        else break //just prevent infinite loops
+    //some constructions just reroute to other constructions
+    if(typeOf(c)==='array' && typeof c[0] == 'function') {
+        c[1] = parseRestrictions.apply(this, [c[1]])
+        c = c[0]( $.extend({}, r, c[1]) )
     }
 
     executeBranch.apply(this, [c, r, this])
@@ -420,9 +398,10 @@ function options(str){
             if(/(^\(|\|)?[0-9.] /.test(match)) return choose2(
                 _.flatten(
                     match.slice(1,-1)
+                    .replace(/{.*?}/g, function(m){return m.replace(/\|/g,'###')}) //prevent splitting on pipes inside {rest:rict|ions}
                     .split("|")
                     .map(function(x){
-                        return x.match(/^([0-9.]*) +([^ ].*)$/).slice(1)
+                        return x.replace(/###/g,'|').match(/^([0-9.]*) +([^ ].*)$/).slice(1)
                     })
                 )
             )
@@ -452,7 +431,7 @@ function get(r){
     var word = pickOne(database[r.type], r) || false
 
     if(!'name'.in(word))
-        return {text: console.warn("No word could be get'd with the following restrictions: "+JSON.stringify(r))}
+        return {text: console.warn("No "+r.type+" could be get'd with the following restrictions: "+JSON.stringify(r))}
 
     //add existing restrictions to the word
     word = $.extend({},r,word)

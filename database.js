@@ -42,6 +42,12 @@ function loadLexicon(){
 function processLexicon(data, type){
     database[type] = data
     for (var x in database[type]) {
+        //remove empty rows that Google or Git might add
+        if (!database[type][x].name) {
+            database[type].splice(x,1)
+            return
+        }
+
         var a = database[type][x]
 
         $.each(a, function(b,val){
