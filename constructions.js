@@ -47,7 +47,7 @@ function DP(r){
             noun: [N],
             adj: [AP, {unpack:'noun.R', reverse: true, nocomplement: true, no_adj: 'noun.unique'}, 0.25, 'rank'],
             det: r.nodeterminer ? [blank] : [DET, 'noun.R'],
-            comp: [complement, {case: 'acc', complements: 'noun.complements'}]
+            comp: [complement, {case: 'acc', complements: 'noun.complements', nogap: true}]
         },
         postlogic:function(text){
             return text.replace(/\ba +([aeiou])/g, "an $1") // 'a apple' to 'an apple'
@@ -237,25 +237,25 @@ function V(r) {
 
 //verb aspect morphology
 function aspect(r){
-    return {
-        text: route(goodVal(r.inflected) || !!r.noinflection, {
-            false: route(r.aspect,{
-                prog: "ing",
-                retroprog: "ing"
-            })
-        })
-    }}
+    if (!goodVal(r.inflected) && !r.noinflection && (r.aspect=='prog' || r.aspect=='retroprog') ) {
+        return {text: 'ing'}
+    }
+
+    return {text: ''}
+}
 
 //verb tense morphology
 function tense(r){
-    return {
-        text: route(goodVal(r.inflected) || !!r.noinflection, {
-            false: route(r.aspect,{
-                simp: route(r.tense, {past: "ed"}),
-                retro: "ed"
-            })
-        })
-    }}
+    if (!goodVal(r.inflected) && !r.noinflection) {
+        switch (r.aspect) {
+            case 'simp':
+                return {text: route(r.tense, {past: "ed"})}
+            case 'retro':
+                return {text: 'ed'}
+        }
+    }
+    return {text: ''}
+}
 
 function auxiliary(r){
     var text = ""
@@ -336,49 +336,96 @@ function verb_cleanup(text){
     return text
 }
 
-function WH_CLAUSE(r) {
+function WH_CLAUSE(r,c) {
     r = r || {}
 
-    var B = new branch(CLAUSE,_.extend(r,{number:'sg'}))
+    var B = new branch(c||CLAUSE,_.extend(r,{number:'sg'}))
 
     var gaps = []
-
-    var findGaps = function(branch,parent) {
-        $.each(branch, function(k,v){
-            if (k=='parent') return
-            if (k=='gap' && v) gaps.push(branch)
-            if (typeOf(v)=='object') findGaps(v,branch)
-        })
-    }
-    findGaps(B)
-    var g = _.sample(gaps)
-    var gapr = propertySearch2(g,'R')
-
-    if(g.parent.children) g.parent.children[g.label] = new branch( g.gap[0], _.extend(g.gap[1], gapr) )
-
     var wh
-    if (g.label=='gennoun') {
-        g.parent.parent.parent.order = g.parent.parent.label + " " + g.parent.parent.parent.order.replace(g.parent.parent.label,'')
-        g.parent.order = g.parent.order.replace("'s",'')
-        wh = 'whose'
+
+    if (Math.random()>0.5){
+
+        //why,how
+        var Ws = ['how']
+        if (c!==INF_PHRASE) Ws.push('why') //"why to" sounds a bit weird, so we avoid it this way
+        wh = _.sample(Ws)
+
     } else {
-        wh = (gapr.anim != 3 || g.parent.label == 'predicate' || g.label == 'predicate') ? 'what' : 'who'
+
+        var findGaps = function(branch,parent) {
+            $.each(branch, function(k,v){
+                if (k=='parent' || k=='head') return true
+                if (k=='gap' && v) {
+                    if (propertySearch2(branch,'nogap')) return true //prevent noun complements and other things from partaking
+                    if(branch.forceGap) {
+                        gaps = [branch] //prevent gapping inside nested WHs
+                        return false
+                    }
+                    gaps.push(branch)
+                }
+                if (typeOf(v)=='object') findGaps(v,branch)
+            })
+        }
+
+        //what,who,whose,where
+        findGaps(B)
+        var g = _.sample(gaps)
+        var gapr = propertySearch2(g,'R')
+
+        if(g.parent.children) g.parent.children[g.label] = new branch( g.gap[0], _.extend(g.gap[1], gapr) )
+
+        if (g.label=='gennoun') {
+            g.parent.parent.parent.order = g.parent.parent.label + " " + g.parent.parent.parent.order.replace(g.parent.parent.label,'')
+            g.parent.order = g.parent.order.replace("'s",'')
+            wh = 'whose'
+        } else {
+            wh = g.wh || (  (gapr.anim != 3 || g.parent.label == 'predicate' || g.label == 'predicate') ? 'what' : 'who'  )
+        }
     }
+
     B.order = wh + " " + B.order
 
+    B.gap = [blank] //so meta!
+    B.wh = 'what'
+    B.forceGap = true //no nested WHs
+
     return B
+}
+
+function WH_INF(r){
+    return WH_CLAUSE(r,INF_PHRASE)
+}
+
+function WH_INF_CLAUSE(r){
+    return WH_CLAUSE(r,INF_CLAUSE)
 }
 
 function THAT_CLAUSE(){
     return {
         order: 'that clause',
-        head: 'predicate',
+        head: 'clause',
+        forceGap: true,
         gap: [blank],
+        wh: 'what',
         children:{
             clause: [SENTENCE]
         }
     }
 }
+
+function GOAL(){
+    return {
+        order: choose(1,'there', 1,'somewhere' , 3,'to place'),
+        head: 'place',
+        gap: [filler, {filler: 'to'}],
+        wh: 'where',
+        children:{
+            place: [NP, {tags:'place',number:'sg'}]
+        }
+    }
+}
+
 
 function INF_PHRASE(r){
     return {
@@ -395,7 +442,7 @@ function INF_CLAUSE(r){
         order: 'subject to predicate',
         head: 'subject',
         children:{
-            subject: [NP],
+            subject: [NP, {nogap: true}],
             predicate: [V, {noinflection: true, unpack: 'subject.R'}]
         }
     }
@@ -433,6 +480,9 @@ function GOAL_LOC() {
 
 }
 
+function filler(r){
+    return {text: r.filler}
+}
 
 function blank(){
     return {text: ""}

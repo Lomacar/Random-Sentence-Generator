@@ -1,22 +1,26 @@
 ##############       TODO        ##############
 
-prospective aspect
 
 passive voice
 
-reflexive, reciprocal
+#reflexive
+ - reciprocal
+
+#prospective aspect
+
+just, used to, about to
 
 adverbs
 
-negation
+#negation
 
 other modals
 
 light verbs
 
-wh-clause
-
-wh-phrase?
+wh-clause 
+   - what John thought about (topic)
+   - wh-phrase
 
 relative clause
 
@@ -30,7 +34,7 @@ participles from verbs
 
 mutators - "DEAD man", "bottle OF RUM"
 
-implications - for hierarchical tags, implemented whithin lexicon
+implications - for hierarchical tags, implemented within lexicon
 
 
 

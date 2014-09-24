@@ -44,7 +44,7 @@ function toArray(obj,keyval){
 function toObject(str){
 	if(typeof str=='string'){
 		if(!/:/.test(str)){
-			console.warn("Improper string passed to toObject. ':' is required.")
+			if (str!=" ") console.warn("Improper string passed to toObject. ':' is required.")
 			return
 		}
 		var obj = {}

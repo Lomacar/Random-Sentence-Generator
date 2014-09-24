@@ -2,6 +2,7 @@
 
 function branch(c, r, p, l){
     this.parent = p || null
+    LAST_PARENT = p || LAST_PARENT
     this.label = l || null
 
     //parse and filter restrictions
@@ -11,7 +12,11 @@ function branch(c, r, p, l){
     c = c(r)
 
     //wh clauses return a fully evaluated branch, so no need to process them
-    if (c.constructor == branch) return c
+    if (c.constructor == branch) {
+        c.parent = this.parent //maybe a little bit of processing...
+        c.label = this.label
+        return c
+    }
 
 
     //some constructions just reroute to other constructions
@@ -323,22 +328,6 @@ function resolve(query,inf) {
 
 /*-------------------------------------   COMPLEMENT   -------------------------------------*/
 
-/*//expand a word with a complement, if it has one
-function complement(r){
-    if (goodVal(r.complements) && !r.nocomplement){
-        var complement = r.complements.split(",")
-        var chosen = choose2(complement)
-        if (chosen) {
-            chosen = chosen.split('/') //some things have multiple complements
-            var parsed = chosen.map(function(a){
-                return parseComplement(a, r)
-            })
-
-            return parsed
-        }
-    }
-}*/
-
 //take string complement description, return complement construction object
 function complement(r){
     if (!goodVal(r.complements) || r.nocomplement) return {text: ''}
@@ -401,7 +390,7 @@ function options(str){
                     .replace(/{.*?}/g, function(m){return m.replace(/\|/g,'###')}) //prevent splitting on pipes inside {rest:rict|ions}
                     .split("|")
                     .map(function(x){
-                        return x.replace(/###/g,'|').match(/^([0-9.]*) +([^ ].*)$/).slice(1)
+                        return x.replace(/###/g,'|').match(/^([0-9.]*) +(.*)$/).slice(1)
                     })
                 )
             )
