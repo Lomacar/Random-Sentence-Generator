@@ -1,6 +1,8 @@
 /*-------------------------------------   BRANCH -------------------------------------*/
 
 function branch(c, r, p, l){
+    if (typeof c=='string') return {text: "X"}
+
     this.parent = p || null
     this.label = l || null
 
@@ -343,7 +345,7 @@ function resolve(query,inf) {
 
 /*-------------------------------------   COMPLEMENT   -------------------------------------*/
 
-//expand a word with a complement, if it has one
+/*//expand a word with a complement, if it has one
 function complement(r){
     if (goodVal(r.complements) && !r.nocomplement){
         var complement = r.complements.split(",")
@@ -357,47 +359,54 @@ function complement(r){
             return parsed
         }
     }
-}
+}*/
 
 //take string complement description, return complement construction object
-function parseComplement(complement, r){
+function complement(r){
+    if (!goodVal(r.complements) || r.nocomplement) return {text: ''}
 
-    var c = complement.match(/\b[A-Z]+\w*({.+})*/g)
+    var complement = options(r.complements)
 
-    if(c) c = c[0] //for now we assume there is only one construction per complement
-    else return {text: complement} //this must be a simple word complement like fall _down_
+    var constructions = complement.match(/\b[A-Z]+\w*({[^{}]+})*/g)
 
-    var func = c.match(/[A-Z]+\w*/)[0]
+    if (constructions == null) return {text: complement} //this must be a simple word complement like fall _down_
 
-    delete r.complements
-    //delete r.reset
+    var children = {}, c, con, func
+    for (c in constructions){
+        con = constructions[c]
 
-    var arg = c.match(/{.+}/)
-    if (arg===null) {
-        arg = r
-    } else {
-        arg = arg[0].slice(1,-1)
-        if(arg.findChar(':')){
-            arg = toObject(arg)
-            arg = $.extend({}, r, arg)
+        func = con.match(/[A-Z]+\w*/)[0]
+
+        delete r.complements
+
+        var arg = con.match(/{.+}/)
+        if (arg===null) {
+            arg = r
         } else {
-            arg = $.extend({}, r, {unpack: arg})
+            arg = arg[0].slice(1,-1)
+            if(arg.findChar(':')){
+                arg = toObject(arg)
+                arg = $.extend({}, r, arg)
+            } else {
+                arg = $.extend({}, r, {unpack: arg})
+            }
+
         }
 
+        if (window[func]===undefined) {
+            return {text: error("No such construction exists as '"+func+"'.")}
+        }
+
+        complement = complement.replace(con, 'c' + c)
+        children['c'+c] = [window[func], arg]
     }
 
-    if (window[func]===undefined) {
-        return {text: error("No such construction exists as '"+func+"'.")}
-    }
 
-    complement = complement.replace(c, 'c')
 
     return {
         order: complement,
-        head: "c",
-        children: {
-            c: [window[func], arg]
-        }
+        head: "c0",
+        children: children
     }
 }
 
@@ -408,7 +417,7 @@ function options(str){
 
         if(match.findChar('|')){
 
-            if(/(^\(|\|)?[0-9.] /.test(match)) return choose(
+            if(/(^\(|\|)?[0-9.] /.test(match)) return choose2(
                 _.flatten(
                     match.slice(1,-1)
                     .split("|")
@@ -699,10 +708,10 @@ function choose(){
     }
 }
 
-//assumes sum of weights <= 1.0
+//assumes sum of weights <= 100
 //can return undefined
 function choose2 () {
-    var rand = Math.random()
+    var rand = Math.random() * 100 //a percentage
     var total = 0
     var weights = []
     var values = []
@@ -723,6 +732,8 @@ function choose2 () {
     for (var w=0; w<weights.length; w++){
         if(weights[w] > rand)	return values[w]
     }
+
+    return ''
 }
 
 //take a restriction object and return just the ones specified in 'pdgms'

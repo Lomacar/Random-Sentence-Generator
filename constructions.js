@@ -108,7 +108,7 @@ function GENITIVE(r){
     var number = r.number=='sg' ? 'sg' : null
 
     return {
-        order: 'fake gennoun_\'s',
+        order: "fake gennoun_'s",
         head: 'fake',
         children: {
             fake: [blank],
@@ -354,14 +354,15 @@ function WH_CLAUSE(r) {
     var g = _.sample(gaps)
     var gapr = propertySearch2(g,'R')
 
-    g.parent.children[g.label] = new branch( g.gap[0], _.extend(g.gap[1], gapr) )
+    if(g.parent.children) g.parent.children[g.label] = new branch( g.gap[0], _.extend(g.gap[1], gapr) )
 
     var wh
     if (g.label=='gennoun') {
         g.parent.parent.parent.order = g.parent.parent.label + " " + g.parent.parent.parent.order.replace(g.parent.parent.label,'')
+        g.parent.order = g.parent.order.replace("'s",'')
         wh = 'whose'
     } else {
-        wh = gapr.anim != 3 || g.parent.label == 'predicate' ? 'what' : 'who'
+        wh = (gapr.anim != 3 || g.parent.label == 'predicate' || g.label == 'predicate') ? 'what' : 'who'
     }
     B.order = wh + " " + B.order
 

@@ -1,5 +1,5 @@
 var google_key = "1FYbVHIMfwPJcYl_UgJFEQQ2zee4FkRzQMLWXhyz4qAI"
-var datasource = "google" // "google" or else it will use local
+var datasource = "" // "google" or else it will use local
 
 function loadLexicon(){
 
