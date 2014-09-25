@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Sentence Gen 2.3</title>
+        <link href='http://fonts.googleapis.com/css?family=Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One|Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Oswald|Roboto+Slab|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative' rel='stylesheet' type='text/css'>
+        <style>
+            body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0 }
+            .hello {margin: 0 1.8em; margin-bottom: 1em; padding: 2em; text-align: center; font-family: 'Roboto Slab','Yanone Kaffeesatz'; color: #0a2376; background: #d8eaff; border-radius: 0 0 1vw 1vw}
+                .hello h1 {margin-bottom: 0.25em; font-weight: normal; font-size: 2vw;}
+                    .hello h1::first-line {font-size: 1.5em;}
+                .hello h2 {margin-top: 0;}
+                .hello p {margin: 2em 1em 1em 1em;}
+            .sentence {margin: 0 1.8em; padding: 2em 1em; font-size: 3vw; text-align: center; border-bottom: 1px solid #e0e0e0;}
+
+            @media (max-width: 800px) {
+                .hello h1 {font-size: 1.2em;}
+                .hello br {display: none}
+                .sentence {font-size: 1.5em;}
+            }
+
+            @media (min-width: 1100px) {
+                .hello h1 {font-size: 1.5em;}
+                .sentence {font-size: 2.5em;}
+            }
+
+        </style>
+        <script src="js/vendor/jquery-2.1.1.min.js" type="text/javascript"></script>
+        <script src="js/vendor/lodash.js" type="text/javascript"></script>
+        <script type="text/javascript" src="csv/csv2json.js"></script>
+        <script type="text/javascript" src="js/vendor/tabletop.js"></script>
+        <script type="text/javascript" src="js/vendor/seedrandom.js"></script>
+
+
+        <script type="text/javascript" src="js/utilities.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/database.js"></script>
+        <script type="text/javascript" src="js/constructions.js"></script>
+        <script type="text/javascript">
+
+
+    /***** GLOBAL VAARRRRRSSZ! ******/
+
+    var fonts = ("Oswald|Raleway|Roboto+Slab|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite"
+                + "|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Cinzel+Decorative|Abril+Fatface|Pirata+One"
+                + "|Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Stint+Ultra+Expanded|Flavors|Ribeye+Marrow|Griffy|Alex+Brush|Ceviche+One")
+                .replace(/\+/g, " ").split('|')
+    var fcounter = 0
+
+    var recentlyUsed = []
+    var LAST_PARENT = null
+
+    /********************************/
+
+    var MODULE = (function (my) {
+        // add capabilities...
+
+        return my;
+    }(MODULE || {}));
+    //LABjs
+
+
+    function tamnp(){
+        factored = factorPermutations(paradigms["verb"])
+
+        for(perm in factored){
+            C = new branch(CLAUSE, {tense:factored[perm][0], number: factored[perm][1], person: factored[perm][2], aspect: factored[perm][3]})
+
+            //$(document).ready(function(e) {
+            //$("body").html(stringOut(C))
+            var sentence = stringOut(C);
+            document.writeln('<p>'+sentence+'</p>')
+            console.log(sentence)
+            //console.log([C.head.head.head.aspect, C.head.head.head.tense, C.head.head.head.number, C.head.head.head.person])
+            //})
+        }
+    }
+    function oneRandom(seed){
+        //C = new branch(CLAUSE, {tense: "pres", aspect:"simp", number:'pl'})
+        //if(seed) Math.seedrandom(seed)
+
+        recentlyUsed = recentlyUsed.length > 10 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
+
+        C = new branch(SENTENCE)
+        var sentence = stringOut(C);
+        console.log(sentence)
+        return sentence
+        //console.log([C.head.head.head.aspect, C.head.head.head.tense, C.head.head.head.number, C.head.head.head.person])
+    }
+
+    function loopy(iters){
+        var output = ""
+        var oneline
+        //Math.seedrandom(getQueryVariable('seed')||null);
+
+        for(i=0;i<iters;i++,fcounter++) {
+            oneline = oneRandom()
+            oneline = oneline.trim()
+            oneline = '<p class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + '.</p>'
+            oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length]})
+            $('body').append(oneline)
+        }
+
+
+    }
+
+    //console.time("full")
+    var start = new Date().getTime();
+
+    $.when(loadLexicon()).done(function(){
+
+        //console.time("sentence loop")
+        var intheloop = new Date().getTime();
+
+        loopy(getQueryVariable('howmany') || 10);
+
+        var end = new Date().getTime();
+        console.log(end-start)
+        console.log(end-intheloop)
+        //console.timeEnd("full");
+        //console.timeEnd("sentence loop");
+
+    })
+
+    $(window).scroll(function(){
+
+        var wintop = $(window).scrollTop(), docheight = $(document).height(), winheight = $(window).height();
+
+        if  ($(window).scrollTop() > $(document).height() - $(window).height() - 100) {
+            loopy(5)
+        }
+
+    });
+
+    </script>
+    </head>
+
+    <body>
+        <div class="hello">
+            <h1>The following sentences have been randomly generated<br>
+            according to the rules of English grammar, with some semantic awareness.</h1>
+            <p>You can refresh the page to get new sentences, or you can scroll infinitely!</p>
+            <!--<p><small>If anything you read offends you, it is your fault for reading it.</small></p>-->
+        </div>
+    </body>
+</html>
