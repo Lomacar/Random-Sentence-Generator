@@ -53,7 +53,7 @@ function toObject(str){
 		$.each(str, function(a,b){
 			keyval = b.split(':')
             val = toNumBool(keyval[1]) //attempt to treat numbers and booleans as such
-            val = isNaN(val) ? keyval[1].trim() : val //but if they aren't numbers leave them as strings   
+            val = isNaN(val) ? keyval[1].trim() : val //but if they aren't numbers leave them as strings
 			obj[keyval[0].trim()] = val
 		})
 		return obj
@@ -103,24 +103,24 @@ function patricide(x,y) {
 
 //takes an array of arrays like [[abc][xyz][123]]
 //and returns all permutations like [[ax1][ax2][ax3][ay1][ay2][ay3][az1]...]
-function factorPermutations(lists) {  
+function factorPermutations(lists) {
 	permutations = []
 	$iter = 0;
-	
+
 	while (1) {
 			$num = $iter++;
-			$pick = []; 
+			$pick = [];
             var l
 			for (l in lists) {
 					$r = $num % (lists[l].length );
 					$num = ($num - $r) / lists[l].length;
 					$pick.push( lists[l][$r])
-			} 
-			if ($num > 0)    break; 
+			}
+			if ($num > 0)    break;
 			permutations.push( $pick);
 	}
 			return permutations
-} 
+}
 
 function error(msg){
     if(typeof error_num === 'undefined') error_num = 1

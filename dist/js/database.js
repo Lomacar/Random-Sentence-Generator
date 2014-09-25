@@ -196,12 +196,12 @@ var probabilities = {
     proper: [2,true, 7,false],
     partial: [1,'', 1,'partial'],
     quantified: [0.3, true, 0.7, false],
-    
+
     //pronominal
     person: [1,1, 1,2, 7,3],
     gender: [2,'m', 2,'f', 1,'n'],
     dem: [1,'prox', 1,'dist', 5,''],
-    
+
     //verby
     tense: [4, 'pres', 8, 'past', 1, 'fut'],
     aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog', 1.5, 'prosp'],
