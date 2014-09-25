@@ -203,7 +203,7 @@ function AP(r) {
 
 function A(r){
     r.copulant = r.copulant || false
-    return get($.extend({type: 'adjective'}, r))
+    return choose( 4, get( $.extend({type: 'adjective'} , r)), !r.copulant, [PRES_PARTICPLE] )
 }
 
 function VP(r){
@@ -237,11 +237,20 @@ function V(r) {
 
 //verb aspect morphology
 function aspect(r){
-    if (!goodVal(r.inflected) && !r.noinflection && (r.aspect=='prog' || r.aspect=='retroprog') ) {
+    decide(r,'aspect')
+    return {
+        text: route(goodVal(r.inflected) || !!r.noinflection, {
+            false: route(r.aspect, {
+                prog: "ing",
+                retroprog: "ing"
+            })
+        })
+    }
+   /* if (!goodVal(r.inflected) && !r.noinflection && (r.aspect=='prog' || r.aspect=='retroprog') ) {
         return {text: 'ing'}
     }
 
-    return {text: ''}
+    return {text: ''}*/
 }
 
 //verb tense morphology
@@ -331,7 +340,7 @@ function verb_cleanup(text){
     .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
     .replace(/e_+ed/, "ed") // -eed to -ed
     .replace(/([^eu])e_+ing/, "$1ing") // -eing to -ing
-    .replace(/([^aeiou])([aeiou])([^aeiouywr])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
+    .replace(/([^aeiou])([aeiou])([^aeiouywrx])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
     .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
     return text
 }
@@ -353,6 +362,7 @@ function WH_CLAUSE(r,c) {
 
     } else {
 
+        //what,who,whose,where
         var findGaps = function(branch,parent) {
             $.each(branch, function(k,v){
                 if (k=='parent' || k=='head') return true
@@ -368,17 +378,26 @@ function WH_CLAUSE(r,c) {
             })
         }
 
-        //what,who,whose,where
         findGaps(B)
         var g = _.sample(gaps)
         var gapr = propertySearch2(g,'R')
 
         if(g.parent.children) g.parent.children[g.label] = new branch( g.gap[0], _.extend(g.gap[1], gapr) )
 
-        if (g.label=='gennoun') {
-            g.parent.parent.parent.order = g.parent.parent.label + " " + g.parent.parent.parent.order.replace(g.parent.parent.label,'')
+        //whose
+        if (g.label=='gennoun') { //a lot of work for a very rare occurance!
+
+            //do some reconstuctive surgery, moving the possessed NP out to the front of the whole clause
+            var np = objectSearchCrazy(['gennoun','det'],g) //find the top np (it may be a crazy chain of genitive NPs)
+            np.parent.order = np.parent.order.replace(np.label, '') //snip np out of its parent phrase
             g.parent.order = g.parent.order.replace("'s",'')
+            delete np.parent.children[np.label] //snip np out of paren't children object, just in case
+            B.order = np.label + "GEN " + B.order //preppend to clause order string
+            B.children[np.label+'GEN'] = np //add to clause children
+
             wh = 'whose'
+
+        //what or who
         } else {
             wh = g.wh || (  (gapr.anim != 3 || g.parent.label == 'predicate' || g.label == 'predicate') ? 'what' : 'who'  )
         }
@@ -414,19 +433,6 @@ function THAT_CLAUSE(){
     }
 }
 
-function GOAL(){
-    return {
-        order: choose(1,'there', 1,'somewhere' , 3,'to place'),
-        head: 'place',
-        gap: [filler, {filler: 'to'}],
-        wh: 'where',
-        children:{
-            place: [NP, {tags:'place',number:'sg'}]
-        }
-    }
-}
-
-
 function INF_PHRASE(r){
     return {
         order: 'to predicate',
@@ -455,7 +461,7 @@ function G_CLAUSE(r){
         head: 'subject',
         children:{
             subject: [NP],
-            predicate: [GP, "subject.R"]
+            predicate: [GP]
         }
     }
 }
@@ -468,7 +474,7 @@ function GP(r){
         order: "v_asp comp*",
         head: "v",
         children: {
-            v: [get, {type: "verb"}],
+            v: [get, {type: "verb", unpack: 'subject.R'}],
             asp:  [aspect, 'v'],
             comp: [complement, {'case': 'acc','complements': 'v.complements','reset':true}]
         },
@@ -476,9 +482,33 @@ function GP(r){
     }
 }
 
-function GOAL_LOC() {
+function PRES_PARTICPLE(r){
+    r.noinflection==false
 
+    return {
+        order: 'v_asp',
+        head: 'v',
+        children: {
+            v: [get,  {type: 'verb', class: 'activity,process', complements: ' ,', reverse: true, rank: 1.5}],
+            asp: [aspect, {unpack: 'v'}]
+        },
+        restrictions: {aspect: 'prog'},
+        postlogic: verb_cleanup
+    }
 }
+
+function GOAL(){
+    return {
+        order: choose(1,'there', 1,'somewhere' , 3,'to place'),
+        head: 'place',
+        gap: [filler, {filler: 'to'}],
+        wh: 'where',
+        children:{
+            place: [NP, {tags:'place',number:'sg'}]
+        }
+    }
+}
+
 
 function filler(r){
     return {text: r.filler}

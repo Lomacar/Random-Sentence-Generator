@@ -28,9 +28,13 @@ PP adjunct for nouns and verbs
 
 adjective comparative and superlative
 
+better adjective ordering
+
 participles from verbs
 
 'and'
+
+proper semantically aware genitive noun phrases
 
 mutators - "DEAD man", "bottle OF RUM"
 

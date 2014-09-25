@@ -495,7 +495,7 @@ function r_match(restrictions, test_object){
 
         if (typeof test_object[r] !== 'undefined') {
             
-            var compareUs = 'reverse'.in(restrictions) ? [test_object[r],rval] : [rval, test_object[r]]
+            var compareUs = restrictions.reverse===true ? [test_object[r],rval] : [rval, test_object[r]]
             if (magicCompare(compareUs[0], compareUs[1])) {
                 continue
             } else return false
@@ -542,9 +542,9 @@ function prohibited(testee,prohibs){
 
 /*-------------------------------------   BRANCH NAVIGATION   -------------------------------------*/
 
-function objectSearch2(what, context){
+function objectSearch2(what, context, graceful){
     if (!context) {
-        console.warn("Object search failed for "+what)
+        if (!graceful) console.warn("Object search failed for "+what)
         return null
     }
 
@@ -552,14 +552,28 @@ function objectSearch2(what, context){
 
     if (!context.children) {
         if (!context.parent) {
-            console.warn("Object search failed for "+what)
+            if (!graceful) console.warn("Object search failed for "+what)
             return null
         }
         else {
-            return objectSearch2(what, context.parent)
+            return objectSearch2(what, context.parent, graceful) || (graceful?context:null)
         }
     }
-    return what.in(context.children) ? context.children[what] : objectSearch2(what, context.parent)
+    return what.in(context.children) ? context.children[what] : (objectSearch2(what, context.parent, graceful) || (graceful?context:null))
+}
+
+//searches up the parent nodes for the first object that isn't labeled as what
+//what can be an string or array of strings
+function objectSearchCrazy(what, context){
+    if (!context) {
+        console.warn("Crazy object search failed against "+what)
+        return null
+    }
+
+    if (typeof what=='string') what = [what]
+
+    if (_.contains(what,context.label)) return objectSearchCrazy(what, context.parent) //label exists in blacklist
+    else return context
 }
 
 function propertySearch2(object, property) {
@@ -626,7 +640,7 @@ function stringOut(c){
         if (typeof c.postlogic==='function') string = c.postlogic(string)
 
         return string.replace(/(^|\s)([^\[\d]+)[0-9]+/g,"$2")       // remove numbers, except for [e123] errors
-                     .replace("_","")                               // remove underscores
+                     .replace("_","").replace("|","")               // remove underscores and pipes
                      .replace(/\ba +([aeio])/g, "an $1")            // a -> an
                      .replace(/  +/g,' ')                           // remove extra spaces
     }
