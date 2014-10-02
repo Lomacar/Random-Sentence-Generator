@@ -41,11 +41,13 @@ function loadLexicon(){
 
 function processLexicon(data, type){
     database[type] = data
-    for (var x in database[type]) {
+
+    //main processing loop
+    for (x in database[type]) {
         //remove empty rows that Google or Git might add
         if (!database[type][x].name) {
             database[type].splice(x,1)
-            return
+            continue
         }
 
         var a = database[type][x]
@@ -59,34 +61,76 @@ function processLexicon(data, type){
         prune(a)
 
         setProto(a,type,x)
-        /*if (a.proto) {
-            a = database[type][x] = Object.setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
-            if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
-                error('Prototype"' + a.proto + '"could not be found for'+a.name+'.')
-            else //there is a proto
-                senseFetch(a,type)
-        }*/
+    }
+
+    //Senses
+    for (var x in database[type]) {
+        createSenses(database[type][x],type)
+    }
+
+    if(type!=='noun') return
+
+    //temporarily turn tags into a sub-object of each word
+    for (var z in database[type]) {
+        if ("tags".in(database[type][z])){
+            var t = database[type][z].tagsObject = {}
+            toObject( database[type][z].tags.split(',').forEach(function(y){t[y]=y}) )
+        }
+    }
+
+    //then do complicated merging of tag objects
+    for (var z in database[type]) {
+        var a = database[type][z]
+        var proto = pickOne(database[type], {name: a.proto})
+
+        //merge tags from proto, unless there is a dash, which means don't merge
+        if (a.tagsObject && proto && proto.tagsObject && !a.tags.findChar('-')) {
+            //////////////////////////////////////////////////////////
+            //bob = {b:1}; sally = {s:2}; jack = {j:3}; sally = Object.setPrototypeOf(sally, bob); jack = Object.setPrototypeOf(jack, bob)
+            //narf = Object.setPrototypeOf(narf,jack); narf = _.extend(narf,sally);
+            //////////////////////////////////////////////////////////
+
+            //basically you gotta do the same thing for tags that you do for the word as a whole
+            if (a.tagsObject !== proto.tagsObject) {
+                //add tags from prototype
+                a.tagsObject = Object.setPrototypeOf(a.tagsObject, proto.tagsObject )
+            }
+            if ( a.parallelSense ) {
+                //add any extra tags from parallel sense
+                a.tagsObject = _.extend( a.tagsObject,  _.clone(a.parallelSense.tagsObject) )
+                                                        //clone grabs just the ownProperties
+            }
+        }
+    }
+
+    //convert tagsObject back to plain string tag property
+    for (var z in database[type]) {
+        if ("tagsObject".in(database[type][z])){
+            database[type][z].tags = _.keys( $.extend( {}, database[type][z].tagsObject ) ).join(',')
+            delete database[type][z].tagsObject
+            delete database[type][z].parallelSense
+        }
     }
 }
 
 function setProto(a,type,x){
     if (a.proto) {
-        a = database[type][x] = Object.setPrototypeOf(a, pickOne(database[type], {name: a.proto}) )
+        var proto = pickOne(database[type], {name: a.proto})
+        a = database[type][x] = Object.setPrototypeOf(a, proto )
+
         if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
-            error('Prototype"' + a.proto + '"could not be found for'+a.name+'.')
-        else //there is a proto
-            createSenses(a,type,x)
+           { error('Prototype"' + a.proto + '"could not be found for'+a.name+'.')}
     }
     return a
 }
 
 //takes a word in the lexicon and creates all the same senses as its prototype (the word should have a prototype)
-function createSenses(word,type,x,number) {
+function createSenses(word,type,number) {
     number = number || word.name.replace(/.*?(\d*)$/g,'$1') || 1
     var sense = word.proto+number
-    var proto_sense
+    var proto_sense = pickOne(database[type], {name: sense})
 
-    if(proto_sense = pickOne(database[type], {name: sense}) ) {
+    if(proto_sense ) {
         if (proto_sense.name==word.name) return //don't create a sense when the word already is the sense
         if (pickOne(database[type], {name: word.name.replace(/(.*?)\d*$/,'$1')+number})) return //don't create a sense if it is already defined
 
@@ -97,15 +141,17 @@ function createSenses(word,type,x,number) {
         new_sense = setProto(new_sense,type,-1)
 
         //overwrite this senses values with the overwrite-values from the prototype sense
-        new_sense = _.extend(new_sense,proto_sense) //must be lo-dash extend because it only copies objects real properties!
+        //new_sense = _.extend($.extend({},proto_sense),$.extend({},new_sense)) //must be lo-dash extend because it only copies objects real properties!
+        new_sense = _.extend($.extend({},proto_sense),new_sense) //must be lo-dash extend because it only copies objects real properties!
 
         new_sense.name = word.name+number
+        new_sense.parallelSense = proto_sense
 
         //throw it in the database
         database[type].push(new_sense)
 
         //check for more senses
-        createSenses(word,type,x,number+1)
+        createSenses(word,type,number+1)
     }
     return new_sense
 }
@@ -190,6 +236,8 @@ var probabilities = {
     anim: [1,0, 1,1, 4,2, 5,3],
     tang: [1,0, 1,1, 2,2],
 
+    pronominal: [1,true,5,false], //how likely a NP is to be a pronoun instead
+
     //nounish
     number: [1,'pl', 3,'sg'],
     def: [3,'def', 1,'indef'],
@@ -200,7 +248,8 @@ var probabilities = {
     //pronominal
     person: [1,1, 1,2, 7,3],
     gender: [2,'m', 2,'f', 1,'n'],
-    dem: [1,'prox', 1,'dist', 5,''],
+    dem: [2,true,5,false],
+    prox: [1,'prox', 1,'dist'],
 
     //verby
     tense: [4, 'pres', 8, 'past', 1, 'fut'],
