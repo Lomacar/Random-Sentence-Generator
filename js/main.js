@@ -429,7 +429,7 @@ function get(r){
     if(!r.noinflection) inflect(word,r)
 
     //record this word so it isn't overused within the same sentence
-    if (recentlyUsed && r.type == 'noun' || r.type == 'adjective' || r.type=='verb' ) recentlyUsed.push(word.name)
+    if (recentlyUsed && r.type == 'noun' || r.type == 'adjective' || r.type=='verb' ) recentlyUsed.push(word.name.replace(/\d+/g,''))
 
     return word
 }
@@ -467,14 +467,15 @@ function r_match(restrictions, test_object){
 
     //short circuit for name match or mismatch
     if (restrictions.name) {
-        if (restrictions.name != test_object.name) return false
-        else return true
+        if (restrictions.name == test_object.name) return true
+        else if (restrictions.orsimilar==true && restrictions.name == test_object.proto) return true
+        else return false
     }
     //don't use disabled words
     if(test_object.disabled) return false
 
     //prevent the repetitive use of words
-    if (recentlyUsed.indexOf(test_object.name) > -1) return false
+    if (recentlyUsed.indexOf(test_object.name.replace(/\d+/g,'')) > -1) return false
 
     var prohib = test_object.prohibitions
     if(goodVal(prohib)) {//prohib = prohib.replace(/ /g, '')
@@ -600,9 +601,9 @@ function stringOut(c){
     if(c===undefined) return undefined
     if("children".in(c)){
 
-        var c = c
+        var string = c.order.replace(/([^_ ])+/g, replacer)
 
-        var string = c.order.replace(/([^_ ])+/g, function(a){
+        function replacer(a){
 
             //optional words have an asterisk
             if (a.match(/\*/)){
@@ -610,15 +611,15 @@ function stringOut(c){
                 //optional undefined or empty words return ''
                 if (!c.children[a.slice(0,-1)])
                     return ''
-                else
-                    a = a.slice(0,-1)
+                    else
+                        a = a.slice(0,-1)
 
-            }else{ //not optional
+                        }else{ //not optional
 
-                //if there is no child with the given name then treat it as litteral
-                if (!c.children[a])
-                    return a
-            }
+                            //if there is no child with the given name then treat it as literal
+                            if (!c.children[a])
+                                return a
+                                }
 
             //break down arrays of adjectives or whatnot
             if(typeOf(c.children[a])=='array') {
@@ -635,14 +636,13 @@ function stringOut(c){
                 return furtherIn===undefined ? '[???]' : furtherIn
             }
 
-        })
+        }
 
         if (typeof c.postlogic==='function') string = c.postlogic(string)
 
         return string.replace(/(^|\s)([^\[\d]+)[0-9]+/g,"$2")       // remove numbers, except for [e123] errors
-                     .replace("_","").replace("|","")               // remove underscores and pipes
-                     .replace(/\ba +([aeio])/g, "an $1")            // a -> an
-                     .replace(/  +/g,' ')                           // remove extra spaces
+                     .replace("_","").replace("|","")              // remove underscores and pipes
+                     .replace(/  +/g,' ')                          // remove extra spaces
     }
 
     else return c.text

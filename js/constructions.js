@@ -25,16 +25,24 @@ function COPULA(){
             subject: [NP, {case: 'nom'}],
             copula: [auxiliary, {unpack: 'subject.R', copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
             predicate: [AP, {unpack: 'subject.R', copulant: true, reverse: true}]
-        },
+        }
     }
 }
 
+function final_cleanup(text) {
+    return text
+}
+
 function NP(r) {
-    r = decide(r, "person")
+    r = decide(r, "person,pronominal")
 
     return route(r.person, {
         rest: [PRONOUN,{subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}],
-        3: choose(1, [PRONOUN, {subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}], 5, [DP])
+        3: route(r.pronominal, {
+                true: [PRONOUN, {subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}],
+                false: [DP]
+            }
+        )
     })
 }
 
@@ -50,7 +58,7 @@ function DP(r){
             comp: [complement, {case: 'acc', complements: 'noun.complements', nogap: true}]
         },
         postlogic:function(text){
-            return text.replace(/\ba +([aeiou])/g, "an $1") // 'a apple' to 'an apple'
+            return text.replace(/\ba +([aeiouAEIOU])/g, "an $1") // 'a apple' to 'an apple'
         }
     }
 }
@@ -88,13 +96,14 @@ function DET(r) {
                 }
 
                 decide(r, 'def,dem,number,partial')
-                // if (r.count==true && r.number=='sg') delete r.partial //prevents 'some' on singular indefinite count nouns
+                if(r.dem) decide(r, 'prox'); else r.prox=''
+
                 if (r.count == false && r.def == 'indef') {
                     out.text = ''
                 } //prevents 'a' on mass nouns
                  else {
                     var inflections = 'def.prox.sg:this, def.prox.pl:these, def.dist.sg:that, def.dist.pl:those, indef.sg:a, def.def:the'
-                    out.text = resolve([r.def, r.dem, r.number, r.partial], inflections)
+                    out.text = resolve([r.def, r.prox, r.number, r.partial], inflections)
                 }
 
             }
@@ -202,6 +211,20 @@ function AP(r) {
 }
 
 function A(r){
+
+    //a function to use in the future for creating a list of adjective ranks for recursively fetching adjectives
+    function randomlist(){
+        range = _.range(10)
+        range = _.shuffle(range)
+        return (randomlist(0)).sort();
+        function randomlist() {
+            var me = [range.pop()]
+            if (me==4 || me==6) range.splice(_.random(range.length),1,me[0])
+            if (Math.random() < 0.25) {me = me.concat(randomlist())}
+            return me
+        }
+    }
+
     r.copulant = r.copulant || false
     return choose( 4, get( $.extend({type: 'adjective'} , r)), !r.copulant, [PRES_PARTICPLE] )
 }
@@ -483,7 +506,7 @@ function GP(r){
 }
 
 function PRES_PARTICPLE(r){
-    r.noinflection==false
+    r.noinflection=false
 
     return {
         order: 'v_asp',
@@ -497,16 +520,26 @@ function PRES_PARTICPLE(r){
     }
 }
 
-function GOAL(){
-    return {
-        order: choose(1,'there', 1,'somewhere' , 3,'to place'),
-        head: 'place',
-        gap: [filler, {filler: 'to'}],
-        wh: 'where',
-        children:{
-            place: [NP, {tags:'place',number:'sg'}]
-        }
+function GOAL(r){
+    decide(r, 'pronominal')
+
+    var out = {gap: [filler, {filler: 'to'}], wh: 'where'}
+
+    if (r.pronominal) {
+        var pr = _.values( decide(r, 'prox,def', true) )
+        var inflections = 'def.prox:here, def.dist:there, indef:' + options("(somewhere|everywhere)")
+        out.text = resolve(pr, inflections)
+    } else {
+        out = $.extend( out, {
+                order: 'to place',
+                head: 'place',
+                children: {
+                    place: [NP, {tags:'place',number:'sg'}]
+                }
+            })
     }
+
+    return out
 }
 
 
