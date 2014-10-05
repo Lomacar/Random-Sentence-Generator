@@ -195,12 +195,12 @@ function magicCompare (one, two, options, operator) {
 
     //if second string is comma separated, split it up and run two separate compares
     //here is where 'every' makes commas act like AND or OR
-    if( two.findChar(',') ){
+    if( !tagmode && two.findChar(',') ){
         var parts = two.split(',')
         var part
         while(part = parts.pop()) {
 
-            if (every ^ magicCompare(one, part, {every: every})) return !every
+            if (every ^ magicCompare(one, part, {every: every,tagmode:tagmode})) return !every
 
         }
 
@@ -224,7 +224,7 @@ function magicCompare (one, two, options, operator) {
                 while(part = parts.pop()) {
 
                     // if/when one sub-comparison fails, return false
-                    if (!magicCompare(part, two, {every: every}, '&')) return false
+                    if (!magicCompare(part, two, {every:every,tagmode:tagmode}, '&')) return false
 
                 }
 
@@ -240,7 +240,7 @@ function magicCompare (one, two, options, operator) {
                     while(part = parts.pop()) {
 
                         // as soon as one sub-comparison turns up true, rejoice!
-                        if (magicCompare(part, two, {every: every}, '|')) return true
+                        if (magicCompare(part, two, {every:every,tagmode:tagmode}, '|')) return true
 
                     }
 
@@ -251,10 +251,11 @@ function magicCompare (one, two, options, operator) {
                     //finally deal with 'tight' &s, same as the loose & above
                     parts = one.split('&')
                     if (parts.length > 1) {
+
                         var part
                         while(part = parts.pop()) {
 
-                            if (!magicCompare(part, two, {every:every}, '&')) return false
+                            if (!magicCompare(part, two, {every:every,tagmode:tagmode}, '&')) return false
 
                         }
 
@@ -305,6 +306,11 @@ function magicCompare (one, two, options, operator) {
             return lt ? two < cleaned : two > cleaned
 
         } else { //simple comparison
+
+            if (tagmode) {
+                var rex = new RegExp('(^|,) *'+cleaned+' *(,|$)')
+                return rex.test(two) ^ neg
+            }
 
             //return true if string found unless it wasn't supposed to be found
             return (cleaned==two) ^ neg
