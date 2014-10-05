@@ -178,8 +178,9 @@ String.prototype.findChar = function (needle) {
 *           match (every==false, default)
 */
 
-function magicCompare (one, two, every, operator) {
-    every = every || false
+function magicCompare (one, two, options, operator) {
+    var every = options ? (options.every || false) : false
+    var tagmode = options ? (options.tagmode || false) : false
 
     //make sure valid values are passed in
     if (  !goodVal(one) || !goodVal(two) ) return false
@@ -187,7 +188,7 @@ function magicCompare (one, two, every, operator) {
     //shortcut for simple equality
     if (one==two) return true
     //if simple equality failed and there are no special characters, then they will never match
-    else if (!/\W/.test(one) && !/\W/.test(two)) return false
+    else if (!/[^\w\-. ]/.test(one) && !/[^\w\-. ]/.test(two)) return false
 
     //convert everything to strings to make life simple
     one = one.toString().trim(); two = two.toString().trim() //ain't nobody got time for no whitespaces
@@ -199,7 +200,7 @@ function magicCompare (one, two, every, operator) {
         var part
         while(part = parts.pop()) {
 
-            if (every ^ magicCompare(one, part, every)) return !every
+            if (every ^ magicCompare(one, part, {every: every})) return !every
 
         }
 
@@ -223,7 +224,7 @@ function magicCompare (one, two, every, operator) {
                 while(part = parts.pop()) {
 
                     // if/when one sub-comparison fails, return false
-                    if (!magicCompare(part, two, every, '&')) return false
+                    if (!magicCompare(part, two, {every: every}, '&')) return false
 
                 }
 
@@ -239,7 +240,7 @@ function magicCompare (one, two, every, operator) {
                     while(part = parts.pop()) {
 
                         // as soon as one sub-comparison turns up true, rejoice!
-                        if (magicCompare(part, two, every, '|')) return true
+                        if (magicCompare(part, two, {every: every}, '|')) return true
 
                     }
 
@@ -253,7 +254,7 @@ function magicCompare (one, two, every, operator) {
                         var part
                         while(part = parts.pop()) {
 
-                            if (!magicCompare(part, two, every, '&')) return false
+                            if (!magicCompare(part, two, {every:every}, '&')) return false
 
                         }
 

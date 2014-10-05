@@ -504,7 +504,7 @@ function r_match(restrictions, test_object){
         if (typeof test_object[r] !== 'undefined') {
 
             var compareUs = restrictions.reverse===true ? [test_object[r],rval] : [rval, test_object[r]]
-            if (magicCompare(compareUs[0], compareUs[1])) {
+            if (magicCompare(compareUs[0], compareUs[1]), {tagmode: r=='tags'}) {
                 continue
             } else return false
 
