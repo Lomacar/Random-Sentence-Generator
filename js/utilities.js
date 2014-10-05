@@ -53,7 +53,7 @@ function toObject(str){
 		$.each(str, function(a,b){
 			keyval = b.split(':')
             val = toNumBool(keyval[1]) //attempt to treat numbers and booleans as such
-            val = isNaN(val) ? keyval[1].trim() : val //but if they aren't numbers leave them as strings
+            val = isNaN(val) && val!==undefined ? keyval[1].trim() : val //but if they aren't numbers leave them as strings
 			obj[keyval[0].trim()] = val
 		})
 		return obj

@@ -9,7 +9,7 @@ function CLAUSE(r){
         order: "subject predicate",
         head: "subject",
         children: {
-            subject: [NP, {case: 'nom', anim: choose(1,0, 3,1, 5,2, 7,3)}],
+            subject: [NP, {case: 'nom', anim: choose(3,0, 3,1, 5,2, 7,3)}],
             predicate: [VP, {special: false, copulant: false, unpack: "subject.R", reverse: true}]
         }
     }}
@@ -22,15 +22,11 @@ function COPULA(){
         order: "subject copula predicate",
         head: "subject",
         children: {
-            subject: [NP, {case: 'nom'}],
+            subject: [NP, {case: 'nom', anim: choose(3,0, 3,1, 5,2, 7,3)}],
             copula: [auxiliary, {unpack: 'subject.R', copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
             predicate: [AP, {unpack: 'subject.R', copulant: true, reverse: true}]
         }
     }
-}
-
-function final_cleanup(text) {
-    return text
 }
 
 function NP(r) {
@@ -76,7 +72,7 @@ function DET(r) {
         default:
             if (r.possessable > Math.pow(Math.random(),0.6) * 9) {
 
-                if (Math.random() > 0.5) {
+                if (Math.random() > -0.5) {
                     return GENITIVE(r)
                 } else {
                     decide(r, 'number')
@@ -94,14 +90,12 @@ function DET(r) {
                     decide(r, 'quantified')
                     if (r.quantified) return QUANT(r)
                 }
-
                 decide(r, 'def,dem,number,partial')
                 if(r.dem) decide(r, 'prox'); else r.prox=''
 
                 if (r.count == false && r.def == 'indef') {
-                    out.text = ''
-                } //prevents 'a' on mass nouns
-                 else {
+                    out.text = '' //prevents 'a' on mass nouns
+                } else {
                     var inflections = 'def.prox.sg:this, def.prox.pl:these, def.dist.sg:that, def.dist.pl:those, indef.sg:a, def.def:the'
                     out.text = resolve([r.def, r.prox, r.number, r.partial], inflections)
                 }
@@ -112,16 +106,25 @@ function DET(r) {
 }
 
 function GENITIVE(r){
-    var r2 = decide(r, 'anim', true)
-    var anim = Math.max( r.anim, r2.anim ) || 3
-    var number = r.number=='sg' ? 'sg' : null
+    var posr = r.posr
+    r2 = decide(r, 'anim,number', true)
+
+    if (!posr) {
+        if (r2.anim==3) return DET(_.extend(r, {possessable: -111}))
+        else r2.anim=3
+    } else {
+        r2 = toObject(posr)
+    }
+
+    r2.number = r2.number=='sg' ? 'sg' : null
+    r2.case = 'gen'
 
     return {
         order: "fake gennoun_'s",
         head: 'fake',
         children: {
             fake: [blank],
-           gennoun: [DP, {'anim': anim, 'number': number, case: 'gen'}]
+            gennoun: [DP, r2]
         },
         postlogic: function(text){
             return text.replace(/[_ ]+'s/,"'s")
@@ -149,7 +152,7 @@ function N(r){
             num: [nNum, 'word']
         },
         postlogic:function(text){
-            return text.replace(/\d+/, '') //strip verb sense numbers
+            return text.replace(/[0-9.]+/, '') //strip verb sense numbers
                        .replace(/([^aeou])y_+(s)/g, "$1ie$2")
                        .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
         }
@@ -358,11 +361,11 @@ function vNum(r){
 }
 
 function verb_cleanup(text){
-    text = text.replace(/\d+/, '') //strip verb sense numbers
+    text = text.replace(/[0-9.]+/g, '') //strip verb sense numbers
     .replace(/([^aeou])y_+s/, "$1ies") //change -ys to -ies
     .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
     .replace(/e_+ed/, "ed") // -eed to -ed
-    .replace(/([^eu])e_+ing/, "$1ing") // -eing to -ing
+    .replace(/([^e])e_+ing/, "$1ing") // -eing to -ing
     .replace(/([^aeiou])([aeiou])([^aeiouywrx])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
     .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
     return text

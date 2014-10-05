@@ -381,16 +381,17 @@ function options(str){
     if(typeOf(str)!='string') return error("Non-string passed to options function.")
 
     out = str.replace(/\([^()]*\)/g, function(match){
+        //prevent splitting on pipes inside {rest:rict|ions}
+        match = match.replace(/{.*?}/g, function(m){return m.replace(/\|/g,'###')})
 
         if(match.findChar('|')){
 
-            if(/(^\(|\|)?[0-9.] /.test(match)) return choose2(
+            if(/(^\(|\|) *[0-9.]+ /.test(match)) return choose2(
                 _.flatten(
                     match.slice(1,-1)
-                    .replace(/{.*?}/g, function(m){return m.replace(/\|/g,'###')}) //prevent splitting on pipes inside {rest:rict|ions}
                     .split("|")
-                    .map(function(x){
-                        return x.replace(/###/g,'|').match(/^([0-9.]*) +(.*)$/).slice(1)
+                    .map( function(x){
+                        return x.match(/^([0-9.]*) +(.*)$/).slice(1)
                     })
                 )
             )
@@ -407,7 +408,7 @@ function options(str){
         }
     })
 
-    return out==str ? str : options(out)
+    return out==str ? str.replace(/###/g,'|') : options(out)
 }
 
 
@@ -437,12 +438,19 @@ function get(r){
 //utility function for randomly picking one element from an array
 function pickOne(arr, r){
 
+
     if(typeOf(arr) == 'object') arr = toArray(arr).slice() //in case object was past in
     else arr = arr.slice();
     r = r || null;
     var randex;
 
     if(!isEmpty(r)){
+
+        //short circuit for name match
+        if (r.name && (r.type=='noun' || r.type=='verb' || r.type=='adjective' ) && !r.orsimilar) {
+            return database[r.type][lookup[r.type][r.name]]
+        }
+
         while (arr.length) {
             randex=Math.floor(Math.random()*arr.length)
             if (r_match(r, arr[randex])) return arr[randex]
@@ -466,9 +474,8 @@ function r_match(restrictions, test_object){
     if (isEmpty(restrictions)) return true
 
     //short circuit for name match or mismatch
-    if (restrictions.name) {
-        if (restrictions.name == test_object.name) return true
-        else if (restrictions.orsimilar==true && restrictions.name == test_object.proto) return true
+    if (restrictions.name && restrictions.orsimilar==true) {
+        if (magicCompare(restrictions.name, test_object.proto)) return true
         else return false
     }
     //don't use disabled words
@@ -640,9 +647,10 @@ function stringOut(c){
 
         if (typeof c.postlogic==='function') string = c.postlogic(string)
 
-        return string.replace(/(^|\s)([^\[\d]+)[0-9]+/g,"$2")       // remove numbers, except for [e123] errors
-                     .replace("_","").replace("|","")              // remove underscores and pipes
-                     .replace(/  +/g,' ')                          // remove extra spaces
+        return string.replace(/\./g,'')                     //remove dots
+                     .replace(/\d+([^\]\d]|$)/g,"$1")       // remove numbers, except for [e123] errors
+                     .replace("_","").replace("|","")       // remove underscores and pipes
+                     .replace(/  +/g,' ')                   // remove extra spaces
     }
 
     else return c.text
