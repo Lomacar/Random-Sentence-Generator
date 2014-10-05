@@ -118,10 +118,6 @@ function processLexicon(data, type){
 
             //merge tags from proto, unless there is a dash, which means don't merge
             if (a.tagsObject && proto && proto.tagsObject && !a.tags.findChar('-')) {
-                //////////////////////////////////////////////////////////
-                //bob = {b:1}; sally = {s:2}; jack = {j:3}; sally = Object.setPrototypeOf(sally, bob); jack = Object.setPrototypeOf(jack, bob)
-                //narf = Object.setPrototypeOf(narf,jack); narf = _.extend(narf,sally);
-                //////////////////////////////////////////////////////////
 
                 //basically you gotta do the same thing for tags that you do for the word as a whole
                 if (a.tagsObject !== proto.tagsObject) {
@@ -297,7 +293,7 @@ var prohibitions = {
         //future: {aspect: 'retro', class: 'state'} //just tends to sound too awkward
     },
     mood: {
-        deontic: {volition: false}
+        deontic: {volition: false, anim:'<2'}
     },
 
     //noun
@@ -313,7 +309,7 @@ var probabilities = {
     anim: [1,0, 1,1, 4,2, 5,3],
     tang: [1,0, 1,1, 2,2],
 
-    pronominal: [1,true,6,false], //how likely a NP is to be a pronoun instead
+    pronominal: [1,true,8,false], //how likely a NP is to be a pronoun instead
 
     //nounish
     number: [1,'pl', 3,'sg'],

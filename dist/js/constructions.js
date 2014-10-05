@@ -118,6 +118,7 @@ function GENITIVE(r){
 
     r2.number = r2.number=='sg' ? 'sg' : null
     r2.case = 'gen'
+    if (r.number=='pl') r.def = 'def' //because "birds' owner died" sounds wrong
 
     return {
         order: "fake gennoun_'s",
@@ -135,7 +136,7 @@ function GENITIVE(r){
 
 function QUANT(r){
 
-    if(r.count && Math.random() < 0.3) {
+    if(r.count==1 && Math.random() < 0.3) {
         return {text: toWords(powerRandom())}
     } else {
         return [get, {type: 'quantifier'}]
@@ -229,7 +230,20 @@ function A(r){
     }
 
     r.copulant = r.copulant || false
-    return choose( 4, get( $.extend({type: 'adjective'} , r)), !r.copulant, [PRES_PARTICPLE] )
+    return choose(!r.copulant, [PRES_PARTICPLE],
+                  5, {
+                        order:'neg_adj',
+                        head:'adj',
+                        children:{
+                            neg: [a_neg, 'adj'],
+                            adj: [get, $.extend({type: 'adjective'} , r)]
+                        }
+                     }
+                 )
+}
+
+function a_neg(r) {
+    return r.opposite && Math.round(Math.random()) ? {text:r.opposite} : {text:''}
 }
 
 function VP(r){
@@ -240,7 +254,7 @@ function VP(r){
         head: "aux",
         children: {
             aux:  [auxiliary],
-            word: [V, $.extend(r, {unpack: 'aux.tense-aspect-noinflection', reverse: true})]
+            word: [V, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect', reverse: true})]
         }
     }
 }
@@ -251,7 +265,7 @@ function V(r) {
         head: "verb",
         gap: [get, {type: 'aux_verb', name: 'do'}],
         children: {
-            verb: [get, {type: 'verb'}],
+            verb: [get, {type: 'verb', aspect: r.real_aspect}],
             asp:  [aspect, 'verb'],
             tns:  [tense, 'verb'],
             num:  [vNum, 'verb'],
@@ -352,7 +366,7 @@ function auxiliary(r){
         r2.noinflection = true
     }
 
-    return $.extend(r, {'text': text, 'noinflection': r2.noinflection, 'aspect': r2.aspect})
+    return $.extend(r, {'text': text, 'noinflection': r2.noinflection, 'aspect': r2.aspect, 'real_aspect': r.aspect})
 }
 
 //s inflection on verbs
