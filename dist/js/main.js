@@ -447,7 +447,8 @@ function pickOne(arr, r){
     if(!isEmpty(r)){
 
         //short circuit for name match
-        if (r.name && (r.type=='noun' || r.type=='verb' || r.type=='adjective' ) && !r.orsimilar) {
+        if ('name'.in(r) && (r.type=='noun' || r.type=='verb' || r.type=='adjective' ) && !r.orsimilar) {
+            if (typeof r.name=='undefined') return false
             return database[r.type][lookup[r.type][r.name]]
         }
 
@@ -474,7 +475,8 @@ function r_match(restrictions, test_object){
     if (isEmpty(restrictions)) return true
 
     //short circuit for name match or mismatch
-    if (restrictions.name && restrictions.orsimilar==true) {
+    if ('name'.in(restrictions) && restrictions.orsimilar==true) {
+        if (typeof restrictions.name=='undefined') return false
         if (magicCompare(restrictions.name, test_object.proto)) return true
         else return false
     }
@@ -504,7 +506,7 @@ function r_match(restrictions, test_object){
         if (typeof test_object[r] !== 'undefined') {
 
             var compareUs = restrictions.reverse===true ? [test_object[r],rval] : [rval, test_object[r]]
-            if (magicCompare(compareUs[0], compareUs[1]), {tagmode: r=='tags'}) {
+            if (magicCompare(compareUs[0], compareUs[1], {tagmode: r=='tags'})) {
                 continue
             } else return false
 
