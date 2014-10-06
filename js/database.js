@@ -19,8 +19,10 @@ function loadLexicon(){
         var a = $.Deferred();
         var b = $.Deferred();
         var c = $.Deferred();
+        var ontology;
+        
         $.get('csv/nouns.csv',function(data){
-            processLexicon(CSV2JSON(data), 'noun')
+            ontology = processLexicon(CSV2JSON(data), 'noun')
             a.resolve()
         })
         $.get('csv/verbs.csv',function(data){
@@ -31,7 +33,7 @@ function loadLexicon(){
             processLexicon(CSV2JSON(data), 'adjective')
             c.resolve()
         })
-        $.when(a,b,c).done(function() {
+        $.when(a,b,c,ontology).done(function() {
             d.resolve();
         })
     }
@@ -79,9 +81,8 @@ function processLexicon(data, type){
 
     if(type=='noun') {
 
-
-        ALL_TAGS = []
         //add implied tags to words
+        var impliedTags = $.Deferred();
         $.get("../csv/ontology.tgf", function(data){
             var stuff = data.split('#')
             var nodes = stuff[0].split('\r\n').slice(0,-1).map(function(x){return x.replace(/\d+ (.*)/,'$1')})
@@ -101,6 +102,7 @@ function processLexicon(data, type){
                     database[type][w].tags = addImpliedTags(tag_array).join(',')
                 }
             }
+            impliedTags.resolve()
         })
 
         //temporarily turn tags into a sub-object of each word
@@ -154,7 +156,7 @@ function processLexicon(data, type){
         prune(database[type][b])
     }
 
-
+    return impliedTags || null
 }
 
 function setProto(a,type,x){
@@ -211,14 +213,13 @@ function addImpliedTags(tags){
     tags.forEach(loop)
 
     function loop(tag){
-        //if (!_.contains(ALL_TAGS,tag)) ALL_TAGS.push(tag)
 
         if(typeof ont[tag]=='undefined') return []
 
         ont[tag].forEach(function(t){
             if (!_.contains(tags,t)) {
-                tags.push(t)
-                loop(t)
+                tags.push(t.replace(/\s/g,''))
+                loop(t)             //strip whitespace
             }
         })
 

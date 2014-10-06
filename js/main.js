@@ -22,7 +22,7 @@ function branch(c, r, p, l){
     //some constructions just reroute to other constructions
     if(typeOf(c)==='array' && typeof c[0] == 'function') {
         c[1] = parseRestrictions.apply(this, [c[1]])
-        c = c[0]( $.extend({}, r, c[1]) )
+        c = c[0]( _.extend({}, r, c[1]) )
     }
 
     executeBranch.apply(this, [c, r, this])
