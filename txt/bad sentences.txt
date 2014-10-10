@@ -22,6 +22,8 @@ We are writing me.
 The wolves had been happy that the snowmen find you.
 Twenty nine bees did not become blue.
 Too much boring truth must have been average.
+A boat will not be working.
+A nice band was green.
 
 No word could be get'd with the following restrictions: {"case":"acc","volition":true,"reset":true,"person":3,"number":"sg","anim":0,"tang":0,"unique":2,"possessable":0,"count":false,"tags":"activity","def":"def","quantified":false,"gender":"n","tense":"pres","aspect":"prog","type":"verb"} main.js:411
 Undefined selector for route function. Picking one of these at random: {"prog":"ing","retroprog":"ing"} main.js:632

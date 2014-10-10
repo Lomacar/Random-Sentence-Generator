@@ -9,7 +9,7 @@ function CLAUSE(r){
         order: "subject predicate",
         head: "subject",
         children: {
-            subject: [NP, {case: 'nom', anim: choose(3,0, 3,1, 5,2, 7,3)}],
+            subject: [NP, {case: 'nom', anim: choose(3,0, 3,1, 5,2, 7,3), def: choose(9, 'def', 1, 'indef')}],
             predicate: [VP, {special: false, copulant: false, unpack: "subject.R", reverse: true}]
         }
     }}
@@ -19,12 +19,12 @@ function COPULA(){
     //SHOULD ALLOW PPs and NPs too
 
     return {
-        order: "subject copula predicate",
+        order: "subject predicate",
         head: "subject",
         children: {
             subject: [NP, {case: 'nom', anim: choose(3,0, 3,1, 5,2, 7,3)}],
-            copula: [auxiliary, {unpack: 'subject.R', copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
-            predicate: [AP, {unpack: 'subject.R', copulant: true, reverse: true}]
+            //copula: [auxiliary, {unpack: 'subject.R', copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
+            predicate: [PREDICATE, {unpack: 'subject.R', copulant: true, reverse: true}]
         }
     }
 }
@@ -61,6 +61,7 @@ function DP(r){
 
 
 function DET(r) {
+
     var out = {text: ''}
 
     switch (parseInt(r.unique)) {
@@ -86,9 +87,27 @@ function DET(r) {
                 }
 
             } else {
+                decide(r,'def')
+
                 if(r.count==false || r.number=='pl') {
                     decide(r, 'quantified')
-                    if (r.quantified) return QUANT(r)
+                    if (r.quantified) {
+                        if(r.def!='def'){
+                            return QUANT(r)                                       //'12 dogs' is indefinite
+                        } else {
+                            r.quantified = false
+                            return choose(1, [PREQUANT,r],                        //'12 of my dogs' is definite
+                                          1, {
+                                                order: 'det quant',
+                                                head: 'det',
+                                                children: {
+                                                    det: [DET, r],
+                                                    quant: {text: toWords(powerRandom())} //'these 12 dogs' is definite
+                                                }
+                                             }
+                                    )
+                        }
+                    }
                 }
                 decide(r, 'def,dem,number,partial')
                 if(r.dem) decide(r, 'prox'); else r.prox=''
@@ -102,12 +121,13 @@ function DET(r) {
 
             }
     }
+
     return out
 }
 
 function GENITIVE(r){
     var posr = r.posr
-    r2 = decide(r, 'anim,number', true)
+    var r2 = decide(r, 'anim,number', true)
 
     if (!posr) {
         if (r2.anim==3) return DET(_.extend(r, {possessable: -111}))
@@ -135,13 +155,38 @@ function GENITIVE(r){
 }
 
 function QUANT(r){
+    r.prequant = r.prequant || false
+    r.neg = r.neg || false
 
     if(r.count==1 && Math.random() < 0.3) {
         return {text: toWords(powerRandom())}
     } else {
-        return [get, {type: 'quantifier'}]
+        return [get, {type: 'quantifier', prequant: r.prequant }]
     }
 }
+
+function PREQUANT(r){
+//    var out = {}
+//
+//    if(r.count==1 && Math.random() < 0.3) {
+//        out.text = toWords(powerRandom())
+//    } else {
+//        out.text = get(_.extend(r, {type: 'quantifier'})).name
+//    }
+//
+//    out.text += " of " + DET(r).text
+
+    return {
+        order: 'quant of det',
+        head: 'quant',
+        children: {
+            quant: [QUANT, {prequant: true}],
+            det: [DET]
+        }
+    }
+}
+
+
 
 function N(r){
 
@@ -166,9 +211,9 @@ function nNum(r){
 }
 
 function PRONOUN(r) {
-    decide(r,'person,number,case')
+    decide(r,'person,number,case,anim')
     if (!magicCompare(r.anim,3)) r.person=3 //if restrictions demands something less than sentient than 1st and 2nd person are excluded
-    //if (r.person<3) r.anim=3
+    //if (r.person < 3) r.anim = 3
 
     //get a dummy noun so that we can make realistic pronouns
     r = $.extend( r, get($.extend(r,{type:'noun'})) )
@@ -246,6 +291,19 @@ function a_neg(r) {
     return r.opposite && Math.round(Math.random()) ? {text:r.opposite} : {text:''}
 }
 
+function PREDICATE(r){
+    decide(r, "tense,aspect,number,person")
+
+    return {
+        order: "aux word",
+        head: "aux",
+        children: {
+            aux:  [auxiliary],
+            word: [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect', reverse: true})]
+        }
+    }
+}
+
 function VP(r){
     decide(r, "tense,aspect,number,person")
 
@@ -254,7 +312,7 @@ function VP(r){
         head: "aux",
         children: {
             aux:  [auxiliary],
-            word: [V, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect', reverse: true})]
+            word: [V, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', reverse: true})]
         }
     }
 }
@@ -269,7 +327,7 @@ function V(r) {
             asp:  [aspect, 'verb'],
             tns:  [tense, 'verb'],
             num:  [vNum, 'verb'],
-            comp: [complement, {'case':'acc','complements': 'verb.complements'}]
+            comp: [complement, {'case':'acc','complements': 'verb.complements',neg: r.neg}]
         },
         postlogic: verb_cleanup
     }
