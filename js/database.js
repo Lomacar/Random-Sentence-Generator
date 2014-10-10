@@ -19,10 +19,9 @@ function loadLexicon(){
         var a = $.Deferred();
         var b = $.Deferred();
         var c = $.Deferred();
-        var ontology;
         
         $.get('csv/nouns.csv',function(data){
-            ontology = processLexicon(CSV2JSON(data), 'noun')
+            processLexicon(CSV2JSON(data), 'noun')
             a.resolve()
         })
         $.get('csv/verbs.csv',function(data){
@@ -33,7 +32,7 @@ function loadLexicon(){
             processLexicon(CSV2JSON(data), 'adjective')
             c.resolve()
         })
-        $.when(a,b,c,ontology).done(function() {
+        $.when(a,b,c).done(function() {
             d.resolve();
         })
     }
@@ -82,28 +81,12 @@ function processLexicon(data, type){
     if(type=='noun') {
 
         //add implied tags to words
-        var impliedTags = $.Deferred();
-        $.get("../csv/ontology.tgf", function(data){
-            var stuff = data.split('#')
-            var nodes = stuff[0].split('\r\n').slice(0,-1).map(function(x){return x.replace(/\d+ (.*)/,'$1')})
-            var paths = stuff[1].split('\r\n').slice(1,-1).map(function(x){return x.split(' ')})
-            ontology = {}
-
-            for(n in nodes){
-                ontology[nodes[n]] = []
+        for (var w in database[type]) {
+            if(database[type][w].tags) {
+                var tag_array = database[type][w].tags.split(',')
+                database[type][w].tags = addImpliedTags(tag_array).join(',')
             }
-            for(var p in paths){
-                ontology[nodes[paths[p][1]-1]].push(nodes[paths[p][0]-1])
-            }
-
-            for (var w in database[type]) {
-                if(database[type][w].tags) {
-                    var tag_array = database[type][w].tags.split(',')
-                    database[type][w].tags = addImpliedTags(tag_array).join(',')
-                }
-            }
-            impliedTags.resolve()
-        })
+        }
 
         //temporarily turn tags into a sub-object of each word
         for (var z in database[type]) {
@@ -156,7 +139,6 @@ function processLexicon(data, type){
         prune(database[type][b])
     }
 
-    return impliedTags || null
 }
 
 function setProto(a,type,x){
@@ -237,35 +219,56 @@ var database = { verb: [],noun: [], adjective: [],
                 ],
 
                 quantifier: [
-                    {name: 'a lot of'},
-                    {name: 'heaps of'},
-                    {name: 'some'},
-                    {name: 'all'},
-                    {name: 'no'},
-                    {name: 'plenty of'},
-                    {name: 'a bunch of'},
-                    {name: 'enough'},
-                    {name: 'not enough'},
-                    {name: 'tons of'},
-                    {name: 'most of the'},
-                    {name: 'some of the'},
-                    {name: 'none of the'},
-                    {name: 'all of the'},
-                    {name: 'each of the', count: 1},
-                    {name: 'a few of the', count: 1},
-                    {name: 'several', count: 1},
-                    {name: 'numerous', count: 1},
-                    {name: 'a few', count: 1},
-                    {name: 'a couple of', count: 1},
-                    {name: 'dozens of', count: 1},
-                    {name: 'hundreds of', count: 1},
-                    {name: 'many', count: 1},
-                    {name: 'a number of', count: 1},
-                    {name: 'much', count: 0},
-                    {name: 'too much', count: 0},
-                    {name: 'a little', count: 0},
-                    {name: 'too little', count: 0},
-                    {name: 'a bit of', count: 0}
+                    {name: 'a lot', prequant: true},
+                    {name: 'heaps', prequant: true},
+                    {name: 'tons', prequant: true},
+                    {name: 'plenty', prequant: true},
+                    {name: 'a bunch', prequant: true},
+                    {name: 'none', prequant: true, def:'def'},
+                    {name: 'no', prequant: false, neg: false},
+
+                    {name: 'any', prequant: false, neg: true},
+                    {name: 'any', prequant: true, def:'def', neg: true},
+
+                    {name: 'enough', prequant: false},
+                    {name: 'enough', prequant: true, def:'def'},
+                    {name: 'not enough', prequant: false},
+                    {name: 'not enough', prequant: true, def:'def'},
+                    {name: 'most', prequant: false},
+                    {name: 'most', prequant: true, def:'def'},
+                    {name: 'some', prequant: false},
+                    {name: 'some', prequant: true, def:'def'},
+                    {name: 'all', prequant: false},
+                    {name: 'all', prequant: true, def:'def'},
+
+                    {name: 'numerous', prequant: false, count: 1},
+
+                    {name: 'a few', prequant: false, count: 1},
+                    {name: 'a few', prequant: true, def:'def', count: 1},
+                    {name: 'each', prequant: false, count: 1},
+                    {name: 'each', prequant: true, def:'def', count: 1},
+                    {name: 'several', prequant: false, count: 1},
+                    {name: 'several', prequant: true, def:'def', count: 1},
+                    {name: 'many', prequant: false, count: 1},
+                    {name: 'many', prequant: true, def:'def', count: 1},
+                    {name: 'a couple', prequant: false, count: 1},
+                    {name: 'a couple', prequant: true, def:'def', count: 1},
+                    {name: 'a number', prequant: true, count: 1},
+                    {name: 'dozens', prequant: true, count: 1},
+                    {name: 'hundreds', prequant: true, count: 1},
+
+                    {name: 'much', prequant: false, count: 0},
+                    {name: 'much', prequant: true, def:'def', count: 0},
+                    {name: 'too much', prequant: false, count: 0},
+                    {name: 'too much', prequant: true, def:'def', count: 0},
+                    {name: 'too much', prequant: false, count: 0},
+                    {name: 'too much', prequant: true, def:'def', count: 0},
+                    {name: 'a little', prequant: false, count: 0},
+                    {name: 'a little', prequant: true, def:'def', count: 0},
+                    {name: 'too little', prequant: false, count: 0},
+                    {name: 'too little', prequant: true, def:'def', count: 0},
+                    {name: 'a bit', prequant: false, count: 0},
+                    {name: 'a bit', prequant: true, def:'def', count: 0},
                 ]
 
 }
@@ -328,6 +331,6 @@ var probabilities = {
     //verby
     tense: [4, 'pres', 8, 'past', 1, 'fut'],
     aspect: [8, 'simp', 4, 'prog', 2, 'retro', 1, 'retroprog', 1.5, 'prosp'],
-    neg: [7, false, 1, true],
+    neg: [6, false, 1, true],
     mood: [1,'deontic', 6,'other']
 }
