@@ -513,7 +513,7 @@ function r_match(restrictions, test_object){
         } else continue
 
         }
- if (test_object.name=='continue') console.log(restrictions.tags)
+
     return true
 }
 

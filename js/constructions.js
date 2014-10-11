@@ -9,7 +9,7 @@ function CLAUSE(r){
         order: "subject predicate",
         head: "subject",
         children: {
-            subject: [NP, {case: 'nom', anim: choose(3,0, 3,1, 5,2, 7,3), def: choose(9, 'def', 1, 'indef')}],
+            subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3), def: choose(9, 'def', 1, 'indef')}],
             predicate: [VP, {special: false, copulant: false, unpack: "subject.R", reverse: true}]
         }
     }}
@@ -22,7 +22,7 @@ function COPULA(){
         order: "subject predicate",
         head: "subject",
         children: {
-            subject: [NP, {case: 'nom', anim: choose(3,0, 3,1, 5,2, 7,3)}],
+            subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3)}],
             //copula: [auxiliary, {unpack: 'subject.R', copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
             predicate: [PREDICATE, {unpack: 'subject.R', copulant: true, reverse: true}]
         }
@@ -97,7 +97,7 @@ function DET(r) {
                         } else {
                             r.quantified = false
                             return choose(1, [PREQUANT,r],                        //'12 of my dogs' is definite
-                                          1, {
+                                          r.count, {
                                                 order: 'det quant',
                                                 head: 'det',
                                                 children: {
@@ -136,9 +136,9 @@ function GENITIVE(r){
         r2 = toObject(posr)
     }
 
-    r2.number = r2.number=='sg' ? 'sg' : null
+    if (r2.number=='pl') delete r2.number
     r2.case = 'gen'
-    if (r.number=='pl') r.def = 'def' //because "birds' owner died" sounds wrong
+    if (r.number=='pl') r.def = 'def' //because "birds' owners died" sounds wrong
 
     return {
         order: "fake gennoun_'s",
@@ -158,7 +158,7 @@ function QUANT(r){
     r.prequant = r.prequant || false
     r.neg = r.neg || false
 
-    if(r.count==1 && Math.random() < 0.3) {
+    if(r.count==true && Math.random() < 0.3) {
         return {text: toWords(powerRandom())}
     } else {
         return [get, {type: 'quantifier', prequant: r.prequant }]
@@ -166,22 +166,13 @@ function QUANT(r){
 }
 
 function PREQUANT(r){
-//    var out = {}
-//
-//    if(r.count==1 && Math.random() < 0.3) {
-//        out.text = toWords(powerRandom())
-//    } else {
-//        out.text = get(_.extend(r, {type: 'quantifier'})).name
-//    }
-//
-//    out.text += " of " + DET(r).text
 
     return {
         order: 'quant of det',
         head: 'quant',
         children: {
             quant: [QUANT, {prequant: true}],
-            det: [DET]
+            det: [DET, r]
         }
     }
 }
@@ -211,13 +202,22 @@ function nNum(r){
 }
 
 function PRONOUN(r) {
-    decide(r,'person,number,case,anim')
-    if (!magicCompare(r.anim,3)) r.person=3 //if restrictions demands something less than sentient than 1st and 2nd person are excluded
-    //if (r.person < 3) r.anim = 3
+    decide(r,'number,case,anim')
+    if (!magicCompare(r.anim,3)) r.person=3 //if restrictions demands something less than sentient, then 1st and 2nd person are excluded
+    decide(r,'person')
 
-    //get a dummy noun so that we can make realistic pronouns
-    r = $.extend( r, get($.extend(r,{type:'noun'})) )
-    r.gender = r.gender || (magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n')
+    if (r.person < 3) {
+        r.anim = 3
+        r.tags = 'person'
+        r.tang = 2
+        r.gender = choose(1,'m',1,'f')
+    }
+    else {
+        //get a dummy noun so that we can make realistic pronouns
+        r = $.extend( r, get($.extend(r,{type:'noun'})) )
+        r.gender = r.gender || (magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n')
+    }
+
 
     //reflexive logic
     if (r.person===r.subj_person) {
@@ -606,15 +606,32 @@ function GOAL(r){
         out.text = resolve(pr, inflections)
     } else {
         out = $.extend( out, {
-                order: 'to place',
+                order: 'prep place',
                 head: 'place',
                 children: {
-                    place: [NP, {tags:'place',number:'sg'}]
+                    place: [NP, {tags:'place',number:'sg'}],
+                    prep: [PREPOSITION, {unpack:'place.R', role: 'goal'}]
                 }
             })
     }
 
     return out
+}
+
+function PREPOSITION(r){
+    return {text: route( r.role, {
+        goal: route(_.sample(_.intersection(r.tags.split(','), ['bounded','surface','place'])), {
+            bounded: 'into',
+            surface: 'onto',
+            rest: choose(4, 'to', 1, 'beyond')
+        }),
+        source: route(_.sample(_.intersection(r.tags.split(','), ['bounded','surface','place'])), {
+            bounded: 'into',
+            surface: 'onto',
+            rest: 'to'
+        }),
+        rest: 'to'
+    })}
 }
 
 
