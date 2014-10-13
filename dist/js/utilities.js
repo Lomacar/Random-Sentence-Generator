@@ -145,7 +145,8 @@ Object.defineProperty(Object.prototype, 'descend', {
                 return cur;
         }
         return cur;
-    }
+    },
+    configurable: true
 });
 
 //somehow this is faster than indexOf, only works for 1 character
