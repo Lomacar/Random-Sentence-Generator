@@ -54,7 +54,7 @@ function executeBranch(c, r, p){
         this.children = {}
 
         var newbranch = c.children[c.head][0]
-        var headr = $.extend( {}, c.restrictions, r, c.children[c.head][1] )
+        var headr = _.extend( {}, c.restrictions, r, c.children[c.head][1] )
         this.head = this.children[c.head] = new branch(newbranch, headr, p, c.head)
 
     }
@@ -79,7 +79,7 @@ function executeBranch(c, r, p){
                         while (probability > Math.random()) { //repeat until the probability dies
 
                             //Fetch the child branch
-                            var sprout = new branch(c.children[child][0], $.extend({}, c.restrictions, R), p, child)
+                            var sprout = new branch(c.children[child][0], _.extend({}, c.restrictions, R), p, child)
                             if (typeOf(sprout) == 'array')
                             { tempchildren = tempchildren.concat(sprout) }
                             else
@@ -144,7 +144,7 @@ function parseRestrictions(restrictions){
             if( _.size(arrr)==1 && !expando ){
                 out_restrictions[r] = arrr[_.keys(arrr)[0]] //for restrictions like {thing: 'subject.other'}
             } else {
-                $.extend( out_restrictions, arrr ) //for everything else
+                _.extend( out_restrictions, arrr ) //for everything else
             }
 
         } else if (arrr===true) {
@@ -176,7 +176,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
                 return parseSingleRestriction(x)
             })
             //collapse array of objects down to one
-            multi = $.extend.apply( this, _.compact(multi) )
+            multi = _.extend.apply( this, _.compact(multi) )
             return multi
         }
 
@@ -196,7 +196,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
                 out[x] = p
                 return out
             })
-            return $.extend.apply( this, _.compact(props) )
+            return _.extend.apply( this, _.compact(props) )
 
         } else {
             //parse simple properties
@@ -244,7 +244,7 @@ function inflect(word, r){
     r = r || {}
     var query = []
     //paradigms specific to this word type, and a new copy so we can hack and slash it
-    var pdigms = $.extend(true,{}, paradigms[word.type])
+    var pdigms = _.cloneDeep(paradigms[word.type])
     //word level prohibitions
     var prohib = word.prohibitions
     prohib = prohib ? toObject(prohib) : null
@@ -258,7 +258,7 @@ function inflect(word, r){
             var uni = prohibitions.descend(para, cat)
 
             //merge universal and word-level prohibitions
-            var prohibz = $.extend({}, uni, prohib)
+            var prohibz = _.extend({}, uni, prohib)
             var phb = prohibz[para] ? toNumBool(prohibz[para]) : null
 
             //create modified word for collision detection
@@ -430,7 +430,7 @@ function get(r){
     if(!r.noinflection) inflect(word,r)
 
     //record this word so it isn't overused within the same sentence
-    if (recentlyUsed && r.type == 'noun' || r.type == 'adjective' || r.type=='verb' ) recentlyUsed.push(word.name.replace(/\d+/g,''))
+    //if (recentlyUsed && r.type == 'noun' || r.type == 'adjective' || r.type=='verb' ) recentlyUsed.push(word.name.replace(/\d+/g,''))
 
     return word
 }
@@ -442,7 +442,7 @@ function pickOne(arr, r){
     if(typeOf(arr) == 'object') arr = toArray(arr).slice() //in case object was past in
     else arr = arr.slice();
     r = r || null;
-    var randex;
+    var type = r.type;
 
     if(!isEmpty(r)){
 
@@ -452,20 +452,35 @@ function pickOne(arr, r){
             return database[r.type][lookup[r.type][r.name]]
         }
 
+        //for main word classes use their corresponding shuffled list to randomly rummage through the database
+        if(Object.keys(r).length < 6 && (type=="noun" || type=="adjective" || type=="verb")){
+
+            randy[type] = randy[type] || _.shuffle(_.range(arr.length))
+
+            for (var i = randy[type].length-1; i >= 0; i--){
+                var randex = randy[type].pop()
+                if (r_match(r, arr[randex])) return arr[randex]
+            }
+
+            //if the old shuffle list failed, renew it and try again
+            randy[type] = _.shuffle(_.range(arr.length))
+            console.log('RESET')
+
+            for (var i = randy[type].length-1; i >= 0; i--){
+                var randex = randy[type][i]
+                if (r_match(r, arr[randex])) return arr[randex]
+                    }
+
+        }
+
         while (arr.length) {
             randex=Math.floor(Math.random()*arr.length)
             if (r_match(r, arr[randex])) return arr[randex]
             else arr.splice(randex,1)
-                }
-        //var slim = $.grep(arr, slimmer)
-        //return slim[Math.floor(Math.random()*slim.length)]
+        }
     }
     //just pick one at random
-    else return arr[Math.floor(Math.random()*arr.length)]
-
-    function slimmer(a){
-        return r_match(r,a)
-    }
+    else return _.sample(arr); //arr[Math.floor(Math.random()*arr.length)]
 }
 
 //tests an object against a restrictions template
@@ -484,7 +499,7 @@ function r_match(restrictions, test_object){
     if(test_object.disabled) return false
 
     //prevent the repetitive use of words
-    if (recentlyUsed.indexOf(test_object.name.replace(/\d+/g,'')) > -1) return false
+    //if (recentlyUsed.indexOf(test_object.name.replace(/\d+/g,'')) > -1) return false
 
     var prohib = test_object.prohibitions
     if(goodVal(prohib)) {//prohib = prohib.replace(/ /g, '')
