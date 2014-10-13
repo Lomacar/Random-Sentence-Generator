@@ -613,41 +613,6 @@ function stringOut(c){
 
         var string = c.order.replace(/([^_ ])+/g, replacer)
 
-        function replacer(a){
-
-            //optional words have an asterisk
-            if (a.match(/\*/)){
-
-                //optional undefined or empty words return ''
-                if (!c.children[a.slice(0,-1)])
-                    return ''
-                    else
-                        a = a.slice(0,-1)
-
-                        }else{ //not optional
-
-                            //if there is no child with the given name then treat it as literal
-                            if (!c.children[a])
-                                return a
-                                }
-
-            //break down arrays of adjectives or whatnot
-            if(typeOf(c.children[a])=='array') {
-                var tempstr = ""
-                $.each(c.children[a], function (index, value){tempstr += " "+stringOut(value)})
-                return tempstr
-            }
-
-            //or fetch single item
-            else {
-                var furtherIn = stringOut(c.children[a])
-
-                //if (!furtherIn) {} //error("There was no child '"+a+"' to render.")
-                return furtherIn===undefined ? '[???]' : furtherIn
-            }
-
-        }
-
         if (typeof c.postlogic==='function') string = c.postlogic(string)
 
         return string.replace(/\./g,'')                     //remove dots
@@ -657,6 +622,42 @@ function stringOut(c){
     }
 
     else return c.text
+
+
+    function replacer(a){
+
+        //optional words have an asterisk
+        if (a.match(/\*/)){
+
+            //optional undefined or empty words return ''
+            if (!c.children[a.slice(0,-1)])
+                return ''
+                else
+                    a = a.slice(0,-1)
+
+                    }else{ //not optional
+
+                        //if there is no child with the given name then treat it as literal
+                        if (!c.children[a])
+                            return a
+                            }
+
+        //break down arrays of adjectives or whatnot
+        if(typeOf(c.children[a])=='array') {
+            var tempstr = ""
+            $.each(c.children[a], function (index, value){tempstr += " "+stringOut(value)})
+            return tempstr
+        }
+
+        //or fetch single item
+        else {
+            var furtherIn = stringOut(c.children[a])
+
+            //if (!furtherIn) {} //error("There was no child '"+a+"' to render.")
+            return furtherIn===undefined ? '[???]' : furtherIn
+        }
+
+    }
 
 }
 

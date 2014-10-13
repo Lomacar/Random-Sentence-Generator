@@ -1,10 +1,30 @@
 var fs   = require('fs')
+  , chokidar = require('chokidar')
   , colors = require('colors')
-var filename = '../dist/csv/ontology.graphml'
-var outfile = '../dist/js/ontology.js'
-var file = fs.readFileSync(filename, 'utf-8')
 
-fs.watchFile(filename,function(){
+var ontologyFile = 'ontology.graphml'
+var ontologyOutFile = '../dist/js/ontology.js'
+var lexiconDir = 'csv'
+
+var watcher = chokidar.watch([lexiconDir, ontologyFile, ontologyOutFile], {ignored: /#$/, persistent: true})
+
+watcher.on('change', function(path){
+    console.log(path)
+
+    if(path==ontologyFile){
+        console.log("Processing ontology...".green.bgBlue)
+        processOntology()
+    } else {
+        console.log("Processing lexicon...".yellow.bgBlue)
+        eval(fs.readFileSync("dbProcessor.js")+'');
+        loadLexicon()
+    }
+})
+
+
+function processOntology(){
+
+    var file = fs.readFileSync(ontologyFile, 'utf-8')
 
     var output = {}, nodes = {}
 
@@ -41,8 +61,8 @@ fs.watchFile(filename,function(){
         output[nodes[target]].push(nodes[source])
     })
 
-    fs.writeFile(outfile, 'ontology = ' + JSON.stringify(output))
+    fs.writeFile(ontologyOutFile, 'ontology = ' + JSON.stringify(output))
 
-    console.log('Updated '.green + outfile)
+    console.log('Updated ontology'.green + ontologyOutFile)
 
-})
+}

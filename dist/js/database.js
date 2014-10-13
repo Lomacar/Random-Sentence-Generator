@@ -210,6 +210,9 @@ function addImpliedTags(tags){
     return tags
 }
 
+//index for fetching words by name, populated by processLexicon
+var lookup = {noun:{},verb:{},adjective:{}}
+
 var database = { verb: [],noun: [], adjective: [],
 
                 aux_verb: [
@@ -232,8 +235,8 @@ var database = { verb: [],noun: [], adjective: [],
 
                     {name: 'enough', prequant: false},
                     {name: 'enough', prequant: true, def:'def'},
-                    {name: 'not enough', prequant: false},
-                    {name: 'not enough', prequant: true, def:'def'},
+                    //{name: 'not enough', prequant: false},
+                    //{name: 'not enough', prequant: true, def:'def'},
                     {name: 'most', prequant: false},
                     {name: 'most', prequant: true, def:'def'},
                     {name: 'some', prequant: false},
@@ -246,7 +249,7 @@ var database = { verb: [],noun: [], adjective: [],
 
                     {name: 'a few', prequant: false, count: 1},
                     {name: 'a few', prequant: true, def:'def', count: 1},
-                    {name: 'each', prequant: false, count: 1},
+                    {name: 'each', prequant: false, number: 'sg', count: 1},
                     {name: 'each', prequant: true, def:'def', count: 1},
                     {name: 'both', prequant: false, count: 1},
                     {name: 'both', prequant: true, def:'def', count: 1},
@@ -260,22 +263,19 @@ var database = { verb: [],noun: [], adjective: [],
 
                     {name: 'much', prequant: false, count: 0},
                     {name: 'much', prequant: true, def:'def', count: 0},
-                    {name: 'too much', prequant: false, count: 0},
-                    {name: 'too much', prequant: true, def:'def', count: 0},
-                    {name: 'too much', prequant: false, count: 0},
-                    {name: 'too much', prequant: true, def:'def', count: 0},
+                    //{name: 'too much', prequant: false, count: 0},
+                    //{name: 'too much', prequant: true, def:'def', count: 0},
+                    //{name: 'too much', prequant: false, count: 0},
+                    //{name: 'too much', prequant: true, def:'def', count: 0},
                     {name: 'a little', prequant: false, count: 0},
                     {name: 'a little', prequant: true, def:'def', count: 0},
-                    {name: 'too little', prequant: false, count: 0},
-                    {name: 'too little', prequant: true, def:'def', count: 0},
+                    //{name: 'too little', prequant: false, count: 0},
+                    //{name: 'too little', prequant: true, def:'def', count: 0},
                     {name: 'a bit', prequant: false, count: 0},
                     {name: 'a bit', prequant: true, def:'def', count: 0},
                 ]
 
 }
-
-//index for fetching words by name, populated by processLexicon
-var lookup = {noun:{},verb:{},adjective:{}}
 
 var paradigms = {
 		verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
