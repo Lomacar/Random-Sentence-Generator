@@ -20,7 +20,7 @@ function branch(c, r, p, l){
 
 
     //some constructions just reroute to other constructions
-    if(typeOf(c)==='array' && typeof c[0] == 'function') {
+    while (typeOf(c)==='array' && typeof c[0] == 'function') {
         c[1] = parseRestrictions.apply(this, [c[1]])
         c = c[0]( _.extend({}, r, c[1]) )
     }
@@ -39,7 +39,8 @@ function branch(c, r, p, l){
         if(!"text".in(c)) this.text = c.inflected || c.name
 
         //create a happy package of all the important restrictions on this word, for grabbing from elsewhere
-        this.R = safe(this)
+        //this.R = safe(this)
+        if (r) this.R = safe(this, this.type)
     }
 
 } //end branch
@@ -330,9 +331,13 @@ function resolve(query,inf) {
 
 //take string complement description, return complement construction object
 function complement(r){
-    if (!goodVal(r.complements) || r.nocomplement) return {text: ''}
+    if (r.nocomplement) return {text: ''}
+    else if (goodVal(r.complements))  var complement = options(r.complements)
+    else if (goodVal(r.compcore))  var complement = options(r.compcore)
+    else if (goodVal(r.compext))  var complement = options(r.compext)
+    else return {text: ''}
 
-    var complement = options(r.complements)
+
 
     var constructions = complement.match(/\b[A-Z]+\w*({[^{}]+})*/g)
 
@@ -345,6 +350,8 @@ function complement(r){
         func = con.match(/[A-Z]+\w*/)[0]
 
         delete r.complements
+        delete r.compcore
+        delete r.compext
 
         var arg = con.match(/{.+}/)
         if (arg===null) {
@@ -380,25 +387,31 @@ function complement(r){
 function options(str){
     if(typeOf(str)!='string') return error("Non-string passed to options function.")
 
+    //options are always wrapped in parentheses. deal with the inner ones first and recursively work outward
     out = str.replace(/\([^()]*\)/g, function(match){
         //prevent splitting on pipes inside {rest:rict|ions}
         match = match.replace(/{.*?}/g, function(m){return m.replace(/\|/g,'###')})
 
+        //multiple options separated by pipes
         if(match.findChar('|')){
 
-            if(/(^\(|\|) *[0-9.]+ /.test(match)) return choose2(
-                _.flatten(
-                    match.slice(1,-1)
-                    .split("|")
-                    .map( function(x){
-                        return x.match(/^([0-9.]*) +(.*)$/).slice(1)
-                    })
+            //options with weights
+            if(/(^\(|\|) *[0-9.]+ /.test(match)) {
+                return choose2(
+                    _.flatten(
+                        match.slice(1,-1)
+                        .split("|")
+                        .map( function(x){
+                            return x.match(/^ *([0-9.]*) +(.*)$/).slice(1)
+                        })
+                    )
                 )
-            )
-            else {
+            //options without weights
+            } else {
                 return _.sample( match.slice(1,-1).split("|") )
             }
 
+        //single options
         } else {
 
             var threshold = match.match(/^\(?([0-9.]+ )/)
@@ -453,7 +466,7 @@ function pickOne(arr, r){
         }
 
         //for main word classes use their corresponding shuffled list to randomly rummage through the database
-        if(Object.keys(r).length < 6 && (type=="noun" || type=="adjective" || type=="verb")){
+        if(Object.keys(r).length < 7 && (type=="noun" || type=="adjective" || type=="verb")){
 
             randy[type] = randy[type] || _.shuffle(_.range(arr.length))
 
@@ -464,7 +477,6 @@ function pickOne(arr, r){
 
             //if the old shuffle list failed, renew it and try again
             randy[type] = _.shuffle(_.range(arr.length))
-            console.log('RESET')
 
             for (var i = randy[type].length-1; i >= 0; i--){
                 var randex = randy[type][i]
@@ -498,6 +510,8 @@ function r_match(restrictions, test_object){
     //don't use disabled words
     if(test_object.disabled) return false
 
+    //if (restrictions.type=='noun' || restrictions.type=='verb') restrictions = safe(restrictions, restrictions.type)
+
     //prevent the repetitive use of words
     //if (recentlyUsed.indexOf(test_object.name.replace(/\d+/g,'')) > -1) return false
 
@@ -514,8 +528,8 @@ function r_match(restrictions, test_object){
 
         //merge word-level and universal prohibitions for given paradigm (r)
         //word level overwrites universal
-        var prohibz = $.extend({}, prohibitions.descend(r,rval))
-        if (typeOf(prohib)=='object') $.extend(prohibz, prohib)
+        var prohibz = prohibitions.descend(r,rval)
+        if (typeOf(prohib)=='object') _.extend({},prohibz, prohib)
         if (prohibz && prohibited(test_object, prohibz)===true) return false
 
         if (typeof test_object[r] !== 'undefined') {
@@ -779,7 +793,7 @@ function decide(r, pdgms, filter){
 }
 
 //clear out all possible troublesome properties from a restriction object
-function safe(r){
+function safe(r, type){
     if (typeof r == 'undefined') return
 
     var rr = _.clone(r)
@@ -787,6 +801,8 @@ function safe(r){
     delete rr.proto
     delete rr.prohibitions
     delete rr.complements
+    delete rr.compcore
+    delete rr.compext
     delete rr.inflections
 
     delete rr.inflected
@@ -794,10 +810,13 @@ function safe(r){
 
     delete rr.label
     delete rr.text
+    delete rr.reverse
 
     rr = _.omit(rr, function(x){
         return typeof x == 'object' || typeof x == 'function' || !goodVal(x)
     })
+
+    if (type) rr = _.pick(rr, dbkeys[type])
 
     return rr
 }

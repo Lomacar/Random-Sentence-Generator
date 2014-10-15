@@ -59,10 +59,16 @@ database.quantifier = [
 ]
 
 var paradigms = {
-		verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
-		aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
-		noun: {number: ['pl', 'sg'], def: ['def','indef'], quantified: [true,false]},
-		pronoun: {case: ['nom', 'acc','gen','reflex'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
+	verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
+	aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
+    noun: {number: ['pl', 'sg'], def: ['def','indef'], quantified: [true,false], person: [1,2,3]},
+	pronoun: {case: ['nom', 'acc','gen','reflex'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
+}
+
+for (type in dbkeys) {
+    if (paradigms[type]){
+        dbkeys[type] = dbkeys[type].concat(_.keys(paradigms[type]))
+    }
 }
 
 //universal prohibitions
@@ -70,8 +76,8 @@ var prohibitions = {
 
     //verb
     aspect: {
-        prog: {class: 'state,event,semel'},
-        retroprog: {class: 'state,event,semel', perm: true},
+        prog: {class: 'state,event,semel', perm: true, pasv:true},
+        retroprog: {class: 'state,event,semel', perm: true, pasv:true},
         retro: {perm: true},
         prosp: {volition: false}
     },
@@ -86,6 +92,9 @@ var prohibitions = {
     number: {
         pl: {count: false},
     },
+    subj_def: {
+        indef: {class: 'state'}
+    }
 
 }
 

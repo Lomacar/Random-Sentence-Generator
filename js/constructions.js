@@ -1,18 +1,17 @@
 function SENTENCE(){
-    return choose(5, [CLAUSE], 1, [COPULA], 0.0005, [ALLYOURBASE])
+    return choose(5, [CLAUSE], 1, [PASSIVE], 1, [COPULA], 0.0008, [ALLYOURBASE])
 }
 
 function CLAUSE(r){
-    //decide(r, "number,person,aspect,tense,anim")
-
     return {
         order: "subject predicate",
         head: "subject",
         children: {
             subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3), def: choose(9, 'def', 1, 'indef')}],
-            predicate: [VP, {special: false, copulant: false, unpack: "subject.R", reverse: true}]
+            predicate: [VP, {copulant: false, unpack: "subject.R", reverse: true}]
         }
-    }}
+    }
+}
 
 function COPULA(){
 
@@ -22,20 +21,30 @@ function COPULA(){
         order: "subject predicate",
         head: "subject",
         children: {
-            subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3)}],
-            //copula: [auxiliary, {unpack: 'subject.R', copulant: true, aspect: choose(4, 'simp', 1, 'retro')}],
+            subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3), def: 'def'}],
             predicate: [PREDICATE, {unpack: 'subject.R', copulant: true, reverse: true}]
+        }
+    }
+}
+
+function PASSIVE(r){
+    return {
+        order: "predicate",
+        head: "predicate",
+        children: {
+            predicate: [VP_PASV, {copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def')}]
         }
     }
 }
 
 function NP(r) {
     r = decide(r, "person,pronominal")
+    var r2 = r.pasv==true || typeof r.pasv=='undefined'  ? {} : {subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}
 
     return route(r.person, {
-        rest: [PRONOUN,{subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}],
+        rest: [PRONOUN,r2],
         3: route(r.pronominal, {
-                true: [PRONOUN, {subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}],
+                true: [PRONOUN, r2],
                 false: [DP]
             }
         )
@@ -73,7 +82,7 @@ function DET(r) {
         default:
             if (r.possessable > Math.pow(Math.random(),0.6) * 9) {
 
-                if (Math.random() > -0.5) {
+                if (Math.random() > 0.5) {
                     return GENITIVE(r)
                 } else {
                     decide(r, 'number')
@@ -127,18 +136,24 @@ function DET(r) {
 
 function GENITIVE(r){
     var posr = r.posr
-    var r2 = decide(r, 'anim,number', true)
+    var r2 = decide(r, 'number', true)
+    r2.case = 'gen'
 
-    if (!posr) {
-        if (r2.anim==3) return DET(_.extend(r, {possessable: -111}))
+    if (!posr || Math.random() > 0.5) {
+        //basic genitive
+        decide(r2, 'anim')
+        if (r2.anim==3) return DET(_.extend(r, {possessable: -111})) //abort possession if the would-be possesed noun is a person or somesuch
         else r2.anim=3
     } else {
-        r2 = toObject(posr)
+        //special genitive with specified restricions (like "book's author")
+        r2 = _.extend(r2, toObject(posr))
     }
 
-    if (r2.number=='pl') delete r2.number
-    r2.case = 'gen'
-    if (r.number=='pl') r.def = 'def' //because "birds' owners died" sounds wrong
+    if (r2.number=='pl') delete r2.number //plural nouns can be possessed by sg or pl nouns
+    if (r2.number=='sg') {
+        r2.tags = r2.tags ? r2.tags + ' & !collective' : '!collective'
+    }
+    if (r2.number=='pl') r.def = 'def' //because "birds' owners died" sounds wrong
 
     return {
         order: "fake gennoun_'s",
@@ -186,7 +201,7 @@ function N(r){
         head: "word",
         children: {
             word: [get, { type: 'noun' } ],
-            num: [nNum, 'word']
+            num: [nNum, 'word.number-count-inflected']
         },
         postlogic:function(text){
             return text.replace(/[0-9.]+/, '') //strip verb sense numbers
@@ -202,7 +217,11 @@ function nNum(r){
 }
 
 function PRONOUN(r) {
-    decide(r,'number,case,anim')
+    //get a dummy noun so that we can make realistic pronouns
+    r = $.extend( r, get($.extend(r,{type:'noun'})) )
+
+    //decide(r,'number,case,anim')
+
     if (!magicCompare(r.anim,3)) r.person=3 //if restrictions demands something less than sentient, then 1st and 2nd person are excluded
     decide(r,'person')
 
@@ -213,8 +232,6 @@ function PRONOUN(r) {
         r.gender = choose(1,'m',1,'f')
     }
     else {
-        //get a dummy noun so that we can make realistic pronouns
-        r = $.extend( r, get($.extend(r,{type:'noun'})) )
         r.gender = r.gender || (magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n')
     }
 
@@ -241,6 +258,8 @@ function PRONOUN(r) {
                      gap : [blank]
                     }
                 )
+
+    word.type = 'noun' //important for creating word.R object with safe()
 
     return inflect(word,r)
 }
@@ -275,7 +294,7 @@ function A(r){
     }
 
     r.copulant = r.copulant || false
-    return choose(!r.copulant, [PRES_PARTICPLE],
+    return choose(!r.copulant, [PRES_PARTICIPLE],
                   5, {
                         order:'neg_adj',
                         head:'adj',
@@ -299,7 +318,7 @@ function PREDICATE(r){
         head: "aux",
         children: {
             aux:  [auxiliary],
-            word: [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect', reverse: true})]
+            word: [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', reverse: true})]
         }
     }
 }
@@ -312,14 +331,34 @@ function VP(r){
         head: "aux",
         children: {
             aux:  [auxiliary],
-            word: [V, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', reverse: true})]
+            word: [V, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', subj_def: 'subject.def', pasv: false, reverse: true})]
+        }
+    }
+}
+
+function VP_PASV(r){
+    decide(r, "tense,aspect,number,person")
+    if (r.person < 3) {
+        r.anim = 3
+        r.tags = 'person'
+    }
+
+    return {
+        order: "subject aux word compext agent",
+        head: "word",
+        children: {
+            word: [V_PASV, {real_aspect: 'retro', reverse: true}],
+            subject: [complement, {'case':'nom', unpack: 'word.compcore-number-person', pasv: true}],
+            compext: [complement, {'case':'acc', unpack: 'word.compext-number-person'}],
+            aux:  [auxiliary, _.extend({}, r, {unpack: 'subject.number-person'}) ],
+            agent: choose(1, [blank], 1, [PASV_AGENT, {case: 'acc', unpack: "word.R", neg: 'word.neg', pasv: false}])
         }
     }
 }
 
 function V(r) {
     return {
-        order: "verb_asp_tns_num comp*",
+        order: "verb_asp_tns_num compcore* compext*",
         head: "verb",
         gap: [get, {type: 'aux_verb', name: 'do'}],
         children: {
@@ -327,7 +366,23 @@ function V(r) {
             asp:  [aspect, 'verb'],
             tns:  [tense, 'verb'],
             num:  [vNum, 'verb'],
-            comp: [complement, {'case':'acc','complements': 'verb.complements',neg: r.neg}]
+            compcore: [complement, {'case':'acc','complements': 'verb.compcore',neg: r.neg}],
+            compext: [complement, {'case':'acc','complements': 'verb.compext',neg: r.neg}]
+        },
+        postlogic: verb_cleanup
+    }
+}
+
+function V_PASV(r) {
+    return {
+        order: "verb_asp_tns_num",
+        head: "verb",
+        gap: [get, {type: 'aux_verb', name: 'do'}],
+        children: {
+            verb: [get, {type: 'verb', aspect: r.real_aspect}],
+            asp:  [aspect, 'verb'],
+            tns:  [tense, 'verb'],
+            num:  [vNum, 'verb']
         },
         postlogic: verb_cleanup
     }
@@ -367,6 +422,7 @@ function tense(r){
 function auxiliary(r){
     var text = ""
     var last_bit = ""
+    var pasv = r.pasv
     r = decide(r,"neg,tense,aspect,mood,number,person,copulant", true)
     var r2 = _.clone(r)
     r2.aspect = 'simp'
@@ -416,6 +472,12 @@ function auxiliary(r){
         text += " going to"
     }
 
+    //passive
+    if(pasv==true){
+        last_bit = get($.extend(r2, {type: 'aux_verb', name: 'be'}))
+        text += " " + (last_bit.inflected || last_bit.name)
+        wellthen("retro")
+    }
 
     //dummy 'do' for bare negative
     if (/^ *$/.test(text) && r.neg) {
@@ -552,6 +614,18 @@ function INF_CLAUSE(r){
     }
 }
 
+//no "to"
+function INF_CLAUSE2(r){
+    return {
+        order: 'subject predicate',
+        head: 'subject',
+        children:{
+            subject: [NP, {nogap: true}],
+            predicate: [V, {noinflection: true, unpack: 'subject.R'}]
+        }
+    }
+}
+
 //gerund clause
 function G_CLAUSE(r){
     return {
@@ -569,25 +643,26 @@ function GP(r){
     r.aspect = 'prog'
 
     return {
-        order: "v_asp comp*",
+        order: "v_asp compcore* compext*",
         head: "v",
         children: {
-            v: [get, {type: "verb", unpack: 'subject.R'}],
-            asp:  [aspect, 'v'],
-            comp: [complement, {'case': 'acc','complements': 'v.complements','reset':true}]
+            v: [get, {type: "verb", unpack: 'subject.R', pasv: false}],
+            asp:  [aspect, 'v.inflected-noinflection-aspect'],
+            compcore: [complement, {'case': 'acc','complements': 'v.compcore','reset':true}],
+            compext: [complement, {'case': 'acc','complements': 'v.compext','reset':true}]
         },
         postlogic: verb_cleanup
     }
 }
 
-function PRES_PARTICPLE(r){
+function PRES_PARTICIPLE(r){
     r.noinflection=false
 
     return {
         order: 'v_asp',
         head: 'v',
         children: {
-            v: [get,  {type: 'verb', class: 'activity,process', complements: ' ,', reverse: true, rank: 1.5}],
+            v: [get,  {type: 'verb', class: 'activity,process', compcore: undefined, reverse: true, rank: 1.5}],
             asp: [aspect, {unpack: 'v'}]
         },
         restrictions: {aspect: 'prog'},
@@ -632,6 +707,19 @@ function PREPOSITION(r){
         }),
         rest: 'to'
     })}
+}
+
+function PASV_AGENT(r){
+    delete r.number
+    delete r.person
+
+    return {
+        order: 'by agent',
+        head: 'agent',
+        children: {
+            agent: [NP]
+        }
+    }
 }
 
 
