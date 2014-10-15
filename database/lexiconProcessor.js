@@ -10,9 +10,8 @@ var google_key = "1FYbVHIMfwPJcYl_UgJFEQQ2zee4FkRzQMLWXhyz4qAI"
 var datasource = "" // "google" or else it will use local
 
 var database = { verb: [],noun: [], adjective: []}
-
-//index for fetching words by name, populated by processLexicon
-var lookup = {noun:{},verb:{},adjective:{}}
+var lookup = {noun:{},verb:{},adjective:{}}         //index for fetching words by name, populated by processLexicon
+var dbkeys = { verb: [],noun: [], adjective: []}    //basically lists of the CSV column names
 
 function loadLexicon(){
 
@@ -31,6 +30,8 @@ function loadLexicon(){
                     "var database = " + JSON.stringify(database)
                  +  "\n\n"
                  +  "var lookup = " + JSON.stringify(lookup)
+                 +  "\n\n"
+                 +  "var dbkeys = " + JSON.stringify(dbkeys)
                 )
     console.log('Updated lexicon'.yellow)
 }
@@ -49,6 +50,9 @@ function processLexicon(data, type){
         var a = database[type][x]
 
         Object.keys(a).forEach(function(val){
+            //build list of column names for each word type
+            if(x==0) dbkeys[type].push(val)
+
             //turn numbers and boolean into the real things
             a[val] = toNumBool(a[val])
         })

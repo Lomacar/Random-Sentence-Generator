@@ -16,7 +16,7 @@ watcher.on('change', function(path){
         processOntology()
     } else {
         console.log("Processing lexicon...".yellow.bgBlue)
-        eval(fs.readFileSync("dbProcessor.js")+'');
+        eval(fs.readFileSync("lexiconProcessor.js")+'');
         loadLexicon()
     }
 })
