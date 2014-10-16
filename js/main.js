@@ -816,7 +816,10 @@ function safe(r, type){
         return typeof x == 'object' || typeof x == 'function' || !goodVal(x)
     })
 
-    if (type) rr = _.pick(rr, dbkeys[type])
+    if (type) {
+        if(type=='pronoun') type='noun'
+        rr = _.pick(rr, dbkeys[type])
+    }
 
     return rr
 }
