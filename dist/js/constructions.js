@@ -1,5 +1,5 @@
 function SENTENCE(){
-    return choose(5, [CLAUSE], 1, [PASSIVE], 1, [COPULA], 0.0008, [ALLYOURBASE])
+    return choose(5, [CLAUSE], 2, [PASSIVE], 1, [COPULA], 0.0008, [ALLYOURBASE])
 }
 
 function CLAUSE(r){
@@ -259,7 +259,7 @@ function PRONOUN(r) {
                     }
                 )
 
-    word.type = 'noun' //important for creating word.R object with safe()
+    word.type = 'pronoun' //important for creating word.R object with safe()
 
     return inflect(word,r)
 }
@@ -344,14 +344,14 @@ function VP_PASV(r){
     }
 
     return {
-        order: "subject aux word compext agent",
-        head: "word",
+        order: "subject aux vrb compext agent",
+        head: "vrb",
         children: {
-            word: [V_PASV, {real_aspect: 'retro', reverse: true}],
-            subject: [complement, {'case':'nom', unpack: 'word.compcore-number-person', pasv: true}],
-            compext: [complement, {'case':'acc', unpack: 'word.compext-number-person'}],
+            vrb: [V_PASV, {real_aspect: 'retro', reverse: true}],
+            subject: [complement, {'case':'nom', unpack: 'vrb.compcore-number-person', pasv: true}],
+            compext: [complement, {'case':'acc', unpack: 'vrb.compext-number-person'}],
             aux:  [auxiliary, _.extend({}, r, {unpack: 'subject.number-person'}) ],
-            agent: choose(1, [blank], 1, [PASV_AGENT, {case: 'acc', unpack: "word.R", neg: 'word.neg', pasv: false}])
+            agent: choose(1, [blank], 1, [PASV_AGENT, {case: 'acc', unpack: "vrb.R", neg: 'vrb.neg', pasv: false}])
         }
     }
 }
