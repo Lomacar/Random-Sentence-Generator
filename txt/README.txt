@@ -4,9 +4,9 @@ SPECIAL INSTRUCTIONS FOR RESTRICTION OBJECTS
 
 reset: used for complements, blocks all upstream restrictions 
 
-reverse: cause object/restriction comparison to be reversed
+//reverse: cause object/restriction comparison to be reversed
          
-         necessary for picking adjective for nouns, for example
+           necessary for picking adjective for nouns, for example
          
 nocomplement: prevents complements from being applied
 

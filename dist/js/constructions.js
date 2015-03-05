@@ -8,7 +8,7 @@ function CLAUSE(r){
         head: "subject",
         children: {
             subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3), def: choose(9, 'def', 1, 'indef')}],
-            predicate: [VP, {copulant: false, unpack: "subject.R", reverse: true, vtags: 'motion'}]
+            predicate: [VP, {copulant: false, unpack: "subject.R", vtags: 'motion'}]
         }
     }
 }
@@ -22,7 +22,7 @@ function COPULA(){
         head: "subject",
         children: {
             subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3), def: 'def'}],
-            predicate: [PREDICATE, {unpack: 'subject.R', copulant: true, reverse: true}]
+            predicate: [PREDICATE, {unpack: 'subject.R', copulant: true}]
         }
     }
 }
@@ -58,7 +58,7 @@ function DP(r){
         gap : [blank],
         children: {
             noun: [N],
-            adj: [AP, {unpack:'noun.R', reverse: true, nocomplement: true, no_adj: 'noun.unique'}, 0.25, 'rank'],
+            adj: [AP, {unpack:'noun.R', nocomplement: true, no_adj: 'noun.unique'}, 0.25, 'rank'],
             det: r.nodeterminer ? [blank] : [DET, 'noun.R'],
             comp: [complement, {case: 'acc', complements: 'noun.complements', nogap: true}]
         },
@@ -318,7 +318,7 @@ function PREDICATE(r){
         head: "aux",
         children: {
             aux:  [auxiliary],
-            word: [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', reverse: true})]
+            word: [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg'})]
         }
     }
 }
@@ -331,7 +331,7 @@ function VP(r){
         head: "aux",
         children: {
             aux:  [auxiliary],
-            word: [V, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', subj_def: 'subject.def', pasv: false, reverse: true})]
+            word: [V, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', subj_def: 'subject.def', pasv: false})]
         }
     }
 }
@@ -347,7 +347,7 @@ function VP_PASV(r){
         order: "subject aux vrb noncore",
         head: "vrb",
         children: {
-            vrb: [V_PASV, {reverse: true}],
+            vrb: [V_PASV],
             subject: [complement, {'case':'nom', complements: 'vrb.compcore', pasv: true}],
             aux:  [auxiliary, _.extend({}, r, {unpack: 'subject.number-person'}) ],
             noncore: [VP_PASV_PT2, 'vrb.R']
@@ -695,7 +695,7 @@ function PRES_PARTICIPLE(r){
         order: 'v_asp',
         head: 'v',
         children: {
-            v: [get,  {type: 'verb', class: 'activity,process', ptpl: 'pres', reverse: true, rank: 1.5}],
+            v: [get,  {type: 'verb', class: 'activity,process', ptpl: 'pres', rank: 1.5}],
             asp: [aspect, {unpack: 'v'}]
         },
         restrictions: {aspect: 'prog'},
