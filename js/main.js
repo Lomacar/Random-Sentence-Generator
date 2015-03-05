@@ -1,16 +1,14 @@
 /*-------------------------------------   BRANCH -------------------------------------*/
 
-function branch(c, r, p, l){
+function branch(c, r, p, l){   
     this.parent = p || null
     LAST_PARENT = p || LAST_PARENT
     this.label = l || null
 
     //parse and filter restrictions
     r = parseRestrictions.apply(this, [r])
-
     //load the requested construction
     c = c(r)
-
     //wh clauses return a fully evaluated branch, so no need to process them
     if (c.constructor == branch) {
         c.parent = this.parent //maybe a little bit of processing...
@@ -32,11 +30,11 @@ function branch(c, r, p, l){
         if(prop!='head' && prop!='children')
             this[prop] = c[prop];
     }
-
+    
     //this is probably a word
-    if(!"children".in(c)) {
+    if(typeof c.children === 'undefined') {
         //words need a text property
-        if(!"text".in(c)) this.text = c.inflected || c.name
+        if(typeof c.text === 'undefined') this.text = c.inflected || c.name
 
         //create a happy package of all the important restrictions on this word, for grabbing from elsewhere
         //this.R = safe(this)
@@ -50,7 +48,7 @@ function branch(c, r, p, l){
 function executeBranch(c, r, p){
 
     //evaluate head first
-    if("head".in(c)){
+    if('head' in c){
         this.order = c.order
         this.children = {}
 
@@ -64,7 +62,7 @@ function executeBranch(c, r, p){
     //if(this.head.midlogic)
 
     //evaluate rest of children
-    if("children".in(c)){
+    if('children' in c){
         for(var child in c.children){
             if(this.children[child] != this.head){
                 if(typeOf(c.children[child])=='array'){
@@ -239,9 +237,6 @@ function r_special(r){
 //picks a specific inflection of/for a word if it has anything special
 //determines all categories that apply to the word type that haven't been specified by restrictions
 function inflect(word, r){
-    word.inflections = word.inflections||""
-
-
     r = r || {}
     var query = []
     //paradigms specific to this word type, and a new copy so we can hack and slash it
@@ -253,27 +248,30 @@ function inflect(word, r){
     for(var para in pdigms){
 
         //remove prohibited categories from paradigm
-        for (var cg = pdigms[para].length - 1; cg >= 0; cg--) {
+        for (var c = pdigms[para].length - 1; c >= 0; c--) {
 
-            var cat = pdigms[para][cg]
+            var cat = pdigms[para][c]
+
+            //if a word prohibits a category, remove it
+            if(prohib && prohib[para] === cat) {
+                pdigms[para].splice(c, 1)
+                continue
+            }
+
+            //if a word has a certain property which prohibits a category (universally), remove it
             var uni = prohibitions.descend(para, cat)
-
-            //merge universal and word-level prohibitions
-            var prohibz = _.extend({}, uni, prohib)
-            var phb = prohibz[para] ? toNumBool(prohibz[para]) : null
-
-            //create modified word for collision detection
-            var wrd = _.extend({}, word, prohib) //if prohibs specify a word property they get to overwrite/mask that word prop
-
-            if( (goodVal(phb) && magicCompare(phb,cat)) || uni && collide(wrd, uni) )
-                pdigms[para].splice(cg, 1)
-
+            for (var phb in uni){
+                if(uni[phb] === word[phb]){
+                    pdigms[para].splice(c, 1)
+                }
+            }
         }
-
         //if a category has already been specified use it
-        if(para.in(r)  && goodVal(r[para])) {
-            /////////////////////////////////////////if (pdigms[para].indexOf(r[para].toString())>-1 || pdigms[para].indexOf(r[para])>-1)
-            if (magicCompare(r[para], pdigms[para].toString())) {word[para] = r[para]}
+        if(goodVal(r[para])) {
+
+            if (pdigms[para].indexOf(r[para].toString())>-1 || pdigms[para].indexOf(r[para])>-1)
+            //if (magicCompare(r[para], pdigms[para].toString())) 
+            {word[para] = r[para]}
             else {
                 console.warn(
                     "Category '"+para+':'+r[para]+"' not found for "+word.type+" '"+word.name+"'. " +
@@ -283,13 +281,16 @@ function inflect(word, r){
             }
         }
         //otherwise pick one at random
-        else word[para] = _.sample(pdigms[para])
+        else {
+  
+            word[para] = _.sample(pdigms[para])
+        }
 
         query.push(word[para])
     }
 
     //if the word doesn't have a custom inflection we can stop here
-    if(word.inflections=="") {
+    if(!word.inflections) {
         word.inflected = ""
         return word
     }
@@ -311,8 +312,11 @@ function resolve(query,inf) {
 
     //find all rules that possibly apply to the given restrictions
     query = query.join("|")
+startTime = window.performance.now()
     var regex = "(^|,) *("+query+"|\\.)*("+query+ ")+ *:[^,]*"
+    hjg = /(^|,) *(nom|pl|3|n|\.)*(nom|pl|3|n)+ *:[^,]*/
     var outcome = inf.match( new RegExp(regex, "gi"))
+timer += window.performance.now() - startTime        
 
     if(outcome!==null){
 
@@ -337,7 +341,7 @@ function complement(r){
     else if (goodVal(r.compext))  var complement = options(r.compext)
     else return {text: ''}
 
-
+    complement = compactString(complement)
 
     var constructions = complement.match(/\b[A-Z]+\w*({[^{}]+})*/g)
 
@@ -433,8 +437,8 @@ function get(r){
 
     var word = pickOne(database[r.type], r) || false
 
-    if(!'name'.in(word))
-        return {text: console.warn("No "+r.type+" could be get'd with the following restrictions: "+JSON.stringify(r))}
+    if(!word)
+        return {text: error("No "+r.type+" could be get'd with the following restrictions: "+JSON.stringify(r))}
 
     //add existing restrictions to the word
     word = $.extend({},r,word)
@@ -451,7 +455,6 @@ function get(r){
 //utility function for randomly picking one element from an array
 function pickOne(arr, r){
 
-
     if(typeOf(arr) == 'object') arr = toArray(arr).slice() //in case object was past in
     else arr = arr.slice();
     r = r || null;
@@ -460,49 +463,55 @@ function pickOne(arr, r){
     if(!isEmpty(r)){
 
         //short circuit for name match
-        if ('name'.in(r) && (r.type=='noun' || r.type=='verb' || r.type=='adjective' ) && !r.orsimilar) {
+        if (('name' in r) && (r.type=='noun' || r.type=='verb' || r.type=='adjective' ) && !r.orsimilar) {
             if (typeof r.name=='undefined') return false
             return database[r.type][lookup[r.type][r.name]]
         }
 
         //for main word classes use their corresponding shuffled list to randomly rummage through the database
-        if(Object.keys(r).length < 7 && (type=="noun" || type=="adjective" || type=="verb")){
-
-            randy[type] = randy[type] || _.shuffle(_.range(arr.length))
-
-            for (var i = randy[type].length-1; i >= 0; i--){
-                var randex = randy[type].pop()
-                if (r_match(r, arr[randex])) return arr[randex]
-            }
-
-            //if the old shuffle list failed, renew it and try again
-            randy[type] = _.shuffle(_.range(arr.length))
-
-            for (var i = randy[type].length-1; i >= 0; i--){
-                var randex = randy[type][i]
-                if (r_match(r, arr[randex])) return arr[randex]
-                    }
-
-        }
+//        if(Object.keys(r).length < 8 && (type=="noun" || type=="adjective" || type=="verb")){
+//
+//            randy[type] = randy[type] || _.shuffle(_.range(arr.length))
+//            
+//            var randex
+//            while (randex = randy[type].pop()){               
+//                if (r_match(r, arr[randex])) {
+//                    return arr[randex]
+//                }
+//            }
+//
+//            //if the old shuffle list failed, renew it and try again
+//            randy[type] = _.shuffle(_.range(arr.length))
+//
+//            while (randex = randy[type].pop()){               
+//                if (r_match(r, arr[randex])) {
+//                    return arr[randex]
+//                }
+//            }
+//
+//        }
 
         while (arr.length) {
             randex=Math.floor(Math.random()*arr.length)
-            if (r_match(r, arr[randex])) return arr[randex]
+            if (r_match(r, arr[randex])) {
+                return arr[randex]
+            }
             else arr.splice(randex,1)
         }
     }
     //just pick one at random
-    else return _.sample(arr); //arr[Math.floor(Math.random()*arr.length)]
+    else return _.sample(arr);
 }
 
 //tests an object against a restrictions template
 //if they have the same properties they must match, otherwise, who cares
 //also rejected if restrictions match prohibitions on object
 function r_match(restrictions, test_object){
+
     if (isEmpty(restrictions)) return true
 
     //short circuit for name match or mismatch
-    if ('name'.in(restrictions) && restrictions.orsimilar==true) {
+    if (('name' in restrictions) && restrictions.orsimilar==true) {
         if (typeof restrictions.name=='undefined') return false
         if (magicCompare(restrictions.name, test_object.proto)) return true
         else return false
@@ -534,8 +543,9 @@ function r_match(restrictions, test_object){
 
         if (typeof test_object[r] !== 'undefined') {
 
-            var compareUs = restrictions.reverse===true ? [test_object[r],rval] : [rval, test_object[r]]
-            if (magicCompare(compareUs[0], compareUs[1], {tagmode: r=='tags'})) {
+            //var compareUs = restrictions.reverse===true ? [test_object[r],rval] : [rval, test_object[r]]
+            //if (magicCompare(compareUs[0], compareUs[1], {tagmode: (r=='tags'||r=='vtags')})) {
+            if (magicCompare(test_object[r], rval, {tagmode: (r=='tags'||r=='vtags')})) {
                 continue
             } else return false
 
@@ -599,7 +609,7 @@ function objectSearch2(what, context, graceful){
             return objectSearch2(what, context.parent, graceful) || (graceful?context:null)
         }
     }
-    return what.in(context.children) ? context.children[what] : (objectSearch2(what, context.parent, graceful) || (graceful?context:null))
+    return (what in context.children) ? context.children[what] : (objectSearch2(what, context.parent, graceful) || (graceful?context:null))
 }
 
 //searches up the parent nodes for the first object that isn't labeled as what
@@ -622,9 +632,9 @@ function propertySearch2(object, property) {
         return null
     }
 
-    if (property.in(object)) return object[property]
+    if (property in object) return object[property]
 
-    if ('head'.in(object)) {
+    if ('head' in object) {
         return propertySearch2(object.head, property)
     } else {
         //console.warn("Property search failed for " + property)
@@ -638,7 +648,7 @@ function propertySearch2(object, property) {
 //essentially the toString method for constructions
 function stringOut(c){
     if(c===undefined) return undefined
-    if("children".in(c)){
+    if(typeof c.children !== 'undefined'){
 
         var string = c.order.replace(/([^_ ])+/g, replacer)
 

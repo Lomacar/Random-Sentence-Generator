@@ -58,6 +58,49 @@ database.quantifier = [
     {name: 'a bit', prequant: true, count: 0}
 ]
 
+database.preposition = [
+    {name: 'through',   class: 'PATH',   vtags: 'grounded',  tags: 'area|surface&vertical|passage&!vertical|obstacle & !elevated'},
+    {name: 'through',   class: 'PATH',   vtags: 'contact',   tags: 'area|passage|obstacle'},
+    {name: 'through',   class: 'PATH',   vtags: 'air',       tags: 'gas|space|passage|obstacle&!grounded'},
+    {name: 'through',   class: 'PATH',   vtags: 'jump',      tags: 'surface&vertical|passage&!path|obstacle&delimited&!grounded'},
+    {name: 'through',   class: 'PATH',   vtags: 'vertical',  tags: 'passage&vertical'},
+    {name: 'through',   class: 'PATH',   vtags: 'water',     tags: 'liquid|bodyOfWater'},
+    
+    {name: 'across',    class: 'PATH',   vtags: 'grounded',  tags: 'surface&!bodyOfWater|path|boundary|bridge & !vertical'},
+    {name: 'across',    class: 'PATH',   vtags: 'contact',   tags: 'surface|path|boundary|bridge'},
+    {name: 'across',    class: 'PATH',   vtags: 'air',       tags: 'surface&!vertical|path|boundary|bridge|volume'},
+    {name: 'across',    class: 'PATH',   vtags: 'jump',      tags: 'surface&!vertical|path|boundary|bridge'},
+    {name: 'across',    class: 'PATH',   vtags: 'waterSurface',  tags: 'bodyOfWater'},
+    
+    {name: 'over',      class: 'PATH',   vtags: 'grounded',  tags: 'boundary|edge|bridge|prominence'}, //what about low stuff
+    {name: 'over',      class: 'PATH',   vtags: 'contact',   tags: 'boundary|edge|bridge|prominence'}, //
+    {name: 'over',      class: 'PATH',   vtags: 'air',       tags: 'thing|place'},
+    {name: 'over',      class: 'PATH',   vtags: 'jump',      tags: 'thing'},
+    
+    {name: 'up',        class: 'PATH',   vtags: 'grounded',  tags: 'path&!vertical|incline', volition: 1},
+    {name: 'up',        class: 'PATH',   vtags: 'contact',   tags: 'path|incline|passage&vertical', volition: 1},
+    {name: 'up',        class: 'PATH',   vtags: 'vertical',  tags: 'path&vertical|incline|passage&vertical', volition: 1},
+    {name: 'up',        class: 'PATH',   vtags: 'water',     tags: 'path & liquid|bodyOfWater', volition: 1},
+    {name: 'up',        class: 'PATH',   vtags: 'waterSurface',  tags: 'path & bodyOfWater', volition: 1},
+        
+    {name: 'down',      class: 'PATH',   vtags: 'grounded',  tags: 'path&!vertical|incline'},
+    {name: 'down',      class: 'PATH',   vtags: 'contact',   tags: 'path|incline|passage&vertical'},
+    {name: 'down',      class: 'PATH',   vtags: 'vertical',  tags: 'path&vertical|incline|passage&vertical'},
+    {name: 'down',      class: 'PATH',   vtags: 'water',     tags: 'path & liquid|bodyOfWater'},
+    {name: 'down',      class: 'PATH',   vtags: 'waterSurface',  tags: 'path & bodyOfWater'},
+    
+    {name: 'along',     class: 'PATH',   vtags: 'grounded',  tags: 'path|edge|boundary & !vertical'},
+    {name: 'along',     class: 'PATH',   vtags: 'contact',   tags: 'path|edge|boundary'},
+    
+    {name: 'around',    class: 'PATH',   vtags: 'grounded|contact|air',          tags: 'bounded'},
+    
+    {name: 'past',      class: 'PATH',   vtags: 'grounded|contact|air|jump',     tags: 'PHYSICAL'},
+    {name: 'past',      class: 'PATH',   vtags: 'vertical',                      tags: 'elevated'},
+    
+    {name: 'by',        class: 'PATH',   vtags: 'grounded|contact|air',          tags: 'PHYSICAL'}
+    
+]
+
 var paradigms = {
 	verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
 	aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
