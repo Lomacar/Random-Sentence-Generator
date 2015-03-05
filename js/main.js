@@ -543,8 +543,6 @@ function r_match(restrictions, test_object){
 
         if (typeof test_object[r] !== 'undefined') {
 
-            //var compareUs = restrictions.reverse===true ? [test_object[r],rval] : [rval, test_object[r]]
-            //if (magicCompare(compareUs[0], compareUs[1], {tagmode: (r=='tags'||r=='vtags')})) {
             if (magicCompare(test_object[r], rval, {tagmode: (r=='tags'||r=='vtags')})) {
                 continue
             } else return false
@@ -820,7 +818,6 @@ function safe(r, type){
 
     delete rr.label
     delete rr.text
-    delete rr.reverse
 
     rr = _.omit(rr, function(x){
         return typeof x == 'object' || typeof x == 'function' || !goodVal(x)
