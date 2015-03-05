@@ -1207,11 +1207,11 @@
     <node id="n52">
       <data key="d9">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
-          <y:Geometry height="28.701171875" width="94.056640625" x="1580.2885354662699" y="1241.1079375614922"/>
+          <y:Geometry height="28.701171875" width="91.37890625" x="1581.6274026537699" y="1241.1079375614922"/>
           <y:Fill color="#A6FFE9" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="84.056640625" x="5.0" y="5.0">bodily_function</y:NodeLabel>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="45.0283203125" y="12.3505859375">
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="81.37890625" x="5.0" y="5.0">bodilyFunction</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="43.689453125" y="12.3505859375">
             <y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>

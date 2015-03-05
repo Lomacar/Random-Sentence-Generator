@@ -8,7 +8,7 @@ function CLAUSE(r){
         head: "subject",
         children: {
             subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3), def: choose(9, 'def', 1, 'indef')}],
-            predicate: [VP, {copulant: false, unpack: "subject.R", reverse: true}]
+            predicate: [VP, {copulant: false, unpack: "subject.R", reverse: true, vtags: 'motion'}]
         }
     }
 }
@@ -39,7 +39,7 @@ function PASSIVE(r){
 
 function NP(r) {
     r = decide(r, "person,pronominal")
-    var r2 = r.pasv==true || typeof r.pasv=='undefined'  ? {} : {subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}
+    var r2 = (r.pasv==true || typeof r.pasv=='undefined') ? {} : {subj_person:'subject.person',subj_number:'subject.number',subj_gender: 'subject.gender'}
 
     return route(r.person, {
         rest: [PRONOUN,r2],
@@ -82,12 +82,12 @@ function DET(r) {
         default:
             if (r.possessable > Math.pow(Math.random(),0.6) * 9) {
 
-                if (Math.random() > 0.5) {
+                if (!r.pronominal & toss()) {
                     return GENITIVE(r)
                 } else {
                     decide(r, 'number')
                     r.case = 'gen'
-                    r.person = choose(2,1, 2,2, 3,3)
+                    r.person = r.person || choose(2,1, 2,2, 3,3)
                     r.anim = Math.max( r.anim, r.person < 3 ? 3 : decide(r, 'anim').anim ) //copied from PRONOUN()
                     r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
 
@@ -139,7 +139,7 @@ function GENITIVE(r){
     var r2 = decide(r, 'number', true)
     r2.case = 'gen'
 
-    if (!posr || Math.random() > 0.5) {
+    if (!posr || toss(0.3)) {
         //basic genitive
         decide(r2, 'anim')
         if (r2.anim==3) return DET(_.extend(r, {possessable: -111})) //abort possession if the would-be possesed noun is a person or somesuch
@@ -173,7 +173,7 @@ function QUANT(r){
     r.prequant = r.prequant || false
     r.neg = r.neg || false
 
-    if(r.count==true && Math.random() < 0.3) {
+    if(r.count==true && toss(0.3)) {
         return {text: toWords(powerRandom())}
     } else {
         return [get, {type: 'quantifier', prequant: r.prequant }]
@@ -240,7 +240,7 @@ function PRONOUN(r) {
     if (r.person===r.subj_person) {
         if (r.number===r.subj_number || r.person==2){ // you(sg) verb you(pl) just sounds wrong
             if (r.person < 3 || r.person==3 && r.gender===r.subj_gender){ //gender only needs to match in third person
-                if(r.person < 3 || Math.random() < 0.5) r.case = 'reflex'
+                if(r.person < 3 || toss()) r.case = 'reflex'
             }
         }
     }
@@ -288,7 +288,7 @@ function A(r){
         function randomlist() {
             var me = [range.pop()]
             if (me==4 || me==6) range.splice(_.random(range.length),1,me[0])
-            if (Math.random() < 0.25) {me = me.concat(randomlist())}
+            if (toss(0.25)) {me = me.concat(randomlist())}
             return me
         }
     }
@@ -337,21 +337,69 @@ function VP(r){
 }
 
 function VP_PASV(r){
-    decide(r, "tense,aspect,number,person")
+    decide(r, "tense,aspect,person")
     if (r.person < 3) {
         r.anim = 3
         r.tags = 'person'
     }
 
     return {
-        order: "subject aux vrb compext agent",
+        order: "subject aux vrb noncore",
         head: "vrb",
         children: {
-            vrb: [V_PASV, {real_aspect: 'retro', reverse: true}],
-            subject: [complement, {'case':'nom', unpack: 'vrb.compcore-number-person', pasv: true}],
-            compext: [complement, {'case':'acc', unpack: 'vrb.compext-number-person'}],
+            vrb: [V_PASV, {reverse: true}],
+            subject: [complement, {'case':'nom', complements: 'vrb.compcore', pasv: true}],
             aux:  [auxiliary, _.extend({}, r, {unpack: 'subject.number-person'}) ],
-            agent: choose(1, [blank], 1, [PASV_AGENT, {case: 'acc', unpack: "vrb.R", neg: 'vrb.neg', pasv: false}])
+            noncore: [VP_PASV_PT2, 'vrb.R']
+        }
+    }
+}
+
+function VP_PASV_PT2 (r){
+    var order = 'compext'
+    var hasAgent = toss() && !_.contains(r.ptpl, 'no-by')
+    
+    if (hasAgent){
+        var orders = ['agent compext','compext agent']
+        if (_.contains(r.ptpl, 'by1')) order = orders[0]
+        else if (_.contains(r.ptpl, 'by2')) order = orders[1]
+        else order = _.sample(orders)
+    }
+    
+    return {
+        order: order,
+        head: 'dummy',
+        children: {
+            dummy: [blank],
+            compext: [complement, {'case':'acc', unpack: 'vrb.compext-number-person'}],
+            agent: hasAgent ? [PASV_AGENT, {case: 'acc', unpack: "vrb.R", neg: 'vrb.neg', pasv: false}] : null
+        }
+    }
+}
+
+function V_PASV(r) {
+    return {
+        order: "verb_en",
+        head: "verb",
+        gap: [get, {type: 'aux_verb', name: 'do'}],
+        children: {
+            verb: [get, {type: 'verb', aspect: 'retro'}],
+            en:  [tense, 'verb']
+            //tns:  [tense, 'verb', {unpack: 'verb', noinflection: false}]
+        },
+        postlogic: verb_cleanup
+    }
+}
+
+function PASV_AGENT(r){
+    delete r.number
+    delete r.person
+
+    return {
+        order: 'by agent',
+        head: 'agent',
+        children: {
+            agent: [NP, {pronominal: false}]
         }
     }
 }
@@ -368,21 +416,6 @@ function V(r) {
             num:  [vNum, 'verb'],
             compcore: [complement, {'case':'acc','complements': 'verb.compcore',neg: r.neg}],
             compext: [complement, {'case':'acc','complements': 'verb.compext',neg: r.neg}]
-        },
-        postlogic: verb_cleanup
-    }
-}
-
-function V_PASV(r) {
-    return {
-        order: "verb_asp_tns_num",
-        head: "verb",
-        gap: [get, {type: 'aux_verb', name: 'do'}],
-        children: {
-            verb: [get, {type: 'verb', aspect: r.real_aspect}],
-            asp:  [aspect, 'verb'],
-            tns:  [tense, 'verb'],
-            num:  [vNum, 'verb']
         },
         postlogic: verb_cleanup
     }
@@ -513,7 +546,7 @@ function WH_CLAUSE(r,c) {
     var gaps = []
     var wh
 
-    if (Math.random()>0.5){
+    if (toss()){
 
         //why,how
         var Ws = ['how']
@@ -662,7 +695,7 @@ function PRES_PARTICIPLE(r){
         order: 'v_asp',
         head: 'v',
         children: {
-            v: [get,  {type: 'verb', class: 'activity,process', compcore: undefined, reverse: true, rank: 1.5}],
+            v: [get,  {type: 'verb', class: 'activity,process', ptpl: 'pres', reverse: true, rank: 1.5}],
             asp: [aspect, {unpack: 'v'}]
         },
         restrictions: {aspect: 'prog'},
@@ -709,19 +742,16 @@ function PREPOSITION(r){
     })}
 }
 
-function PASV_AGENT(r){
-    delete r.number
-    delete r.person
-
+function PATH(r) {
     return {
-        order: 'by agent',
-        head: 'agent',
+        order: "prep landmark",
+        head: "prep",
         children: {
-            agent: [NP]
+            prep: [get, {type: 'preposition', class: 'PATH'}],
+            landmark: [NP, {unpack: 'prep.tags'}]
         }
     }
 }
-
 
 function filler(r){
     return {text: r.filler}

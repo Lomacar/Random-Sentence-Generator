@@ -17,7 +17,7 @@ function typeOf(value) {
 
 //utility to check for empty object
 function isEmpty(o) {
-		for (var p in o) { if (p.in(o)) return false; }
+		for (var p in o) { if (o.hasOwnProperty(p)) return false; }
 		return true;
 }
 
@@ -62,10 +62,20 @@ function toObject(str){
 
 //safely converts values to numbers or boolean if that is what they are
 function toNumBool(val){
-    if (typeof val == 'string' && /^(-?[0-9.]+|false|true)$/i.test(val)) val = JSON.parse(val.toLowerCase())
+    if (typeof val == 'string' && /^ *(-?[0-9.]+|false|true) *$/i.test(val)) val = JSON.parse(val.toLowerCase())
     return val
 }
 
+//turn strings like " this has( {lots: of | spaces! & stuff } )" into "this has({lots:of|spaces! & stuff})"
+function compactString(str){
+    return str.trim()
+                .replace(/ *([,|:]) */g,'$1')           //remove spaces around commas, pipes, colons
+                .replace(/([{(]) | ([)}])/g,'$1$2')           //remove spaces inside { } and ( )
+                //.replace(/ (&) /g,'•$1•')        //protect " & "
+                //.replace(/ *([^\w@]) */g,'$1')   //collapse spaces around non-word characters (note '@' is treated as word character)
+                .replace(/ +/g,' ')              //and duplicate spaces
+               // .replace(/•/g,' ')               //remove "&" buffer
+}
 
 //removes properties from an object that are empty strings or null
 function prune(obj){
@@ -89,6 +99,7 @@ function collide(obj1, obj2) {
     }
 }
 
+//what the heck is this? oh it removes parents from a branch structure so it can be stringified
 function patricide(x,y) {
     if(typeOf(y)!='object') return;
     if(x=="R") return
@@ -129,8 +140,6 @@ function error(msg){
 	return '[e'+(error_num-1)+']'
 }
 
-//shorten the annoyingly long but useful hasOwnProperty
-String.prototype.in = function(obj){return obj.hasOwnProperty(this)}
 
 //amazing function that can retrieve an object/property multiple levels deep
 //and doesn't error if any level is undefined, just returns undefined
@@ -157,6 +166,10 @@ String.prototype.findChar = function (needle) {
         }
     }
     return false
+}
+
+function toss(probability){
+    return Math.random() < (probability || 0.5)
 }
 
 /*  MAGIC COMPARE
@@ -193,6 +206,27 @@ function magicCompare (one, two, options, operator) {
 
     //convert everything to strings to make life simple
     one = one.toString().trim(); two = two.toString().trim() //ain't nobody got time for no whitespaces
+    
+    //make sure comma separated values are the second argument, and arguments with <>!&| are first argument
+    if (one.findChar(',')){
+        if(two.findChar(',')){
+            error('Attempted to magicCompare two comma-separated lists.')
+        }
+        else {
+            var temp = one
+            one = two
+            two = temp
+        }
+    } else if ( /[<>|&!]/.test(two) ){
+        if ( /[<>|&!]/.test(one) ){
+            error('Attempted to magicCompare two lists with [<>!&|] in them.')
+        }
+        else {
+            var temp = one
+            one = two
+            two = temp
+        }
+    }
 
     //if second string is comma separated, split it up and run two separate compares
     //here is where 'every' makes commas act like AND or OR

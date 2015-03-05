@@ -52,19 +52,23 @@ function processLexicon(data, type){
         Object.keys(a).forEach(function(val){
             //build list of column names for each word type
             if(x==0) dbkeys[type].push(val)
-
+            
+            //remove unnecessary spaces from values
+            a[val] = compactString(a[val])
+            
             //turn numbers and boolean into the real things
             a[val] = toNumBool(a[val])
         })
 
         delete a.rowNumber //something that Tabletop seems to add in
+        
         prune(a)
+        
         for(var key in a) {
-            if(a[key] === " ") a[key] = ""
-                }
+            if(a[key] === "--") a[key] = ""
+        }
 
         lookup[type][a.name] = x
-
     }
 
     //Prototypes
@@ -89,7 +93,7 @@ function processLexicon(data, type){
 
         //temporarily turn tags into a sub-object of each word
         for (var z in database[type]) {
-            if ("tags".in(database[type][z])){
+            if ("tags" in database[type][z]){
                 var t = database[type][z].tagsObject = {}
                 toObject( database[type][z].tags.split(',').forEach(function(y){t[y]=y}) )
             }
@@ -118,7 +122,7 @@ function processLexicon(data, type){
 
         //convert tagsObject back to plain string tag property
         for (var z in database[type]) {
-            if ("tagsObject".in(database[type][z])){
+            if ("tagsObject" in database[type][z]){
                 database[type][z].tags = _.keys( $extend( {}, database[type][z].tagsObject ) ).join(',')
                 delete database[type][z].tagsObject
                 delete database[type][z].parallelSense
@@ -171,8 +175,6 @@ function createSenses(word,type,number) {
         new_sense = setProto(new_sense,type,-1)
 
         //overwrite this senses values with the overwrite-values from the prototype sense
-        //new_sense = _.extend($.extend({},proto_sense),$.extend({},new_sense)) //must be lo-dash extend because it only copies objects real properties!
-        //new_sense = _.extend(_.extend({},proto_sense),new_sense) //must be lo-dash extend because it only copies objects real properties!
         new_sense = _.extend(new_sense,proto_sense) //must be lo-dash extend because it only copies objects real properties!
 
         new_sense.name = word.name + ( number==1 ? "." : "") + number
