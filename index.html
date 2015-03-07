@@ -65,6 +65,11 @@
             var randy = {}
             var LAST_PARENT = null
             var timer = 0
+            
+            var RESTRICTIONS, RESTRICTIONS_BACKUP
+            //RESTRICTIONS = {'predicate.name': 'swim','subject.name':'Jack','subject.pronominal':false}
+            RESTRICTIONS = {'subject.tags': 'PHYSICAL&!fixed', 'predicate.vtags': 'motion'}
+            RESTRICTIONS_BACKUP = _.clone(RESTRICTIONS)
 
             /********************************/
 
@@ -75,9 +80,12 @@
 
                 recentlyUsed = recentlyUsed.length > 10 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
 
-                C = new branch(SENTENCE)
+                C = new branch(SENTENCE, RESTRICTIONS)
                 var sentence = stringOut(C);
+                
                 console.log(sentence)
+                
+                RESTRICTIONS = _.clone(RESTRICTIONS_BACKUP)
                 return sentence
                 //console.log([C.head.head.head.aspect, C.head.head.head.tense, C.head.head.head.number, C.head.head.head.person])
             }

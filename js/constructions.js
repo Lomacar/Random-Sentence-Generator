@@ -1,5 +1,5 @@
-function SENTENCE(){
-    return choose(5, [CLAUSE], 2, [PASSIVE], 1, [COPULA], 0.0008, [ALLYOURBASE])
+function SENTENCE(r){
+    return choose(5, [CLAUSE], 1, [PASSIVE], 1, [COPULA], 0.0008, [ALLYOURBASE])
 }
 
 function CLAUSE(r){
@@ -8,7 +8,7 @@ function CLAUSE(r){
         head: "subject",
         children: {
             subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3), def: choose(9, 'def', 1, 'indef')}],
-            predicate: [VP, {copulant: false, unpack: "subject.R", vtags: 'motion'}]
+            predicate: [VP, {copulant: false, unpack: "subject.R"}]
         }
     }
 }
@@ -237,7 +237,7 @@ function PRONOUN(r) {
 
 
     //reflexive logic
-    if (r.person===r.subj_person) {
+    if (r.case=='acc' && r.person===r.subj_person) {
         if (r.number===r.subj_number || r.person==2){ // you(sg) verb you(pl) just sounds wrong
             if (r.person < 3 || r.person==3 && r.gender===r.subj_gender){ //gender only needs to match in third person
                 if(r.person < 3 || toss()) r.case = 'reflex'
@@ -245,7 +245,8 @@ function PRONOUN(r) {
         }
     }
 
-
+    if (r.case=='dat') r.case='acc'
+    
     var word = $.extend(r,
                     {type:'pronoun',
                      inflections:"nom.sg.1:I, 2:you, sg.3:it, nom.sg.3.m:he, nom.sg.3.f:she," +
@@ -371,7 +372,7 @@ function VP_PASV_PT2 (r){
         head: 'dummy',
         children: {
             dummy: [blank],
-            compext: [complement, {'case':'acc', unpack: 'vrb.compext-number-person'}],
+            compext: [complement, {'case':'dat', unpack: 'vrb.compext-number-person', vtags: 'vrb.vtags'}],
             agent: hasAgent ? [PASV_AGENT, {case: 'acc', unpack: "vrb.R", neg: 'vrb.neg', pasv: false}] : null
         }
     }
@@ -415,7 +416,7 @@ function V(r) {
             tns:  [tense, 'verb'],
             num:  [vNum, 'verb'],
             compcore: [complement, {'case':'acc','complements': 'verb.compcore',neg: r.neg}],
-            compext: [complement, {'case':'acc','complements': 'verb.compext',neg: r.neg}]
+            compext: [complement, {'case':'dat','complements': 'verb.compext',neg: r.neg, vtags: 'verb.vtags'}]
         },
         postlogic: verb_cleanup
     }
@@ -743,12 +744,16 @@ function PREPOSITION(r){
 }
 
 function PATH(r) {
+    if(magicCompare(r.vtags, 'generalMotion')){
+        delete r.vtags
+    }
+    
     return {
         order: "prep landmark",
         head: "prep",
         children: {
-            prep: [get, {type: 'preposition', class: 'PATH'}],
-            landmark: [NP, {unpack: 'prep.tags'}]
+            prep: [get, {type: 'preposition', role: 'PATH', pasv: 'predicate.pasv'}],
+            landmark: [NP, {case: 'dat', unpack: 'prep.tags'}]
         }
     }
 }
