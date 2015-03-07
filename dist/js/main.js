@@ -1,9 +1,26 @@
 /*-------------------------------------   BRANCH -------------------------------------*/
 
-function branch(c, r, p, l){   
+function branch(c, r, p, l) {   
     this.parent = p || null
     LAST_PARENT = p || LAST_PARENT
     this.label = l || null
+    
+//    if(p){
+//        var genus
+//        var species = p.label
+//        if (species && p.parent) genus = p.parent.label || "_"
+//        console.log(genus+"."+species)
+//    }
+    
+    if (l) {
+        var labelFinder = new RegExp('^'+l+'.')
+        var matching = Object.keys(RESTRICTIONS).filter(function(x){return labelFinder.test(x)})
+        matching.forEach( function(m) {
+            var mR = m.split('.').pop()
+            r[mR] = RESTRICTIONS[m]
+            delete RESTRICTIONS[m]
+        })
+    }
 
     //parse and filter restrictions
     r = parseRestrictions.apply(this, [r])
@@ -585,6 +602,7 @@ function prohibited(testee,prohibs){
     return false
 
     //"asd:123 (<<9a+ |_.)".match(/[^\s(|)]+/g)
+    //return true
     //return true
 }
 

@@ -38,9 +38,9 @@ proper semantically aware genitive noun phrases
 
 mutators - "DEAD man", "bottle OF RUM"
 
-implications - for hierarchical tags, implemented within lexicon
+#implications - for hierarchical tags, implemented within lexicon
 
-
+relative comparisons in restrictions, like {size: '<subject.size', thing: '!aux.case'}
 
 
 Other things I said before:
