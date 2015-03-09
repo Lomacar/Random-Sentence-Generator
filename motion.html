@@ -10,10 +10,10 @@
         <style>
             body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0 }
             .hello {margin: 0 1.8em; margin-bottom: 1em; padding: 2em; text-align: center; font-family: 'Roboto Slab','Yanone Kaffeesatz'; color: #0a2376; background: #d8eaff; border-radius: 0 0 1vw 1vw}
-                .hello h1 {margin-bottom: 0.25em; font-weight: normal; font-size: 2vw;}
-                    .hello h1::first-line {font-size: 1.5em;}
-                .hello h2 {margin-top: 0;}
-                .hello p {margin: 2em 1em 1em 1em;}
+            .hello h1 {margin-bottom: 0.25em; font-weight: normal; font-size: 2vw;}
+            .hello h1::first-line {font-size: 1.5em;}
+            .hello h2 {margin-top: 0;}
+            .hello p {margin: 2em 1em 1em 1em;}
             .sentence {margin: 0 1.8em; padding: 2em 1em; font-size: 3vw; text-align: center; border-bottom: 1px solid #e0e0e0; font-family: 'Roboto Slab'}
 
             @media (max-width: 800px) {
@@ -34,7 +34,7 @@
     <body>
         <div class="hello">
             <h1>The following sentences have been randomly generated<br>
-            according to the rules of English grammar, with some semantic awareness.</h1>
+                according to the rules of English grammar, with some semantic awareness.</h1>
             <p>You can refresh the page to get new sentences, or you can scroll infinitely!</p>
             <!--<p><small>If anything you read offends you, it is your fault for reading it.</small></p>-->
         </div>
@@ -65,10 +65,10 @@
             var randy = {}
             var LAST_PARENT = null
             var timer = 0
-            
+
             var RESTRICTIONS, RESTRICTIONS_BACKUP
             //RESTRICTIONS = {'predicate.name': 'swim','subject.name':'Jack','subject.pronominal':false}
-            RESTRICTIONS = {}
+            RESTRICTIONS = {'subject.tags': 'object&!fixed', 'predicate.vtags': 'motion'}
             RESTRICTIONS_BACKUP = _.clone(RESTRICTIONS)
 
             /********************************/
@@ -80,11 +80,11 @@
 
                 recentlyUsed = recentlyUsed.length > 10 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
 
-                C = new branch(SENTENCE, RESTRICTIONS)
+                C = new branch(CLAUSE, RESTRICTIONS)
                 var sentence = stringOut(C);
-                
+
                 console.log(sentence)
-                
+
                 RESTRICTIONS = _.clone(RESTRICTIONS_BACKUP)
                 return sentence
                 //console.log([C.head.head.head.aspect, C.head.head.head.tense, C.head.head.head.number, C.head.head.head.person])

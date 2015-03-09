@@ -85,14 +85,15 @@ function DET(r) {
                 if (!r.pronominal & toss()) {
                     return GENITIVE(r)
                 } else {
-                    decide(r, 'number')
-                    r.case = 'gen'
-                    r.person = r.person || choose(2,1, 2,2, 3,3)
-                    r.anim = Math.max( r.anim, r.person < 3 ? 3 : decide(r, 'anim').anim ) //copied from PRONOUN()
-                    r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
-
-                    var inflections = '1.sg:my,2:your,3.sg.m:his,3.sg.f:her,3.sg.n:its,1.pl:our,3.pl:their'
-                    out.text = resolve([r.number,r.person,r.gender], inflections)
+                    out.text = choose(1,'my', 1,'your', 1,'his', 1,'her', 1,'its', 1,'our', 1,'their')
+//                    decide(r, 'number')
+//                    r.case = 'gen'
+//                    r.person = r.person || choose(2,1, 2,2, 3,3)
+//                    r.anim = Math.max( r.anim, r.person < 3 ? 3 : decide(r, 'anim').anim ) //copied from PRONOUN()
+//                    r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
+//
+//                    var inflections = '1.sg:my,2:your,3.sg.m:his,3.sg.f:her,3.sg.n:its,1.pl:our,3.pl:their'
+//                    out.text = resolve([r.number,r.person,r.gender], inflections)
                 }
 
             } else {
@@ -704,46 +705,60 @@ function PRES_PARTICIPLE(r){
     }
 }
 
+//function GOAL(r){
+//    decide(r, 'pronominal')
+//
+//    var out = {gap: [filler, {filler: 'to'}], wh: 'where'}
+//
+//    if (r.pronominal) {
+//        var pr = _.values( decide(r, 'prox,def', true) )
+//        var inflections = 'def.prox:here, def.dist:there, indef:' + options("(somewhere|everywhere)")
+//        out.text = resolve(pr, inflections)
+//    } else {
+//        out = $.extend( out, {
+//                order: 'prep place',
+//                head: 'place',
+//                children: {
+//                    place: [NP, {tags:'place',number:'sg'}],
+//                    prep: [PREPOSITION, {unpack:'place.R', role: 'goal'}]
+//                }
+//            })
+//    }
+//
+//    return out
+//}
+//
+//function PREPOSITION(r){
+//    return {text: route( r.role, {
+//        goal: route(_.sample(_.intersection(r.tags.split(','), ['bounded','surface','place'])), {
+//            bounded: 'into',
+//            surface: 'onto',
+//            rest: choose(4, 'to', 1, 'beyond')
+//        }),
+//        source: route(_.sample(_.intersection(r.tags.split(','), ['bounded','surface','place'])), {
+//            bounded: 'into',
+//            surface: 'onto',
+//            rest: 'to'
+//        }),
+//        rest: 'to'
+//    })}
+//}
+
+function SOURCE(r){
+    r.role='SOURCE'
+    return MOTION(r)
+}
+function PATH(r){
+    r.role='PATH'
+    return MOTION(r)
+}
+
 function GOAL(r){
-    decide(r, 'pronominal')
-
-    var out = {gap: [filler, {filler: 'to'}], wh: 'where'}
-
-    if (r.pronominal) {
-        var pr = _.values( decide(r, 'prox,def', true) )
-        var inflections = 'def.prox:here, def.dist:there, indef:' + options("(somewhere|everywhere)")
-        out.text = resolve(pr, inflections)
-    } else {
-        out = $.extend( out, {
-                order: 'prep place',
-                head: 'place',
-                children: {
-                    place: [NP, {tags:'place',number:'sg'}],
-                    prep: [PREPOSITION, {unpack:'place.R', role: 'goal'}]
-                }
-            })
-    }
-
-    return out
+    r.role='GOAL'
+    return MOTION(r)
 }
 
-function PREPOSITION(r){
-    return {text: route( r.role, {
-        goal: route(_.sample(_.intersection(r.tags.split(','), ['bounded','surface','place'])), {
-            bounded: 'into',
-            surface: 'onto',
-            rest: choose(4, 'to', 1, 'beyond')
-        }),
-        source: route(_.sample(_.intersection(r.tags.split(','), ['bounded','surface','place'])), {
-            bounded: 'into',
-            surface: 'onto',
-            rest: 'to'
-        }),
-        rest: 'to'
-    })}
-}
-
-function PATH(r) {
+function MOTION(r) {
     if(magicCompare(r.vtags, 'generalMotion')){
         delete r.vtags
     }
@@ -752,8 +767,8 @@ function PATH(r) {
         order: "prep landmark",
         head: "prep",
         children: {
-            prep: [get, {type: 'preposition', role: 'PATH', pasv: 'predicate.pasv'}],
-            landmark: [NP, {case: 'dat', unpack: 'prep.tags'}]
+            prep: [get, {type: 'preposition', role: r.role, pasv: 'predicate.pasv'}],
+            landmark: [NP, {case: 'dat', unpack: 'prep.tags', number:'sg'}]
         }
     }
 }
