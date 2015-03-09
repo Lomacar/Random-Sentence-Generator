@@ -37,7 +37,7 @@ function processOntology(){
 
     $('node').each(function(k,n){
         var id = $(n).attr('id')
-        var thing = $(n).find('[key=d4]').text()
+        var thing = $(n).find('[key=d3]').text()
         var label = $(n).find('y\\:NodeLabel').first().text().trim()
         var isGroup = $(n).attr('yfiles.foldertype')
 

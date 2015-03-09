@@ -18,9 +18,9 @@ other modals
 
 light verbs
 
-wh-clause 
-   - what John thought about (topic)
-   - wh-phrase
+possessive pronouns
+
+indefinite pronouns, here/there, the X one/those ones
 
 relative clause
 
@@ -41,6 +41,8 @@ mutators - "DEAD man", "bottle OF RUM"
 #implications - for hierarchical tags, implemented within lexicon
 
 relative comparisons in restrictions, like {size: '<subject.size', thing: '!aux.case'}
+
+complex prepositions: over to, down to, up onto
 
 
 Other things I said before:
