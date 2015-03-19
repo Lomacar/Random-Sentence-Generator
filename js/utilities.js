@@ -210,7 +210,7 @@ function magicCompare (one, two, options, operator) {
     //make sure comma separated values are the second argument, and arguments with <>!&| are first argument
     if (one.findChar(',')){
         if(two.findChar(',')){
-            error('Attempted to magicCompare two comma-separated lists.')
+            error('Attempted to magicCompare two comma-separated lists.' + new Error().stack)
             return false
         }
         else {
@@ -220,7 +220,7 @@ function magicCompare (one, two, options, operator) {
         }
     } else if ( /[<>|&!]/.test(two) ){
         if ( /[<>|&!]/.test(one) ){
-            error('Attempted to magicCompare two lists with [<>!&|] in them.')
+            error('Attempted to magicCompare two lists with [<>!&|] in them.' + new Error().stack)
             return false
         }
         else {

@@ -8,7 +8,7 @@ database.quantifier = [
     {name: 'a lot', prequant: true},
     {name: 'heaps', prequant: true},
     {name: 'tons', prequant: true},
-    {name: 'plenty', prequant: true},
+    //{name: 'plenty', prequant: true},
     {name: 'a bunch', prequant: true},
     {name: 'none', prequant: true, def:'def'},
     {name: 'no', prequant: false, neg: false},
@@ -115,6 +115,7 @@ database.preposition = [
     
     {name: 'to',        role: 'GOAL',   vtags: 'grounded|contact|water|waterSurface',   tags: 'fixed|occasion'}, //TODO: other things?
     {name: 'to',        role: 'GOAL',   vtags: 'down',                                  tags: 'bottom|surface&grounded'},
+    {name: 'to',        role: 'GOAL',   vtags: 'blarg',                                 tags: 'bottom',  'ncomp.c0.tags': 'bodyOfWater'},
     
     {name: 'under',     role: 'GOAL',   vtags: 'grounded|contact|air|jump',             tags: 'object&!grounded'},
     
