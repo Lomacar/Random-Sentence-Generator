@@ -53,14 +53,14 @@ function NP(r) {
 
 function DP(r){
     return {
-        order : "det adj* noun comp*",
+        order : "det adj* noun ncomp*",
         head : "noun",
         gap : [blank],
         children: {
             noun: [N],
             adj: [AP, {unpack:'noun.R', nocomplement: true, no_adj: 'noun.unique'}, 0.25, 'rank'],
             det: r.nodeterminer ? [blank] : [DET, 'noun.R'],
-            comp: [complement, {case: 'acc', complements: 'noun.complements', nogap: true}]
+            ncomp: [complement, {case: 'acc', complements: 'noun.complements', nogap: true}]
         },
         postlogic:function(text){
             return text.replace(/\ba +([aeiouAEIOU])/g, "an $1") // 'a apple' to 'an apple'
@@ -270,12 +270,12 @@ function AP(r) {
     if (r.no_adj>1) return {text:''}
 
     return {
-        order: "adv a comp*",
+        order: "adv a acomp*",
         head: "a",
         children: {
             adv: [blank],
             a: [A],
-            comp: [complement, {'case': 'acc','complements': 'a.complements', 'nocomplement': r.nocomplement}]
+            acomp: [complement, {'case': 'acc','complements': 'a.complements', 'nocomplement': r.nocomplement}]
         }
     }
 }
@@ -767,8 +767,8 @@ function MOTION(r) {
         order: "prep landmark",
         head: "prep",
         children: {
-            prep: [get, {type: 'preposition', role: r.role, pasv: 'predicate.pasv'}],
-            landmark: [NP, {case: 'dat', unpack: 'prep.tags', number:'sg'}]
+            prep: [get, {type: 'preposition', role: r.role}], //, pasv: 'predicate.pasv'
+            landmark: [NP, {case: 'dat', tags: 'prep.tags', number:'sg'}]
         }
     }
 }

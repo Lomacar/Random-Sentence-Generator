@@ -5,22 +5,8 @@ function branch(c, r, p, l) {
     LAST_PARENT = p || LAST_PARENT
     this.label = l || null
     
-//    if(p){
-//        var genus
-//        var species = p.label
-//        if (species && p.parent) genus = p.parent.label || "_"
-//        console.log(genus+"."+species)
-//    }
-    
-    if (l) {
-        var labelFinder = new RegExp('^'+l+'.')
-        var matching = Object.keys(RESTRICTIONS).filter(function(x){return labelFinder.test(x)})
-        matching.forEach( function(m) {
-            var mR = m.split('.').pop()
-            r[mR] = RESTRICTIONS[m]
-            delete RESTRICTIONS[m]
-        })
-    }
+    //deal with so-called global restrictions
+    r = globalRestrictions.apply(this,[r])
 
     //parse and filter restrictions
     r = parseRestrictions.apply(this, [r])
@@ -56,6 +42,9 @@ function branch(c, r, p, l) {
         //create a happy package of all the important restrictions on this word, for grabbing from elsewhere
         //this.R = safe(this)
         if (r) this.R = safe(this, this.type)
+        
+        //on rare occasions global restrictions are specified on words, so make sure they get global
+        registerGR(c)
     }
 
 } //end branch
@@ -133,6 +122,44 @@ function executeBranch(c, r, p){
 }
 
 /*-------------------------------------   RESTRICTIONS -------------------------------------*/
+
+function globalRestrictions(r){
+    r=r||{}
+    
+    registerGR(r)
+
+    //when a global restriction matches the current constructions label, pull it back in to the normal restrictions
+    if (this.label) {
+        try {var parent = this.parent.label} catch(e){var parent=''}
+        parent = parent ? '('+parent+'\\.)?' : ''
+        var labelFinder = new RegExp('^'+parent+this.label+'\\.[^.]+$')    //regex to find restriction keys like '(parent.)label.something'
+        
+        var matchingKeys = Object.keys(RESTRICTIONS).filter(function(x){return labelFinder.test(x)})
+        matchingKeys.forEach( function(m) {
+            var mKey = m.split('.').pop()
+            if(mKey=='tags' && r.tags) {
+                //merge tags together with an &
+                r.tags += ' & ' + RESTRICTIONS[m]
+            } else {
+                r[mKey] = RESTRICTIONS[m]
+            }
+            delete RESTRICTIONS[m]
+        })
+    }
+    
+    return r
+}
+
+function registerGR(r) {
+    //transfer restrictions with dots in their names to the global RESTRICTIONS object
+    var matchingKeys = Object.keys(r).filter(function(x){
+        return x.match('\\.')
+    })
+    matchingKeys.forEach( function(m) {
+        RESTRICTIONS[m] = r[m]
+        delete r[m]
+    })
+}
 
 function parseRestrictions(restrictions){
     if (typeof restrictions==='undefined') return;

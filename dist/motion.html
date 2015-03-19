@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width" />
         <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
 
-        <title>Sentence Gen 2.3.7</title>
+        <title>Sentence Gen 2.3.7 - Motion Verbs</title>
 
         <style>
             body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0 }
@@ -80,7 +80,7 @@
 
                 recentlyUsed = recentlyUsed.length > 10 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
 
-                C = new branch(CLAUSE, RESTRICTIONS)
+                C = new branch(CLAUSE)
                 var sentence = stringOut(C);
 
                 console.log(sentence)
