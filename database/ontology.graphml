@@ -66,7 +66,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="38.501953125" width="57.359375" x="1029.7613715277778" y="937.0576171875"/>
-          <y:Fill color="#8CF5FF" transparent="false"/>
+          <y:Fill color="#93C4FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="20" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="28.501953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="47.359375" x="5.0" y="5.0">state</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="26.6796875" y="17.2509765625">
@@ -84,7 +84,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="56.017578125" x="1514.4374286954367" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="46.017578125" x="5.0" y="5.0">process</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="26.0087890625" y="12.3505859375">
@@ -102,7 +102,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="50.673828125" x="1230.0850973462302" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="40.673828125" x="5.0" y="5.0">activity</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="23.3369140625" y="12.3505859375">
@@ -120,7 +120,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="38.501953125" width="112.935546875" x="794.6879681299604" y="937.0576171875"/>
-          <y:Fill color="#8CF5FF" transparent="false"/>
+          <y:Fill color="#93C4FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="20" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="28.501953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="102.935546875" x="5.0" y="5.0">information</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="54.4677734375" y="17.2509765625">
@@ -139,7 +139,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="73.59375" x="1021.6441840277778" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="63.59375" x="5.0" y="5.0">situation</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="34.796875" y="14.80078125">
@@ -159,7 +159,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="70.033203125" x="768.2304098462303" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="60.033203125" x="5.0" y="5.0">speechAct</y:NodeLabel>
           <y:NodeLabel alignment="right" autoSizePolicy="content" borderDistance="0.0" fontFamily="Dialog" fontSize="10" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="16.2509765625" modelName="custom" textColor="#C0C0C0" visible="true" width="36.2509765625" x="-18.12548828125" y="-16.2509765625">audible<y:LabelModel>
@@ -176,7 +176,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="38.501953125" width="74.029296875" x="558.7478391617065" y="937.0576171875"/>
-          <y:Fill color="#8CF5FF" transparent="false"/>
+          <y:Fill color="#93C4FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="20" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="28.501953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="64.029296875" x="5.0" y="5.0">mental</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="35.0146484375" y="17.2509765625">
@@ -194,7 +194,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="66.4921875" x="1509.2001240079367" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="56.4921875" x="5.0" y="5.0">change</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="31.24609375" y="14.80078125">
@@ -212,7 +212,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="78.046875" x="1115.2382564484128" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="68.046875" x="5.0" y="5.0">condition</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="37.0234375" y="14.80078125">
@@ -230,7 +230,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="72.6953125" x="928.9485615079366" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="62.6953125" x="5.0" y="5.0">property</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="34.34765625" y="14.80078125">
@@ -248,7 +248,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="100.701171875" x="1417.610711185516" y="1194.11328125"/>
-          <y:Fill color="#FF9966" transparent="false"/>
+          <y:Fill color="#80FF95" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="90.701171875" x="5.0" y="5.0">accomplishment</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="48.3505859375" y="12.3505859375">
@@ -266,7 +266,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="121.6015625" x="759.9545634920635" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="111.6015625" x="5.0" y="5.0">communication</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="58.80078125" y="14.80078125">
@@ -284,7 +284,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="50.0" x="1230.4220114087302" y="1194.11328125"/>
-          <y:Fill color="#FF9966" transparent="false"/>
+          <y:Fill color="#80FF95" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="30.677734375" x="9.6611328125" y="5.0">sport</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="23.0" y="12.3505859375">
@@ -302,7 +302,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="52.689453125" x="276.21736421130953" y="1194.11328125"/>
-          <y:Fill color="#FF9966" transparent="false"/>
+          <y:Fill color="#80FF95" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="42.689453125" x="5.0" y="5.0">contest</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="24.3447265625" y="12.3505859375">
@@ -320,7 +320,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="81.365234375" x="348.9068545386905" y="1194.11328125"/>
-          <y:Fill color="#FF9966" transparent="false"/>
+          <y:Fill color="#80FF95" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="71.365234375" x="5.0" y="5.0">performance</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="38.6826171875" y="12.3505859375">
@@ -338,7 +338,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="50.017578125" x="1538.3120318700398" y="1194.11328125"/>
-          <y:Fill color="#FF9966" transparent="false"/>
+          <y:Fill color="#80FF95" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="40.017578125" x="5.0" y="5.0">motion</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="23.0087890625" y="12.3505859375">
@@ -356,7 +356,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="76.712890625" x="1320.897708953373" y="1194.11328125"/>
-          <y:Fill color="#FF9966" transparent="false"/>
+          <y:Fill color="#80FF95" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="66.712890625" x="5.0" y="5.0">undertaking</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="36.3564453125" y="12.3505859375">
@@ -393,7 +393,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="62.703125" x="948.4075520833333" y="1194.11328125"/>
-          <y:Fill color="#FF9966" transparent="false"/>
+          <y:Fill color="#80FF95" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="52.703125" x="5.0" y="5.0">tendency</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="29.3515625" y="12.3505859375">
@@ -411,7 +411,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="52.68359375" x="1138.6585875496032" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="42.68359375" x="5.0" y="5.0">malady</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="24.341796875" y="12.3505859375">
@@ -429,7 +429,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="82.0390625" x="353.24295634920634" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="72.0390625" x="5.0" y="5.0">achievement</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="39.01953125" y="12.3505859375">
@@ -447,7 +447,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="66.025390625" x="1052.6329272073413" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="56.025390625" x="5.0" y="5.0">constraint</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="31.0126953125" y="12.3505859375">
@@ -568,7 +568,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="65.375" x="1052.9581225198413" y="1194.11328125"/>
-          <y:Fill color="#FF9966" transparent="false"/>
+          <y:Fill color="#80FF95" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="55.375" x="5.0" y="5.0">obligation</y:NodeLabel>
           <y:NodeLabel alignment="right" autoSizePolicy="content" borderDistance="0.0" fontFamily="Dialog" fontSize="10" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="16.2509765625" modelName="custom" textColor="#C0C0C0" visible="true" width="36.24609375" x="-18.123046875" y="-16.2509765625">deontic<y:LabelModel>
@@ -585,7 +585,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="61.349609375" x="1138.3335162450398" y="1194.11328125"/>
-          <y:Fill color="#FF9966" transparent="false"/>
+          <y:Fill color="#80FF95" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="51.349609375" x="5.0" y="5.0">limitation</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="28.6748046875" y="12.3505859375">
@@ -604,7 +604,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="50.0" x="878.4075272817461" y="1194.11328125"/>
-          <y:Fill color="#FF9966" transparent="false"/>
+          <y:Fill color="#80FF95" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="34.6796875" x="7.66015625" y="5.0">ability</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="23.0" y="12.3505859375">
@@ -622,7 +622,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="59.369140625" x="935.6116474454366" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="49.369140625" x="5.0" y="5.0">potential</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="27.6845703125" y="12.3505859375">
@@ -706,7 +706,7 @@
               <y:Geometry height="28.701171875" width="78.69921875" x="2191.56587921627" y="955.29150390625"/>
               <y:Fill color="#A3FFE0" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="68.69921875" x="5.0" y="5.0">tempurature</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="68.69921875" x="5.0" y="5.0">temperature</y:NodeLabel>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="37.349609375" y="12.3505859375">
                 <y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
@@ -814,7 +814,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="68.25" x="1420.949789186508" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="58.25" x="5.0" y="5.0">manner</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="32.125" y="14.80078125">
@@ -832,7 +832,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="74.4921875" x="558.5163938492065" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="64.4921875" x="5.0" y="5.0">intention</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="35.24609375" y="14.80078125">
@@ -907,7 +907,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="84.2734375" x="1213.2852926587302" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="74.2734375" x="5.0" y="5.0">behaviour</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="40.13671875" y="14.80078125">
@@ -925,7 +925,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="83.390625" x="1317.558841765873" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="73.390625" x="5.0" y="5.0">sequence</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="39.6953125" y="14.80078125">
@@ -944,7 +944,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="68.03515625" x="1325.236576140873" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="58.03515625" x="5.0" y="5.0">procedure</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="32.017578125" y="12.3505859375">
@@ -962,7 +962,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="38.501953125" width="88.47265625" x="1410.838461061508" y="937.0576171875"/>
-          <y:Fill color="#8CF5FF" transparent="false"/>
+          <y:Fill color="#93C4FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="20" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="28.501953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="78.47265625" x="5.0" y="5.0">dynamic</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="42.236328125" y="17.2509765625">
@@ -980,7 +980,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="50.0" x="1597.258916170635" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="33.34375" x="8.328125" y="5.0">result</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="23.0" y="12.3505859375">
@@ -998,7 +998,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="53.1328125" x="1595.692509920635" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="43.1328125" x="5.0" y="5.0">effect</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="24.56640625" y="14.80078125">
@@ -1017,7 +1017,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="50.0" x="349.13272569444445" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="25.34375" x="12.328125" y="5.0">act</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="23.0" y="14.80078125">
@@ -1035,7 +1035,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="61.140625" x="78.47669890873016" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="51.140625" x="5.0" y="5.0">instant</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="28.5703125" y="14.80078125">
@@ -1054,7 +1054,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="58.4765625" x="0.0" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="48.4765625" x="5.0" y="5.0">period</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" borderDistance="1.0" fontFamily="Dialog" fontSize="8" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="13.80078125" modelName="sides" modelPosition="s" textColor="#C0C0C0" visible="true" width="47.13671875" x="5.669921875" y="34.6015625">hasDuration</y:NodeLabel>
@@ -1065,7 +1065,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="38.501953125" width="51.783203125" x="83.15540984623016" y="937.0576171875"/>
-          <y:Fill color="#8CF5FF" transparent="false"/>
+          <y:Fill color="#93C4FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="20" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="28.501953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="41.783203125" x="5.0" y="5.0">time</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="23.8916015625" y="17.2509765625">
@@ -1083,7 +1083,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="38.501953125" width="107.427734375" x="248.84822358630953" y="937.0576171875"/>
-          <y:Fill color="#8CF5FF" transparent="false"/>
+          <y:Fill color="#93C4FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="20" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="28.501953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="97.427734375" x="5.0" y="5.0">happening</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="51.7138671875" y="17.2509765625">
@@ -1101,7 +1101,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="53.140625" x="275.99177827380953" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="43.140625" x="5.0" y="5.0">event</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="24.5703125" y="14.80078125">
@@ -1119,7 +1119,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="93.1484375" x="159.61763392857142" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="83.1484375" x="5.0" y="5.0">occurrence</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="44.57421875" y="14.80078125">
@@ -1137,7 +1137,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="91.37890625" x="160.50239955357142" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="81.37890625" x="5.0" y="5.0">bodilyFunction</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="43.689453125" y="12.3505859375">
@@ -1155,7 +1155,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="61.361328125" x="271.88142671130953" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="51.361328125" x="5.0" y="5.0">occasion</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="28.6806640625" y="12.3505859375">
@@ -1174,7 +1174,7 @@
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="71.796875" x="484.6684151785715" y="1117.9619140625"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="61.796875" x="5.0" y="5.0">mindAct</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="33.89843749999994" y="14.80078125">
@@ -1322,7 +1322,7 @@ volume<y:LabelModel>
     <node id="n58">
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
-          <y:Geometry height="28.701171875" width="56.697265625" x="1568.3500558035714" y="1267.814453125"/>
+          <y:Geometry height="28.701171875" width="56.697265625" x="1553.3500558035714" y="1267.814453125"/>
           <y:Fill color="#FFCC66" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="46.697265625" x="5.0" y="5.0">rideable</y:NodeLabel>
@@ -2791,7 +2791,7 @@ volume<y:LabelModel>
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="38.501953125" width="65.1328125" x="1695.2937003968254" y="937.0576171875"/>
-          <y:Fill color="#8CF5FF" transparent="false"/>
+          <y:Fill color="#93C4FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="20" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="28.501953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="55.1328125" x="5.0" y="5.0">social</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="30.56640625" y="17.2509765625">
@@ -2810,7 +2810,7 @@ volume<y:LabelModel>
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="101.171875" x="1677.2741691468254" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="91.171875" x="5.0" y="5.0">organization</y:NodeLabel>
           <y:NodeLabel alignment="right" autoSizePolicy="content" borderDistance="0.0" fontFamily="Dialog" fontSize="10" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="16.2509765625" modelName="custom" textColor="#C0C0C0" visible="true" width="45.1279296875" x="-8.448738529267303" y="-24.80698525705634">collective<y:LabelModel>
@@ -2914,18 +2914,18 @@ volume<y:LabelModel>
       </data>
     </node>
     <node id="n122">
+      <data key="d3"><![CDATA[hasHeight]]></data>
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="30.0" width="76.701171875" x="309.4724051339286" y="468.1064453125"/>
           <y:Fill color="#80FF95" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="66.701171875" x="5.0" y="5.6494140625">prominence</y:NodeLabel>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="36.3505859375" y="13.0">
-            <y:LabelModel>
-              <y:SmartNodeLabelModel distance="4.0"/>
+          <y:NodeLabel alignment="right" autoSizePolicy="content" borderDistance="0.0" fontFamily="Dialog" fontSize="10" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="16.2509765625" modelName="custom" textColor="#C0C0C0" visible="true" width="49.029296875" x="13.8359375" y="30.0">hasHeight<y:LabelModel>
+              <y:SmartNodeLabelModel distance="0.0"/>
             </y:LabelModel>
             <y:ModelParameter>
-              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="-0.5" nodeRatioX="0.0" nodeRatioY="0.5" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
             </y:ModelParameter>
           </y:NodeLabel>
         </y:GenericNode>
@@ -2990,7 +2990,7 @@ volume<y:LabelModel>
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="33.6015625" width="86.9453125" x="653.0088789682541" y="1020.5595703125"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="76.9453125" x="5.0" y="5.0">evaluation</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="41.47265625" y="14.80078125">
@@ -3008,7 +3008,7 @@ volume<y:LabelModel>
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="28.701171875" width="57.34765625" x="858.2636594742064" y="1120.412109375"/>
-          <y:Fill color="#DCFF73" transparent="false"/>
+          <y:Fill color="#86FFD2" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="47.34765625" x="5.0" y="5.0">difficulty</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="26.673828125" y="12.3505859375">
@@ -3026,7 +3026,7 @@ volume<y:LabelModel>
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="30.0" width="99.3828125" x="419.1329861111111" y="1022.3603515625"/>
-          <y:Fill color="#80FF95" transparent="false"/>
+          <y:Fill color="#8CF5FF" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="23.6015625" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="89.3828125" x="5.0" y="3.19921875">mentalState</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="47.69140625" y="13.0">
@@ -3044,7 +3044,7 @@ volume<y:LabelModel>
       <data key="d8">
         <y:GenericNode configuration="com.yworks.flowchart.terminator">
           <y:Geometry height="30.0" width="62.03515625" x="412.9611793154762" y="953.2759574092742"/>
-          <y:Fill color="#A3FFE0" color2="#99999900" transparent="false"/>
+          <y:Fill color="#86FFD2" color2="#99999900" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="52.03515625" x="5.0" y="5.6494140625">condition</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="29.017578125" y="13.0">

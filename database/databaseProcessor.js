@@ -21,7 +21,8 @@ watcher.on('change', function(path){
     }
 })
 
-
+//convert relevant graphml elements to JSON and save as ontology.js
+//output format: ontology = { 'tag1':['upstream_tag1','upstream_tag2'], ... }
 function processOntology(){
 
     var file = fs.readFileSync(ontologyFile, 'utf-8')
@@ -34,7 +35,7 @@ function processOntology(){
             xmlMode: true
         });
 
-
+    //fill the ontology object with properties for every node in the ontology graph
     $('node').each(function(k,n){
         var id = $(n).attr('id')
         var thing = $(n).find('[key=d3]').text()
@@ -45,6 +46,7 @@ function processOntology(){
             nodes[id] = label
             output[label] = []
 
+            //treat node attributes as upstream ontology connections
             if(thing){
                 var otherSources = thing.split(' ')
                 otherSources.forEach(function(s){
@@ -54,11 +56,17 @@ function processOntology(){
         }
 
     })
-
+    
+    //distill edge connections from graphml
     $('edge').each(function(k,e){
+        //normal edge connections
         var source = $(e).attr('source')
         var target = $(e).attr('target')
         output[nodes[target]].push(nodes[source])
+        
+        //edge labels
+        var label = $(e).find('y\\:EdgeLabel').first().text().trim()
+        if (label) output[nodes[target]].push(label)
     })
 
     fs.writeFile(ontologyOutFile, 'ontology = ' + JSON.stringify(output))

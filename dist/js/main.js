@@ -1,6 +1,8 @@
 /*-------------------------------------   BRANCH -------------------------------------*/
 
 function branch(c, r, p, l) {   
+    this.construction = c
+    this.restrictions = r || {}
     this.parent = p || null
     LAST_PARENT = p || LAST_PARENT
     this.label = l || null
@@ -379,10 +381,12 @@ timer += window.performance.now() - startTime
 
 //take string complement description, return complement construction object
 function complement(r){
-    if (r.nocomplement) return {text: ''}
-    else if (goodVal(r.complements))  var complement = options(r.complements)
-    else if (goodVal(r.compcore))  var complement = options(r.compcore)
-    else if (goodVal(r.compext))  var complement = options(r.compext)
+    var forced = (r.nocomplement == -1)
+        
+    if (r.nocomplement==true) return {text: ''}
+    else if (goodVal(r.complements))  var complement = options(r.complements, forced)
+    else if (goodVal(r.compcore))  var complement = options(r.compcore, forced)
+    else if (goodVal(r.compext))  var complement = options(r.compext, forced)
     else return {text: ''}
 
     complement = compactString(complement)
@@ -432,20 +436,24 @@ function complement(r){
     }
 }
 
-function options(str){
+// takes a string in format '(55 option_one | 45 option_two)', or '(option_one|otion_two)' or just '(option_fifty_fifty)' 
+// and returns one option or an empty string
+// if force==true it does things to make sure no empty string is returned
+function options(str, forced){
     if(typeOf(str)!='string') return error("Non-string passed to options function.")
 
     //options are always wrapped in parentheses. deal with the inner ones first and recursively work outward
     out = str.replace(/\([^()]*\)/g, function(match){
-        //prevent splitting on pipes inside {rest:rict|ions}
-        match = match.replace(/{.*?}/g, function(m){return m.replace(/\|/g,'###')})
+        //prevent splitting on pipes inside {rest:rict|ions}, except for pipes inside parentheses inside restriction
+        match = match.replace(/{[^()]+?}/g, function(m){return m.replace(/\|/g,'###')})
 
         //multiple options separated by pipes
         if(match.findChar('|')){
 
             //options with weights
+            var picker = forced ? choose : choose2
             if(/(^\(|\|) *[0-9.]+ /.test(match)) {
-                return choose2(
+                return picker(
                     _.flatten(
                         match.slice(1,-1)
                         .split("|")
@@ -462,8 +470,13 @@ function options(str){
         //single options
         } else {
 
-            var threshold = match.match(/^\(?([0-9.]+ )/)
-            threshold = threshold ? threshold.pop() : 50 //percentage
+            var threshold 
+            if (forced) threshold = 100
+            else {
+                threshold = match.match(/^\(?([0-9.]+ )/)
+                threshold = threshold ? threshold.pop() : 50 //percentage
+            }
+            
             return Math.random()*100 < threshold ? match.replace(/^\(([0-9.]+ +)?(.*)\)$/, '$2') : ''
 
         }
@@ -826,12 +839,14 @@ function decide(r, pdgms, filter){
         if (!goodVal(r[pdm])) { //gotta choose one at random, sort of
 
             var pdm_list = _.clone(probabilities[pdm])
-            for (var i=1; i<pdm_list.length; i+=2){
+            if (pdm_list) {
+                for (var i = 1; i < pdm_list.length; i += 2) {
 
-                var pval = pdm_list[i]
-                var prohib = prohibitions.descend(pdm, pval)
-                if ( collide(prohib,r) ) pdm_list[i-1] = 0
+                    var pval = pdm_list[i]
+                    var prohib = prohibitions.descend(pdm, pval)
+                    if (collide(prohib, r)) pdm_list[i - 1] = 0
 
+                }
             }
             out_r[pdm] = choose(pdm_list)
 

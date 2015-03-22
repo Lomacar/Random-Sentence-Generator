@@ -132,13 +132,16 @@ function processLexicon(data, type){
 
 
     } //end of noun only section
+    
+    //rule-based adding of properties to words
+    autoAttributes(database[type], type)
 
     //very final processing
     for (var b in database[type]) {
         // collapse prototype inheritance
         database[type][b] = $extend({},database[type][b])
 
-        // remove empty strings that were created from " " which were used to block prototype inheritance
+        // remove empty strings that were created from "--" which were used to block prototype inheritance
         prune(database[type][b])
     }
 
@@ -209,6 +212,20 @@ function addImpliedTags(tags){
     }
 
     return tags
+}
+
+//rule-based assignment of word properties
+function autoAttributes (lex, type) {
+  lex.forEach(function (w) {
+    
+    //label verb transitivity 1 = core transitivity, 0.5 = noncore, 1.5 = both
+    if (type=='verb') {
+        w.trans = 0
+        if (goodVal(w.compcore)) w.trans += 1
+        if (goodVal(w.compext)) w.trans += 0.5
+    }
+      
+  });
 }
 
 

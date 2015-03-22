@@ -329,16 +329,18 @@ function VP(r){
     decide(r, "tense,aspect,number,person")
 
     return {
-        order: "aux word",
+        order: "aux vword compcore* compext*",
         head: "aux",
         children: {
             aux:  [auxiliary],
-            word: [V, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', subj_def: 'subject.def', pasv: false})]
+            vword: [V, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', subj_def: 'subject.def', pasv: false, aspect: r.real_aspect})],
+            compcore: [complement, {'case':'acc','complements': 'vword.compcore',neg: r.neg}],
+            compext: [complement, {'case':'dat','complements': 'vword.compext',neg: r.neg, vtags: 'vword.vtags'}]
         }
     }
 }
 
-function VP_PASV(r){
+function VP_PASV(r){ 
     decide(r, "tense,aspect,person")
     if (r.person < 3) {
         r.anim = 3
@@ -408,16 +410,14 @@ function PASV_AGENT(r){
 
 function V(r) {
     return {
-        order: "verb_asp_tns_num compcore* compext*",
+        order: "verb_asp_tns_num",
         head: "verb",
         gap: [get, {type: 'aux_verb', name: 'do'}],
         children: {
-            verb: [get, {type: 'verb', aspect: r.real_aspect}],
+            verb: [get, {type: 'verb'}],
             asp:  [aspect, 'verb'],
             tns:  [tense, 'verb'],
-            num:  [vNum, 'verb'],
-            compcore: [complement, {'case':'acc','complements': 'verb.compcore',neg: r.neg}],
-            compext: [complement, {'case':'dat','complements': 'verb.compext',neg: r.neg, vtags: 'verb.vtags'}]
+            num:  [vNum, 'verb']
         },
         postlogic: verb_cleanup
     }
@@ -479,7 +479,7 @@ function auxiliary(r){
     //future tense and modals
     if(r.tense=="fut") text = last_bit = "will"
     else text = ( last_bit = route(r.mood, {
-                        deontic: choose(1,"could", 1,"should", 1,"must"),
+                        deo: choose(1,"could", 1,"should", 1,"must"),
                         rest: choose(1,"would",1,"might",16,"")
                     })
                 )
@@ -633,7 +633,7 @@ function INF_PHRASE(r){
         order: 'to predicate',
         head: 'predicate',
         children:{
-            predicate: [V, {noinflection: true}]
+            predicate: [VP, {noinflection: true}]
         }
     }
 }
@@ -644,7 +644,7 @@ function INF_CLAUSE(r){
         head: 'subject',
         children:{
             subject: [NP, {nogap: true}],
-            predicate: [V, {noinflection: true, unpack: 'subject.R'}]
+            predicate: [VP, {noinflection: true, unpack: 'subject.R'}]
         }
     }
 }
@@ -656,7 +656,7 @@ function INF_CLAUSE2(r){
         head: 'subject',
         children:{
             subject: [NP, {nogap: true}],
-            predicate: [V, {noinflection: true, unpack: 'subject.R'}]
+            predicate: [VP, {noinflection: true, unpack: 'subject.R'}]
         }
     }
 }
@@ -705,44 +705,53 @@ function PRES_PARTICIPLE(r){
     }
 }
 
-//function GOAL(r){
-//    decide(r, 'pronominal')
-//
-//    var out = {gap: [filler, {filler: 'to'}], wh: 'where'}
-//
-//    if (r.pronominal) {
-//        var pr = _.values( decide(r, 'prox,def', true) )
-//        var inflections = 'def.prox:here, def.dist:there, indef:' + options("(somewhere|everywhere)")
-//        out.text = resolve(pr, inflections)
-//    } else {
-//        out = $.extend( out, {
-//                order: 'prep place',
-//                head: 'place',
-//                children: {
-//                    place: [NP, {tags:'place',number:'sg'}],
-//                    prep: [PREPOSITION, {unpack:'place.R', role: 'goal'}]
-//                }
-//            })
-//    }
-//
-//    return out
-//}
-//
-//function PREPOSITION(r){
-//    return {text: route( r.role, {
-//        goal: route(_.sample(_.intersection(r.tags.split(','), ['bounded','surface','place'])), {
-//            bounded: 'into',
-//            surface: 'onto',
-//            rest: choose(4, 'to', 1, 'beyond')
-//        }),
-//        source: route(_.sample(_.intersection(r.tags.split(','), ['bounded','surface','place'])), {
-//            bounded: 'into',
-//            surface: 'onto',
-//            rest: 'to'
-//        }),
-//        rest: 'to'
-//    })}
-//}
+function NOUN_INC(r) {
+    return {
+        order: 'incnoun - ving !!!',
+        head: 'ving',
+        children: {
+            ving: [V, {aspect: 'prog', tense:'pres', ptpl:'past'}],
+            inccomp: [complement, {complements:'ving.compcore', unpack: 'ving.R'}],
+            incnoun: [get, {type:'noun', name:'inccomp.name'}]
+        },
+        postlogic: function (text) {
+          return text.replace(' - ', '-')
+        }
+    }
+}
+
+function ACTION (r) {    
+    return {
+        order: 'the ving of actcomp',
+        head: 'ving',
+        children: {
+            ving: [V, {aspect: 'prog', tense: 'pres', pasv: 'false'}],
+            actcomp: [ACTION_PT2, {unpack:'ving.R', trans:'ving.trans', case: 'acc', pronominal: false, person: 3}]
+        },
+        postlogic: function (text) {
+            return text.replace(/of\s*$/, '') //remove trailing 'of' if there is no complement
+        },
+        number: 'sg', person: 3 //this construction must be treated as a noun, at least for passive clauses to work right
+    }
+}
+
+function ACTION_PT2 (r) {
+    
+    var comp = r.trans > 0.5
+             //transitive verbs use the object (eating of the pizza)
+             ? [complement, {complements:'ving.compcore', nocomplement: -1}]
+             //intransitive verbs use the subject (running of the bulls)
+             //'semi-transitive' verbs get nothing (*arguing of with John )
+             : r.trans == 0.5 ? [filler, {filler:''}] : [NP, r]
+    
+      return {
+          order: 'of* actcomp*',
+          head: 'actcomp',
+          children: {
+              actcomp: comp,
+          }
+      }
+}
 
 function SOURCE(r){
     r.role='SOURCE'
@@ -762,13 +771,14 @@ function MOTION(r) {
     if(magicCompare(r.vtags, 'generalMotion')){
         delete r.vtags
     }
+    if (!r.role) r.role = options('(GOAL|PATH)') //TODO: SOURCE
     
     return {
         order: "prep landmark",
         head: "prep",
         children: {
             prep: [get, {type: 'preposition', role: r.role}], //, pasv: 'predicate.pasv'
-            landmark: [NP, {case: 'dat', tags: 'prep.tags', number:'sg'}]
+            landmark: [NP, {case: 'dat', unpack: 'prep.tags', number:'sg'}]
         }
     }
 }

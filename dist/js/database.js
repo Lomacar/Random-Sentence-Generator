@@ -130,7 +130,7 @@ database.preposition = [
 ]
 
 var paradigms = {
-	verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
+	verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog'], mood: ['ind','deo']},
 	aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
     noun: {number: ['pl', 'sg'], def: ['def','indef'], quantified: [true,false], person: [1,2,3]},
 	pronoun: {case: ['nom', 'acc','gen','reflex'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
@@ -150,7 +150,7 @@ var prohibitions = {
         prog: {class: 'state,event,semel', perm: true, pasv:true},
         retroprog: {class: 'state,event,semel', perm: true, pasv:true},
         retro: {perm: true},
-        prosp: {volition: false}
+        prosp: {volition: false} //makes no difference for some reason
     },
     tense: {
         //future: {aspect: 'retro', class: 'state'} //just tends to sound too awkward
@@ -194,5 +194,5 @@ var probabilities = {
     tense: [4, 'pres', 8, 'past', 1, 'fut'],
     aspect: [10, 'simp', 5, 'prog', 2, 'retro', 1, 'retroprog', 2, 'prosp'],
     neg: [6, false, 1, true],
-    mood: [1,'deontic', 6,'other']
+    mood: [1,'deo', 6,'ind']
 }
