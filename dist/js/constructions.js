@@ -8,7 +8,7 @@ function CLAUSE(r){
         head: "subject",
         children: {
             subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3), def: choose(9, 'def', 1, 'indef')}],
-            predicate: [VP, {copulant: false, unpack: "subject.R"}]
+            predicate: [AUXP, {copulant: false, unpack: "subject.R"}]
         }
     }
 }
@@ -44,10 +44,10 @@ function NP(r) {
     return route(r.person, {
         rest: [PRONOUN,r2],
         3: route(r.pronominal, {
-                true: [PRONOUN, r2],
-                false: [DP]
-            }
-        )
+            true: [PRONOUN, r2],
+            false: [DP]
+        }
+                )
     })
 }
 
@@ -86,14 +86,14 @@ function DET(r) {
                     return GENITIVE(r)
                 } else {
                     out.text = choose(1,'my', 1,'your', 1,'his', 1,'her', 1,'its', 1,'our', 1,'their')
-//                    decide(r, 'number')
-//                    r.case = 'gen'
-//                    r.person = r.person || choose(2,1, 2,2, 3,3)
-//                    r.anim = Math.max( r.anim, r.person < 3 ? 3 : decide(r, 'anim').anim ) //copied from PRONOUN()
-//                    r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
-//
-//                    var inflections = '1.sg:my,2:your,3.sg.m:his,3.sg.f:her,3.sg.n:its,1.pl:our,3.pl:their'
-//                    out.text = resolve([r.number,r.person,r.gender], inflections)
+                    //                    decide(r, 'number')
+                    //                    r.case = 'gen'
+                    //                    r.person = r.person || choose(2,1, 2,2, 3,3)
+                    //                    r.anim = Math.max( r.anim, r.person < 3 ? 3 : decide(r, 'anim').anim ) //copied from PRONOUN()
+                    //                    r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
+                    //
+                    //                    var inflections = '1.sg:my,2:your,3.sg.m:his,3.sg.f:her,3.sg.n:its,1.pl:our,3.pl:their'
+                    //                    out.text = resolve([r.number,r.person,r.gender], inflections)
                 }
 
             } else {
@@ -108,14 +108,14 @@ function DET(r) {
                             r.quantified = false
                             return choose(1, [PREQUANT,r],                        //'12 of my dogs' is definite
                                           r.count, {
-                                                order: 'det quant',
-                                                head: 'det',
-                                                children: {
-                                                    det: [DET, r],
-                                                    quant: {text: toWords(powerRandom())} //'these 12 dogs' is definite
-                                                }
-                                             }
-                                    )
+                                order: 'det quant',
+                                head: 'det',
+                                children: {
+                                    det: [DET, r],
+                                    quant: {text: toWords(powerRandom())} //'these 12 dogs' is definite
+                                }
+                            }
+                                         )
                         }
                     }
                 }
@@ -145,10 +145,10 @@ function GENITIVE(r){
         decide(r2, 'anim')
         if (r2.anim==3) return DET(_.extend(r, {possessable: -111})) //abort possession if the would-be possesed noun is a person or somesuch
         else r2.anim=3
-    } else {
-        //special genitive with specified restricions (like "book's author")
-        r2 = _.extend(r2, toObject(posr))
-    }
+            } else {
+                //special genitive with specified restricions (like "book's author")
+                r2 = _.extend(r2, toObject(posr))
+            }
 
     if (r2.number=='pl') delete r2.number //plural nouns can be possessed by sg or pl nouns
     if (r2.number=='sg') {
@@ -165,7 +165,7 @@ function GENITIVE(r){
         },
         postlogic: function(text){
             return text.replace(/[_ ]+'s/,"'s")
-                        .replace("s's","s'")
+                .replace("s's","s'")
         }
     }
 }
@@ -206,8 +206,8 @@ function N(r){
         },
         postlogic:function(text){
             return text.replace(/[0-9.]+/, '') //strip verb sense numbers
-                       .replace(/([^aeou])y_+(s)/g, "$1ie$2")
-                       .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
+                .replace(/([^aeou])y_+(s)/g, "$1ie$2")
+                .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
         }
     }
 }
@@ -242,24 +242,24 @@ function PRONOUN(r) {
         if (r.number===r.subj_number || r.person==2){ // you(sg) verb you(pl) just sounds wrong
             if (r.person < 3 || r.person==3 && r.gender===r.subj_gender){ //gender only needs to match in third person
                 if(r.person < 3 || toss()) r.case = 'reflex'
-            }
+                    }
         }
     }
 
     if (r.case=='dat') r.case='acc'
-    
+
     var word = $.extend(r,
-                    {type:'pronoun',
-                     inflections:"nom.sg.1:I, 2:you, sg.3:it, nom.sg.3.m:he, nom.sg.3.f:she," +
-                                 " nom.pl.1:we, nom.pl.3:they, acc.sg.1:me, acc.sg.3.m: him," +
-                                 " acc.sg.3.f:her, acc.pl.1:us, acc.pl.3: them," +
-                                 " reflex.sg.1:myself, reflex.pl.1:ourselves," +
-                                 " reflex.sg.2:yourself, reflex.pl.2:yourselves," +
-                                 " reflex.sg.3.m:himself, reflex.sg.3.f:herself, reflex.sg.3.n:itself," +
-                                 " reflex.pl.3:themselves",
-                     gap : [blank]
-                    }
-                )
+                        {type:'pronoun',
+                         inflections:"nom.sg.1:I, 2:you, sg.3:it, nom.sg.3.m:he, nom.sg.3.f:she," +
+                         " nom.pl.1:we, nom.pl.3:they, acc.sg.1:me, acc.sg.3.m: him," +
+                         " acc.sg.3.f:her, acc.pl.1:us, acc.pl.3: them," +
+                         " reflex.sg.1:myself, reflex.pl.1:ourselves," +
+                         " reflex.sg.2:yourself, reflex.pl.2:yourselves," +
+                         " reflex.sg.3.m:himself, reflex.sg.3.f:herself, reflex.sg.3.n:itself," +
+                         " reflex.pl.3:themselves",
+                         gap : [blank]
+                        }
+                       )
 
     word.type = 'pronoun' //important for creating word.R object with safe()
 
@@ -298,13 +298,13 @@ function A(r){
     r.copulant = r.copulant || false
     return choose(!r.copulant, [PRES_PARTICIPLE],
                   5, {
-                        order:'neg_adj',
-                        head:'adj',
-                        children:{
-                            neg: [a_neg, 'adj'],
-                            adj: [get, $.extend({type: 'adjective'} , r)]
-                        }
-                     }
+        order:'neg_adj',
+        head:'adj',
+        children:{
+            neg: [a_neg, 'adj'],
+            adj: [get, $.extend({type: 'adjective'} , r)]
+        }
+    }
                  )
 }
 
@@ -325,15 +325,27 @@ function PREDICATE(r){
     }
 }
 
-function VP(r){
+function AUXP (r) {
     decide(r, "tense,aspect,number,person")
 
     return {
-        order: "aux vword compcore* compext*",
-        head: "aux",
+        order: 'aux vp',
+        head: 'aux',
         children: {
-            aux:  [auxiliary],
-            vword: [V, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', subj_def: 'subject.def', pasv: false, aspect: r.real_aspect})],
+            aux: [auxiliary],
+            vp: [VP, _.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', subj_def: 'subject.def', pasv: false, aspect: r.real_aspect})]
+        }
+    }
+}
+
+function VP(r){
+
+    return {
+        order: "vword compcore* compext*",
+        head: "vword",
+        gap: [get, _.extend({type: 'aux_verb', name: 'do'},r)],
+        children: {
+            vword: [V],
             compcore: [complement, {'case':'acc','complements': 'vword.compcore',neg: r.neg}],
             compext: [complement, {'case':'dat','complements': 'vword.compext',neg: r.neg, vtags: 'vword.vtags'}]
         }
@@ -362,14 +374,14 @@ function VP_PASV(r){
 function VP_PASV_PT2 (r){
     var order = 'compext'
     var hasAgent = toss() && !_.contains(r.ptpl, 'no-by')
-    
+
     if (hasAgent){
         var orders = ['agent compext','compext agent']
         if (_.contains(r.ptpl, 'by1')) order = orders[0]
         else if (_.contains(r.ptpl, 'by2')) order = orders[1]
         else order = _.sample(orders)
-    }
-    
+            }
+
     return {
         order: order,
         head: 'dummy',
@@ -412,7 +424,6 @@ function V(r) {
     return {
         order: "verb_asp_tns_num",
         head: "verb",
-        gap: [get, {type: 'aux_verb', name: 'do'}],
         children: {
             verb: [get, {type: 'verb'}],
             asp:  [aspect, 'verb'],
@@ -429,12 +440,12 @@ function aspect(r){
     return {
         text: route(goodVal(r.inflected) || !!r.noinflection, {
             false: route(r.aspect, {
-                prog: "ing",
-                retroprog: "ing"
-            })
+            prog: "ing",
+            retroprog: "ing"
         })
-    }
-   /* if (!goodVal(r.inflected) && !r.noinflection && (r.aspect=='prog' || r.aspect=='retroprog') ) {
+    })
+}
+/* if (!goodVal(r.inflected) && !r.noinflection && (r.aspect=='prog' || r.aspect=='retroprog') ) {
         return {text: 'ing'}
     }
 
@@ -447,7 +458,7 @@ function tense(r){
         switch (r.aspect) {
             case 'simp':
                 return {text: route(r.tense, {past: "ed"})}
-            case 'retro':
+                case 'retro':
                 return {text: 'ed'}
         }
     }
@@ -479,9 +490,9 @@ function auxiliary(r){
     //future tense and modals
     if(r.tense=="fut") text = last_bit = "will"
     else text = ( last_bit = route(r.mood, {
-                        deo: choose(1,"could", 1,"should", 1,"must"),
-                        rest: choose(1,"would",1,"might",16,"")
-                    })
+        deo: choose(1,"could", 1,"should", 1,"must"),
+        rest: choose(1,"would",1,"might",16,"")
+    })
                 )
     wellthen()
 
@@ -531,12 +542,12 @@ function vNum(r){
 
 function verb_cleanup(text){
     text = text.replace(/[0-9.]+/g, '') //strip verb sense numbers
-    .replace(/([^aeou])y_+s/, "$1ies") //change -ys to -ies
-    .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
-    .replace(/e_+ed/, "ed") // -eed to -ed
-    .replace(/([^e])e_+ing/, "$1ing") // -eing to -ing
-    .replace(/([^aeiou])([aeiou])([^aeiouywrx])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
-    .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
+        .replace(/([^aeou])y_+s/, "$1ies") //change -ys to -ies
+        .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
+        .replace(/e_+ed/, "ed") // -eed to -ed
+        .replace(/([^e])e_+ing/, "$1ing") // -eing to -ing
+        .replace(/([^aeiou])([aeiou])([^aeiouywrx])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
+        .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
     return text
 }
 
@@ -558,18 +569,18 @@ function WH_CLAUSE(r,c) {
     } else {
 
         //what,who,whose,where
-        var findGaps = function(branch,parent) {
-            $.each(branch, function(k,v){
-                if (k=='parent' || k=='head') return true
-                if (k=='gap' && v) {
-                    if (propertySearch2(branch,'nogap')) return true //prevent noun complements and other things from partaking
-                    if(branch.forceGap) {
+        var findGaps = function (branch, parent) {
+            $.each(branch, function (k, v) {
+                if (k == 'parent' || k == 'head') return true
+                if (k == 'gap' && v) {
+                    if (propertySearch2(branch, 'nogap')) return true //prevent noun complements and other things from partaking
+                    if (branch.forceGap) {
                         gaps = [branch] //prevent gapping inside nested WHs
                         return false
                     }
                     gaps.push(branch)
                 }
-                if (typeOf(v)=='object') findGaps(v,branch)
+                if (typeOf(v) == 'object') findGaps(v, branch)
             })
         }
 
@@ -592,7 +603,7 @@ function WH_CLAUSE(r,c) {
 
             wh = 'whose'
 
-        //what or who
+            //what or who
         } else {
             wh = g.wh || (  (gapr.anim != 3 || g.parent.label == 'predicate' || g.label == 'predicate') ? 'what' : 'who'  )
         }
@@ -715,7 +726,7 @@ function NOUN_INC(r) {
             incnoun: [get, {type:'noun', name:'inccomp.name'}]
         },
         postlogic: function (text) {
-          return text.replace(' - ', '-')
+            return text.replace(' - ', '-')
         }
     }
 }
@@ -736,21 +747,21 @@ function ACTION (r) {
 }
 
 function ACTION_PT2 (r) {
-    
+
     var comp = r.trans > 0.5
-             //transitive verbs use the object (eating of the pizza)
-             ? [complement, {complements:'ving.compcore', nocomplement: -1}]
-             //intransitive verbs use the subject (running of the bulls)
-             //'semi-transitive' verbs get nothing (*arguing of with John )
-             : r.trans == 0.5 ? [filler, {filler:''}] : [NP, r]
-    
-      return {
-          order: 'of* actcomp*',
-          head: 'actcomp',
-          children: {
-              actcomp: comp,
-          }
-      }
+    //transitive verbs use the object (eating of the pizza)
+    ? [complement, {complements:'ving.compcore', nocomplement: -1}]
+    //intransitive verbs use the subject (running of the bulls)
+    //'semi-transitive' verbs get nothing (*arguing of with John )
+    : r.trans == 0.5 ? [filler, {filler:''}] : [NP, r]
+
+    return {
+        order: 'of* actcomp*',
+        head: 'actcomp',
+        children: {
+            actcomp: comp,
+        }
+    }
 }
 
 function SOURCE(r){
@@ -772,7 +783,7 @@ function MOTION(r) {
         delete r.vtags
     }
     if (!r.role) r.role = options('(GOAL|PATH)') //TODO: SOURCE
-    
+
     return {
         order: "prep landmark",
         head: "prep",
