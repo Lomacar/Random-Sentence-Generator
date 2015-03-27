@@ -10,14 +10,14 @@ database.quantifier = [
     {name: 'tons', prequant: true},
     //{name: 'plenty', prequant: true},
     {name: 'a bunch', prequant: true},
-    {name: 'none', prequant: true, def:'def'},
-    {name: 'no', prequant: false, neg: false},
+    //{name: 'none', prequant: true, def:'def'},
+    //{name: 'no', prequant: false, neg: false},
 
     {name: 'any', prequant: false, neg: true},
     {name: 'any', prequant: true, def:'def', neg: true},
 
-    {name: 'enough', prequant: false},
-    {name: 'enough', prequant: true, def:'def'},
+    //{name: 'enough', prequant: false},
+    //{name: 'enough', prequant: true, def:'def'},
     //{name: 'not enough', prequant: false},
     //{name: 'not enough', prequant: true, def:'def'},
     {name: 'most', prequant: false},
@@ -117,7 +117,8 @@ database.preposition = [
     {name: 'to',        role: 'GOAL',   vtags: 'down',                                  tags: 'bottom|surface&grounded'},
     {name: 'to',        role: 'GOAL',   vtags: 'blarg',                                 tags: 'bottom',  'ncomp.c0.tags': 'bodyOfWater'},
     
-    {name: 'under',     role: 'GOAL',   vtags: 'grounded|contact|air|jump',             tags: 'object&!grounded'},
+    {name: 'under',     role: 'GOAL',   vtags: 'grounded|air|jump',             tags: 'object&elevated'},
+    {name: 'under',     role: 'GOAL',   vtags: 'contact|water',                 tags: 'object&!grounded'},
     
     {name: 'behind',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',        tags: 'thing'},
     
