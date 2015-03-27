@@ -735,8 +735,8 @@ function ACTION (r) {
     return {
         order: 'the ving of actcomp',
         head: 'ving',
-        children: {
-            ving: [V, {aspect: 'prog', tense: 'pres', pasv: 'false'}],
+        children: {                                                  //quick fix to avoid messy verbs in lexicon 
+            ving: [V, {aspect: 'prog', tense: 'pres', pasv: 'false', ptpl:'!-'}],
             actcomp: [ACTION_PT2, {unpack:'ving.R', trans:'ving.trans', case: 'acc', pronominal: false, person: 3}]
         },
         postlogic: function (text) {
