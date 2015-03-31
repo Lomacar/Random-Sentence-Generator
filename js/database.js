@@ -103,10 +103,10 @@ database.preposition = [
     
     //////////////////////////////////////////
     
-    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact',          tags: 'surface&!elevated&!vertical'},
-    {name: 'onto',      role: 'GOAL',   vtags: 'air|jump|vertical',         tags: 'surface|object'}, //TODO: size:>subject.size
+    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact',          tags: 'surface&!elevated&!vertical', size: '>subject.size'},
+    {name: 'onto',      role: 'GOAL',   vtags: 'air|jump|vertical',         tags: 'surface|object', size: '>subject.size'}, //TODO: size:>subject.size
     {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact|air|jump', tags: 'passengerVehicle'},
-    {name: 'onto',      role: 'GOAL',   vtags: 'waterSurface',              tags: 'openWater'},
+    {name: 'onto',      role: 'GOAL',   vtags: 'waterSurface',              tags: 'openWater', size: '>subject.size'},
     
     {name: 'into',      role: 'GOAL',   vtags: 'grounded',                          tags: 'area|volume&!elevated'}, //TODO: container->bounded volume?
     {name: 'into',      role: 'GOAL',   vtags: 'contact|air|water|jump',            tags: 'area|volume'}, //TODO: container->bounded volume?
@@ -126,7 +126,7 @@ database.preposition = [
     
     {name: 'in front of',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',   tags: 'thing'},
     
-    {name: 'on top of',     role: 'GOAL',     vtags: 'grounded|contact|air|jump|down',  tags: 'object|incline|prominence'},
+    {name: 'on top of',     role: 'GOAL',     vtags: 'grounded|contact|air|jump|down',  tags: 'object|incline|prominence', size: '>subject.size'},
     
 ]
 
@@ -179,7 +179,7 @@ var probabilities = {
     pronominal: [1,true,25,false], //how likely a NP is to be a pronoun instead
 
     //nounish
-    number: [1,'pl', 3,'sg'],
+    number: [1,'pl', 5,'sg'],
     def: [3,'def', 1,'indef'],
     proper: [2,true, 7,false],
     partial: [1,'', 1,'partial'],
@@ -192,8 +192,8 @@ var probabilities = {
     prox: [1,'prox', 1,'dist'],
 
     //verby
-    tense: [4, 'pres', 8, 'past', 1, 'fut'],
+    tense: [5, 'pres', 12, 'past', 1, 'fut'],
     aspect: [10, 'simp', 5, 'prog', 2, 'retro', 1, 'retroprog', 2, 'prosp'],
-    neg: [6, false, 1, true],
-    mood: [1,'deo', 6,'ind']
+    neg: [10, false, 1, true],
+    mood: [1,'deo', 12,'ind']
 }
