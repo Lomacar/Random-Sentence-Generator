@@ -218,11 +218,24 @@ function addImpliedTags(tags){
 function autoAttributes (lex, type) {
   lex.forEach(function (w) {
     
-    //label verb transitivity 1 = core transitivity, 0.5 = noncore, 1.5 = both
+    //label verb transitivity; 1 = core transitivity, 0.5 = noncore, 1.5 = both
     if (type=='verb') {
         w.trans = 0
         if (goodVal(w.compcore)) w.trans += 1
         if (goodVal(w.compext)) w.trans += 0.5
+    }
+      
+    //noun attributes based on tags
+    if (type=='noun') {
+        var tagImplications = {
+            'object&!person' : {count: true, tang: 2},
+            'person' : {anim: 3}
+        }
+        _.forIn(tagImplications, function(imp,tag){
+            if(w.tags && magicCompare(w.tags,tag,{tagmode: true})) {
+                _.extend(w,imp)
+            }
+        })
     }
       
   });

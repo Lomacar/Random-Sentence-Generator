@@ -213,16 +213,24 @@ function parseSingleRestriction(s, context, expandPlainStrings){
     if(typeof s != 'string') return true //numbers could make it up to this point
 
     //expand "object.property(-property)(,obj.property)" to {property:value}
-    if(/^\w+\.(\w+(-\w+)*)(,\w+\.(\w+(-\w+)*))*$/.test(s) && !/\.\d+$/.test(s)) {
+    if(/^.+\.(\w+(-\w+)*)(,\w+\.(\w+(-\w+)*))*$/.test(s) && !/\.\d+$/.test(s)) {
 
         //split comma separated values and parse each one
         if(s.findChar(",")) {
-            var multi =  s.split(",").map(function(x){
+            var multi = s.split(",").map(function(x){
                 return parseSingleRestriction(x)
             })
             //collapse array of objects down to one
             multi = _.extend.apply( this, _.compact(multi) )
             return multi
+        }
+        
+        //temporarily detach special chars like !<>
+        var split = s.match(/^(\W+)(.+)$/)
+        var specialChars = ""
+        if (split) {
+            specialChars = split[1] || ""
+            s = split[2] || ""
         }
 
         //split 'object.property'
@@ -248,6 +256,11 @@ function parseSingleRestriction(s, context, expandPlainStrings){
             var found = propertySearch2(obj,prop)
             if (typeOf(found) == 'object') return found
             var out = {}
+            if (found && specialChars) {
+                found += ''
+                found = found.replace(/(^|, ?)/g,'$1'+specialChars) //reattach specialChars to return string, add them to each comma separated item, if applicable
+                             .replace(',','|')
+            }
             out[prop] = found
             return out
         }

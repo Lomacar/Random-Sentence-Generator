@@ -198,11 +198,11 @@ function PREQUANT(r){
 function N(r){
 
     return {
-        order: "word_num",
-        head: "word",
+        order: "nword_num",
+        head: "nword",
         children: {
-            word: [get, { type: 'noun' } ],
-            num: [nNum, 'word.number-count-inflected']
+            nword: [get, { type: 'noun' } ],
+            num: [nNum, 'nword.number-count-inflected']
         },
         postlogic:function(text){
             return text.replace(/[0-9.]+/, '') //strip verb sense numbers
@@ -737,7 +737,7 @@ function ACTION (r) {
         head: 'ving',
         children: {                                                  //quick fix to avoid messy verbs in lexicon 
             ving: [V, {aspect: 'prog', tense: 'pres', pasv: 'false', ptpl:'!-'}],
-            actcomp: [ACTION_PT2, {unpack:'ving.R', trans:'ving.trans', case: 'acc', pronominal: false, person: 3}]
+            actcomp: [ACTION_PT2, {trans:'ving.trans'}]
         },
         postlogic: function (text) {
             return text.replace(/of\s*$/, '') //remove trailing 'of' if there is no complement
@@ -747,13 +747,15 @@ function ACTION (r) {
 }
 
 function ACTION_PT2 (r) {
-
+    
     var comp = r.trans > 0.5
-    //transitive verbs use the object (eating of the pizza)
-    ? [complement, {complements:'ving.compcore', nocomplement: -1}]
-    //intransitive verbs use the subject (running of the bulls)
-    //'semi-transitive' verbs get nothing (*arguing of with John )
-    : r.trans == 0.5 ? [filler, {filler:''}] : [NP, r]
+        //transitive verbs use the object (eating of the pizza)
+        ? [complement, {complements:'ving.compcore', nocomplement: -1}]
+        //intransitive verbs use the subject (running of the bulls)
+        //'semi-transitive' verbs get nothing (*arguing of with John )
+        : r.trans == 0.5 ? [filler, {filler:''}] : [NP, {unpack: 'ving.R'}]
+    
+    comp[1] = _.extend(comp[1], {case: 'acc', pronominal: false, person: 3})
 
     return {
         order: 'of* actcomp*',
