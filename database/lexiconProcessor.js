@@ -228,12 +228,17 @@ function autoAttributes (lex, type) {
     //noun attributes based on tags
     if (type=='noun') {
         var tagImplications = {
-            'object&!person' : {count: true, tang: 2},
+            'object' : {count: true, tang: 2},
             'person' : {anim: 3}
         }
         _.forIn(tagImplications, function(imp,tag){
             if(w.tags && magicCompare(w.tags,tag,{tagmode: true})) {
-                _.extend(w,imp)
+                _.forIn(imp,function (val,key) {
+                    if (!goodVal(w[key])) { //only fill in blanks
+                        w[key] = val
+                    }
+                })
+                //_.extend(w,imp)
             }
         })
     }

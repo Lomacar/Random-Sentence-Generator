@@ -7,7 +7,7 @@ function CLAUSE(r){
         order: "subject predicate",
         head: "subject",
         children: {
-            subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3), def: choose(9, 'def', 1, 'indef')}],
+            subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 4,2, 6,3), def: choose(9, 'def', 1, 'indef')}],
             predicate: [AUXP, {copulant: false, unpack: "subject.R"}]
         }
     }
@@ -205,9 +205,8 @@ function N(r){
             num: [nNum, 'nword.number-count-inflected']
         },
         postlogic:function(text){
-            return text.replace(/[0-9.]+/, '') //strip verb sense numbers
-                .replace(/([^aeou])y_+(s)/g, "$1ie$2")
-                .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
+            return text.replace(/([^aeou])y_+(s)/g, "$1ie$2")
+                       .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
         }
     }
 }
@@ -309,7 +308,7 @@ function A(r){
 }
 
 function a_neg(r) {
-    return r.opposite && Math.round(Math.random()) ? {text:r.opposite} : {text:''}
+    return r.opposite && toss(0.33) ? {text:r.opposite} : {text:''}
 }
 
 function PREDICATE(r){
@@ -491,7 +490,8 @@ function auxiliary(r){
     if(r.tense=="fut") text = last_bit = "will"
     else text = ( last_bit = route(r.mood, {
         deo: choose(1,"could", 1,"should", 1,"must"),
-        rest: choose(1,"would",1,"might",16,"")
+        pot: choose(1,"would",1,"might"),
+        rest: ''
     })
                 )
     wellthen()
@@ -541,13 +541,11 @@ function vNum(r){
 }
 
 function verb_cleanup(text){
-    text = text.replace(/[0-9.]+/g, '') //strip verb sense numbers
-        .replace(/([^aeou])y_+s/, "$1ies") //change -ys to -ies
-        .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
-        .replace(/e_+ed/, "ed") // -eed to -ed
-        .replace(/([^e])e_+ing/, "$1ing") // -eing to -ing
-        .replace(/([^aeiou])([aeiou])([^aeiouywrx])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
-        .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
+    text = text.replace(/([^aeou])y_+s/, "$1ies") //change -ys to -ies
+               .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
+               .replace(/([^e])e_+(ing|ed)/, "$1$2") // -eing to -ing,  -eed to -ed
+               .replace(/([^aeiou])([aeiou])([^aeiouywrx])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
+               .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
     return text
 }
 
@@ -784,14 +782,24 @@ function MOTION(r) {
     if(magicCompare(r.vtags, 'generalMotion')){
         delete r.vtags
     }
-    if (!r.role) r.role = options('(GOAL|PATH)') //TODO: SOURCE
+    if (!r.role) {
+        if(toss(1)) {
+            return choose(
+                    1, [complement, _.extend(r,{complements: 'SOURCE GOAL'})],
+                    1, [complement, _.extend(r,{complements: 'SOURCE PATH'})],
+                    1, [complement, _.extend(r,{complements: 'PATH GOAL'})]
+            )
+        } else {
+            r.role = options('(GOAL|PATH|SOURCE)')
+        }
+    }
 
     return {
-        order: "prep landmark",
+        order: "prep lm",
         head: "prep",
         children: {
             prep: [get, {type: 'preposition', role: r.role}], //, pasv: 'predicate.pasv'
-            landmark: [NP, {case: 'dat', unpack: 'prep.tags', number:'sg'}]
+            lm: [DP, {case: 'dat', unpack: 'prep.tags', number:'sg'}]
         }
     }
 }

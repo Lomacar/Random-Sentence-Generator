@@ -721,12 +721,16 @@ function stringOut(c){
 
         var string = c.order.replace(/([^_ ])+/g, replacer)
 
+        //basic string cleaning
+        string = string.replace(/\./g,'')                     // remove dots
+                       .replace(/\d+([^\]\d]|$)/g,"$1")       // remove numbers, except for [e123] errors
+                       .replace(/  +/g,' ')                   // remove extra spaces
+        
+        //construction specific cleaning
         if (typeof c.postlogic==='function') string = c.postlogic(string)
 
-        return string.replace(/\./g,'')                     //remove dots
-                     .replace(/\d+([^\]\d]|$)/g,"$1")       // remove numbers, except for [e123] errors
-                     .replace("_","").replace("|","")       // remove underscores and pipes
-                     .replace(/  +/g,' ')                   // remove extra spaces
+        // return with final string cleaning
+        return string.replace("_","").replace("|","")       // remove underscores and pipes
     }
 
     else return c.text

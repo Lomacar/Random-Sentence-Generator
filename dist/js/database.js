@@ -59,79 +59,99 @@ database.quantifier = [
 ]
 
 database.preposition = [
-    {name: 'through',   role: 'PATH',   vtags: 'grounded',      tags: 'area|surface&vertical&!edge|passage&!vertical&!elevated|obstacle&!elevated'},
-    {name: 'through',   role: 'PATH',   vtags: 'contact',       tags: 'area|passage|obstacle'},
-    {name: 'through',   role: 'PATH',   vtags: 'air',           tags: 'gas|space|passage|obstacle&!grounded'},
-    {name: 'through',   role: 'PATH',   vtags: 'jump',          tags: 'surface&vertical&!edge|passage&!path&!vertical|obstacle&delimited&!grounded'},
-    {name: 'through',   role: 'PATH',   vtags: 'vertical',      tags: 'passage&vertical'},
-    {name: 'through',   role: 'PATH',   vtags: 'water',         tags: 'liquid|bodyOfWater'},
+    {name: 'through',   role: 'PATH',   vtags: 'grounded',     'lm.tags': 'area|surface&vertical&!edge|passage&!vertical&!elevated|obstacle&!elevated'},
+    {name: 'through',   role: 'PATH',   vtags: 'contact',      'lm.tags': 'area|passage|obstacle'},
+    {name: 'through',   role: 'PATH',   vtags: 'air',          'lm.tags': 'gas|space|passage|obstacle&!grounded'},
+    {name: 'through',   role: 'PATH',   vtags: 'jump',         'lm.tags': 'surface&vertical&!edge|passage&!path&!vertical|obstacle&delimited&!grounded'},
+    {name: 'through',   role: 'PATH',   vtags: 'vertical',     'lm.tags': 'passage&vertical'},
+    {name: 'through',   role: 'PATH',   vtags: 'water',        'lm.tags': 'liquid|bodyOfWater'},
     
-    {name: 'across',    role: 'PATH',   vtags: 'grounded',      tags: 'area|surface|path|boundary|bridge & !bodyOfWater & !vertical'}, 
-    {name: 'across',    role: 'PATH',   vtags: 'contact',       tags: 'area|surface|path&!vertical|boundary'},
-    {name: 'across',    role: 'PATH',   vtags: 'air',           tags: 'area|surface|path|boundary|volume&gas & !vertical'},
-    {name: 'across',    role: 'PATH',   vtags: 'jump',          tags: 'surface|path|boundary & !vertical'},
-    {name: 'across',    role: 'PATH',   vtags: 'waterSurface',  tags: 'bodyOfWater'},
+    {name: 'across',    role: 'PATH',   vtags: 'grounded',     'lm.tags': 'area|surface|path|boundary|bridge & !bodyOfWater & !vertical'}, 
+    {name: 'across',    role: 'PATH',   vtags: 'contact',      'lm.tags': 'area|surface|path&!vertical|boundary'},
+    {name: 'across',    role: 'PATH',   vtags: 'air',          'lm.tags': 'area|surface|path|boundary|volume&gas & !vertical'},
+    {name: 'across',    role: 'PATH',   vtags: 'jump',         'lm.tags': 'surface|path|boundary & !vertical'},
+    {name: 'across',    role: 'PATH',   vtags: 'waterSurface', 'lm.tags': 'bodyOfWater'},
     
-    {name: 'over',      role: 'PATH',   vtags: 'grounded',      tags: 'boundary|edge|bridge|prominence'}, //what about low stuff
-    {name: 'over',      role: 'PATH',   vtags: 'contact',       tags: 'boundary|edge|bridge|prominence'}, //
-    {name: 'over',      role: 'PATH',   vtags: 'air',           tags: 'thing|place'},
-    {name: 'over',      role: 'PATH',   vtags: 'jump',          tags: 'thing'},
-    {name: 'over',      role: 'PATH',   vtags: 'down',          tags: 'edge'},
-    {name: 'over',      role: 'PATH',   vtags: 'waterSurface',  tags: 'openWater'},
+    {name: 'over',      role: 'PATH',   vtags: 'grounded',     'lm.tags': 'boundary|edge|bridge|prominence'}, //what about low stuff
+    {name: 'over',      role: 'PATH',   vtags: 'contact',      'lm.tags': 'boundary|edge|bridge|prominence'}, //
+    {name: 'over',      role: 'PATH',   vtags: 'air',          'lm.tags': 'thing|place'},
+    {name: 'over',      role: 'PATH',   vtags: 'jump',         'lm.tags': 'thing'},
+    {name: 'over',      role: 'PATH',   vtags: 'down',         'lm.tags': 'edge'},
+    {name: 'over',      role: 'PATH',   vtags: 'waterSurface', 'lm.tags': 'openWater'},
     
-    {name: 'up',        role: 'PATH',   vtags: 'grounded',      tags: 'path&!vertical&!bodyOfWater|incline', volition: 1},
-    {name: 'up',        role: 'PATH',   vtags: 'contact',       tags: 'path&!bodyOfWater|incline|passage&vertical', volition: 1},
-    {name: 'up',        role: 'PATH',   vtags: 'up',            tags: 'path&vertical|passage&vertical', volition: 1},
-    {name: 'up',        role: 'PATH',   vtags: 'water',         tags: 'path & liquid|bodyOfWater', volition: 1},
-    {name: 'up',        role: 'PATH',   vtags: 'waterSurface',  tags: 'path & bodyOfWater', volition: 1},
+    {name: 'up',        role: 'PATH',   vtags: 'grounded',     'lm.tags': 'path&!vertical&!bodyOfWater|incline', volition: 1},
+    {name: 'up',        role: 'PATH',   vtags: 'contact',      'lm.tags': 'path&!bodyOfWater|incline|passage&vertical', volition: 1},
+    {name: 'up',        role: 'PATH',   vtags: 'up',           'lm.tags': 'path&vertical|passage&vertical', volition: 1},
+    {name: 'up',        role: 'PATH',   vtags: 'water',        'lm.tags': 'path & liquid|bodyOfWater', volition: 1},
+    {name: 'up',        role: 'PATH',   vtags: 'waterSurface', 'lm.tags': 'path & bodyOfWater', volition: 1},
         
-    {name: 'down',      role: 'PATH',   vtags: 'grounded',      tags: 'path&!vertical|incline'},
-    {name: 'down',      role: 'PATH',   vtags: 'contact',       tags: 'path|incline|passage&vertical'},
-    {name: 'down',      role: 'PATH',   vtags: 'down',          tags: 'path&vertical|incline|passage&vertical'},
-    {name: 'down',      role: 'PATH',   vtags: 'water',         tags: 'path & liquid|bodyOfWater'},
-    {name: 'down',      role: 'PATH',   vtags: 'waterSurface',  tags: 'path & bodyOfWater'},
+    {name: 'down',      role: 'PATH',   vtags: 'grounded',     'lm.tags': 'path&!vertical|incline'},
+    {name: 'down',      role: 'PATH',   vtags: 'contact',      'lm.tags': 'path|incline|passage&vertical'},
+    {name: 'down',      role: 'PATH',   vtags: 'down',         'lm.tags': 'path&vertical|incline|passage&vertical'},
+    {name: 'down',      role: 'PATH',   vtags: 'water',        'lm.tags': 'path & liquid|bodyOfWater'},
+    {name: 'down',      role: 'PATH',   vtags: 'waterSurface', 'lm.tags': 'path & bodyOfWater'},
     
-    {name: 'along',     role: 'PATH',   vtags: 'grounded',      tags: 'path|perimeter|edge|boundary & !vertical'},
-    {name: 'along',     role: 'PATH',   vtags: 'contact',       tags: 'path|perimeter|edge|boundary'},
+    {name: 'along',     role: 'PATH',   vtags: 'grounded',     'lm.tags': 'path|perimeter|edge|boundary & !vertical'},
+    {name: 'along',     role: 'PATH',   vtags: 'contact',      'lm.tags': 'path|perimeter|edge|boundary'},
     
-    {name: 'around',    role: 'PATH',   vtags: 'grounded|contact|air',          tags: 'bounded'},
+    {name: 'around',    role: 'PATH',   vtags: 'grounded|contact|air',         'lm.tags': 'bounded'},
     
-    {name: 'past',      role: 'PATH',   vtags: 'grounded|contact|air|jump',     tags: 'PHYSICAL'},
-    {name: 'past',      role: 'PATH',   vtags: 'vertical',                      tags: 'elevated'},
+    {name: 'past',      role: 'PATH',   vtags: 'grounded|contact|air|jump',    'lm.tags': 'PHYSICAL'},
+    {name: 'past',      role: 'PATH',   vtags: 'vertical',                     'lm.tags': 'elevated'},
     
-    {name: 'by',        role: 'PATH',   vtags: 'grounded|contact|air',          tags: 'PHYSICAL', pasv: false},
+    {name: 'by',        role: 'PATH',   vtags: 'grounded|contact|air',         'lm.tags': 'PHYSICAL', pasv: false},
     
     //////////////////////////////////////////
     
-    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact',          tags: 'surface&!elevated&!vertical', size: '>subject.size'},
-    {name: 'onto',      role: 'GOAL',   vtags: 'air|jump|vertical',         tags: 'surface|object', size: '>subject.size'}, //TODO: size:>subject.size
-    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact|air|jump', tags: 'passengerVehicle'},
-    {name: 'onto',      role: 'GOAL',   vtags: 'waterSurface',              tags: 'openWater', size: '>subject.size'},
+    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact',                      'lm.tags': 'surface&!elevated&!vertical',    'lm.size': '>subject.size'},
+    {name: 'onto',      role: 'GOAL',   vtags: 'air|jump|vertical',                     'lm.tags': 'surface|object',                 'lm.size': '>subject.size'}, //TODO: size:>subject.size
+    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact|air|jump',             'lm.tags': 'passengerVehicle'},
+    {name: 'onto',      role: 'GOAL',   vtags: 'waterSurface',                          'lm.tags': 'openWater',                      'lm.size': '>subject.size'},
+        
+    {name: 'into',      role: 'GOAL',   vtags: 'grounded',                              'lm.tags': 'area|volume&!elevated',          'lm.size': '>subject.size'},
+    {name: 'into',      role: 'GOAL',   vtags: 'contact|air|water|jump',                'lm.tags': 'area|volume',                    'lm.size': '>subject.size'},
+    {name: 'into',      role: 'GOAL',   vtags: 'waterSurface',                          'lm.tags': 'area',                           'lm.size': '>subject.size'},
+    {name: 'into',      role: 'GOAL',   vtags: 'up',                                    'lm.tags': 'volume&elevated|gas',            'lm.size': '>subject.size'},
+    {name: 'into',      role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'bodyOfWater',                    'lm.size': '>subject.size'}, //this is for 'sink'
+    {name: 'into',      role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'liquid|semisolid|aggregate|vessel'}, //this is for 'sink'
     
-    {name: 'into',      role: 'GOAL',   vtags: 'grounded',                          tags: 'area|volume&!elevated'}, //TODO: container->bounded volume?
-    {name: 'into',      role: 'GOAL',   vtags: 'contact|air|water|jump',            tags: 'area|volume'}, //TODO: container->bounded volume?
-    {name: 'into',      role: 'GOAL',   vtags: 'waterSurface',                      tags: 'area'},
-    {name: 'into',      role: 'GOAL',   vtags: 'up',                                tags: 'volume&elevated|gas'},
+    {name: 'to',        role: 'GOAL',   vtags: 'grounded|contact|water|waterSurface',   'lm.tags': 'fixed|occasion'}, //TODO: other things?
+    {name: 'to',        role: 'GOAL',   vtags: 'down',     trans:'<1',                  'lm.tags': 'bottom|surface&grounded'},
+    {name: 'to',        role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'bottom',  'ncomp.c0.tags': 'bodyOfWater|vessel', 'lm.size': '>subject.size'}, //this is for 'sink'
     
-    {name: 'to',        role: 'GOAL',   vtags: 'grounded|contact|water|waterSurface',   tags: 'fixed|occasion'}, //TODO: other things?
-    {name: 'to',        role: 'GOAL',   vtags: 'down',                                  tags: 'bottom|surface&grounded'},
-    {name: 'to',        role: 'GOAL',   vtags: 'blarg',                                 tags: 'bottom',  'ncomp.c0.tags': 'bodyOfWater'},
+    {name: 'under',     role: 'GOAL',   vtags: 'grounded|air|jump',                     'lm.tags': 'object&elevated'},
+    {name: 'under',     role: 'GOAL',   vtags: 'contact|water',                         'lm.tags': 'object&!grounded'},
     
-    {name: 'under',     role: 'GOAL',   vtags: 'grounded|air|jump',             tags: 'object&elevated'},
-    {name: 'under',     role: 'GOAL',   vtags: 'contact|water',                 tags: 'object&!grounded'},
+    {name: 'behind',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'thing'},
     
-    {name: 'behind',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',        tags: 'thing'},
+    {name: 'beside',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'thing'},
     
-    {name: 'beside',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',        tags: 'thing'},
+    {name: 'in front of',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',  'lm.tags': 'thing'},
     
-    {name: 'in front of',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',   tags: 'thing'},
+    {name: 'on top of',     role: 'GOAL',     vtags: 'grounded',                         'lm.tags': 'object&!void&!creature|incline|prominence',    'lm.size': '>subject.size'},
+    {name: 'on top of',     role: 'GOAL',     vtags: 'contact|air|jump|down',            'lm.tags': 'object&!void|incline|prominence',              'lm.size': '>subject.size'},
     
-    {name: 'on top of',     role: 'GOAL',     vtags: 'grounded|contact|air|jump|down',  tags: 'object|incline|prominence', size: '>subject.size'},
+    /////////////////////////////////////////////
+    
+    {name: 'from',  role:'SOURCE',  vtags: 'grounded|contact',      'lm.tags': 'area|thing'},
+    {name: 'from',  role:'SOURCE',  vtags: 'air',                   'lm.tags': 'area|volume'},
+    {name: 'from',  role:'SOURCE',  vtags: 'jump',                  'lm.tags': 'surface|site|vehicle|position'},
+    {name: 'from',  role:'SOURCE',  vtags: 'jump',                  'lm.size': '>subject.size'},
+    {name: 'from',  role:'SOURCE',  vtags: 'up',                    'lm.tags': 'surface|void|position|object&fixed'},
+    {name: 'from',  role:'SOURCE',  vtags: 'down',                  'lm.tags': 'elevated|vertical'},
+    {name: 'from',  role:'SOURCE',  vtags: 'down', trans: '>0.5',   'lm.tags': 'elevated|vertical|vessel'},
+    {name: 'from',  role:'SOURCE',  vtags: 'water|waterSurface',    'lm.tags': 'bodyOfWater'},
+    
+    //{name: 'away from',  role:'SOURCE',  vtags: 'grounded',              'lm.tags': 'area|thing'},
+    
+    //{name: 'out of',  role:'SOURCE',  vtags: 'grounded',              'lm.tags': 'area|thing'},
+    
+    //{name: 'off of',  role:'SOURCE',  vtags: 'grounded',              'lm.tags': 'area|thing'},
     
 ]
 
 var paradigms = {
-	verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog'], mood: ['ind','deo']},
+	verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog'], mood: ['ind','deo','pot']},
 	aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
     noun: {number: ['pl', 'sg'], def: ['def','indef'], quantified: [true,false], person: [1,2,3]},
 	pronoun: {case: ['nom', 'acc','gen','reflex'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
@@ -151,13 +171,13 @@ var prohibitions = {
         prog: {class: 'state,event,semel', perm: true, pasv:true},
         retroprog: {class: 'state,event,semel', perm: true, pasv:true},
         retro: {perm: true},
-        prosp: {volition: false} //makes no difference for some reason
+        prosp: {volition: false, class:'state'} //makes no difference for some reason
     },
     tense: {
         //future: {aspect: 'retro', class: 'state'} //just tends to sound too awkward
     },
     mood: {
-        deontic: {volition: false, anim:'<2'}
+        deo: {volition: false, anim:'<2'}
     },
 
     //noun
@@ -173,27 +193,27 @@ var prohibitions = {
 //default probabilities for paradigms ( used by decide() )
 var probabilities = {
     //general
-    anim: [1,0, 1,1, 4,2, 5,3],
-    tang: [1,0, 1,1, 2,2],
+    anim:       [1,0, 1,1, 3,2, 4,3],
+    tang:       [1,0, 1,1, 2,2],
 
     pronominal: [1,true,25,false], //how likely a NP is to be a pronoun instead
 
     //nounish
-    number: [1,'pl', 5,'sg'],
-    def: [3,'def', 1,'indef'],
-    proper: [2,true, 7,false],
-    partial: [1,'', 1,'partial'],
+    number:     [1,'pl', 5,'sg'],
+    def:        [3,'def', 1,'indef'],
+    proper:     [2,true, 7,false],
+    partial:    [1,'', 1,'partial'],
     quantified: [0.3, true, 0.7, false],
 
     //pronominal
-    person: [1,1, 1,2, 25,3],
-    gender: [3,'m', 3,'f', 1,'n'],
-    dem: [2,true,5,false],
-    prox: [1,'prox', 1,'dist'],
+    person:     [1,1, 1,2, 25,3],
+    gender:     [3,'m', 3,'f', 1,'n'],
+    dem:        [2,true,5,false],
+    prox:       [1,'prox', 1,'dist'],
 
     //verby
-    tense: [5, 'pres', 12, 'past', 1, 'fut'],
-    aspect: [10, 'simp', 5, 'prog', 2, 'retro', 1, 'retroprog', 2, 'prosp'],
-    neg: [10, false, 1, true],
-    mood: [1,'deo', 12,'ind']
+    tense:      [5,     'pres',    12,  'past', 1,  'fut'],
+    aspect:     [15,    'simp',    5,   'prog', 2,  'retro', 1, 'retroprog', 2, 'prosp'],
+    neg:        [10,    false,     1,   true],
+    mood:       [1,     'deo',     1,   'pot',  8,  'ind']
 }
