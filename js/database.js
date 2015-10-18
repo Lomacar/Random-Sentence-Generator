@@ -103,55 +103,69 @@ database.preposition = [
     
     //////////////////////////////////////////
     
-    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact',                      'lm.tags': 'surface&!elevated&!vertical',    'lm.size': '>subject.size'},
-    {name: 'onto',      role: 'GOAL',   vtags: 'air|jump|vertical',                     'lm.tags': 'surface|object',                 'lm.size': '>subject.size'}, //TODO: size:>subject.size
+    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact',                      'lm.tags': 'surface&!elevated&!vertical!bodyOfWater',    'lm.size': '>trajector.size'},
+    {name: 'onto',      role: 'GOAL',   vtags: 'air|jump|vertical',                     'lm.tags': 'surface|object',                             'lm.size': '>trajector.size'},
+    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical',    'lm.tags': 'substance&!fluid'},
     {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact|air|jump',             'lm.tags': 'passengerVehicle'},
-    {name: 'onto',      role: 'GOAL',   vtags: 'waterSurface',                          'lm.tags': 'openWater',                      'lm.size': '>subject.size'},
+    {name: 'onto',      role: 'GOAL',   vtags: 'waterSurface',                          'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
         
-    {name: 'into',      role: 'GOAL',   vtags: 'grounded',                              'lm.tags': 'area|volume&!elevated',          'lm.size': '>subject.size'},
-    {name: 'into',      role: 'GOAL',   vtags: 'contact|air|water|jump',                'lm.tags': 'area|volume',                    'lm.size': '>subject.size'},
-    {name: 'into',      role: 'GOAL',   vtags: 'waterSurface',                          'lm.tags': 'area',                           'lm.size': '>subject.size'},
-    {name: 'into',      role: 'GOAL',   vtags: 'up',                                    'lm.tags': 'volume&elevated|gas',            'lm.size': '>subject.size'},
-    {name: 'into',      role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'bodyOfWater',                    'lm.size': '>subject.size'}, //this is for 'sink'
-    {name: 'into',      role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'liquid|semisolid|aggregate|vessel'}, //this is for 'sink'
+    {name: 'into',      role: 'GOAL',   vtags: 'grounded',                              'lm.tags': 'area|volume&!elevated',                      'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL',   vtags: 'contact|air|jump',                      'lm.tags': 'area|volume',                                'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL',   vtags: 'water',                                 'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL',   vtags: 'up',                                    'lm.tags': 'volume&elevated|gas',                        'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL',   vtags: 'down',                                  'lm.tags': 'volume&elevated|gas',                        'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'bodyOfWater',                                'lm.size': '>trajector.size'}, //this is for 'sink'
+    {name: 'into',      role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'mass|vessel'}, //this is for 'sink'
     
     {name: 'to',        role: 'GOAL',   vtags: 'grounded|contact|water|waterSurface',   'lm.tags': 'fixed|occasion'}, //TODO: other things?
     {name: 'to',        role: 'GOAL',   vtags: 'down',     trans:'<1',                  'lm.tags': 'bottom|surface&grounded'},
-    {name: 'to',        role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'bottom',  'ncomp.c0.tags': 'bodyOfWater|vessel', 'lm.size': '>subject.size'}, //this is for 'sink'
+    {name: 'to',        role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'bottom',  'ncomp.c0.tags': 'bodyOfWater|vessel', 'lm.size': '>trajector.size'}, //this is for 'sink'
+
     
-    {name: 'under',     role: 'GOAL',   vtags: 'grounded|air|jump',                     'lm.tags': 'object&elevated'},
-    {name: 'under',     role: 'GOAL',   vtags: 'contact|water',                         'lm.tags': 'object&!grounded'},
+    {name: 'under',     role: 'GOAL',   vtags: 'grounded|air|jump',                     'lm.tags': 'object&elevated',                 multicomp: false},
+    {name: 'under',     role: 'GOAL',   vtags: 'contact|water',                         'lm.tags': 'object&!grounded',                multicomp: false},
     
-    {name: 'behind',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'thing'},
+    {name: 'behind',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'thing',    multicomp: false},
     
-    {name: 'beside',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'thing'},
+    {name: 'beside',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'thing',    multicomp: false},
     
-    {name: 'in front of',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',  'lm.tags': 'thing'},
+    {name: 'in front of',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',  'lm.tags': 'thing',    multicomp: false},
     
-    {name: 'on top of',     role: 'GOAL',     vtags: 'grounded',                         'lm.tags': 'object&!void&!creature|incline|prominence',    'lm.size': '>subject.size'},
-    {name: 'on top of',     role: 'GOAL',     vtags: 'contact|air|jump|down',            'lm.tags': 'object&!void|incline|prominence',              'lm.size': '>subject.size'},
+    {name: 'on top of',     role: 'GOAL',     vtags: 'grounded',                         'lm.tags': 'object&!void&!creature|incline|prominence',    'lm.size': '>trajector.size',    multicomp: false},
+    {name: 'on top of',     role: 'GOAL',     vtags: 'contact|air|jump|down',            'lm.tags': 'object&!void|incline|prominence',              'lm.size': '>trajector.size',    multicomp: false},
     
     /////////////////////////////////////////////
     
-    {name: 'from',  role:'SOURCE',  vtags: 'grounded|contact',      'lm.tags': 'area|thing'},
-    {name: 'from',  role:'SOURCE',  vtags: 'air',                   'lm.tags': 'area|volume'},
-    {name: 'from',  role:'SOURCE',  vtags: 'jump',                  'lm.tags': 'surface|site|vehicle|position'},
-    {name: 'from',  role:'SOURCE',  vtags: 'jump',                  'lm.size': '>subject.size'},
-    {name: 'from',  role:'SOURCE',  vtags: 'up',                    'lm.tags': 'surface|void|position|object&fixed'},
-    {name: 'from',  role:'SOURCE',  vtags: 'down',                  'lm.tags': 'elevated|vertical'},
-    {name: 'from',  role:'SOURCE',  vtags: 'down', trans: '>0.5',   'lm.tags': 'elevated|vertical|vessel'},
-    {name: 'from',  role:'SOURCE',  vtags: 'water|waterSurface',    'lm.tags': 'bodyOfWater'},
-    
-    //{name: 'away from',  role:'SOURCE',  vtags: 'grounded',              'lm.tags': 'area|thing'},
-    
-    //{name: 'out of',  role:'SOURCE',  vtags: 'grounded',              'lm.tags': 'area|thing'},
-    
-    //{name: 'off of',  role:'SOURCE',  vtags: 'grounded',              'lm.tags': 'area|thing'},
+    {name: 'from',  role:'SOURCE',  vtags: 'grounded|contact',      'lm.tags': 'area|thing',                               multicomp: true},
+    {name: 'from',  role:'SOURCE',  vtags: 'air',                   'lm.tags': 'area|volume',                              multicomp: true},
+    {name: 'from',  role:'SOURCE',  vtags: 'jump',                  'lm.tags': 'surface|site|vehicle|position',            multicomp: true},
+    {name: 'from',  role:'SOURCE',  vtags: 'jump',                  'lm.size': '>subject.size',                            multicomp: true},
+    {name: 'from',  role:'SOURCE',  vtags: 'up',                    'lm.tags': 'surface|void|position|object&fixed',       multicomp: true},
+    {name: 'from',  role:'SOURCE',  vtags: 'down',                  'lm.tags': 'elevated|vertical',                        multicomp: true},
+    {name: 'from',  role:'SOURCE',  vtags: 'down', trans: '>0.5',   'lm.tags': 'elevated|vertical|vessel',                 multicomp: true},
+    {name: 'from',  role:'SOURCE',  vtags: 'water|waterSurface',    'lm.tags': 'bodyOfWater',                              multicomp: true},
+
+    {name: 'away from',  role:'SOURCE',  vtags: 'grounded|contact|waterSurface',    'lm.tags': 'PHYSICAL&!top&!bottom&!person',     multicomp: false},
+    {name: 'away from',  role:'SOURCE',  vtags: 'air|water',                        'lm.tags': 'PHYSICAL',                          multicomp: false},
+    {name: 'away from',  role:'SOURCE',  vtags: 'air',                              'lm.tags': 'PHYSICAL',                          multicomp: false},
+
+    {name: 'out of',     role:'SOURCE',  vtags: 'grounded',         'lm.tags': 'area|volume&!elevated',                                 'lm.size': '>trajector.size'},
+    {name: 'out of',     role:'SOURCE',  vtags: 'contact|air|jump', 'lm.tags': 'area|volume',                                           'lm.size': '>trajector.size'},
+    {name: 'out of',     role:'SOURCE',  vtags: 'water',            'lm.tags': 'openWater',                                             'lm.size': '>trajector.size'},
+    {name: 'out of',     role:'SOURCE',  vtags: 'up',               'lm.tags': 'volume',                                                'lm.size': '>trajector.size'},
+    {name: 'out of',     role:'SOURCE',  vtags: 'down',             'lm.tags': 'volume&elevated|vessel',                                'lm.size': '>trajector.size'},
+
+    {name: 'off of',     role:'SOURCE',  vtags: 'grounded',         'lm.tags': 'substance&!fluid|surface&!vertical&!bodyOfWater|object', 'lm.size': '>trajector.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'contact',          'lm.tags': 'substance&!fluid|surface&!bodyOfWater|object',           'lm.size': '>trajector.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'up',               'lm.tags': 'surface&!vertical',                                      'lm.size': '>trajector.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'down',             'lm.tags': 'surface & elevated|vertical',                            'lm.size': '>trajector.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'down',             'lm.tags': 'object&!grounded',                                       'lm.size': '>trajector.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'jump',             'lm.tags': 'surface&!bodyOfWater|object|substance&!fluid',           'lm.size': '>trajector.size'},
     
 ]
 
 var paradigms = {
-	verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog'], mood: ['ind','deo','pot']},
+    verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog'], mood: ['ind','deo','pot']}, //trans: [0,0.5,1,1.5] //why did I have this?
 	aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
     noun: {number: ['pl', 'sg'], def: ['def','indef'], quantified: [true,false], person: [1,2,3]},
 	pronoun: {case: ['nom', 'acc','gen','reflex'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
