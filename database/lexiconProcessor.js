@@ -216,7 +216,7 @@ function addImpliedTags(tags){
 
 //rule-based assignment of word properties
 function autoAttributes (lex, type) {
-  lex.forEach(function (w) {
+    lex.forEach(function (w) {
     
     //label verb transitivity; 1 = core transitivity, 0.5 = noncore, 1.5 = both
     if (type=='verb') {

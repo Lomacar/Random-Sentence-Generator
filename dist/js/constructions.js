@@ -85,7 +85,8 @@ function DET(r) {
                 if (!r.pronominal & toss()) {
                     return GENITIVE(r)
                 } else {
-                    out.text = choose(1,'my', 1,'your', 1,'his', 1,'her', 1,'its', 1,'our', 1,'their')
+                    var it = r.anim == 3 ? 0 : 0.5
+                    out.text = choose(1,'my', 1,'your', 1,'his', 1,'her', it,'its', 1,'our', 1,'their')
                     //                    decide(r, 'number')
                     //                    r.case = 'gen'
                     //                    r.person = r.person || choose(2,1, 2,2, 3,3)
@@ -235,17 +236,17 @@ function PRONOUN(r) {
         r.gender = r.gender || (magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n')
     }
 
+    if (r.case=='dat') r.case='acc'
 
     //reflexive logic
     if (r.case=='acc' && r.person===r.subj_person) {
         if (r.number===r.subj_number || r.person==2){ // you(sg) verb you(pl) just sounds wrong
             if (r.person < 3 || r.person==3 && r.gender===r.subj_gender){ //gender only needs to match in third person
                 if(r.person < 3 || toss()) r.case = 'reflex'
-                    }
+            }
         }
     }
 
-    if (r.case=='dat') r.case='acc'
 
     var word = $.extend(r,
                         {type:'pronoun',
@@ -346,8 +347,9 @@ function VP(r){
         children: {
             vword: [V],
             compcore: [complement, {'case':'acc','complements': 'vword.compcore',neg: r.neg}],
-            compext: [complement, {'case':'dat','complements': 'vword.compext',neg: r.neg, vtags: 'vword.vtags'}]
-        }
+            compext: [complement, {'case':'dat','complements': 'vword.compext',neg: r.neg, vtags: 'vword.vtags', trans: 'vword.trans'}]
+        },
+        restrictions: {subj_person:'subject.person',subj_number:'subject.number',subj_gender:'subject.gender'}
     }
 }
 
@@ -764,6 +766,10 @@ function ACTION_PT2 (r) {
     }
 }
 
+function LOCATION(r){
+
+}
+
 function SOURCE(r){
     r.role='SOURCE'
     return MOTION(r)
@@ -783,10 +789,11 @@ function MOTION(r) {
         delete r.vtags
     }
     if (!r.role) {
-        if(toss(1)) {
+        if(toss(0.5)) {
+            r.multicomp = true;
             return choose(
                     1, [complement, _.extend(r,{complements: 'SOURCE GOAL'})],
-                    1, [complement, _.extend(r,{complements: 'SOURCE PATH'})],
+                    //1, [complement, _.extend(r,{complements: 'SOURCE PATH'})], //this one doesn't work so good
                     1, [complement, _.extend(r,{complements: 'PATH GOAL'})]
             )
         } else {
@@ -794,21 +801,30 @@ function MOTION(r) {
         }
     }
 
+    // trajector is subject of "intransitive" verb and direct object of "transitive" verb
+    // TODO: for some reason compcore end up being empty when searching for compcore.size
+    var trajector = r.trans < 1 ? {unpack: 'subject', type:'noun'} : {unpack: 'compcore', type:'noun'}
+
     return {
         order: "prep lm",
-        head: "prep",
+        head: "trajector",
         children: {
-            prep: [get, {type: 'preposition', role: r.role}], //, pasv: 'predicate.pasv'
+            trajector: [blank, trajector],
+            prep: [get, _.extend(r,{type: 'preposition', role: r.role})], //, pasv: 'predicate.pasv'
             lm: [DP, {case: 'dat', unpack: 'prep.tags', number:'sg'}]
         }
     }
 }
 
+
+/////////////////////////////////////////////////////////////////////
+
+
 function filler(r){
     return {text: r.filler}
 }
 
-function blank(){
+function blank(r){
     return {text: ""}
 }
 

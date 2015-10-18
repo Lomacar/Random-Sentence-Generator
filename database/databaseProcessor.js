@@ -9,16 +9,18 @@ var lexiconDir = 'csv'
 var watcher = chokidar.watch([lexiconDir, ontologyFile, ontologyOutFile], {ignored: /#$/, persistent: true})
 
 watcher.on('change', function(path){
-    console.log(path)
+    console.log(path.bgBlue)
 
     if(path==ontologyFile){
-        console.log("Processing ontology...".green.bgBlue)
+        console.log("Processing ontology...".green)
         processOntology()
     } else {
-        console.log("Processing lexicon...".yellow.bgBlue)
+        console.log("Processing lexicon...".yellow)
         eval(fs.readFileSync("lexiconProcessor.js")+'');
         loadLexicon()
     }
+    var d = new Date()
+    console.log(d.toLocaleTimeString())
 })
 
 //convert relevant graphml elements to JSON and save as ontology.js

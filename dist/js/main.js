@@ -226,6 +226,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
         }
         
         //temporarily detach special chars like !<>
+        // /[A-Za-zÀ-ÖØ-öø-ÿ\-_]+\d*(\.\d+)?(\.\w)?/g //regex for what a complete word.prop can look like
         var split = s.match(/^(\W+)(.+)$/)
         var specialChars = ""
         if (split) {
@@ -256,11 +257,23 @@ function parseSingleRestriction(s, context, expandPlainStrings){
             var found = propertySearch2(obj,prop)
             if (typeOf(found) == 'object') return found
             var out = {}
+
             if (found && specialChars) {
                 found += ''
-                found = found.replace(/(^|, ?)/g,'$1'+specialChars) //reattach specialChars to return string, add them to each comma separated item, if applicable
-                             .replace(',','|')
+
+                if (/\d *(, *\d *)+/.test(found)) { //if found property is like '4,5,6'
+                    if (specialChars.findChar('<')) {
+                        found = found.substr(-1) //this assumes all comma-separated numbers are arranged from least to greatest
+                    } else if (specialChars.findChar('>')) {
+                        found = found.substr(0, 1)
+                    }
+
+                } else { //any other situation with special characters (probably like '!solid')
+                    found = found.replace(/(^|, ?)/g,'$1'+specialChars) //reattach specialChars to return string, add them to each comma separated item, if applicable
+                                 .replace(/,/g,'|')
+                }
             }
+
             out[prop] = found
             return out
         }
@@ -592,7 +605,7 @@ function r_match(restrictions, test_object){
     //if (restrictions.type=='noun' || restrictions.type=='verb') restrictions = safe(restrictions, restrictions.type)
 
     //prevent the repetitive use of words
-    //if (recentlyUsed.indexOf(test_object.name.replace(/\d+/g,'')) > -1) return false
+    if (recentlyUsed.indexOf(test_object.name.replace(/\d+/g,'')) > -1) return false
 
     var prohib = test_object.prohibitions
     if(goodVal(prohib)) {//prohib = prohib.replace(/ /g, '')
@@ -697,7 +710,7 @@ function objectSearchCrazy(what, context){
 
 function propertySearch2(object, property) {
     if (typeOf(object)!=='object') {
-        //console.warn("Invalid object passed to propertySearch.")
+        console.warn("Invalid object passed to propertySearch.")
         return null
     }
 
@@ -706,7 +719,7 @@ function propertySearch2(object, property) {
     if ('head' in object) {
         return propertySearch2(object.head, property)
     } else {
-        //console.warn("Property search failed for " + property)
+        console.warn("Property search failed for " + object.label + "." + property)
         return null
     }
 }
