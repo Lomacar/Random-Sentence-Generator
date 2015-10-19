@@ -719,7 +719,7 @@ function propertySearch2(object, property) {
     if ('head' in object) {
         return propertySearch2(object.head, property)
     } else {
-        console.warn("Property search failed for " + object.label + "." + property)
+        //console.warn("Property search failed for " + object.label + "." + property)
         return null
     }
 }
