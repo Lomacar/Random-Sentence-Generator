@@ -346,8 +346,8 @@ function VP(r){
         gap: [get, _.extend({type: 'aux_verb', name: 'do'},r)],
         children: {
             vword: [V],
-            compcore: [complement, {'case':'acc','complements': 'vword.compcore',neg: r.neg}],
-            compext: [complement, {'case':'dat','complements': 'vword.compext',neg: r.neg, vtags: 'vword.vtags', trans: 'vword.trans'}]
+            compcore: [complement, {'case':'acc','complements': 'vword.compcore', neg:r.neg}],
+            compext: [complement, {'case':'dat','complements': 'vword.compext', neg:r.neg, vtags: 'vword.vtags', pasv:false, trans: 'vword.trans'}]
         },
         restrictions: {subj_person:'subject.person',subj_number:'subject.number',subj_gender:'subject.gender'}
     }
@@ -388,7 +388,7 @@ function VP_PASV_PT2 (r){
         head: 'dummy',
         children: {
             dummy: [blank],
-            compext: [complement, {'case':'dat', unpack: 'vrb.compext-number-person', vtags: 'vrb.vtags'}],
+            compext: [complement, {'case':'dat', unpack: 'vrb.compext-number-person', vtags: 'vrb.vtags', pasv:true}],
             agent: hasAgent ? [PASV_AGENT, {case: 'acc', unpack: "vrb.R", neg: 'vrb.neg', pasv: false}] : null
         }
     }
@@ -767,7 +767,16 @@ function ACTION_PT2 (r) {
 }
 
 function LOCATION(r){
+    r.role='LOC'
 
+    return {
+        order: "prep lm",
+        head: "prep",
+        children: {
+            prep: [get, _.extend(r,{type: 'preposition', role: r.role})],
+            lm: [DP, {case: 'dat', number:'sg'}]
+        }
+    }
 }
 
 function SOURCE(r){
@@ -789,7 +798,7 @@ function MOTION(r) {
         delete r.vtags
     }
     if (!r.role) {
-        if(toss(0.5)) {
+        if(toss(0.2)) { //chance for multiple motion PPs
             r.multicomp = true;
             return choose(
                     1, [complement, _.extend(r,{complements: 'SOURCE GOAL'})],
@@ -803,15 +812,15 @@ function MOTION(r) {
 
     // trajector is subject of "intransitive" verb and direct object of "transitive" verb
     // TODO: for some reason compcore end up being empty when searching for compcore.size
-    var trajector = r.trans < 1 ? {unpack: 'subject', type:'noun'} : {unpack: 'compcore', type:'noun'}
+    var trajector = r.trans < 1 || r.pasv ? {unpack: 'subject.R', type:'noun', name:'subject'} : {unpack: 'compcore.R', type:'noun', name:'compcore'}
 
     return {
         order: "prep lm",
         head: "trajector",
         children: {
-            trajector: [blank, trajector],
+            trajector: [pass_through, trajector],
             prep: [get, _.extend(r,{type: 'preposition', role: r.role})], //, pasv: 'predicate.pasv'
-            lm: [DP, {case: 'dat', unpack: 'prep.tags', number:'sg'}]
+            lm: [DP, {case: 'dat', number:'sg'}]
         }
     }
 }
@@ -826,6 +835,10 @@ function filler(r){
 
 function blank(r){
     return {text: ""}
+}
+
+function pass_through(r){
+    return r
 }
 
 function ALLYOURBASE(){
