@@ -24,7 +24,7 @@ database.quantifier = [
     {name: 'most', prequant: true, def:'def'},
     {name: 'some', prequant: false},
     {name: 'some', prequant: true, def:'def'},
-    {name: 'all', prequant: false},
+    //{name: 'all', prequant: false},
     {name: 'all', prequant: true, def:'def'},
 
     {name: 'numerous', prequant: false, count: 1},
@@ -86,9 +86,9 @@ database.preposition = [
     {name: 'over',      role: 'PATH',   vtags: 'down',         'lm.tags': 'edge'},
     {name: 'over',      role: 'PATH',   vtags: 'waterSurface', 'lm.tags': 'openWater'},
     
-    {name: 'around',    role: 'PATH',   vtags: 'grounded',     'lm.tags': 'PHYSICAL&!elevated'},
-    {name: 'around',    role: 'PATH',   vtags: 'contact|air',      'lm.tags': 'PHYSICAL'},
-    {name: 'around',    role: 'PATH',   vtags: 'water|waterSurface',   'lm.tags': 'PHYSICAL'},
+    {name: 'around',    role: 'PATH',   vtags: 'grounded',     'lm.tags': 'PHYSICAL&!elevated&!line'},
+    {name: 'around',    role: 'PATH',   vtags: 'contact|air',      'lm.tags': 'PHYSICAL&!line'},
+    {name: 'around',    role: 'PATH',   vtags: 'water|waterSurface',   'lm.tags': 'PHYSICAL&!line'},
 
     {name: 'up',        role: 'PATH',   vtags: 'grounded',     'lm.tags': 'path&!vertical&!bodyOfWater|incline', volition: 1},
     {name: 'up',        role: 'PATH',   vtags: 'contact',      'lm.tags': 'path&!bodyOfWater|incline|passage&vertical', volition: 1},
@@ -242,7 +242,7 @@ var probabilities = {
 
     //verby
     tense:      [5,     'pres',    12,  'past', 1,  'fut'],
-    aspect:     [15,    'simp',    5,   'prog', 2,  'retro', 1, 'retroprog', 2, 'prosp'],
-    neg:        [10,    false,     1,   true],
-    mood:       [1,     'deo',     1,   'pot',  8,  'ind']
+    aspect:     [20,    'simp',    5,   'prog', 2,  'retro', 1, 'retroprog', 2, 'prosp'],
+    neg:        [15,    false,     1,   true],
+    mood:       [1,     'deo',     1,   'pot',  12,  'ind']
 }
