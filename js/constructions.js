@@ -1,5 +1,5 @@
 function SENTENCE(r){
-    return choose(5, [CLAUSE], 1, [PASSIVE], 1, [COPULA], 0.0008, [ALLYOURBASE])
+    return choose(12, [CLAUSE], 1, [PASSIVE], 2.4, [COPULA], 0.001, [ALLYOURBASE])
 }
 
 function CLAUSE(r){
@@ -545,7 +545,8 @@ function vNum(r){
 function verb_cleanup(text){
     text = text.replace(/([^aeou])y_+s/, "$1ies") //change -ys to -ies
                .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
-               .replace(/([^e])e_+(ing|ed)/, "$1$2") // -eing to -ing,  -eed to -ed
+               .replace(/([^e])e_+ing/, "$1ing") // -eing to -ing
+               .replace(/e_+ed/, "ed") // -eed to -ed
                .replace(/([^aeiou])([aeiou])([^aeiouywrx])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
                .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
     return text
@@ -626,7 +627,7 @@ function WH_INF_CLAUSE(r){
     return WH_CLAUSE(r,INF_CLAUSE)
 }
 
-function THAT_CLAUSE(){
+function THAT_CLAUSE(r){
     return {
         order: 'that clause',
         head: 'clause',
@@ -716,14 +717,19 @@ function PRES_PARTICIPLE(r){
     }
 }
 
+function ACTIVE_STUFF(r){
+    r.volition = true
+    return choose(30, [GP], 15, [NOUN_INC])
+}
+
 function NOUN_INC(r) {
     return {
         order: 'incnoun - ving !!!',
         head: 'ving',
         children: {
-            ving: [V, {aspect: 'prog', tense:'pres', ptpl:'past'}],
-            inccomp: [complement, {complements:'ving.compcore', unpack: 'ving.R'}],
-            incnoun: [get, {type:'noun', name:'inccomp.name'}]
+            ving: [V, {aspect: 'prog', tense:'pres', trans:1, class:'activity,process'}],
+            inccomp: [complement, {complements:'ving.compcore', unpack: 'ving.R', unique: 0}],
+            incnoun: [get, {type:'noun', name:'inccomp.name', number:'sg'}]
         },
         postlogic: function (text) {
             return text.replace(' - ', '-')
@@ -794,6 +800,8 @@ function GOAL(r){
 }
 
 function MOTION(r) {
+    var lmr = {}
+
     if(magicCompare(r.vtags, 'generalMotion')){
         delete r.vtags
     }
@@ -808,6 +816,9 @@ function MOTION(r) {
         } else {
             r.role = options('(GOAL|PATH|SOURCE)')
         }
+    } else if (r.role != 'PATH') {
+        //GOALs and SOURCEs should not have quantified landmarks
+        lmr = {quantified: false, partial: false}
     }
 
     // trajector is subject of "intransitive" verb and direct object of "transitive" verb
@@ -820,7 +831,7 @@ function MOTION(r) {
         children: {
             trajector: [pass_through, trajector],
             prep: [get, _.extend(r,{type: 'preposition', role: r.role})], //, pasv: 'predicate.pasv'
-            lm: [DP, {case: 'dat', number:'sg'}]
+            lm: [DP, _.extend(lmr, {case: 'dat', number:'sg'})]
         }
     }
 }

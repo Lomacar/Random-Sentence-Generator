@@ -8,6 +8,7 @@ function branch(c, r, p, l) {
     this.label = l || null
     
     //deal with so-called global restrictions
+    //TODO: this increases errors with bag/box/pile of NP
     r = globalRestrictions.apply(this,[r])
 
     //parse and filter restrictions
