@@ -6,7 +6,7 @@ database.aux_verb = [
 
 database.quantifier = [
     {name: 'a lot', prequant: true},
-    {name: 'heaps', prequant: true},
+    //{name: 'heaps', prequant: true},
     {name: 'tons', prequant: true},
     //{name: 'plenty', prequant: true},
     {name: 'a bunch', prequant: true},
