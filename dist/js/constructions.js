@@ -727,8 +727,8 @@ function NOUN_INC(r) {
         order: 'incnoun - ving !!!',
         head: 'ving',
         children: {
-            ving: [V, {aspect: 'prog', tense:'pres', trans:1, class:'activity,process'}],
-            inccomp: [complement, {complements:'ving.compcore', unpack: 'ving.R', unique: 0}],
+            ving: [V, {aspect: 'prog', tense:'pres', trans:1, pasv:false, class:'activity,process'}],
+            inccomp: [complement, {complements:'ving.compcore', unique: 0}],
             incnoun: [get, {type:'noun', name:'inccomp.name', number:'sg'}]
         },
         postlogic: function (text) {
@@ -828,6 +828,8 @@ function MOTION(r) {
     return {
         order: "prep lm",
         head: "trajector",
+        gap: [blank],
+        wh: "where",
         children: {
             trajector: [pass_through, trajector],
             prep: [get, _.extend(r,{type: 'preposition', role: r.role})], //, pasv: 'predicate.pasv'

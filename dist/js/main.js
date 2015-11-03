@@ -344,7 +344,7 @@ function inflect(word, r){
 
             if (pdigms[para].indexOf(r[para].toString())>-1 || pdigms[para].indexOf(r[para])>-1)
             //if (magicCompare(r[para], pdigms[para].toString())) 
-            {word[para] = r[para]}
+                {word[para] = r[para]}
             else {
                 console.warn(
                     "Category '"+para+':'+r[para]+"' not found for "+word.type+" '"+word.name+"'. " +
