@@ -267,7 +267,7 @@ function PRONOUN(r) {
 }
 
 function AP(r) {
-    if (r.no_adj>1) return {text:''}
+    if (r.no_adj>0) return {text:''}
 
     return {
         order: "adv a acomp*",
@@ -547,7 +547,7 @@ function verb_cleanup(text){
                .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
                .replace(/([^e])e_+ing/, "$1ing") // -eing to -ing
                .replace(/e_+ed/, "ed") // -eed to -ed
-               .replace(/([^aeiou])([aeiou])([^aeiouywrx])_+(ed|ing)/, '$1$2$3$3$4') // -VCed or -VCing to -VCCxxx
+               .replace(/\b([^aeiou]*[aeiou])([^aeiouywx])_+(ed|ing)/, '$1$2$2$3') // -VCed or -VCing to -VCCxxx
                .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
     return text
 }
@@ -689,6 +689,8 @@ function GP(r){
     r.tense = 'pres'
     r.aspect = 'prog'
 
+    //TODO: make this count as a singular NP, so sentences like "fighting was considered" can happen
+
     return {
         order: "v_asp compcore* compext*",
         head: "v",
@@ -724,7 +726,7 @@ function ACTIVE_STUFF(r){
 
 function NOUN_INC(r) {
     return {
-        order: 'incnoun - ving !!!',
+        order: 'incnoun - ving',
         head: 'ving',
         children: {
             ving: [V, {aspect: 'prog', tense:'pres', trans:1, pasv:false, class:'activity,process'}],
@@ -806,7 +808,7 @@ function MOTION(r) {
         delete r.vtags
     }
     if (!r.role) {
-        if(toss(0.2)) { //chance for multiple motion PPs
+        if(toss(0.1)) { //chance for multiple motion PPs
             r.multicomp = true;
             return choose(
                     1, [complement, _.extend(r,{complements: 'SOURCE GOAL'})],
@@ -816,7 +818,8 @@ function MOTION(r) {
         } else {
             r.role = options('(GOAL|PATH|SOURCE)')
         }
-    } else if (r.role != 'PATH') {
+    }
+    if (r.role != 'PATH') {
         //GOALs and SOURCEs should not have quantified landmarks
         lmr = {quantified: false, partial: false}
     }
