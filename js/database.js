@@ -60,8 +60,10 @@ database.quantifier = [
 
 database.preposition = [
     //at,in,on,under,underneath,below,beneath,between,near,next to,far from,away from,in front of, beside,by, behind, inside, among, amid
-    {name: 'at',    role: 'LOC', 'lm.tags': 'point|line|site'},
-    //{name: 'in',    role: 'LOC', 'lm.tags': 'bodyOfWater'},
+    {name: 'atX',    role: 'LOC',    vtags: 'situated',  'lm.tags': 'point|position|boundary|site|table', 'lm.size': '<9'},
+    {name: 'atX',    role: 'LOC',    vtags: 'situated',  'lm.tags': 'vehicle', 'lm.size': '>6'},
+    //{name: 'at',    role: 'LOC',    vtags: 'habit',     'lm.tags': 'point|position|boundary|site|table|vehicle', 'lm.size': '<9'},
+    {name: 'in',    role: 'LOC', 'lm.tags': 'volume'},
     //{name: 'on',    role: 'LOC', 'lm.tags': 'bodyOfWater'},
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -107,11 +109,11 @@ database.preposition = [
     
     {name: 'around',    role: 'PATH',   vtags: 'grounded|contact|air',         'lm.tags': 'bounded'},
     
-    {name: 'past',      role: 'PATH',   vtags: 'grounded|contact|air|jump',    'lm.tags': 'PHYSICAL'},
-    {name: 'past',      role: 'PATH',   vtags: 'vertical',                     'lm.tags': 'elevated'},
+    {name: 'past',      role: 'PATH',   vtags: 'grounded|contact|air|jump',                         'lm.tags': 'PHYSICAL', 'lm.size': '>trajector.size'},
+    {name: 'past',      role: 'PATH',   vtags: 'vertical',                                          'lm.tags': 'elevated', 'lm.size': '>trajector.size'},
     
-    {name: 'beyond',    role: 'PATH',   vtags: 'grounded|contact|air|water|waterSurface|down',    'lm.tags': 'PHYSICAL|boundary|point'},
-    {name: 'beyond',    role: 'PATH',   vtags: 'up',                                              'lm.tags': 'PHYSICAL|boundary|point & elevated'},
+    {name: 'beyond',    role: 'PATH',   vtags: 'grounded|contact|air|water|waterSurface|down',      'lm.tags': 'PHYSICAL|boundary|point', 'lm.size': '>trajector.size'},
+    {name: 'beyond',    role: 'PATH',   vtags: 'up',                                                'lm.tags': 'PHYSICAL|boundary|point & elevated', 'lm.size': '>trajector.size'},
     
     //////////////////////////////////////////
     
@@ -152,7 +154,7 @@ database.preposition = [
     {name: 'from',  role:'SOURCE',  vtags: 'grounded|contact',      'lm.tags': 'area|thing',                               multicomp: true},
     {name: 'from',  role:'SOURCE',  vtags: 'air',                   'lm.tags': 'area|volume',                              multicomp: true},
     {name: 'from',  role:'SOURCE',  vtags: 'jump',                  'lm.tags': 'surface|site|vehicle|position',            multicomp: true},
-    {name: 'from',  role:'SOURCE',  vtags: 'jump',                  'lm.size': '>subject.size',                            multicomp: true},
+    //WHAT? {name: 'from',  role:'SOURCE',  vtags: 'jump',                  'lm.size': '>subject.size',                            multicomp: true},
     {name: 'from',  role:'SOURCE',  vtags: 'up',                    'lm.tags': 'surface|void|position|object&fixed',       multicomp: true},
     {name: 'from',  role:'SOURCE',  vtags: 'down',                  'lm.tags': 'elevated|vertical',                        multicomp: true},
     {name: 'from',  role:'SOURCE',  vtags: 'down', trans: '>0.5',   'lm.tags': 'elevated|vertical|vessel',                 multicomp: true},
