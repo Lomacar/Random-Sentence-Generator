@@ -1,3 +1,5 @@
+/* jshint curly: false, unused: false */ /* globals _, LAST_PARENT, RESTRICTIONS, typeOf, error, magicCompare, window, goodVal, toObject, paradigms, prohibitions, isEmpty, $, database, toArray, compactString */
+
 /*-------------------------------------   BRANCH -------------------------------------*/
 
 function branch(c, r, p, l) {   
@@ -107,7 +109,7 @@ function executeBranch(c, r, p){
                                 } else {
                                     //items being sorted do not have property, such as when sorting phrases
                                     //property must exist on the head or grandchildhead etc.
-                                    return propertySearch2(a,sortby) - propertySearch2(b,sortby)
+                                    return propertySearch(a,sortby) - propertySearch(b,sortby)
                                 }
                             })
                         }
@@ -237,7 +239,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
 
         //split 'object.property'
         var obj_prop = s.split('.')
-        var obj = objectSearch2(obj_prop[0],context)
+        var obj = objectSearch(obj_prop[0],context)
         var prop = obj_prop[1]
 
         if (prop.findChar('-')){
@@ -246,7 +248,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
             var props = prop.split('-')
             props = props.map(function(x){
                 //get the {property:value} for each x under obj
-                var p = propertySearch2(obj,x)
+                var p = propertySearch(obj,x)
                 var out = {}
                 out[x] = p
                 return out
@@ -255,7 +257,8 @@ function parseSingleRestriction(s, context, expandPlainStrings){
 
         } else {
             //parse simple properties
-            var found = propertySearch2(obj,prop)
+            prop = _.rest(obj_prop).join('.') //in case restriction is like 'obj.child...prop'
+            var found = superSearch(prop,obj)
             if (typeOf(found) == 'object') return found
             var out = {}
 
@@ -275,13 +278,13 @@ function parseSingleRestriction(s, context, expandPlainStrings){
                 }
             }
 
-            out[prop] = found
+            out[prop.match(/[^.]+$/)] = found //regex makes sure that things like vp.verb.vtags are output as just vtags
             return out
         }
     }
 
     //restriction has no dots or dashes
-    if (expandPlainStrings) return objectSearch2(s, context) // it is either asking for an object
+    if (expandPlainStrings) return objectSearch(s, context) // it is either asking for an object
     else return true
 }
 
@@ -385,11 +388,8 @@ function resolve(query,inf) {
 
     //find all rules that possibly apply to the given restrictions
     query = query.join("|")
-startTime = window.performance.now()
     var regex = "(^|,) *("+query+"|\\.)*("+query+ ")+ *:[^,]*"
-    hjg = /(^|,) *(nom|pl|3|n|\.)*(nom|pl|3|n)+ *:[^,]*/
     var outcome = inf.match( new RegExp(regex, "gi"))
-timer += window.performance.now() - startTime        
 
     if(outcome!==null){
 
@@ -470,7 +470,7 @@ function options(str, forced){
     if(typeOf(str)!='string') return error("Non-string passed to options function.")
 
     //options are always wrapped in parentheses. deal with the inner ones first and recursively work outward
-    out = str.replace(/\([^()]*\)/g, function(match){
+    var out = str.replace(/\([^()]*\)/g, function(match){
         //prevent splitting on pipes inside {rest:rict|ions}, except for pipes inside parentheses inside restriction
         match = match.replace(/{[^()]+?}/g, function(m){return m.replace(/\|/g,'###')})
 
@@ -574,6 +574,7 @@ function pickOne(arr, r){
 //            }
 //
 //        }
+        var randex
 
         while (arr.length) {
             randex=Math.floor(Math.random()*arr.length)
@@ -675,7 +676,7 @@ function prohibited(testee,prohibs){
 
 /*-------------------------------------   BRANCH NAVIGATION   -------------------------------------*/
 
-function objectSearch2(what, context, graceful){
+function objectSearch(what, context, graceful){
     if (!context) {
         if (!graceful) console.warn("Object search failed for "+what)
         return null
@@ -689,10 +690,10 @@ function objectSearch2(what, context, graceful){
             return null
         }
         else {
-            return objectSearch2(what, context.parent, graceful) || (graceful?context:null)
+            return objectSearch(what, context.parent, graceful) || (graceful?context:null)
         }
     }
-    return (what in context.children) ? context.children[what] : (objectSearch2(what, context.parent, graceful) || (graceful?context:null))
+    return (what in context.children) ? context.children[what] : (objectSearch(what, context.parent, graceful) || (graceful?context:null))
 }
 
 //searches up the parent nodes for the first object that isn't labeled as what
@@ -709,7 +710,7 @@ function objectSearchCrazy(what, context){
     else return context
 }
 
-function propertySearch2(object, property) {
+function propertySearch(object, property, searchChildren) {
     if (typeOf(object)!=='object') {
         console.warn("Invalid object passed to propertySearch.")
         return null
@@ -717,11 +718,32 @@ function propertySearch2(object, property) {
 
     if (property in object) return object[property]
 
+    if (searchChildren && 'children' in object && property in object.children) return object.children[property]
+
     if ('head' in object) {
-        return propertySearch2(object.head, property)
+        return propertySearch(object.head, property)
     } else {
         //console.warn("Property search failed for " + object.label + "." + property)
         return null
+    }
+}
+
+//give it a path like 'path.to.some.thing' or ['path','to','some','thing'] and a starting object for context
+//will recursively search down path and return final object if found
+//will skip children and search (great)grandchildren of head if necessary
+function superSearch(path,context) {
+    if (typeof path == 'string') path = path.split('.')
+    else if (typeOf(path)!='array') error('Invalid path in superSearch.')
+
+    var found = propertySearch(context,path[0],true)
+
+    if (typeof found === 'null') {
+        error('superSearch failed at '+context.label+'.'+path[0])
+        return null
+    } else if (path.length>1){
+        return superSearch(_.rest(path),found)
+    } else {
+        return found
     }
 }
 
@@ -815,8 +837,8 @@ function choose(){
         //even numbers need to be the weights (0,2,4,6)
         var a = +(argz[arg])
 
-        if(arg%2==0) {
-            if(a==0) continue
+        if(arg%2===0) {
+            if(a===0) continue
             total += a
             weights.push(total)
             values.push(argz[parseInt(arg)+1])

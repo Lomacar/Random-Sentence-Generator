@@ -4,11 +4,12 @@ function SENTENCE(r){
 
 function CLAUSE(r){
     return {
-        order: "subject predicate",
+        order: "subject predicate adjunct*",
         head: "subject",
         children: {
             subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 4,2, 6,3), def: choose(9, 'def', 1, 'indef')}],
-            predicate: [AUXP, {copulant: false, unpack: "subject.R"}]
+            predicate: [AUXP, {copulant: false, unpack: "subject.R"}],
+            adjunct: [ADJUNCT_PP, 'predicate.vp.vword.verb.R']
         }
     }
 }
@@ -574,7 +575,7 @@ function WH_CLAUSE(r,c) {
             $.each(branch, function (k, v) {
                 if (k == 'parent' || k == 'head') return true
                 if (k == 'gap' && v) {
-                    if (propertySearch2(branch, 'nogap')) return true //prevent noun complements and other things from partaking
+                    if (propertySearch(branch, 'nogap')) return true //prevent noun complements and other things from partaking
                     if (branch.forceGap) {
                         gaps = [branch] //prevent gapping inside nested WHs
                         return false
@@ -587,7 +588,7 @@ function WH_CLAUSE(r,c) {
 
         findGaps(B)
         var g = _.sample(gaps)
-        var gapr = propertySearch2(g,'R')
+        var gapr = propertySearch(g,'R')
 
         if(g.parent.children) g.parent.children[g.label] = new branch( g.gap[0], _.extend(g.gap[1], gapr) )
 
@@ -692,11 +693,12 @@ function GP(r){
     //TODO: make this count as a singular NP, so sentences like "fighting was considered" can happen
 
     return {
-        order: "v_asp compcore* compext*",
-        head: "v",
+        order: "v_ing compcore* compext*",
+        head: "dummynoun",
         children: {
+            dummynoun: [pass_through, {type:'noun',number:'sg'}],
             v: [get, {type: "verb", unpack: 'subject.R', pasv: false}],
-            asp:  [aspect, 'v.inflected-noinflection-aspect'],
+            //asp:  [aspect, 'v.inflected-noinflection-aspect'],
             compcore: [complement, {'case': 'acc','complements': 'v.compcore','reset':true}],
             compext: [complement, {'case': 'acc','complements': 'v.compext','reset':true}]
         },
@@ -774,6 +776,13 @@ function ACTION_PT2 (r) {
     }
 }
 
+function ADJUNCT_PP (r) {
+
+    if (magicCompare(r.vtags,'activity&!motion',{every:true}) && toss(0.3)) return [LOCATION]
+    else return [blank]
+}
+
+
 function LOCATION(r){
     r.role='LOC'
 
@@ -782,7 +791,7 @@ function LOCATION(r){
         head: "prep",
         children: {
             prep: [get, _.extend(r,{type: 'preposition', role: r.role})],
-            lm: [DP, {case: 'dat', number:'sg'}]
+            lm: [DP, {case: 'dat', number:'sg', quantified: false, partial: false}]
         }
     }
 }
