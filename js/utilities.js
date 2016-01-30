@@ -455,6 +455,31 @@ function getQueryVariable(variable)
 }
 
 
+function listProto (type, name){
+
+  var word = get({'type':type, 'name':name})
+
+  if (!word) return
+
+  if(word.proto) return listProto(type, word.proto) + " > " + word.name
+  else return word.name
+
+}
+
+function listOffspring (type, name) {
+  var word = get({'type':type, 'name':name})
+
+  if (!word) return
+
+  var offspring = database[type].filter(function (a) {
+    return a.proto == word.name
+  })
+
+  return _.map(offspring, 'name')
+}
+
+
+
 function unitTest(func, expect){
     return func.apply(this, toArray(arguments).slice(2)) //=== expect
 }
@@ -469,37 +494,3 @@ function unitTester(arrayOfTests){
                      "font-weight: bold; color:" + color)
     })
 }
-
-units = [
-    [magicCompare, true, "1", "1"],
-    [magicCompare, true, "1", "1,2"],
-    [magicCompare, true, true, true],
-    [magicCompare, false, true, 0],
-    [magicCompare, true, false, 0],
-    [magicCompare, true, 0, 0],
-    [magicCompare, true, -23, -23],
-    [magicCompare, false, -23, 23],
-    [magicCompare, true, ">1", "2"],
-    [magicCompare, true, ">1", "0,2"],
-    [magicCompare, false, ">1", "0,1"],
-    [magicCompare, false, "<1", "23"],
-    [magicCompare, false, "<1", "hi!"],
-    [magicCompare, true, "<1|>5", "7"],
-    [magicCompare, true, "<1|>5", "3,4,7"],
-    [magicCompare, false, "<1|>5", "3,4"],
-    [magicCompare, false, "!7 & >5", "3,7"],
-    [magicCompare, true, "!7&>5", "6,7"],
-    [magicCompare, true, "!7 & >5", "234"],
-    [magicCompare, false, "location|person", "thing,edible"],
-    [magicCompare, true, "location|person", "thing,location"],
-    [magicCompare, false, 'tall|fat&!blonde & !albino & french','blonde,brunette,french'],
-    [magicCompare, false, 'tall|fat&!blonde & !albino & french','blonde,brunette,french,tall,albino'],
-    [magicCompare, true, "<9&>3 | 3 & !2", "1,2,3"],
-    [magicCompare, true, "<9&>3 | 1 & !2", "1,2,3"],
-    [magicCompare, true, ">1 | 1 & !1", "1,2,3"],
-    [magicCompare, true, ">1 | 1 & !2", "1,2,3"],
-]
-
-
-
-//unitTester(units2)
