@@ -758,8 +758,8 @@ function stringOut(c){
         var string = c.order.replace(/([^_ ])+/g, replacer)
 
         //basic string cleaning
-        string = string.replace(/\./g,'')                     // remove dots
-                       .replace(/\d+([^\]\d]|$)/g,"$1")       // remove numbers, except for [e123] errors
+        string = string.replace(/\.?\d+([^\]\d]|$)/g,"$1")    // remove numbers, except for [e123] errors
+                       .replace(/\.([^ \b])/g,"$1")           // remove dots that aren't at the end of words
                        .replace(/  +/g,' ')                   // remove extra spaces
         
         //construction specific cleaning
