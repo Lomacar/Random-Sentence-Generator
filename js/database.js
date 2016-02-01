@@ -58,6 +58,21 @@ database.quantifier = [
     {name: 'a bit', prequant: true, count: 0}
 ]
 
+database.title = [
+    {name: 'Dr.'},
+    {name: 'President'},
+    {name: 'Captain'},
+    {name: 'Professor'},
+    {name: 'Admiral'},
+    {name: 'Lieutenant'},
+    {name: 'Mr.'/*, gender: 'm'*/},
+    {name: 'Sir'/*, gender: 'm'*/},
+    {name: 'Pastor'/*, gender: 'm'*/},
+    {name: 'Mrs.'/*, gender: 'f'*/},
+    {name: 'Miss'/*, gender: 'f'*/},
+    {name: 'Madame'/*, gender: 'f'*/},
+]
+
 database.preposition = [
     //at,in,on,under,underneath,below,beneath,between,near,next to,far from,away from,in front of, beside,by, behind, inside, among, amid
     {name: 'atX',    role: 'LOC',    vtags: 'situated',           'lm.tags': 'point|position|boundary|site|table|motorVehicle', 'lm.size': '<9'},

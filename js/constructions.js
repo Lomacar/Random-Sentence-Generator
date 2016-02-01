@@ -54,11 +54,12 @@ function NP(r) {
 
 function DP(r){
     return {
-        order : "det adj* noun ncomp*",
+        order : "det adj* nprecomp* noun ncomp*",
         head : "noun",
         gap : [blank],
         children: {
             noun: [N],
+            nprecomp: [complement, {complements: 'noun.precomp', nogap: true}],
             adj: [AP, {unpack:'noun.R', nocomplement: true, no_adj: 'noun.unique'}, 0.25, 'rank'],
             det: r.nodeterminer ? [blank] : [DET, 'noun.R'],
             ncomp: [complement, {case: 'acc', complements: 'noun.complements', nogap: true}]
@@ -850,7 +851,9 @@ function MOTION(r) {
     }
 }
 
-
+function TITLE(r){
+    return [get, {type: 'title', gender: r.gender }]
+}
 /////////////////////////////////////////////////////////////////////
 
 
