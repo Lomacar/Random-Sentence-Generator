@@ -322,7 +322,10 @@ function PREDICATE(r){
         head: "aux",
         children: {
             aux:  [auxiliary],
-            word: [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg'})]
+            word: choose(
+                    2, [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg'})],
+                    1, [LOCATION, $.extend(r,{vtags:"copula"})]
+                  )
         }
     }
 }
@@ -787,10 +790,13 @@ function ADJUNCT_PP (r) {
 function LOCATION(r){
     r.role='LOC'
 
+    var trajector = {unpack: 'subject.R', type:'noun', name:'subject'}
+
     return {
         order: "prep lm",
-        head: "prep",
+        head: "trajector",
         children: {
+            trajector: [pass_through, trajector],
             prep: [get, _.extend(r,{type: 'preposition', role: r.role})],
             lm: [DP, {case: 'dat', number:'sg', quantified: false, partial: false}]
         }
