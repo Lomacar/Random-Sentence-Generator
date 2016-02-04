@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width" />
         <link href="http://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet" type="text/css">
         <link href="styles.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="js/vendor/seedrandom.js"></script>
 
         <title>Sentence Gen 2.3.8</title>
 
@@ -19,9 +20,8 @@
         </div>
 
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js" type="text/javascript"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" type="text/javascript"></script>
         <!--        <script type="text/javascript" src="js/vendor/tabletop.js"></script>-->
-        <script type="text/javascript" src="js/vendor/seedrandom.js"></script>
 
 
         <script type="text/javascript" src="js/utilities.js"></script>
@@ -53,11 +53,14 @@
             RESTRICTIONS_BACKUP = _.clone(RESTRICTIONS)
 
             /********************************/
+            var seed = getQueryVariable('seed')||Math.random().toString(32).slice(2);
 
 
             function oneRandom(seed){
                 //C = new branch(CLAUSE, {tense: "pres", aspect:"simp", number:'pl'})
-                //if(seed) Math.seedrandom(seed)
+                Math.seedrandom(window.seed)
+                console.log(window.seed)
+                window.seed = Math.random().toString(32).slice(2)
 
                 recentlyUsed = recentlyUsed.length > 10 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
 
@@ -74,11 +77,10 @@
             function loopy(iters){
                 var output = ""
                 var oneline
-                //Math.seedrandom(getQueryVariable('seed')||null);
                 var start = new Date().getTime();
 
                 for(i=0;i<iters;i++,fcounter++) {
-                    oneline = oneRandom()
+                    oneline = oneRandom(seed)
                     oneline = oneline.trim()
                     oneline = '<p class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + '.</p>'
                     oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length]})
