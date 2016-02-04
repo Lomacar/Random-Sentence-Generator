@@ -135,7 +135,8 @@ function globalRestrictions(r){
 
     //when a global restriction matches the current constructions label, pull it back in to the normal restrictions
     if (this.label) {
-        try {var parent = this.parent.label} catch(e){var parent=''}
+        var parent
+        try {parent = this.parent.label} catch(e){parent=''}
         parent = parent ? '('+parent+'\\.)?' : ''
         var labelFinder = new RegExp('^'+parent+this.label+'\\.[^.]+$')    //regex to find restriction keys like '(parent.)label.something'
         

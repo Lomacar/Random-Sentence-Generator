@@ -852,7 +852,8 @@ function MOTION(r) {
 }
 
 function TITLE(r){
-    return [get, {type: 'title', gender: r.gender }]
+    r.type = 'title'
+    return [get, r]
 }
 /////////////////////////////////////////////////////////////////////
 

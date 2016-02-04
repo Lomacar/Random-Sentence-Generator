@@ -35,15 +35,25 @@ participles from verbs
 
 'and'
 
-proper semantically aware genitive noun phrases
+#?proper semantically aware genitive noun phrases
 
 mutators - "DEAD man", "bottle OF RUM"
 
 #implications - for hierarchical tags, implemented within lexicon
 
-relative comparisons in restrictions, like {size: '<subject.size', thing: '!aux.case'}
+#relative comparisons in restrictions, like {size: '<subject.size', thing: '!aux.case'}
+    could be upgraded to handle math like {size: '<5+subject.size'}
 
+BUG: sometimes special characters disappear from restrictions like {lm.size: '>trajector.size'}
+    
 complex prepositions: over to, down to, up onto
+
+3-way distinction of volition for verbs?
+    "going to" keeps coming up with weird things
+
+doors and windows are passages, but they shouldn't be volumes...
+
+
 
 
 Other things I said before:
