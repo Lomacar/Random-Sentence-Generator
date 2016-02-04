@@ -5096,6 +5096,14 @@ container</y:NodeLabel>
           <y:Path sx="0.0" sy="14.3505859375" tx="0.0" ty="-13.12548828125"/>
           <y:LineStyle color="#DCFF73" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>
+          <y:EdgeLabel alignment="center" anchorX="0.49999622163315394" anchorY="78.52656249999973" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="10" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="16.2509765625" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#C0C0C0" upX="1.0" upY="1.8369701987210297E-16" visible="true" width="36.79296875" x="0.49999622163314716" y="78.52656249999973">surface<y:LabelModel>
+              <y:RotatedSliderEdgeLabelModel angle="0.0" autoRotationEnabled="true" distance="0.5" distanceRelativeToEdge="true" mode="side_slider"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:RotatedSliderEdgeLabelModelParameter invertingSign="true" ratio="0.7999999999999972" segment="1"/>
+            </y:ModelParameter>
+            <y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="relative_to_edge_flow" angleRotationOnRightSide="co" distance="-1.0" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
+          </y:EdgeLabel>
           <y:BendStyle smoothed="true"/>
         </y:PolyLineEdge>
       </data>

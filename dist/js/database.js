@@ -88,12 +88,17 @@ database.preposition = [
     {name: 'at',    role: 'LOC',     vtags: 'activity&!motion',   'lm.tags': 'building|point|table|border',   'lm.size': '>7'},
     {name: 'at',    role: 'LOC',     vtags: 'activity&!motion',   'lm.tags': 'point|table|border'},
     {name: 'at',    role: 'LOC',     vtags: 'posture',            'lm.tags': 'point|edge|table', 'ncomp.c0.size': '>trajector.size'},
+    {name: 'at',    role: 'LOC',     vtags: 'placement',          'lm.tags': 'point'},
+    {name: 'at',    role: 'LOC',     vtags: 'copula',            'lm.tags': 'point|line|table|site&!land|position'},
     //{name: 'in',    role: 'LOC',   vtags: '!habit',             'lm.tags': 'volume'},
     {name: 'in',    role: 'LOC',     vtags: 'activity|situated',  'lm.tags': 'volume|area', 'lm.size': '>trajector.size'},
-    {name: 'inX',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'building|area', 'lm.size': '>trajector.size'},
+    {name: 'in',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'building|area', 'lm.size': '>trajector.size'},
     {name: 'in',    role: 'LOC',     vtags: 'posture',            'lm.tags': 'volume|area & !bodyOfWater', 'lm.size': '>trajector.size'},
-    {name: 'on',    role: 'LOC',     vtags: 'activity|situated',  'lm.tags': 'surface'},
-    //{name: 'on',    role: 'LOC', 'lm.tags': 'bodyOfWater'},
+    {name: 'in',    role: 'LOC',     vtags: 'placement',          'lm.tags': 'volume', 'lm.size': '>trajector.size'},
+    {name: 'in',    role: 'LOC',     vtags: 'copula',              'lm.tags': 'volume|area', 'lm.size': '>trajector.size'},
+    {name: 'on',    role: 'LOC',     vtags: 'activity|situated|situated|placement',  'lm.tags': 'surface', 'lm.size': '>trajector.size'},
+    {name: 'on',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'field|passengerVehicle'},
+    {name: 'on',    role: 'LOC',     vtags: 'copula',            'lm.tags': 'surface', 'lm.size': '>trajector.size'},
     //TODO: under, above, next to, beside, near, behind, in front of, on top of, inside, outside ...
 
 
