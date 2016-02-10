@@ -1,0 +1,2 @@
+[alias]
+    stp = subtree push --prefix dist github gh-pages

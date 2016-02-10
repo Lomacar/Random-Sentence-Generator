@@ -104,10 +104,10 @@ database.preposition = [
 
     //////////////////////////////////////////////////////////////////////////////////
 
-    {name: 'through',   role: 'PATH',   vtags: 'grounded',     'lm.tags': 'area|surface&vertical&!edge|passage&!vertical&!elevated|obstacle&!elevated'},
-    {name: 'through',   role: 'PATH',   vtags: 'contact',      'lm.tags': 'area|passage|obstacle'},
-    {name: 'through',   role: 'PATH',   vtags: 'air',          'lm.tags': 'gas|space|passage|obstacle&!grounded'},
-    {name: 'through',   role: 'PATH',   vtags: 'jump',         'lm.tags': 'surface&vertical&!edge|passage&!path&!vertical|obstacle&delimited&!grounded'},
+    {name: 'through',   role: 'PATH',   vtags: 'grounded',     'lm.tags': 'area|surface&vertical&!edge|passage&!vertical&!elevated|obstacle&!elevated', 'lm.size': '>trajector.size'},
+    {name: 'through',   role: 'PATH',   vtags: 'contact',      'lm.tags': 'area|passage|opening|obstacle', 'lm.size': '>trajector.size'},
+    {name: 'through',   role: 'PATH',   vtags: 'air',          'lm.tags': 'gas|space|passage|opening|obstacle&!grounded'},
+    {name: 'through',   role: 'PATH',   vtags: 'jump',         'lm.tags': 'surface&vertical&!edge|opening|passage&!path&!vertical|obstacle&delimited&!grounded', 'lm.size': '>trajector.size'},
     {name: 'through',   role: 'PATH',   vtags: 'vertical',     'lm.tags': 'passage&vertical',   'lm.size': '>trajector.size'},
     {name: 'through',   role: 'PATH',   vtags: 'water',        'lm.tags': 'liquid|bodyOfWater'},
     

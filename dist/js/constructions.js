@@ -6,6 +6,7 @@ function CLAUSE(r){
     return {
         order: "subject predicate adjunct*",
         head: "subject",
+        labelChildren: true,
         children: {
             subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 4,2, 6,3), def: choose(9, 'def', 1, 'indef')}],
             predicate: [AUXP, {copulant: false, unpack: "subject.R"}],
@@ -21,6 +22,7 @@ function COPULA(){
     return {
         order: "subject predicate",
         head: "subject",
+        labelChildren: true,
         children: {
             subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3), def: 'def'}],
             predicate: [PREDICATE, {unpack: 'subject.R', copulant: true}]
@@ -57,12 +59,13 @@ function DP(r){
         order : "det adj* nprecomp* noun ncomp*",
         head : "noun",
         gap : [blank],
+        labelChildren: true,
         children: {
             noun: [N],
-            nprecomp: [complement, {complements: 'noun.precomp', nogap: true}],
-            adj: [AP, {unpack:'noun.R', nocomplement: true, no_adj: 'noun.unique'}, 0.25, 'rank'],
-            det: r.nodeterminer ? [blank] : [DET, 'noun.R'],
-            ncomp: [complement, {case: 'acc', complements: 'noun.complements', nogap: true}]
+            nprecomp: [complement, {complements: 'noun.precomp', nogap: true, desc: 'pre-complement'}],
+            adj: [AP, {unpack:'noun.R', nocomplement: true, no_adj: 'noun.unique', desc:'ap'}, 0.25, 'rank'],
+            det: r.nodeterminer ? [blank] : [DET, {unpack: 'noun.R'}],
+            ncomp: [complement, {case: 'acc', complements: 'noun.complements', nogap: true, desc: 'noun complement'}]
         },
         postlogic:function(text){
             return text.replace(/\ba +([aeiouAEIOU])/g, "an $1") // 'a apple' to 'an apple'
@@ -113,9 +116,10 @@ function DET(r) {
                                           r.count, {
                                 order: 'det quant',
                                 head: 'det',
+                                labelChildren: true,
                                 children: {
                                     det: [DET, r],
-                                    quant: {text: toWords(powerRandom())} //'these 12 dogs' is definite
+                                    quant: {text: toWords(powerRandom()), desc: 'quantifier'} //'these 12 dogs' is definite
                                 }
                             }
                                          )
@@ -189,8 +193,9 @@ function PREQUANT(r){
     return {
         order: 'quant of det',
         head: 'quant',
+        labelChildren: true,
         children: {
-            quant: [QUANT, {prequant: true}],
+            quant: [QUANT, {prequant: true, desc: 'quantifier'}],
             det: [DET, r]
         }
     }
@@ -274,10 +279,11 @@ function AP(r) {
     return {
         order: "adv a acomp*",
         head: "a",
+        labelChildren: true,
         children: {
             adv: [blank],
-            a: [A],
-            acomp: [complement, {'case': 'acc','complements': 'a.complements', 'nocomplement': r.nocomplement}]
+            a: [A, {desc: 'adj'}],
+            acomp: [complement, {'case': 'acc','complements': 'a.complements', 'nocomplement': r.nocomplement, desc: 'adj complement'}]
         }
     }
 }
@@ -320,8 +326,9 @@ function PREDICATE(r){
     return {
         order: "aux word",
         head: "aux",
+        labelChildren: true,
         children: {
-            aux:  [auxiliary],
+            aux:  [auxiliary, {desc:'copula'}],
             word: choose(
                     2, [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg'})],
                     1, [LOCATION, $.extend(r,{vtags:"copula"})]
@@ -336,6 +343,7 @@ function AUXP (r) {
     return {
         order: 'aux vp',
         head: 'aux',
+        labelChildren: true,
         children: {
             aux: [auxiliary],
             vp: [VP, _.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', subj_def: 'subject.def', pasv: false, aspect: r.real_aspect})]
@@ -349,10 +357,11 @@ function VP(r){
         order: "vword compcore* compext*",
         head: "vword",
         gap: [get, _.extend({type: 'aux_verb', name: 'do'},r)],
+        labelChildren: true,
         children: {
-            vword: [V],
-            compcore: [complement, {'case':'acc','complements': 'vword.compcore', neg:r.neg}],
-            compext: [complement, {'case':'dat','complements': 'vword.compext', neg:r.neg, vtags: 'vword.vtags', pasv:false, trans: 'vword.trans'}]
+            vword: [V, {desc: 'verb'}],
+            compcore: [complement, {'case':'acc','complements': 'vword.compcore', neg:r.neg, desc:'complement'}],
+            compext: [complement, {'case':'dat','complements': 'vword.compext', neg:r.neg, vtags: 'vword.vtags', pasv:false, trans: 'vword.trans', desc: 'secondary complement'}]
         },
         restrictions: {subj_person:'subject.person',subj_number:'subject.number',subj_gender:'subject.gender'}
     }
@@ -368,11 +377,12 @@ function VP_PASV(r){
     return {
         order: "subject aux vrb noncore",
         head: "vrb",
+        labelChildren: true,
         children: {
-            vrb: [V_PASV],
+            vrb: [V_PASV, {desc:'verb'}],
             subject: [complement, {'case':'nom', complements: 'vrb.compcore', pasv: true}],
             aux:  [auxiliary, _.extend({}, r, {unpack: 'subject.number-person'}) ],
-            noncore: [VP_PASV_PT2, 'vrb.R']
+            noncore: [VP_PASV_PT2, {unpack: 'vrb.R', desc:'passive stuff'}]
         }
     }
 }
@@ -391,9 +401,10 @@ function VP_PASV_PT2 (r){
     return {
         order: order,
         head: 'dummy',
+        labelChildren: true,
         children: {
             dummy: [blank],
-            compext: [complement, {'case':'dat', unpack: 'vrb.compext-number-person', vtags: 'vrb.vtags', pasv:true}],
+            compext: [complement, {'case':'dat', unpack: 'vrb.compext-number-person', vtags: 'vrb.vtags', pasv:true, desc: 'complement'}],
             agent: hasAgent ? [PASV_AGENT, {case: 'acc', unpack: "vrb.R", neg: 'vrb.neg', pasv: false}] : null
         }
     }
@@ -691,20 +702,20 @@ function G_CLAUSE(r){
 }
 
 function GP(r){
-    r.tense = 'pres'
-    r.aspect = 'prog'
 
     //TODO: make this count as a singular NP, so sentences like "fighting was considered" can happen
 
     return {
-        order: "v_ing compcore* compext*",
+        order: "ving compcore* compext*",
         head: "dummynoun",
+        labelChildren: true,
         children: {
             dummynoun: [pass_through, {type:'noun',number:'sg'}],
-            v: [get, {type: "verb", unpack: 'subject.R', pasv: false}],
-            //asp:  [aspect, 'v.inflected-noinflection-aspect'],
-            compcore: [complement, {'case': 'acc','complements': 'v.compcore','reset':true}],
-            compext: [complement, {'case': 'acc','complements': 'v.compext','reset':true}]
+            //v: [get, {type: "verb", unpack: 'subject.R', pasv: false, tense: 'pres', aspect: 'prog', desc:'gerund'}],
+            ving: [V, {unpack: 'subject.R', aspect: 'prog', tense: 'pres', pasv: 'false', desc: 'gerund'}],
+            //asp:  [aspect, {tense: 'pres', aspect: 'prog'}],
+            compcore: [complement, {'case': 'acc','complements': 'ving.compcore','reset':true, desc: 'complement'}],
+            compext: [complement, {'case': 'acc','complements': 'ving.compext','reset':true, desc: 'secondary complement'}]
         },
         postlogic: verb_cleanup
     }
@@ -749,8 +760,9 @@ function ACTION (r) {
     return {
         order: 'the ving of actcomp',
         head: 'ving',
+        labelChildren: true,
         children: {                                                  //quick fix to avoid messy verbs in lexicon 
-            ving: [V, {aspect: 'prog', tense: 'pres', pasv: 'false', ptpl:'!-'}],
+            ving: [V, {aspect: 'prog', tense: 'pres', pasv: 'false', ptpl:'!-', desc: 'gerund'}],
             actcomp: [ACTION_PT2, {trans:'ving.trans'}]
         },
         postlogic: function (text) {
@@ -795,10 +807,11 @@ function LOCATION(r){
     return {
         order: "prep lm",
         head: "trajector",
+        labelChildren: true,
         children: {
             trajector: [pass_through, trajector],
-            prep: [get, _.extend(r,{type: 'preposition', role: r.role})],
-            lm: [DP, {case: 'dat', number:'sg', quantified: false, partial: false}]
+            prep: [get, _.extend(r,{type: 'preposition', role: r.role, desc:'p'})],
+            lm: [DP, {case: 'dat', number:'sg', quantified: false, partial: false, desc: 'landmark'}]
         }
     }
 }
@@ -849,10 +862,11 @@ function MOTION(r) {
         head: "trajector",
         gap: [blank],
         wh: "where",
+        labelChildren: true,
         children: {
             trajector: [pass_through, trajector],
-            prep: [get, _.extend(r,{type: 'preposition', role: r.role})], //, pasv: 'predicate.pasv'
-            lm: [DP, _.extend(lmr, {case: 'dat', number:'sg'})]
+            prep: [get, _.extend(r,{type: 'preposition', role: r.role, desc:'p'})], //, pasv: 'predicate.pasv'
+            lm: [DP, _.extend(lmr, {case: 'dat', number:'sg',desc:'landmark'})]
         }
     }
 }
