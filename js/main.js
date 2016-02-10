@@ -9,6 +9,12 @@ function branch(c, r, p, l) {
     LAST_PARENT = p || LAST_PARENT
     this.label = l || null
     
+    if(r && "desc" in r) {
+        this.desc = r.desc
+        delete r.desc
+    }
+
+
     //deal with so-called global restrictions
     //TODO: this increases errors with bag/box/pile of NP
     r = globalRestrictions.apply(this,[r])
@@ -767,10 +773,10 @@ function stringOut(c){
         if (typeof c.postlogic==='function') string = c.postlogic(string)
 
         // return with final string cleaning
-        return string.replace("_","").replace("|","")       // remove underscores and pipes
+        outString = string.replace("_","").replace("|","")       // remove underscores and pipes
     }
 
-    else return c.text
+    else outString = c.text //? '<div class="word"><div>'+c.text+'</div></div>' : ''
 
 
     function replacer(a){
@@ -779,17 +785,14 @@ function stringOut(c){
         if (a.match(/\*/)){
 
             //optional undefined or empty words return ''
-            if (!c.children[a.slice(0,-1)])
-                return ''
-                else
-                    a = a.slice(0,-1)
+            if (!c.children[a.slice(0,-1)]) return ''
+            else a = a.slice(0,-1)
 
-                    }else{ //not optional
+        }else{ //not optional
 
-                        //if there is no child with the given name then treat it as literal
-                        if (!c.children[a])
-                            return a
-                            }
+            //if there is no child with the given name then treat it as literal
+            if (!c.children[a]) return '<div class="literal">'+a+'</div>'
+        }
 
         //break down arrays of adjectives or whatnot
         if(typeOf(c.children[a])=='array') {
@@ -806,6 +809,15 @@ function stringOut(c){
             return furtherIn===undefined ? '[???]' : furtherIn
         }
 
+    }
+
+
+    var ishead = c.label != null && c==c.parent.head ? 'head' : ''
+
+    if (c.label == null || c.parent.labelChildren) {
+        return outString ? '<div class="constituent '+ishead+'"><div class="label">'+(c.desc||c.label||'clause')+'</div><div class="construction"> '+outString+'</div></div>' : ''
+    } else {
+        return outString
     }
 
 }
