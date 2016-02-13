@@ -938,6 +938,7 @@ function safe(r, type){
     delete rr.compcore
     delete rr.compext
     delete rr.inflections
+    delete rr.trans //should this be done?
 
     delete rr.inflected
     delete rr.type

@@ -4,7 +4,9 @@ body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align:
 .hello h1::first-line {font-size: 1.5em;}
 .hello h2 {margin-top: 0;}
 .hello p {margin: 2em 1em 1em 1em;}
-.sentence {margin: 0 1.8em; padding: 2em 1em; font-size: 3vw; text-align: center; border-bottom: 1px solid #e0e0e0; font-family: 'Roboto Slab'}
+.sentence {position: relative; margin: 0 1.8em; padding: 2em 1em; font-size: 3vw; text-align: center; border-bottom: 1px solid #e0e0e0; font-family: 'Roboto Slab'}
+.seed {font-family: Arial,Helvetica,sans-serif; font-size: 1rem; color: #eee; display: block; position: absolute; top: 0; right: 0;}
+
 body > .constituent {
 /*    width: auto;*/
     display: inline-flex;

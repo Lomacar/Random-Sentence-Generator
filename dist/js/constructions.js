@@ -361,7 +361,7 @@ function VP(r){
         children: {
             vword: [V, {desc: 'verb'}],
             compcore: [complement, {'case':'acc','complements': 'vword.compcore', neg:r.neg, desc:'complement'}],
-            compext: [complement, {'case':'dat','complements': 'vword.compext', neg:r.neg, vtags: 'vword.vtags', pasv:false, trans: 'vword.trans', desc: 'secondary complement'}]
+            compext: [complement, {'case':'dat','complements': 'vword.compext', neg:r.neg, /*vtags: 'vword.vtags',*/ pasv:false,/* trans: 'vword.trans',*/ desc: 'secondary complement'}]
         },
         restrictions: {subj_person:'subject.person',subj_number:'subject.number',subj_gender:'subject.gender'}
     }

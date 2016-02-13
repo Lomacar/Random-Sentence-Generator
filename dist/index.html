@@ -7,7 +7,7 @@
         <link href="styles.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="js/vendor/seedrandom.js"></script>
 
-        <title>Sentence Gen 2.3.8</title>
+        <title>Sentence Gen 2.4.0</title>
 
     </head>
 
@@ -60,7 +60,7 @@
             function oneRandom(seed){
                 //C = new branch(CLAUSE, {tense: "pres", aspect:"simp", number:'pl'})
                 Math.seedrandom(window.seed)
-                console.log(window.seed)
+                window.lastseed = window.seed
                 window.seed = Math.random().toString(32).slice(2)
 
                 recentlyUsed = recentlyUsed.length > 10 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
@@ -83,7 +83,7 @@
                 for(i=0;i<iters;i++,fcounter++) {
                     oneline = oneRandom(seed)
                     oneline = oneline.trim()
-                    oneline = '<p class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + '.</p>'
+                    oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + '.<span class="seed">'+window.lastseed+'</span></div>'
                     oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length]})
                     $('body').append(oneline)
                 }
