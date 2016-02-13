@@ -791,7 +791,7 @@ function stringOut(c){
         }else{ //not optional
 
             //if there is no child with the given name then treat it as literal
-            if (!c.children[a]) return '<div class="literal">'+a+'</div>'
+            if (!c.children[a]) return xrayMode ? '<div class="literal">'+a+'</div>' : a
         }
 
         //break down arrays of adjectives or whatnot
@@ -814,7 +814,7 @@ function stringOut(c){
 
     var ishead = c.label != null && c==c.parent.head ? 'head' : ''
 
-    if (c.label == null || c.parent.labelChildren) {
+    if ( xrayMode && (c.label == null || c.parent.labelChildren) ) {
         return outString ? '<div class="constituent '+ishead+'"><div class="label">'+(c.desc||c.label||'clause')+'</div><div class="construction"> '+outString+'</div></div>' : ''
     } else {
         return outString

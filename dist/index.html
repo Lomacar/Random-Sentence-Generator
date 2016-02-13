@@ -20,7 +20,7 @@
         </div>
 
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" type="text/javascript"></script>
+        <script src="js/vendor/lodash.js" type="text/javascript"></script>
         <!--        <script type="text/javascript" src="js/vendor/tabletop.js"></script>-->
 
 
@@ -44,6 +44,7 @@
             var randy = {}
             var LAST_PARENT = null
             var timer = 0
+            var xrayMode = getQueryVariable('mode')=='xray'
             
             var RESTRICTIONS, RESTRICTIONS_BACKUP
             //RESTRICTIONS = {'predicate.name': 'swim','subject.name':'Jack','subject.pronominal':false, 'subject.person':3, 'subject.number':1}
