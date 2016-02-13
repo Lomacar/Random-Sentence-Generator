@@ -361,7 +361,7 @@ function VP(r){
         children: {
             vword: [V, {desc: 'verb'}],
             compcore: [complement, {'case':'acc','complements': 'vword.compcore', neg:r.neg, desc:'complement'}],
-            compext: [complement, {'case':'dat','complements': 'vword.compext', neg:r.neg, /*vtags: 'vword.vtags',*/ pasv:false,/* trans: 'vword.trans',*/ desc: 'secondary complement'}]
+            compext: [complement, {'case':'dat','complements': 'vword.compext', neg:r.neg, pasv:false, p_trans: 'vword.trans', p_vtags: 'vword.vtags', desc: 'secondary complement'}]
         },
         restrictions: {subj_person:'subject.person',subj_number:'subject.number',subj_gender:'subject.gender'}
     }
@@ -802,7 +802,13 @@ function ADJUNCT_PP (r) {
 function LOCATION(r){
     r.role='LOC'
 
-    var trajector = {unpack: 'subject.R', type:'noun', name:'subject'}
+    r.trans = r.p_trans
+    r.vtags = r.p_vtags
+
+    // trajector is subject of "intransitive" verb and direct object of "transitive" verb
+    // TODO: for some reason compcore end up being empty when searching for compcore.size
+    var trajector = r.trans < 1 || r.pasv ? {unpack: 'subject.R', type:'noun', name:'subject'} : {unpack: 'compcore.R', type:'noun', name:'compcore'}
+    //var trajector = {unpack: 'subject.R', type:'noun', name:'subject'}
 
     return {
         order: "prep lm",
@@ -832,6 +838,9 @@ function GOAL(r){
 
 function MOTION(r) {
     var lmr = {}
+
+    r.trans = r.p_trans
+    r.vtags = r.p_vtags
 
     if(magicCompare(r.vtags, 'generalMotion')){
         delete r.vtags
