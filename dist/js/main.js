@@ -44,6 +44,9 @@ function branch(c, r, p, l) {
         if(prop!='head' && prop!='children')
             this[prop] = c[prop];
     }
+    //for the rare construction that has a built-in restrictions property
+    //this prevents the above loop from overwriting passed in restrictions
+    _.extend(this.restrictions, r)
     
     //this is probably a word
     if(typeof c.children === 'undefined') {
@@ -57,6 +60,7 @@ function branch(c, r, p, l) {
         //on rare occasions global restrictions are specified on words, so make sure they get global
         registerGR(c)
     }
+
 
 } //end branch
 
@@ -103,7 +107,7 @@ function executeBranch(c, r, p){
 
                             if (probability == 1) probability = 0
                             else probability *= 0.6
-                                }
+                        }
 
                         //sort the multiple child instances if there is sort criteria
                         if (c.children[child][3]!==undefined) {
@@ -758,22 +762,12 @@ function superSearch(path,context) {
 /*-------------------------------------   OUTPUT -------------------------------------*/
 
 //essentially the toString method for constructions
-function stringOut(c){
+function stringOut(c,id){
+    var outString
     if(c===undefined) return undefined
     if(typeof c.children !== 'undefined'){
-
-        var string = c.order.replace(/([^_ ])+/g, replacer)
-
-        //basic string cleaning
-        string = string.replace(/\.?\d+([^\]\d]|$)/g,"$1")    // remove numbers, except for [e123] errors
-                       .replace(/\.([^ \b])/g,"$1")           // remove dots that aren't at the end of words
-                       .replace(/  +/g,' ')                   // remove extra spaces
-        
-        //construction specific cleaning
-        if (typeof c.postlogic==='function') string = c.postlogic(string)
-
-        // return with final string cleaning
-        outString = string.replace("_","").replace("|","")       // remove underscores and pipes
+        outString = c.order.replace(/([^_ ])+/g, replacer)
+        outString = stringCleaning(outString, c)
     }
 
     else outString = c.text //? '<div class="word"><div>'+c.text+'</div></div>' : ''
@@ -812,14 +806,37 @@ function stringOut(c){
     }
 
 
-    var ishead = c.label != null && c==c.parent.head ? 'head' : ''
+    var ishead = c.label != null && (c.label==c.parent.actualHead || typeof c.parent.actualHead == 'undefined' && c==c.parent.head) ? 'head' : ''
 
     if ( xrayMode && (c.label == null || c.parent.labelChildren) ) {
-        return outString ? '<div class="constituent '+ishead+'"><div class="label">'+(c.desc||c.label||'clause')+'</div><div class="construction"> '+outString+'</div></div>' : ''
+        C.list = C.list || []
+        if (typeof id != 'undefined') C.list[+id-1] = c //replace construction in list when this is triggered by a head-complement update
+        else C.list.push(c)                             //most of the time just append construction to list
+        var label = c.desc||c.label||'clause'
+        var constituentClasses = 'class="constituent '+ishead+' '+c.label+'-"'
+        return outString ?
+            '<div id="['+C.list.length+']" '+ constituentClasses +'><div class="label">'+label+'</div><div class="construction"> '+stringCleaning(outString,c)+'</div></div>'
+            : c.parent && c.parent.hasComplement ?
+                //placeholders needed for potential complements
+                '<div id="['+C.list.length+']" '+ constituentClasses +'></div>'
+                : ''
+        //outString = outString ? $('<div class="constituent '+ishead+'"><div class="label">'+(c.desc||c.label||'clause')+'</div><div class="construction"> '+outString+'</div></div>') : ''
     } else {
         return outString
     }
 
+}
+
+function stringCleaning(string, c){
+    string = string.replace(/\.?\d+([^\]\d]|$)/g,"$1")    // remove numbers, except for [e123] errors
+                   .replace(/\.([^ \b])/g,"$1")           // remove dots that aren't at the end of words
+                   .replace(/  +/g,' ')                   // remove extra spaces
+
+    //construction specific cleaning
+    if (typeof c.postlogic==='function') string = c.postlogic(string)
+
+    // return with final string cleaning
+    return string.replace(/_/g,"").replace("|","")       // remove underscores and pipes
 }
 
 

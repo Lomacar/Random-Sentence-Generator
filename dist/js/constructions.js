@@ -30,15 +30,7 @@ function COPULA(){
     }
 }
 
-function PASSIVE(r){
-    return {
-        order: "predicate",
-        head: "predicate",
-        children: {
-            predicate: [VP_PASV, {copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def')}]
-        }
-    }
-}
+
 
 function NP(r) {
     r = decide(r, "person,pronominal")
@@ -60,6 +52,7 @@ function DP(r){
         head : "noun",
         gap : [blank],
         labelChildren: true,
+        hasComplement: "ncomp",
         children: {
             noun: [N],
             nprecomp: [complement, {complements: 'noun.precomp', nogap: true, desc: 'pre-complement'}],
@@ -280,6 +273,7 @@ function AP(r) {
         order: "adv a acomp*",
         head: "a",
         labelChildren: true,
+        hasComplements: "acomp",
         children: {
             adv: [blank],
             a: [A, {desc: 'adj'}],
@@ -358,12 +352,23 @@ function VP(r){
         head: "vword",
         gap: [get, _.extend({type: 'aux_verb', name: 'do'},r)],
         labelChildren: true,
+        hasComplement: "compcore, compext",
         children: {
             vword: [V, {desc: 'verb'}],
             compcore: [complement, {'case':'acc','complements': 'vword.compcore', neg:r.neg, desc:'complement'}],
             compext: [complement, {'case':'dat','complements': 'vword.compext', neg:r.neg, pasv:false, p_trans: 'vword.trans', p_vtags: 'vword.vtags', desc: 'secondary complement'}]
         },
         restrictions: {subj_person:'subject.person',subj_number:'subject.number',subj_gender:'subject.gender'}
+    }
+}
+
+function PASSIVE(r){
+    return {
+        order: "predicate",
+        head: "predicate",
+        children: {
+            predicate: [VP_PASV, {copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def')}]
+        }
     }
 }
 
@@ -378,6 +383,7 @@ function VP_PASV(r){
         order: "subject aux vrb noncore",
         head: "vrb",
         labelChildren: true,
+        hasComplement: "noncore",
         children: {
             vrb: [V_PASV, {desc:'verb'}],
             subject: [complement, {'case':'nom', complements: 'vrb.compcore', pasv: true}],
@@ -401,6 +407,7 @@ function VP_PASV_PT2 (r){
     return {
         order: order,
         head: 'dummy',
+        actualHead: 'compext',
         labelChildren: true,
         children: {
             dummy: [blank],
@@ -563,7 +570,7 @@ function verb_cleanup(text){
                .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
                .replace(/([^e])e_+ing/, "$1ing") // -eing to -ing
                .replace(/e_+ed/, "ed") // -eed to -ed
-               .replace(/\b([^aeiou]*[aeiou])([^aeiouywx])_+(ed|ing)/, '$1$2$2$3') // -VCed or -VCing to -VCCxxx
+               .replace(/\b([^aeio]*[aeiou])([^aeiouywx])_+(ed|ing)/, '$1$2$2$3') // -VCed or -VCing to -VCCxxx
                .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
     return text
 }
@@ -708,7 +715,9 @@ function GP(r){
     return {
         order: "ving compcore* compext*",
         head: "dummynoun",
+        actualHead: "ving",
         labelChildren: true,
+        hasComplement: "compcore, compext",
         children: {
             dummynoun: [pass_through, {type:'noun',number:'sg'}],
             //v: [get, {type: "verb", unpack: 'subject.R', pasv: false, tense: 'pres', aspect: 'prog', desc:'gerund'}],
@@ -745,6 +754,7 @@ function NOUN_INC(r) {
     return {
         order: 'incnoun - ving',
         head: 'ving',
+        hasComplement: "inccomp",
         children: {
             ving: [V, {aspect: 'prog', tense:'pres', trans:1, pasv:false, class:'activity,process'}],
             inccomp: [complement, {complements:'ving.compcore', unique: 0}],
@@ -757,13 +767,17 @@ function NOUN_INC(r) {
 }
 
 function ACTION (r) {    
+
+    //TODO: this should probably be definite or generic (eating of pizza, eating of the pizzas, NOT eating of a/12/some pizza )
+
     return {
-        order: 'the ving of actcomp',
+        order: 'the ving actcomp',
         head: 'ving',
         labelChildren: true,
+        hasComplement: "actcomp",
         children: {                                                  //quick fix to avoid messy verbs in lexicon 
             ving: [V, {aspect: 'prog', tense: 'pres', pasv: 'false', ptpl:'!-', desc: 'gerund'}],
-            actcomp: [ACTION_PT2, {trans:'ving.trans'}]
+            actcomp: [ACTION_PT2, {trans:'ving.trans', desc: 'complement'}]
         },
         postlogic: function (text) {
             return text.replace(/of\s*$/, '') //remove trailing 'of' if there is no complement
@@ -774,20 +788,36 @@ function ACTION (r) {
 
 function ACTION_PT2 (r) {
     
-    var comp = r.trans > 0.5
-        //transitive verbs use the object (eating of the pizza)
-        ? [complement, {complements:'ving.compcore', nocomplement: -1}]
-        //intransitive verbs use the subject (running of the bulls)
-        //'semi-transitive' verbs get nothing (*arguing of with John )
-        : r.trans == 0.5 ? [filler, {filler:''}] : [NP, {unpack: 'ving.R'}]
+    var comp //= r.trans > 0.5
+    var of = 'of '
+//        //transitive verbs use the object (eating of the pizza)
+//        ? [complement, {complements:'ving.compcore', nocomplement: -1}]
+//        //intransitive verbs use the subject (running of the bulls)
+//        //'semi-transitive' verbs get nothing (*arguing of with John )
+//        : r.trans == 0.5 ? [filler, {filler:''}] : [NP, {unpack: 'ving.R'}]
+
+    switch (r.trans) {
+        case 0:
+            //intransitive verbs use the subject (running of the bulls)
+            comp = [NP, {unpack: 'ving.R'}]
+            break
+        case 0.5:
+            //'semi-transitive' verbs get nothing (*arguing of with John )
+            comp = [filler, {filler:''}]
+            of = ''
+            break
+        default:
+            //transitive verbs use the object (eating of the pizza)
+            comp = [complement, {complements:'ving.compcore', nocomplement: -1}]
+    }
     
     comp[1] = _.extend(comp[1], {case: 'acc', pronominal: false, person: 3})
 
     return {
-        order: 'of* actcomp*',
+        order: of+'actcomp*',
         head: 'actcomp',
         children: {
-            actcomp: comp,
+            actcomp: comp
         }
     }
 }
@@ -802,8 +832,8 @@ function ADJUNCT_PP (r) {
 function LOCATION(r){
     r.role='LOC'
 
-    r.trans = r.p_trans
-    r.vtags = r.p_vtags
+    r.trans = r.p_trans || 0
+    if (r.p_vtags) r.vtags = r.p_vtags
 
     // trajector is subject of "intransitive" verb and direct object of "transitive" verb
     // TODO: for some reason compcore end up being empty when searching for compcore.size
@@ -839,8 +869,8 @@ function GOAL(r){
 function MOTION(r) {
     var lmr = {}
 
-    r.trans = r.p_trans
-    r.vtags = r.p_vtags
+    r.trans = r.p_trans || 0
+    if (r.p_vtags) r.vtags = r.p_vtags
 
     if(magicCompare(r.vtags, 'generalMotion')){
         delete r.vtags
@@ -869,9 +899,11 @@ function MOTION(r) {
     return {
         order: "prep lm",
         head: "trajector",
+        actualHead: "prep",
         gap: [blank],
         wh: "where",
         labelChildren: true,
+        hasComplement: "lm",
         children: {
             trajector: [pass_through, trajector],
             prep: [get, _.extend(r,{type: 'preposition', role: r.role, desc:'p'})], //, pasv: 'predicate.pasv'
