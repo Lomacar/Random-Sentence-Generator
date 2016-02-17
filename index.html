@@ -7,7 +7,7 @@
         <link href="styles.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="js/vendor/seedrandom.js"></script>
 
-        <title>Sentence Gen 2.4.0</title>
+        <title>Sentence Gen 2.4.0 Beta</title>
 
     </head>
 
@@ -20,7 +20,7 @@
         </div>
 
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
-        <script src="js/vendor/lodash.js" type="text/javascript"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" type="text/javascript"></script>
         <!--        <script type="text/javascript" src="js/vendor/tabletop.js"></script>-->
 
 
@@ -54,7 +54,12 @@
             RESTRICTIONS_BACKUP = _.clone(RESTRICTIONS)
 
             /********************************/
+
+
+            //random seed
             var seed = getQueryVariable('seed')||Math.random().toString(32).slice(2);
+            Math.seedrandom(window.seed)
+            _ = _.runInContext() //updates lodash to use seedrandom generator
 
 
             function oneRandom(seed){
@@ -83,10 +88,13 @@
                 for(i=0;i<iters;i++,fcounter++) {
                     oneline = oneRandom(seed)
                     oneline = oneline.trim()
-                    oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + '.<span class="seed">'+window.lastseed+'</span></div>'
+                    oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + (xrayMode ? '':'.') +'<span class="seed">'+window.lastseed+'</span></div>'
                     oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length]})
+                    $(oneline).data({c:C})
                     $('body').append(oneline)
                 }
+
+                $('.label').off('click').click(randomizer)
 
                 var end = new Date().getTime();
                 //console.log(end-start)
@@ -128,6 +136,109 @@
 
             }(SENGEN || {}));
             //LABjs
+
+            //for xray mode, handler for clicking on parts of sentence
+            function randomizer(){
+                var here = $(this).parent()
+                var id = here.attr('id').slice(1,-1)
+                var top = C = $(this).parents('.sentence').data('c')
+                var c = top.list[+id-1]
+               console.log(c.restrictions);
+               //console.log(c);
+                if (here.hasClass('head')) {
+                    var R
+                    if (R = parseSingleRestriction(c.label+'.R',c,true)) {
+                       c.restrictions =  _.extend(c.restrictions,R)
+
+                       //heads with complements must update their complements as well
+                       //this is a whole lot of trouble, maybe better to just update whole parent
+                       var comp
+                       if (c.parent && (comp = c.parent.hasComplement)) {
+                           var compArray = comp.split(/ *, */)
+                           var p = c.parent
+                           p.restrictions =  _.extend(p.restrictions,R)
+                           var notherBranch = new branch(p.construction, p.restrictions, p.parent, p.label )
+                           if (notherBranch.actualHead) notherBranch.head = notherBranch.children[notherBranch.actualHead]
+                           var compBranches = _.pick(notherBranch.children, compArray)
+
+                           //update branches
+                           $.each(compBranches,function(key, val){
+                                                    //class names have dashes on the end to avoid potential css conflicts
+                                var compClass = key.replace(/([\w-]+)/g,'.$1-')
+                                var compElement = here.parents('.constituent').first().find(compClass).first()
+                                var newElement = stringOut(val)
+                                var updateFunction
+                                if (newElement) {
+                                    updateFunction = function() {
+                                        // we will replace the construction in C.list rather than append a new one
+                                        // since we are changing the inner html, not replacing the whole element
+                                        var id = compElement.attr('id').slice(1,-1)
+                                        compElement.html($(stringOut(val,id)).html())
+                                        .find('.label').click(randomizer)
+                                    }
+                                } else {
+                                    updateFunction = function() {
+                                        compElement.html('')
+                                    }
+                                }
+                                setTimeout(function() {
+                                    animateElement.apply(this, [compElement, updateFunction])
+                                }, 200)
+                           })
+
+                           //update head
+                           updateFunction = function() {
+                               here.children('.construction').replaceWith( $(stringOut(notherBranch.head)).children('.construction') )
+                           }
+                           animateElement.apply(this, [here,updateFunction])
+
+                           return
+                       }
+
+                    } else {
+                        return
+                    }
+                    //here = here.parents(".constituent:not(.head)")
+                }
+
+                updateFunction = function() {
+                    var newBranch = $(stringOut(new branch(c.construction, c.restrictions, c.parent, c.label ))).children('.construction')
+                    if (newBranch.length) {
+                         newBranch.find('.label').click(randomizer)
+                        here.children('.construction').replaceWith( newBranch )
+                    } else {
+                        here.children('.construction').html(_.sample([':)',':(',';)',':/','^_^','o.O',':|']))
+                    }
+
+                }
+                animateElement.apply(this, [here,updateFunction])
+            }
+
+            function animateElement(el,updateFunc) {
+                var oldWidth = el.width();
+                var oldHeight = el.height();
+                el.animateCSS('bounce')
+//                el.width('auto');
+//                el.height('auto');
+                updateFunc()
+//                el.width(el.width());
+//                el.height(el.height());
+                var newWidth = el.width();
+                var newHeight = el.height();
+                el.width(oldWidth);
+                el.height(oldHeight);
+                el.animate({width: newWidth, height: newHeight}, 500, function() {
+                    el.width('auto'); el.height('auto');
+                });
+            }
+            $.fn.extend({
+                animateCSS: function (animationName) {
+                    var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+                    $(this).addClass('animated ' + animationName).one(animationEnd, function() {
+                        $(this).removeClass('animated ' + animationName);
+                    });
+                }
+            });
 
         </script>
     </body>
