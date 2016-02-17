@@ -188,7 +188,10 @@
 
                            //update head
                            updateFunction = function() {
-                               here.children('.construction').replaceWith( $(stringOut(notherBranch.head)).children('.construction') )
+                               var newHead = $(stringOut(notherBranch.head)).children('.construction')
+                               if (newHead.length == 0) newHead = $('<div class="construction">'+smiley()+'</div>')
+                               newHead.find('.label').click(randomizer)
+                               here.children('.construction').replaceWith( newHead  )
                            }
                            animateElement.apply(this, [here,updateFunction])
 
@@ -207,7 +210,7 @@
                          newBranch.find('.label').click(randomizer)
                         here.children('.construction').replaceWith( newBranch )
                     } else {
-                        here.children('.construction').html(_.sample([':)',':(',';)',':/','^_^','o.O',':|']))
+                        here.children('.construction').html(smiley())
                     }
 
                 }
@@ -239,6 +242,11 @@
                     });
                 }
             });
+
+            function smiley(){
+                var smiley = _.sample([':)',':(',';)',':/','^_^','o.O',':|'])
+                return $('<span>').addClass('smiley').html(smiley).prop('outerHTML')
+            }
 
         </script>
     </body>

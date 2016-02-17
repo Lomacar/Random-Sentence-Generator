@@ -34,6 +34,7 @@ function branch(c, r, p, l) {
     //some constructions just reroute to other constructions
     while (typeOf(c)==='array' && typeof c[0] == 'function') {
         c[1] = parseRestrictions.apply(this, [c[1]])
+        this.construction = c[0]
         c = c[0]( _.extend({}, r, c[1]) )
     }
 

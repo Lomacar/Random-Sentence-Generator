@@ -15,9 +15,28 @@ function CLAUSE(r){
     }
 }
 
+function PASSIVE(r){
+    decide(r, "tense,aspect,person")
+    if (r.person < 3) {
+        r.anim = 3
+        r.tags = 'person'
+    }
+
+    return {
+        order: "subject predicate",
+        head: "predicate",
+        labelChildren: true,
+        hasComplement: 'subject',
+        children: {
+            subject: [complement, {'case':'nom', complements: 'predicate.compcore', unpack:'predicate.number-person', pasv: true}],
+            predicate: [VP_PASV, {copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def')}]
+        }
+    }
+}
+
 function COPULA(){
 
-    //SHOULD ALLOW PPs and NPs too
+    //SHOULD ALLOW PPs(done!) and NPs too
 
     return {
         order: "subject predicate",
@@ -272,7 +291,7 @@ function AP(r) {
     return {
         order: "adv a acomp*",
         head: "a",
-        labelChildren: true,
+        labelChildren: !r.nocomplement, //there is a bug with randomizing adjectives and choosing a participle, so I would rather not label APs unless there is a complement
         hasComplements: "acomp",
         children: {
             adv: [blank],
@@ -338,6 +357,7 @@ function AUXP (r) {
         order: 'aux vp',
         head: 'aux',
         labelChildren: true,
+        hasComplement: 'vp', //this is a cop-out because it would be hard to correctly update the verb inflection when the aux changes
         children: {
             aux: [auxiliary],
             vp: [VP, _.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', subj_def: 'subject.def', pasv: false, aspect: r.real_aspect})]
@@ -362,32 +382,16 @@ function VP(r){
     }
 }
 
-function PASSIVE(r){
-    return {
-        order: "predicate",
-        head: "predicate",
-        children: {
-            predicate: [VP_PASV, {copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def')}]
-        }
-    }
-}
-
-function VP_PASV(r){ 
-    decide(r, "tense,aspect,person")
-    if (r.person < 3) {
-        r.anim = 3
-        r.tags = 'person'
-    }
+function VP_PASV(r){
 
     return {
-        order: "subject aux vrb noncore",
+        order: "aux vrb noncore",
         head: "vrb",
         labelChildren: true,
         hasComplement: "noncore",
         children: {
             vrb: [V_PASV, {desc:'verb'}],
-            subject: [complement, {'case':'nom', complements: 'vrb.compcore', pasv: true}],
-            aux:  [auxiliary, _.extend({}, r, {unpack: 'subject.number-person'}) ],
+            aux:  [auxiliary, _.extend({}, r, {unpack: 'vrb.number-person'}) ],
             noncore: [VP_PASV_PT2, {unpack: 'vrb.R', desc:'passive stuff'}]
         }
     }
