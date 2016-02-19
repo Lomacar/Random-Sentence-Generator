@@ -116,6 +116,12 @@
                 //console.timeEnd("full");
                 //console.timeEnd("sentence loop");
 
+                $('.sentence').click(function(e){
+                    if (e.target === this) {
+                        console.log($($(this).first().clone()).find('.label').remove().end().text().replace(/ +[^ ]+$/,'.').replace(/ +/g,' '))
+                    }
+                })
+
             })
 
 
@@ -148,7 +154,7 @@
                 if (here.hasClass('head')) {
                     var R
                     if (R = parseSingleRestriction(c.label+'.R',c,true)) {
-                       c.restrictions =  _.extend(c.restrictions,R)
+                       c.restrictions = _.extend(R,c.restrictions)
 
                        //heads with complements must update their complements as well
                        //this is a whole lot of trouble, maybe better to just update whole parent
@@ -247,6 +253,7 @@
                 var smiley = _.sample([':)',':(',';)',':/','^_^','o.O',':|'])
                 return $('<span>').addClass('smiley').html(smiley).prop('outerHTML')
             }
+
 
         </script>
     </body>
