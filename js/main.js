@@ -13,7 +13,7 @@ function branch(c, r, p, l) {
         this.desc = r.desc
         delete r.desc
     }
-
+//this.originalRestrictions = _.clone(r)
 
     //deal with so-called global restrictions
     //TODO: this increases errors with bag/box/pile of NP
@@ -48,6 +48,7 @@ function branch(c, r, p, l) {
     //for the rare construction that has a built-in restrictions property
     //this prevents the above loop from overwriting passed in restrictions
     _.extend(this.restrictions, r)
+    //this.restrictions = this.originalRestrictions
     
     //this is probably a word
     if(typeof c.children === 'undefined') {
@@ -55,7 +56,6 @@ function branch(c, r, p, l) {
         if(typeof c.text === 'undefined') this.text = c.inflected || c.name
 
         //create a happy package of all the important restrictions on this word, for grabbing from elsewhere
-        //this.R = safe(this)
         if (r) this.R = safe(this, this.type)
         
         //on rare occasions global restrictions are specified on words, so make sure they get global
@@ -279,9 +279,9 @@ function parseSingleRestriction(s, context, expandPlainStrings){
 
                 if (/\d *(, *\d *)+/.test(found)) { //if found property is like '4,5,6'
                     if (specialChars.findChar('<')) {
-                        found = found.substr(-1) //this assumes all comma-separated numbers are arranged from least to greatest
+                        found = '<'+found.split(',').pop() //this assumes all comma-separated numbers are arranged from least to greatest
                     } else if (specialChars.findChar('>')) {
-                        found = found.substr(0, 1)
+                        found = '>'+found.split(',')[0]
                     }
 
                 } else { //any other situation with special characters (probably like '!solid')

@@ -16,20 +16,21 @@ function CLAUSE(r){
 }
 
 function PASSIVE(r){
-    decide(r, "tense,aspect,person")
+    decide(r, "tense,aspect,person,number")
     if (r.person < 3) {
         r.anim = 3
         r.tags = 'person'
     }
 
     return {
-        order: "subject predicate",
-        head: "predicate",
+        order: "pasvSubj predicate",
+        head: "subject",
         labelChildren: true,
-        hasComplement: 'subject',
+        //hasComplement: 'subject',
         children: {
-            subject: [complement, {'case':'nom', complements: 'predicate.compcore', unpack:'predicate.number-person', pasv: true}],
-            predicate: [VP_PASV, {copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def')}]
+            subject: [NP, {pronominal: false}],
+            predicate: [VP_PASV, {copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def'), unpack:'subject.R'}],
+            pasvSubj: [complement, {'case':'nom', complements: 'predicate.compcore', unpack:'predicate.number-person', pasv: true}]
         }
     }
 }
@@ -73,11 +74,11 @@ function DP(r){
         labelChildren: true,
         hasComplement: "ncomp",
         children: {
-            noun: [N],
-            nprecomp: [complement, {complements: 'noun.precomp', nogap: true, desc: 'pre-complement'}],
-            adj: [AP, {unpack:'noun.R', nocomplement: true, no_adj: 'noun.unique', desc:'ap'}, 0.25, 'rank'],
-            det: r.nodeterminer ? [blank] : [DET, {unpack: 'noun.R'}],
-            ncomp: [complement, {case: 'acc', complements: 'noun.complements', nogap: true, desc: 'noun complement'}]
+            noun:       [N],
+            nprecomp:   [complement, {complements: 'noun.precomp', nogap: true, desc: 'pre-complement'}],
+            adj:        [AP, {unpack:'noun.R', nocomplement: true, no_adj: 'noun.unique', desc:'ap'}, 0.25, 'rank'],
+            det:        r.nodeterminer ? [blank] : [DET, {unpack: 'noun.R'}],
+            ncomp:      [complement, {case: 'acc', complements: 'noun.complements', nogap: true, desc: 'noun complement'}]
         },
         postlogic:function(text){
             return text.replace(/\ba +([aeiouAEIOU])/g, "an $1") // 'a apple' to 'an apple'
@@ -292,7 +293,7 @@ function AP(r) {
         order: "adv a acomp*",
         head: "a",
         labelChildren: !r.nocomplement, //there is a bug with randomizing adjectives and choosing a participle, so I would rather not label APs unless there is a complement
-        hasComplements: "acomp",
+        hasComplement: "acomp",
         children: {
             adv: [blank],
             a: [A, {desc: 'adj'}],
@@ -336,6 +337,8 @@ function a_neg(r) {
 function PREDICATE(r){
     decide(r, "tense,aspect,number,person")
 
+    var l = magicCompare(r.tags,"thing")
+
     return {
         order: "aux word",
         head: "aux",
@@ -344,7 +347,7 @@ function PREDICATE(r){
             aux:  [auxiliary, {desc:'copula'}],
             word: choose(
                     2, [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg'})],
-                    1, [LOCATION, $.extend(r,{vtags:"copula"})]
+                    l, [LOCATION, $.extend(r,{vtags:"copula"})]
                   )
         }
     }
@@ -443,7 +446,7 @@ function PASV_AGENT(r){
         order: 'by agent',
         head: 'agent',
         children: {
-            agent: [NP, {pronominal: false}]
+            agent: [NP, {pronominal: false, unpack:'subject.R', name:'subject.name'}]
         }
     }
 }
