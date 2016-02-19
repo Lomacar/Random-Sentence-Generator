@@ -274,7 +274,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
             if (typeOf(found) == 'object') return found
             var out = {}
 
-            if (found && specialChars) {
+            if (goodVal(found) && specialChars) {
                 found += ''
 
                 if (/\d *(, *\d *)+/.test(found)) { //if found property is like '4,5,6'
