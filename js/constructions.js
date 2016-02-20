@@ -72,7 +72,7 @@ function DP(r){
         head : "noun",
         gap : [blank],
         labelChildren: true,
-        hasComplement: "ncomp",
+        hasComplement: "ncomp,nprecomp",
         children: {
             noun:       [N],
             nprecomp:   [complement, {complements: 'noun.precomp', nogap: true, desc: 'pre-complement'}],
@@ -850,7 +850,9 @@ function LOCATION(r){
     return {
         order: "prep lm",
         head: "trajector",
+        actualHead: "prep",
         labelChildren: true,
+        hasComplement: "lm",
         children: {
             trajector: [pass_through, trajector],
             prep: [get, _.extend(r,{type: 'preposition', role: r.role, desc:'p'})],

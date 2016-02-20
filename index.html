@@ -26,6 +26,7 @@
 
         <script type="text/javascript" src="js/utilities.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/branch.js"></script>
         <!--        <script type="text/javascript" src="js/ontology.js"></script>-->
         <script type="text/javascript" src="js/database.processed.js"></script>
         <script type="text/javascript" src="js/database.js"></script>
@@ -143,65 +144,138 @@
             }(SENGEN || {}));
             //LABjs
 
+
+
+
+
+
+
+
             //for xray mode, handler for clicking on parts of sentence
             function randomizer(){
                 var here = $(this).parent()
                 var id = here.attr('id').slice(1,-1)
                 var top = C = $(this).parents('.sentence').data('c')
                 var c = top.list[+id-1]
-               console.log(c.restrictions);
+               //console.log(c.restrictions);
                //console.log(c);
                 if (here.hasClass('head')) {
                     var R
+                    c.clickCount = c.clickCount+1 || 0
+
                     if (R = parseSingleRestriction(c.label+'.R',c,true)) {
-                       c.restrictions = _.extend(R,c.restrictions)
+                       if (c.clickCount>0) R = _.pick(R,paradigmList.concat(['unique','count']))
+                       c.restrictions = _.extend({},R,c.restrictions)
 
                        //heads with complements must update their complements as well
-                       //this is a whole lot of trouble, maybe better to just update whole parent
                        var comp
-                       if (c.parent && (comp = c.parent.hasComplement)) {
-                           var compArray = comp.split(/ *, */)
-                           var p = c.parent
-                           p.restrictions =  _.extend(p.restrictions,R)
-                           var notherBranch = new branch(p.construction, p.restrictions, p.parent, p.label )
-                           if (notherBranch.actualHead) notherBranch.head = notherBranch.children[notherBranch.actualHead]
-                           var compBranches = _.pick(notherBranch.children, compArray)
+                       if (true /*c.parent && (comp = c.parent.hasComplement)*/) {
+                            //var compArray = comp.split(/ *, */)
+                            var p = c.parent
+                            //p.restrictions =  _.extend(R,p.restrictions)
 
-                           //update branches
-                           $.each(compBranches,function(key, val){
-                                                    //class names have dashes on the end to avoid potential css conflicts
-                                var compClass = key.replace(/([\w-]+)/g,'.$1-')
-                                var compElement = here.parents('.constituent').first().find(compClass).first()
-                                var newElement = stringOut(val)
-                                var updateFunction
-                                if (newElement) {
-                                    updateFunction = function() {
-                                        // we will replace the construction in C.list rather than append a new one
-                                        // since we are changing the inner html, not replacing the whole element
-                                        var id = compElement.attr('id').slice(1,-1)
-                                        compElement.html($(stringOut(val,id)).html())
-                                        .find('.label').click(randomizer)
-                                    }
-                                } else {
-                                    updateFunction = function() {
-                                        compElement.html('')
-                                    }
-                                }
-                                setTimeout(function() {
-                                    animateElement.apply(this, [compElement, updateFunction])
-                                }, 200)
-                           })
+                            //if(c.clickCount>0){
+                                var myrng = new Math.seedrandom();
+                                var nh = new branch(c.construction, c.restrictions, c.parent, 'haha',myrng())
+                                ///var nh = console.log($(stringOut(new branch(NP,null,null,null,myrng()))).text())
+                                /// console.log(parseSingleRestriction(nh.label+'.name',nh,true).name)
 
-                           //update head
-                           updateFunction = function() {
+                                p.restrictions = _.extend({},R,p.restrictions,{name: nh.name || nh.text || parseSingleRestriction(nh.label+'.name',nh,true).name})
+
+                            //}
+
+                            ///console.log(p.seed)
+                            var notherBranch = new branch(p.construction, p.restrictions, p.parent, p.label, p.seed )
+                            ///console.log(notherBranch.seed)
+                            if (notherBranch.actualHead) notherBranch.head = notherBranch.children[notherBranch.actualHead]
+                            //var compBranches = _.pick(notherBranch.children, compArray)
+
+
+
+
+                            //update branches
+//                            $.each(compBranches,function(key, val){
+//                                                    //class names have dashes on the end to avoid potential css conflicts
+//                                var compClass = key.replace(/([\w-]+)/g,'.$1-')
+//                                var compElement = here.next(compClass).first()
+//                                    if (compElement.length==0) compElement = here.siblings(compClass).first()
+//                                var newElement = stringOut(val)
+//                                var updateFunction
+//                                if (newElement) {
+//                                    updateFunction = function() {
+//                                        // we will replace the construction in C.list rather than append a new one
+//                                        // since we are changing the inner html, not replacing the whole element
+//                                        var id = compElement.attr('id').slice(1,-1)
+//                                        compElement.html($(stringOut(val,id)).html())
+//                                        .find('.label').click(randomizer)
+//                                    }
+//                                } else {
+//                                    updateFunction = function() {
+//                                        compElement.html('')
+//                                    }
+//                                }
+//                                setTimeout(function() {
+//                                    animateElement.apply(this, [compElement, updateFunction])
+//                                }, 200)
+//                            })
+
+                            //update head
+                            var updateFunction = function() {
                                var newHead = $(stringOut(notherBranch.head)).children('.construction')
                                if (newHead.length == 0) newHead = $('<div class="construction">'+smiley()+'</div>')
                                newHead.find('.label').click(randomizer)
                                here.children('.construction').replaceWith( newHead  )
-                           }
-                           animateElement.apply(this, [here,updateFunction])
+                               updateDependents()
+                            }
+                            animateElement.apply(this, [here,updateFunction])
 
-                           return
+                            //Math.seedrandom(c.parent.seed)
+                           // console.log(c.parent.seed)
+
+                            //update dependents?
+                            function updateDependents(){
+                                //var head = notherBranch.head
+                                var siblings = here.siblings()
+//                                var siblingCs = siblings.map(function(){
+//                                    return top.list[ this.id.slice(1,-1)-1 ]
+//                                }).get();
+
+                                //var parent = notherBranch
+
+                                _.each(notherBranch.children, function(a,k){
+                                    //var name = a.name || a.text || parseSingleRestriction(a.label+'.name',c,true).name || parseSingleRestriction(a.label+'.text',c,true).text
+                                    //var R = parseSingleRestriction(head.label+'.R',c,true)
+                                    //a.restrictions.name = name
+                                    //if (a.label!=notherBranch.head.label) var braaanch = new branch(a.construction,a.restrictions,a.parent,a.label,a.seed)
+                                    //console.log($(stringOut(braaanch)).find('.label').remove().end().text())
+                                    if (a.label!=notherBranch.head.label) {
+                                        var sibClass = k.replace(/([\w-]+)/g,'.$1-')
+                                        var sibEl = siblings.filter(sibClass)
+                                        if (sibEl.length){
+                                            var id = sibEl[0].id.slice(1,-1)-1
+                                            var sibC = top.list[ id ]
+                                            var aText = $(stringOut(a,-1)).text() //parseSingleRestriction(a.label+'.text',notherBranch,true).text
+                                            var sibText = $(stringOut(sibC,-1)).text() //parseSingleRestriction(sibC.label+'.text',sibC,true).text
+                                            console.log(aText+' -:- '+sibText)//.animateCSS("bounce")
+                                            if(aText != sibText) {
+                                                updateFunction = function() {
+                                                    sibEl.html($(stringOut(a,id)).html())
+                                                    .find('.label').click(randomizer)
+                                                    // we will replace the construction in C.list rather than append a new one
+                                                    // since we are changing the inner html, not replacing the whole element
+                                                    //top.list[ id ] = a
+                                                }
+                                                setTimeout(function() {
+                                                    animateElement.apply(this, [sibEl, updateFunction])
+                                                }, 200)
+                                            }
+                                        }
+                                    }
+                                    console.log($(stringOut(a)).find('.label').remove().end().text())
+                                })
+                            }
+
+                            return
                        }
 
                     } else {
@@ -210,6 +284,7 @@
                     //here = here.parents(".constituent:not(.head)")
                 }
 
+                //update a normal non-head constituent
                 updateFunction = function() {
                     var newBranch = $(stringOut(new branch(c.construction, c.restrictions, c.parent, c.label ))).children('.construction')
                     if (newBranch.length) {
@@ -227,11 +302,9 @@
                 var oldWidth = el.width();
                 var oldHeight = el.height();
                 el.animateCSS('bounce')
-//                el.width('auto');
-//                el.height('auto');
+
                 updateFunc()
-//                el.width(el.width());
-//                el.height(el.height());
+
                 var newWidth = el.width();
                 var newHeight = el.height();
                 el.width(oldWidth);

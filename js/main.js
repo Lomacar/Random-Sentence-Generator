@@ -1,142 +1,5 @@
 /* jshint curly: false, unused: false */ /* globals _, LAST_PARENT, RESTRICTIONS, typeOf, error, magicCompare, window, goodVal, toObject, paradigms, prohibitions, isEmpty, $, database, toArray, compactString */
 
-/*-------------------------------------   BRANCH -------------------------------------*/
-
-function branch(c, r, p, l) {   
-    this.construction = c
-    this.restrictions = r || {}
-    this.parent = p || null
-    LAST_PARENT = p || LAST_PARENT
-    this.label = l || null
-    
-    if(r && "desc" in r) {
-        this.desc = r.desc
-        delete r.desc
-    }
-//this.originalRestrictions = _.clone(r)
-
-    //deal with so-called global restrictions
-    //TODO: this increases errors with bag/box/pile of NP
-    r = globalRestrictions.apply(this,[r])
-
-    //parse and filter restrictions
-    r = parseRestrictions.apply(this, [r])
-    //load the requested construction
-    c = c(r)
-    //wh clauses return a fully evaluated branch, so no need to process them
-    if (c.constructor == branch) {
-        c.parent = this.parent //maybe a little bit of processing...
-        c.label = this.label
-        return c
-    }
-
-
-    //some constructions just reroute to other constructions
-    while (typeOf(c)==='array' && typeof c[0] == 'function') {
-        c[1] = parseRestrictions.apply(this, [c[1]])
-        this.construction = c[0]
-        c = c[0]( _.extend({}, r, c[1]) )
-    }
-
-    executeBranch.apply(this, [c, r, this])
-
-    //dump almost all other c.properties into this
-    for(var prop in c){
-        if(prop!='head' && prop!='children')
-            this[prop] = c[prop];
-    }
-    //for the rare construction that has a built-in restrictions property
-    //this prevents the above loop from overwriting passed in restrictions
-    _.extend(this.restrictions, r)
-    //this.restrictions = this.originalRestrictions
-    
-    //this is probably a word
-    if(typeof c.children === 'undefined') {
-        //words need a text property
-        if(typeof c.text === 'undefined') this.text = c.inflected || c.name
-
-        //create a happy package of all the important restrictions on this word, for grabbing from elsewhere
-        if (r) this.R = safe(this, this.type)
-        
-        //on rare occasions global restrictions are specified on words, so make sure they get global
-        registerGR(c)
-    }
-
-
-} //end branch
-
-
-
-function executeBranch(c, r, p){
-
-    //evaluate head first
-    if('head' in c){
-        this.order = c.order
-        this.children = {}
-
-        var newbranch = c.children[c.head][0]
-        var headr = _.extend( {}, c.restrictions, r, c.children[c.head][1] )
-        this.head = this.children[c.head] = new branch(newbranch, headr, p, c.head)
-
-    }
-
-    //run special functions after head is loaded, if any
-    //if(this.head.midlogic)
-
-    //evaluate rest of children
-    if('children' in c){
-        for(var child in c.children){
-            if(this.children[child] != this.head){
-                if(typeOf(c.children[child])=='array'){
-                    var R = parseRestrictions.apply( this, [c.children[child][1]] ) //restrictions explicitly passed in to branch
-                    if(R=="LEAVE") this.children[child] = {text: ""} //this is how we deal with branches that our restrictions told us not to follow
-
-                    else {
-                        //if a restriction reset has been requested, clear everything accept nocomplement
-                        if (c.children[child][1] && c.children[child][1].reset) r = {nocomplement: r.nocomplement}
-
-                        var probability = c.children[child][2] || 1 //if children have a probability of occurence
-                        var tempchildren = []
-                        while (probability > Math.random()) { //repeat until the probability dies
-
-                            //Fetch the child branch
-                            var sprout = new branch(c.children[child][0], _.extend({}, c.restrictions, R), p, child)
-                            if (typeOf(sprout) == 'array')
-                            { tempchildren = tempchildren.concat(sprout) }
-                            else
-                            { tempchildren.push(sprout) }
-
-                            if (probability == 1) probability = 0
-                            else probability *= 0.6
-                        }
-
-                        //sort the multiple child instances if there is sort criteria
-                        if (c.children[child][3]!==undefined) {
-                            var sortby = c.children[child][3]
-                            tempchildren = tempchildren.sort(function(b,a){
-                                if (a[sortby]) {
-                                    //items being sorted have property directly, like when sorting words
-                                    return a[sortby] - b[sortby]
-                                } else {
-                                    //items being sorted do not have property, such as when sorting phrases
-                                    //property must exist on the head or grandchildhead etc.
-                                    return propertySearch(a,sortby) - propertySearch(b,sortby)
-                                }
-                            })
-                        }
-
-                        if (tempchildren.length==1) tempchildren = tempchildren[0]
-                        else if (tempchildren.length===0) tempchildren = {text: ""}
-                        this.children[child] = tempchildren
-                    }
-                }
-                else //presumably this is just a straight object rather than a construction + restrictions to evaluate
-                {this.children[child] = c.children[child]}
-            }
-        }
-    }
-}
-
 /*-------------------------------------   RESTRICTIONS -------------------------------------*/
 
 function globalRestrictions(r){
@@ -771,7 +634,7 @@ function stringOut(c,id){
         outString = stringCleaning(outString, c)
     }
 
-    else outString = c.text //? '<div class="word"><div>'+c.text+'</div></div>' : ''
+    else outString = c.text
 
 
     function replacer(a){
@@ -811,7 +674,7 @@ function stringOut(c,id){
 
     if ( xrayMode && (c.label == null || c.parent.labelChildren) ) {
         C.list = C.list || []
-        if (typeof id != 'undefined') C.list[+id-1] = c //replace construction in list when this is triggered by a head-complement update
+        if (typeof id != 'undefined') C.list[id] = c //replace construction in list when this is triggered by a head-complement update
         else C.list.push(c)                             //most of the time just append construction to list
         var label = c.desc||c.label||'clause'
         var constituentClasses = 'class="constituent '+ishead+' '+c.label+'-"'
@@ -821,7 +684,6 @@ function stringOut(c,id){
                 //placeholders needed for potential complements
                 '<div id="['+C.list.length+']" '+ constituentClasses +'></div>'
                 : ''
-        //outString = outString ? $('<div class="constituent '+ishead+'"><div class="label">'+(c.desc||c.label||'clause')+'</div><div class="construction"> '+outString+'</div></div>') : ''
     } else {
         return outString
     }

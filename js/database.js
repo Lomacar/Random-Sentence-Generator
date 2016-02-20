@@ -222,6 +222,7 @@ var paradigms = {
     noun: {number: ['pl', 'sg'], def: ['def','indef'], quantified: [true,false], person: [1,2,3]},
 	pronoun: {case: ['nom', 'acc','gen','reflex'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
 }
+paradigmList = _.uniq(_.flatten(_.map(_.keys(paradigms),function(k){return _.keys(paradigms[k])})))
 
 for (type in dbkeys) {
     if (paradigms[type]){
