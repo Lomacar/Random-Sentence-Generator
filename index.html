@@ -180,7 +180,9 @@
                                 ///var nh = console.log($(stringOut(new branch(NP,null,null,null,myrng()))).text())
                                 /// console.log(parseSingleRestriction(nh.label+'.name',nh,true).name)
 
-                                p.restrictions = _.extend({},R,p.restrictions,{name: nh.name || nh.text || parseSingleRestriction(nh.label+'.name',nh,true).name})
+                                var headName = p.head.label + '.name' //some weird constructions pass their entire 'r' to non-head children, and we don't want '.name' to go there
+                                var addMe = {}; addMe[headName] = nh.name || nh.text || parseSingleRestriction(nh.label+'.name',nh,true).name
+                                p.restrictions = _.extend( {}, R, p.restrictions, addMe )
 
                             //}
 
@@ -256,8 +258,17 @@
                                             var sibC = top.list[ id ]
                                             var aText = $(stringOut(a,-1)).text() //parseSingleRestriction(a.label+'.text',notherBranch,true).text
                                             var sibText = $(stringOut(sibC,-1)).text() //parseSingleRestriction(sibC.label+'.text',sibC,true).text
-                                            console.log(aText+' -:- '+sibText)//.animateCSS("bounce")
-                                            if(aText != sibText) {
+                                            ///console.log(aText+' -:- '+sibText)//.animateCSS("bounce")
+
+                                            var updateFunction
+
+                                            //blank out elements with no content
+                                            if(!a.text && !a.children){
+                                                updateFunction = function() {
+                                                    sibEl.html('')
+                                                }
+                                            //update other elements only if they changed
+                                            } else if (aText != sibText) {
                                                 updateFunction = function() {
                                                     sibEl.html($(stringOut(a,id)).html())
                                                     .find('.label').click(randomizer)
@@ -265,13 +276,19 @@
                                                     // since we are changing the inner html, not replacing the whole element
                                                     //top.list[ id ] = a
                                                 }
+
+                                            }
+
+                                            if (updateFunction) {
                                                 setTimeout(function() {
                                                     animateElement.apply(this, [sibEl, updateFunction])
                                                 }, 200)
                                             }
+
                                         }
                                     }
-                                    console.log($(stringOut(a)).find('.label').remove().end().text())
+
+
                                 })
                             }
 
@@ -286,7 +303,7 @@
 
                 //update a normal non-head constituent
                 updateFunction = function() {
-                    var newBranch = $(stringOut(new branch(c.construction, c.restrictions, c.parent, c.label ))).children('.construction')
+                    var newBranch = $(stringOut(new branch(c.construction, c.restrictions, c.parent, c.label))).children('.construction')
                     if (newBranch.length) {
                          newBranch.find('.label').click(randomizer)
                         here.children('.construction').replaceWith( newBranch )
