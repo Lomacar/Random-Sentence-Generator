@@ -30,7 +30,7 @@ function PASSIVE(r){
         children: {
             subject: [NP, {pronominal: false}],
             predicate: [VP_PASV, {copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def'), unpack:'subject.R'}],
-            pasvSubj: [complement, {'case':'nom', complements: 'predicate.compcore', unpack:'predicate.number-person', pasv: true}]
+            pasvSubj: [complement, {'case':'nom', complements: 'predicate.compcore', unpack:'predicate.number-person', pasv: true, desc: 'subject'}]
         }
     }
 }
@@ -127,14 +127,14 @@ function DET(r) {
                             r.quantified = false
                             return choose(1, [PREQUANT,r],                        //'12 of my dogs' is definite
                                           r.count, {
-                                order: 'det quant',
-                                head: 'det',
-                                labelChildren: true,
-                                children: {
-                                    det: [DET, r],
-                                    quant: {text: toWords(powerRandom()), desc: 'quantifier'} //'these 12 dogs' is definite
-                                }
-                            }
+                                                order: 'det quant',
+                                                head: 'det',
+                                                labelChildren: true,
+                                                children: {
+                                                    det: [DET, r],
+                                                    quant: [QUANT,{justGiveMeANumber:true, desc: 'quantifier'}] //'these 12 dogs' is definite
+                                                }
+                                            }
                                          )
                         }
                     }
@@ -194,7 +194,7 @@ function QUANT(r){
     r.prequant = r.prequant || false
     r.neg = r.neg || false
 
-    if(r.count==true && toss(0.3)) {
+    if(r.count==true && toss(0.3) || r.justGiveMeANumber) {
         return {text: toWords(powerRandom())}
     } else {
         return [get, {type: 'quantifier', prequant: r.prequant }]
