@@ -1,17 +1,20 @@
 /*-------------------------------------   BRANCH -------------------------------------*/
 
-function branch(c, r, p, l, x) {
+function branch(c, r, p, l, x, y) {
     this.construction = c
     this.restrictions = r || {}
     this.parent = p || null
     LAST_PARENT = p || LAST_PARENT
     this.label = l || null
 
+
+    this.randomize = y
+
     if(xrayMode){
         this.seed = x || Math.random().toString(32).slice(2);
         Math.seedrandom(this.seed)
-        _ = _.runInContext();
         ///console.log(this.seed)
+        _ = _.runInContext();
     }
 
     if(r && "desc" in r) {
@@ -25,8 +28,11 @@ function branch(c, r, p, l, x) {
 
     //parse and filter restrictions
     r = parseRestrictions.apply(this, [r])
+
     //load the requested construction
     c = c(r)
+
+
     //wh clauses return a fully evaluated branch, so no need to process them
     if (c.constructor == branch) {
         c.parent = this.parent //maybe a little bit of processing...
@@ -41,7 +47,6 @@ function branch(c, r, p, l, x) {
         this.construction = c[0]
         c = c[0]( _.extend({}, r, c[1]) )
     }
-
 
     executeBranch.apply(this, [c, r, this])
 
@@ -87,6 +92,19 @@ function branch(c, r, p, l, x) {
 
 function executeBranch(c, r, p){
 
+    if(this.randomize == 'head') {
+        var rng = new Math.seedrandom()
+        Math.seedrandom(rng())
+        ld = _.runInContext()
+        var ld_backup = _
+        _ = ld
+    } else {
+        Math.seedrandom(this.seed)
+        _ = _.runInContext()
+    }
+    //if(!p.label) console.log( $(stringOut(new branch(QUANT,{},{},'fake'))) );
+
+
     //evaluate head first
     if('head' in c){
         this.order = c.order
@@ -98,8 +116,23 @@ function executeBranch(c, r, p){
 
     }
 
-    //run special functions after head is loaded, if any
-    //if(this.head.midlogic)
+    if (this.randomize == 'head') {
+        _ = ld_backup
+    }
+    if(this.randomize == 'tail') {
+        var rng = new Math.seedrandom()
+        Math.seedrandom(rng())
+        ld = _.runInContext()
+        var ld_backup = _
+        _ = ld
+    } else {
+        Math.seedrandom(this.seed)
+        _ = _.runInContext()
+    }
+    //if(!p.label) console.log(route( _.random(2), {0:decide(null,'tense,aspect,mood'),1:Math.random(),'rest':options('(yes | no | maybe so)')} ) );
+    //if(!p.label) console.log( $(stringOut(new branch(N,{},{},'fake'))) );
+
+
 
     //evaluate rest of children
     if('children' in c){
@@ -152,5 +185,9 @@ function executeBranch(c, r, p){
                 {this.children[child] = c.children[child]}
             }
         }
+    }
+
+    if (this.randomize == 'tail') {
+        _ = ld_backup
     }
 }
