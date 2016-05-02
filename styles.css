@@ -1,9 +1,24 @@
 body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align: center;}
 .hello {margin: 0 1.8em; margin-bottom: 1em; padding: 2em; text-align: center; font-family: 'Roboto Slab','Yanone Kaffeesatz'; color: #0a2376; background: #d8eaff; border-radius: 0 0 1vw 1vw}
-.hello h1 {margin-bottom: 0.25em; font-weight: normal; font-size: 2vw;}
-.hello h1::first-line {font-size: 1.5em;}
+.hello h1 {margin-bottom: 0.25em; font-weight: normal; font-size: 1em;}
+.hello h1::first-line {font-size: 1.2em;}
 .hello h2 {margin-top: 0;}
 .hello p {margin: 2em 1em 1em 1em;}
+
+.modes a {
+    border: 2px solid currentColor;
+    padding: 3px 6px;
+    margin: 0 0.3em;
+    border-radius: 5px;
+    text-decoration: none;
+    color: inherit;
+    white-space: nowrap;
+    line-height: 2em
+}
+.modes a.active {
+    background: white;
+}
+
 .sentence {
     position: relative;
     margin: 0 1.8em;
@@ -100,13 +115,13 @@ body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align:
 
 
 @media (max-width: 800px) {
-  .hello h1 {font-size: 1.2em;}
+/*  .hello h1 {font-size: 1.1em;}*/
   .hello br {display: none}
   .sentence {font-size: 1.5em;}
 }
 
 @media (min-width: 1100px) {
-  .hello h1 {font-size: 1.5em;}
+/*  .hello h1 {font-size: 1.3em;}*/
   .sentence {font-size: 2.5em;}
 }
 
