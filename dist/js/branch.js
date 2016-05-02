@@ -92,15 +92,17 @@ function branch(c, r, p, l, x, y) {
 
 function executeBranch(c, r, p){
 
-    if(this.randomize == 'head') {
-        var rng = new Math.seedrandom()
-        Math.seedrandom(rng())
-        ld = _.runInContext()
-        var ld_backup = _
-        _ = ld
-    } else {
-        Math.seedrandom(this.seed)
-        _ = _.runInContext()
+    if(xrayMode){
+        if(this.randomize == 'head') {
+            var rng = new Math.seedrandom()
+            Math.seedrandom(rng())
+            ld = _.runInContext()
+            var ld_backup = _
+            _ = ld
+        } else {
+            Math.seedrandom(this.seed)
+            _ = _.runInContext()
+        }
     }
     //if(!p.label) console.log( $(stringOut(new branch(QUANT,{},{},'fake'))) );
 
@@ -116,18 +118,20 @@ function executeBranch(c, r, p){
 
     }
 
-    if (this.randomize == 'head') {
-        _ = ld_backup
-    }
-    if(this.randomize == 'tail') {
-        var rng = new Math.seedrandom()
-        Math.seedrandom(rng())
-        ld = _.runInContext()
-        var ld_backup = _
-        _ = ld
-    } else {
-        Math.seedrandom(this.seed)
-        _ = _.runInContext()
+    if(xrayMode){
+        if (this.randomize == 'head') {
+            _ = ld_backup
+        }
+        if(this.randomize == 'tail') {
+            var rng = new Math.seedrandom()
+            Math.seedrandom(rng())
+            ld = _.runInContext()
+            var ld_backup = _
+            _ = ld
+        } else {
+            Math.seedrandom(this.seed)
+            _ = _.runInContext()
+        }
     }
     //if(!p.label) console.log(route( _.random(2), {0:decide(null,'tense,aspect,mood'),1:Math.random(),'rest':options('(yes | no | maybe so)')} ) );
     //if(!p.label) console.log( $(stringOut(new branch(N,{},{},'fake'))) );
