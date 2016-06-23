@@ -1,4 +1,3 @@
-*.csv*
 /research/
 /junk/
 node_modules
