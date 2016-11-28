@@ -95,7 +95,7 @@
                     oneline = oneRandom(seed)
                     oneline = oneline.trim()
                     oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + (xrayMode ? '':'.') +'<span class="seed">'+window.lastseed+'</span></div>'
-                    oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length]})
+                    oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length] + ', Roboto Slab'})
                     $(oneline).data({c:C})
                     $('body').append(oneline)
                 }
