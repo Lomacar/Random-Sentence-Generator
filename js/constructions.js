@@ -44,7 +44,7 @@ function COPULA(){
         head: "subject",
         labelChildren: true,
         children: {
-            subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 5,2, 7,3), def: 'def'}],
+            subject: [NP, {case: 'nom', def: 'def'}],
             predicate: [PREDICATE, {unpack: 'subject.R', copulant: true}]
         }
     }
