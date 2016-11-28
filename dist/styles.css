@@ -1,5 +1,16 @@
+@font-face {
+    font-family: 'Roboto Slab';
+    src: url('font/RobotoSlab-Regular-webfont.eot');
+    src: url('font/RobotoSlab-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/RobotoSlab-Regular-webfont.woff') format('woff'),
+         url('font/RobotoSlab-Regular-webfont.ttf') format('truetype'),
+         url('font/RobotoSlab-Regular-webfont.svg#roboto_slablight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align: center;}
-.hello {margin: 0 1.8em; margin-bottom: 1em; padding: 2em; text-align: center; font-family: 'Roboto Slab','Yanone Kaffeesatz'; color: #0a2376; background: #d8eaff; border-radius: 0 0 1vw 1vw}
+.hello {margin: 0 1.8em; margin-bottom: 1em; padding: 2em; text-align: center; font-family: 'Roboto Slab'; color: #0a2376; background: #d8eaff; border-radius: 0 0 1vw 1vw}
 .hello h1 {margin-bottom: 0.25em; font-weight: normal; font-size: 1em;}
 .hello h1::first-line {font-size: 1.2em;}
 .hello h2 {margin-top: 0;}
