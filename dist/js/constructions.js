@@ -1,5 +1,5 @@
 function SENTENCE(r){
-    return choose(12, [CLAUSE], 1, [PASSIVE], 2.4, [COPULA], 0.001, [ALLYOURBASE])
+    return choose(12, [CLAUSE, r], 1, [PASSIVE, r], 2.4, [COPULA, r], 0.001, [ALLYOURBASE, r])
 }
 
 function CLAUSE(r){
@@ -9,7 +9,7 @@ function CLAUSE(r){
         labelChildren: true,
         children: {
             subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 4,2, 6,3), def: choose(9, 'def', 1, 'indef')}],
-            predicate: [AUXP, {copulant: false, unpack: "subject.R"}],
+            predicate: [AUXP, _.extend({copulant: false, unpack: "subject.R"}, r)],
             adjunct: [ADJUNCT_PP, 'predicate.vp.vword.verb.R']
         }
     }
@@ -29,13 +29,13 @@ function PASSIVE(r){
         //hasComplement: 'subject',
         children: {
             subject: [NP, {pronominal: false}],
-            predicate: [VP_PASV, {copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def'), unpack:'subject.R'}],
+            predicate: [VP_PASV, _.extend({copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def'), unpack:'subject.R'},r)],
             pasvSubj: [complement, {'case':'nom', complements: 'predicate.compcore', unpack:'predicate.number-person', pasv: true, desc: 'subject'}]
         }
     }
 }
 
-function COPULA(){
+function COPULA(r){
 
     //SHOULD ALLOW PPs(done!) and NPs too
 
@@ -45,7 +45,7 @@ function COPULA(){
         labelChildren: true,
         children: {
             subject: [NP, {case: 'nom', def: 'def'}],
-            predicate: [PREDICATE, {unpack: 'subject.R', copulant: true}]
+            predicate: [PREDICATE, _.extend({}, r, {unpack: 'subject.R', copulant: true})]
         }
     }
 }
@@ -337,24 +337,24 @@ function a_neg(r) {
 function PREDICATE(r){
     decide(r, "tense,aspect,number,person")
 
-    var l = magicCompare(r.tags,"thing")
+    var L = magicCompare(r.tags,"thing")
 
     return {
         order: "aux word",
         head: "aux",
         labelChildren: true,
         children: {
-            aux:  [auxiliary, {desc:'copula'}],
+            aux:  [auxiliary],
             word: choose(
                     2, [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg'})],
-                    l, [LOCATION, $.extend(r,{vtags:"copula"})]
+                    L, [LOCATION, $.extend(r, {vtags:"copula"})]
                   )
         }
     }
 }
 
 function AUXP (r) {
-    decide(r, "tense,aspect,number,person")
+    r = decide(r, "tense,aspect,number,person")
 
     return {
         order: 'aux vp',
@@ -363,7 +363,7 @@ function AUXP (r) {
         hasComplement: 'vp', //this is a cop-out because it would be hard to correctly update the verb inflection when the aux changes
         children: {
             aux: [auxiliary],
-            vp: [VP, _.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', subj_def: 'subject.def', pasv: false, aspect: r.real_aspect})]
+            vp: [VP, _.extend({}, r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg', subj_def: 'subject.def', pasv: false, aspect: r.real_aspect})]
         }
     }
 }
@@ -522,7 +522,7 @@ function auxiliary(r){
     if(r.tense=="fut") text = last_bit = "will"
     else text = ( last_bit = route(r.mood, {
         deo: choose(1,"could", 1,"should", 1,"must"),
-        pot: choose(1,"would",1,"might"),
+        epi: choose(1,"would",1,"might"),
         rest: ''
     })
                 )
@@ -665,7 +665,7 @@ function THAT_CLAUSE(r){
         gap: [blank],
         wh: 'what',
         children:{
-            clause: [SENTENCE]
+            clause: [SENTENCE, _.pick(r, ['tense', 'mood', 'neg'])]
         }
     }
 }
