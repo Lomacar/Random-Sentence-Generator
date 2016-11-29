@@ -217,7 +217,7 @@ database.preposition = [
 ]
 
 var paradigms = {
-    verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog'], mood: ['ind','deo','pot']}, //trans: [0,0.5,1,1.5] //why did I have this?
+    verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog'], mood: ['ind','deo','epi']}, //trans: [0,0.5,1,1.5] //why did I have this?
 	aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
     noun: {number: ['pl', 'sg'], def: ['def','indef'], quantified: [true,false], person: [1,2,3]},
 	pronoun: {case: ['nom', 'acc','gen','reflex'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
@@ -282,5 +282,5 @@ var probabilities = {
     tense:      [5,     'pres',    12,  'past', 1,  'fut'],
     aspect:     [20,    'simp',    5,   'prog', 2,  'retro', 1, 'retroprog', 2, 'prosp'],
     neg:        [15,    false,     1,   true],
-    mood:       [1,     'deo',     1,   'pot',  12,  'ind']
+    mood:       [1,     'deo',     1,   'epi',  12,  'ind']
 }
