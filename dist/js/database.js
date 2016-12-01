@@ -1,6 +1,6 @@
 database.aux_verb = [
-    { "name": "be", "inflections": "simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, retroprog:being, prog:being"},
-    { "name": "do", "inflections": "simp.pres.sg.3:does, simp.past:did, retro: done, retroprog:doing, prog:doing"},
+    { "name": "be", "inflections": "simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, prog:being"},
+    { "name": "do", "inflections": "simp.pres.sg.3:does, simp.past:did, retro: done, prog:doing"},
     { "name": "have", "inflections": "simp.past:had, simp.pres.sg.3:has, retro:had"}
 ]
 
@@ -81,7 +81,6 @@ database.title = [
 ]
 
 database.preposition = [
-    //at,in,on,under,underneath,below,beneath,between,near,next to,far from,away from,in front of, beside,by, behind, inside, among, amid
     {name: 'at',    role: 'LOC',     vtags: 'situated',           'lm.tags': 'point|position|boundary|site|table|motorVehicle', 'lm.size': '<9'},
     {name: 'at',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'building|point',                'lm.size': '>7'},
     {name: 'at',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'point'},
@@ -99,7 +98,8 @@ database.preposition = [
     {name: 'on',    role: 'LOC',     vtags: 'activity|situated|situated|placement',  'lm.tags': 'surface', 'lm.size': '>trajector.size'},
     {name: 'on',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'field|passengerVehicle'},
     {name: 'on',    role: 'LOC',     vtags: 'copula',            'lm.tags': 'surface', 'lm.size': '>trajector.size'},
-    //TODO: under, above, next to, beside, near, behind, in front of, on top of, inside, outside ...
+    //TODO: at,in,on,under,underneath,below,beneath,between,near,next to,far from,away from,in front of, on top of,
+    //      beside, by, behind, inside, outside, among, amid, around
 
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -217,8 +217,8 @@ database.preposition = [
 ]
 
 var paradigms = {
-    verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog'], mood: ['ind','deo','epi']}, //trans: [0,0.5,1,1.5] //why did I have this?
-	aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'retroprog']},
+    verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'prosp'], mood: ['ind','deo','epi']}, //trans: [0,0.5,1,1.5] //why did I have this?
+	aux_verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro']},
     noun: {number: ['pl', 'sg'], def: ['def','indef'], quantified: [true,false], person: [1,2,3]},
 	pronoun: {case: ['nom', 'acc','gen','reflex'], number: ['sg', 'pl'], person: [1,2,3], gender: ['m', 'f', 'n']}
 }
@@ -280,7 +280,7 @@ var probabilities = {
 
     //verby
     tense:      [5,     'pres',    12,  'past', 1,  'fut'],
-    aspect:     [20,    'simp',    5,   'prog', 2,  'retro', 1, 'retroprog', 2, 'prosp'],
+    aspect:     [20,    'simp',    5,   'prog', 3,  'retro', 2, 'prosp'],
     neg:        [15,    false,     1,   true],
     mood:       [1,     'deo',     1,   'epi',  12,  'ind']
 }
