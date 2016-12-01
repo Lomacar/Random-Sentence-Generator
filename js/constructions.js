@@ -471,16 +471,10 @@ function aspect(r){
     return {
         text: route(goodVal(r.inflected) || !!r.noinflection, {
             false: route(r.aspect, {
-            prog: "ing",
-            retroprog: "ing"
+                prog: "ing"
+            })
         })
-    })
-}
-/* if (!goodVal(r.inflected) && !r.noinflection && (r.aspect=='prog' || r.aspect=='retroprog') ) {
-        return {text: 'ing'}
     }
-
-    return {text: ''}*/
 }
 
 //verb tense morphology
@@ -504,6 +498,32 @@ function auxiliary(r){
     var r2 = _.clone(r)
     r2.aspect = 'simp'
 
+    //if mood is not indicative
+        //if tense is past
+            //if aspect is simp -> retro
+            //if aspect is prog -> retroprog
+            //if aspect is prosp -> retroprosp
+
+    //if mood == "indicative"
+        //if tense == "present
+            //ban retroprosp & prospretro
+        //if tense == "future"
+            //ban retro-everything and prosp-everything
+    //if "could, must, might, may"
+        //ban prospretro, prospprog
+    //if "would, should"
+        //ban prosp-everything
+
+    //if passive
+        //ban retroprosp
+        //ban or use "getting" for retroprog and prospprog
+        //if future
+            //ban or use "getting" for prog
+        //if not indicative
+            //ban prosp-everything and prog-everything
+
+    //if copular
+        //same as passive except for the "getting" option
 
     function wellthen(aspect){
         if(last_bit){
@@ -528,14 +548,14 @@ function auxiliary(r){
                 )
     wellthen()
 
-    //retrospective
+    //retrospective (and retroprogressive)
     if(r.aspect.indexOf("retro") >= 0) {
         last_bit = get($.extend(r2, {type: 'aux_verb', name: 'have'}))
         text += " " + (last_bit.inflected || last_bit.name)
         wellthen("retro")
     }
 
-    //progressive or copula
+    //progressive (and retroprog) or copula
     if(r.aspect.indexOf("prog") >= 0 || r.copulant) {
         last_bit = get($.extend(r2, {type: 'aux_verb', name: 'be'}))
         text += " " + (last_bit.inflected || last_bit.name)
