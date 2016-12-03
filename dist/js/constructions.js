@@ -339,16 +339,20 @@ function PREDICATE(r){
 
     var L = magicCompare(r.tags,"thing")
 
+    var ptype = choose(2, 'adjective', L, 'location')
+
+    if (ptype == 'location' && r.aspect == 'prog') r.aspect = 'simp'
+
     return {
         order: "aux word",
         head: "aux",
         labelChildren: true,
         children: {
             aux:  [auxiliary],
-            word: choose(
-                    2, [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg'})],
-                    L, [LOCATION, $.extend(r, {vtags:"copula"})]
-                  )
+            word: route( ptype, {
+                    'adjective': [AP, $.extend(r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg'})],
+                    'location': [LOCATION, $.extend(r, {vtags:"copula"})]
+                  })
         }
     }
 }
@@ -493,37 +497,10 @@ function tense(r){
 function auxiliary(r){
     var text = ""
     var last_bit = ""
-    var pasv = r.pasv
+    pasv = r.pasv
     r = decide(r,"neg,tense,aspect,mood,number,person,copulant", true)
     var r2 = _.clone(r)
     r2.aspect = 'simp'
-
-    //if mood is not indicative
-        //if tense is past
-            //if aspect is simp -> retro
-            //if aspect is prog -> retroprog
-            //if aspect is prosp -> retroprosp
-
-    //if mood == "indicative"
-        //if tense == "present
-            //ban retroprosp & prospretro
-        //if tense == "future"
-            //ban retro-everything and prosp-everything
-    //if "could, must, might, may"
-        //ban prospretro, prospprog
-    //if "would, should"
-        //ban prosp-everything
-
-    //if passive
-        //ban retroprosp
-        //ban or use "getting" for retroprog and prospprog
-        //if future
-            //ban or use "getting" for prog
-        //if not indicative
-            //ban prosp-everything and prog-everything
-
-    //if copular
-        //same as passive except for the "getting" option
 
     function wellthen(aspect){
         if(last_bit){
@@ -548,38 +525,97 @@ function auxiliary(r){
                 )
     wellthen()
 
-    //retrospective (and retroprogressive)
-    if(r.aspect.indexOf("retro") >= 0) {
-        last_bit = get($.extend(r2, {type: 'aux_verb', name: 'have'}))
-        text += " " + (last_bit.inflected || last_bit.name)
-        wellthen("retro")
+    //use retro as a sort of past tense for modals
+    if (r.mood != 'ind' && r.tense == 'past') {
+        if (r.aspect == 'simp') {
+            r.aspect = 'retro'
+        } else if (r.aspect != 'retro') {
+            r.aspect = 'retro ' + r.aspect
+        }
     }
 
-    //progressive (and retroprog) or copula
-    if(r.aspect.indexOf("prog") >= 0 || r.copulant) {
-        last_bit = get($.extend(r2, {type: 'aux_verb', name: 'be'}))
-        text += " " + (last_bit.inflected || last_bit.name)
-        wellthen("prog")
+    //chance to make complex aspects like 'retro prog'
+    if(r.aspect != 'simp' && r.aspect.indexOf(" ") < 0 && toss(probabilities.complex_aspects)) {
+        var aspects = ['retro','prosp']
+        _.pull(aspects, r.aspect)
+        r.aspect = _.sample(aspects) + " " + r.aspect;
     }
 
-    //prospective
-    if ( /^ *$/.test(text) && r.aspect.indexOf("prosp") >= 0) {
-        last_bit = get($.extend(r2, {type: 'aux_verb', name: 'be'}))
-        text = (last_bit.inflected || last_bit.name)
-        wellthen()
-        text += " going to"
+    //remove forbidden aspects -------------------------------
+
+    if (r.tense == 'pres') {
+        //ban retroprosp & prospretro (reduce to single aspect)
+        if (/retro prosp|prosp retro/.test(r.aspect)) {
+            r.aspect = r.aspect.split(' ').pop()
+        }
+    }
+    if (r.tense == 'fut') {
+        //ban retro-everything and prosp-everything
+        r.aspect = r.aspect.replace(/retro|prosp/, '')
     }
 
-    //passive
-    if(pasv==true){
-        last_bit = get($.extend(r2, {type: 'aux_verb', name: 'be'}))
+    if(/could|must|might|may/.test(text)) {
+        //ban prospretro, prospprog
+        r.aspect = r.aspect.replace('prosp ', '')
+    }
+    if (/should|would/.test(text)) {
+        //ban prosp-everything
+        r.aspect = r.aspect.replace('prosp', '')
+    }
+
+    if (r.pasv || r.copulant) {
+        //ban retroprosp, retroprog and prospprog (reduce to single aspect)
+        if (/retro prosp|retro prog|prosp prog/.test(r.aspect)) {
+            r.aspect = r.aspect.split(' ').pop()
+        }
+        if (r.tense == 'future') {
+            //ban prog
+            r.aspect = r.aspect.replace(/prog/, '')
+        }
+        if (r.mood != 'ind') {
+            r.aspect = r.aspect.replace(/prosp|prog/, '')
+        }
+    }
+
+    r.aspect = r.aspect.trim()||'simp'
+
+    // -------------------------------------------------------
+
+    var aspect_functions = {
+        retro: function(){
+            last_bit = get($.extend({}, r2, {type: 'aux_verb', name: 'have'}))
+            text += " " + (last_bit.inflected || last_bit.name)
+            wellthen("retro")
+        },
+        prog: function () {
+            last_bit = get($.extend({}, r2, {type: 'aux_verb', name: 'be'}))
+            text += " " + (last_bit.inflected || last_bit.name)
+            wellthen("prog")
+        },
+        prosp: function () {
+            last_bit = get($.extend({}, r2, {type: 'aux_verb', name: 'be'}))
+            text += " " + (last_bit.inflected || last_bit.name)
+            wellthen()
+            text += " going to"
+        }
+    }
+
+    //produce the necessary text for one or two aspects, in order
+    var aspex = r.aspect.split(' ')
+    aspex.forEach(function (a) {
+        if (a!='simp') aspect_functions[a].call(this)
+    })
+
+    //passive or copula
+    if(pasv==true || r.copulant){
+        last_bit = get($.extend({}, r2, {type: 'aux_verb', name: 'be'}))
         text += " " + (last_bit.inflected || last_bit.name)
         wellthen("retro")
     }
 
     //dummy 'do' for bare negative
     if (/^ *$/.test(text) && r.neg) {
-        last_bit = get($.extend(r2, {type: 'aux_verb', name: 'do'}))
+        last_bit = get($.extend({}, r2, {type: 'aux_verb', name: 'do'}))
         text = (last_bit.inflected || last_bit.name ) + " not"
         r2.noinflection = true
     }
