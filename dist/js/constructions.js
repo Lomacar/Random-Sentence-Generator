@@ -342,18 +342,17 @@ function PREDICATE(r){
 
     var ptype = choose(2, 'adjective', L, 'location')
 
-    if (ptype == 'location' && r.aspect == 'prog') r.aspect = 'simp'
-//    if(r.aspect == 'prog') r.aspect = 'simp'
+    if (ptype == 'location' && r.aspect == 'prog' ) r.aspect = 'simp'
 
     return {
-        order: "aux word",
+        order: "aux pred",
         head: "aux",
         labelChildren: true,
         children: {
             aux:  [auxiliary],
-            word: route( ptype, {
-                    'adjective': [AP, _.extend( r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg'})],
-                    'location': [LOCATION, _.extend( r, {vtags:"copula"})]
+            pred: route( ptype, {
+                    'adjective': [AP, _.extend( {}, r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg'})],
+                    'location': [LOCATION, _.extend( {}, r, {vtags:"copula"})]
                   })
         }
     }
@@ -383,7 +382,7 @@ function auxiliary(r){
     r2.aspect = 'simp'
 
     //no progressive aspect for location predicates
-    if (r.ptype && r.ptype == 'location' && r.aspect == 'prog') r.aspect = 'simp'
+    //if (r.ptype && r.ptype == 'location' && r.aspect == 'prog') r.aspect = 'simp'
 
     function wellthen(aspect){
         if(last_bit){
