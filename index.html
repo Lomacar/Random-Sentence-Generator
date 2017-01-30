@@ -94,7 +94,8 @@
                     oneline = oneRandom(seed)
                     oneline = oneline.trim()
                     oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + (xrayMode ? '':'.') +'<span class="seed">'+window.lastseed+'</span></div>'
-                    oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length] + ', Roboto Slab'})
+                    if (window.location.protocol=="file:") oneline = $(oneline).css({"font-family": 'Roboto Slab'})
+                    else oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length]})
                     $(oneline).data({c:C})
                     $('body').append(oneline)
                 }
@@ -136,8 +137,9 @@
 
                 }
 
-
-                $('head').append("<link href='http://fonts.googleapis.com/css?family=Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One|Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Oswald|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative' rel='stylesheet' type='text/css'>")
+                if (window.location.protocol!="file:"){
+                    $('head').append("<link href='http://fonts.googleapis.com/css?family=Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One|Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Oswald|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative' rel='stylesheet' type='text/css'>")
+                }
                 //console.timeEnd("full");
                 //console.timeEnd("sentence loop");
 
