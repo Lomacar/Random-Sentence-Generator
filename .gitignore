@@ -5,3 +5,4 @@ node_modules
 *~lock*
 /vakata-jstree-9770c67/
 /dist/theme/
+/localserver.py
