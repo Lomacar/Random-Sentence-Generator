@@ -377,6 +377,8 @@ function auxiliary(r){
     var text = ""
     var last_bit = ""
     pasv = r.pasv
+    matrix_tense = r.matrix_tense
+    matrix_class = r.matrix_class
     r = decide(r,"neg,tense,aspect,mood,number,person,copulant", true)
     var r2 = _.clone(r)
     r2.aspect = 'simp'
@@ -397,9 +399,23 @@ function auxiliary(r){
         }
     }
 
+//    if (matrix_tense) {
+//        text = 'NARF'// + "-" + matrix_tense + "-" + r.tense + "-" + matrix_class + " "
+//        //return [filler, {filler:text}]
+//    }
+    //if this is inside a "that clause" or wh_clause or maybe something else
+    if(matrix_tense){
+        if(matrix_tense == "past"){
+            if (matrix_class == "state") {
+                //avoid things like "He knew that John is speaking."
+                if (r.tense == "pres") r.tense = r2.tense = "past"
+            }
+        }
+    }
+
     //future tense and modals
-    if(r.tense=="fut") text = last_bit = "will"
-    else text = ( last_bit = route(r.mood, {
+    if(r.tense=="fut") text += last_bit = (matrix_tense=="past") ? "would" : "will"
+    else text += ( last_bit = route(r.mood, {
         deo: choose(1,"could", 1,"should", 1,"must"),
         epi: choose(1,"would",1,"might"),
         rest: ''
@@ -525,14 +541,14 @@ function VP(r){
 function VP_PASV(r){
 
     return {
-        order: "aux vrb noncore",
-        head: "vrb",
+        order: "aux vp noncore",
+        head: "vp",
         labelChildren: true,
         hasComplement: "noncore",
         children: {
-            vrb: [V_PASV, {desc:'verb'}],
-            aux:  [auxiliary, _.extend({}, r, {unpack: 'vrb.number-person'}) ],
-            noncore: [VP_PASV_PT2, {unpack: 'vrb.R', desc:'passive stuff'}]
+            vp: [V_PASV, {desc:'verb'}],
+            aux:  [auxiliary, _.extend({}, r, {unpack: 'vp.number-person'}) ],
+            noncore: [VP_PASV_PT2, {unpack: 'vp.R', desc:'passive stuff'}]
         }
     }
 }
@@ -555,8 +571,8 @@ function VP_PASV_PT2 (r){
         labelChildren: true,
         children: {
             dummy: [blank],
-            compext: [complement, {'case':'dat', unpack: 'vrb.compext-number-person', vtags: 'vrb.vtags', pasv:true, desc: 'complement'}],
-            agent: hasAgent ? [PASV_AGENT, {case: 'acc', unpack: "vrb.R", neg: 'vrb.neg', pasv: false}] : null
+            compext: [complement, {'case':'dat', unpack: 'vp.compext-number-person', vtags: 'vp.vtags', pasv:true, desc: 'complement'}],
+            agent: hasAgent ? [PASV_AGENT, {case: 'acc', unpack: "vp.R", neg: 'vp.neg', pasv: false}] : null
         }
     }
 }
@@ -718,6 +734,9 @@ function WH_INF_CLAUSE(r){
 }
 
 function THAT_CLAUSE(r){
+    delete r.neg
+    delete r.pasv
+
     return {
         order: 'that clause',
         head: 'clause',
@@ -725,7 +744,7 @@ function THAT_CLAUSE(r){
         gap: [blank],
         wh: 'what',
         children:{
-            clause: [SENTENCE, _.pick(r, ['tense', 'mood', 'neg'])]
+            clause: [SENTENCE, {matrix_class: 'vp.class', matrix_tense: 'vp.tense'}/*,_.pick(r, ['tense', 'mood', 'neg'])*/]
         }
     }
 }
@@ -746,7 +765,7 @@ function INF_CLAUSE(r){
         head: 'subject',
         children:{
             subject: [NP, {nogap: true}],
-            predicate: [VP, {noinflection: true, unpack: 'subject.R'}]
+            predicate: [VP, {noinflection: true, unpack: 'subject.R' }]
         }
     }
 }

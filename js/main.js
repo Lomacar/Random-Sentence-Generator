@@ -340,7 +340,7 @@ function complement(r){
 
 // takes a string in format '(55 option_one | 45 option_two)', or '(option_one|otion_two)' or just '(option_fifty_fifty)' 
 // and returns one option or an empty string
-// if force==true it does things to make sure no empty string is returned
+// if forced==true it does things to make sure no empty string is returned
 function options(str, forced){
     if(typeOf(str)!='string') return error("Non-string passed to options function.")
 
