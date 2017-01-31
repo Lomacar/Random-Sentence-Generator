@@ -282,8 +282,8 @@ var probabilities = {
 
     //verby
     tense:      [5,     'pres',    12,  'past', 1,  'fut'],
-    aspect:     [12,    'simp',    4,   'prog', 3,  'retro', 2, 'prosp'],
-    neg:        [15,    false,     1,   true],
+    aspect:     [18,    'simp',    4,   'prog', 3,  'retro', 2, 'prosp'],
+    neg:        [18,    false,     1,   true],
     mood:       [1,     'deo',     1,   'epi',  12,  'ind'],
-    complex_aspects: 0.1
+    complex_aspects: 0.05
 }
