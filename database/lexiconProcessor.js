@@ -27,12 +27,15 @@ function loadLexicon(){
 
 
     fs.writeFile("../dist/js/database.processed.js",
-                    "var database = " + JSON.stringify(database)
-                 +  "\n\n"
-                 +  "var lookup = " + JSON.stringify(lookup)
-                 +  "\n\n"
-                 +  "var dbkeys = " + JSON.stringify(dbkeys)
+                    '\ufeff var database = ' + JSON.stringify(database)
+                 +  '\n\n'
+                 +  'var lookup = ' + JSON.stringify(lookup)
+                 +  '\n\n'
+                 +  'var dbkeys = ' + JSON.stringify(dbkeys)
+                 , 'utf8'
+                 , function (err) {}
                 )
+    fs.writeFile('../dist/js/test.txt', '\ufeffThis is an example with accents : São Paulo é è à ' + JSON.stringify(database),'utf8');
     console.log('Updated lexicon'.yellow)
 }
 

@@ -2,4 +2,6 @@
 /junk/
 node_modules
 /some crazy experiment/
-~lock
+*~lock*
+/vakata-jstree-9770c67/
+/dist/theme/

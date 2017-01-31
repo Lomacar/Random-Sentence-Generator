@@ -1,10 +1,12 @@
 ##############       TODO        ##############
 
+BUG: predict/promise/prophesy randomly don't enforce future tense or prospective aspect
+
 "an unicorn"
 
-passive voice
+#passive voice
 
-?reflexive
+#reflexive
  - reciprocal
 
 #prospective aspect
@@ -44,7 +46,7 @@ mutators - "DEAD man", "bottle OF RUM"
 #relative comparisons in restrictions, like {size: '<subject.size', thing: '!aux.case'}
     could be upgraded to handle math like {size: '<5+subject.size'}
 
-BUG: sometimes special characters disappear from restrictions like {lm.size: '>trajector.size'}
+?BUG: sometimes special characters disappear from restrictions like {lm.size: '>trajector.size'}
     
 complex prepositions: over to, down to, up onto
 

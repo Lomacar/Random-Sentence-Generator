@@ -88,7 +88,7 @@ database.preposition = [
     {name: 'at',    role: 'LOC',     vtags: 'activity&!motion',   'lm.tags': 'point|table|border'},
     {name: 'at',    role: 'LOC',     vtags: 'posture',            'lm.tags': 'point|edge|table', 'ncomp.c0.size': '>trajector.size'},
     {name: 'at',    role: 'LOC',     vtags: 'placement',          'lm.tags': 'point'},
-    {name: 'at',    role: 'LOC',     vtags: 'copula',            'lm.tags': 'point|line|table|site&!land|position'},
+    {name: 'at',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'point|line|table|site&!land|position'},
     //{name: 'in',    role: 'LOC',   vtags: '!habit',             'lm.tags': 'volume'},
     {name: 'in',    role: 'LOC',     vtags: 'activity|situated',  'lm.tags': 'volume|area', 'lm.size': '>trajector.size'},
     {name: 'in',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'building|area', 'lm.size': '>trajector.size'},
@@ -148,8 +148,8 @@ database.preposition = [
     {name: 'past',      role: 'PATH',   vtags: 'grounded|contact|air|jump',                         'lm.tags': 'PHYSICAL', 'lm.size': '>trajector.size'},
     {name: 'past',      role: 'PATH',   vtags: 'vertical',                                          'lm.tags': 'elevated', 'lm.size': '>trajector.size'},
     
-    {name: 'beyond',    role: 'PATH',   vtags: 'grounded|contact|air|water|waterSurface|down',      'lm.tags': 'PHYSICAL&fixed|boundary|point', 'lm.size': '>trajector.size'},
-    {name: 'beyond',    role: 'PATH',   vtags: 'up',                                                'lm.tags': 'PHYSICAL|boundary|point & elevated', 'lm.size': '>trajector.size'},
+    {name: 'beyond',    role: 'PATH',   vtags: 'grounded|contact|air|water|waterSurface|down',      'lm.tags': 'PHYSICAL&fixed|boundary|point&!elevated', 'lm.size': '>trajector.size'},
+    {name: 'beyond',    role: 'PATH',   vtags: 'up',                                                'lm.tags': 'PHYSICAL|boundary|point & elevated',      'lm.size': '>trajector.size'},
     
     //////////////////////////////////////////
     
@@ -210,9 +210,11 @@ database.preposition = [
     {name: 'off of',     role:'SOURCE',  vtags: 'contact',                    'lm.tags': 'substance&!fluid|surface&!bodyOfWater|object&!void',            'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'up',                         'lm.tags': 'surface&!vertical',                                             'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'down',                       'lm.tags': 'surface & elevated|vertical',                                   'lm.size': '>trajector.size'},
-    {name: 'off of',     role:'SOURCE',  vtags: 'down',                       'lm.tags': 'object&!grounded&!void',                                              'lm.size': '>trajector.size'},
-    {name: 'off of',     role:'SOURCE',  vtags: 'jump',                       'lm.tags': 'surface&!bodyOfWater|object&!void|substance&!fluid',                  'lm.size': '>trajector.size'},
-    {name: 'off of',     role:'SOURCE',  vtags: 'grounded|contact|jump|down', 'lm.tags': 'point|edge|path & !void'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'down',                       'lm.tags': 'object&!grounded&!void',                                        'lm.size': '>trajector.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'jump',                       'lm.tags': 'surface&!bodyOfWater|object&elevated|substance&!fluid',         'lm.size': '>trajector.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'point&elevated|edge&elevated|path&elevated & !space',     'ncomp.c0.tags': '>subject.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'edge',                                                    'ncomp.c0.tags': 'elevated', 'ncomp.c0.nocomplement':-1},
+    {name: 'off of',     role:'SOURCE',  vtags: 'grounded|contact',           'lm.tags': 'point|edge|path & !space & !bodyOfWater'},
     
 ]
 
@@ -241,7 +243,7 @@ var prohibitions = {
         prosp: {volition: false, class:'state'} //makes no difference for some reason
     },
     tense: {
-        //future: {aspect: 'retro', class: 'state'} //just tends to sound too awkward
+        future: {aspect: 'retro', class: 'state', perm:true} //just tends to sound too awkward
     },
     mood: {
         deo: {volition: false, anim:'<2'}
@@ -280,7 +282,8 @@ var probabilities = {
 
     //verby
     tense:      [5,     'pres',    12,  'past', 1,  'fut'],
-    aspect:     [20,    'simp',    5,   'prog', 3,  'retro', 2, 'prosp'],
+    aspect:     [12,    'simp',    4,   'prog', 3,  'retro', 2, 'prosp'],
     neg:        [15,    false,     1,   true],
-    mood:       [1,     'deo',     1,   'epi',  12,  'ind']
+    mood:       [1,     'deo',     1,   'epi',  12,  'ind'],
+    complex_aspects: 0.1
 }
