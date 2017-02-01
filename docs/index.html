@@ -94,7 +94,7 @@
                     oneline = oneRandom(seed)
                     oneline = oneline.trim()
                     oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + (xrayMode ? '':'.') +'<span class="seed">'+window.lastseed+'</span></div>'
-                    if (window.location.protocol!="file:") $(oneline).css({"font-family": fonts[fcounter%fonts.length], "font-size": "calc(1.2em + 0.8vw)" })
+                    if (window.location.protocol!="file:") oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length], "font-size": "calc(1.2em + 0.8vw)" })
                     $(oneline).data({c:C})
                     $('body').append(oneline)
                 }
