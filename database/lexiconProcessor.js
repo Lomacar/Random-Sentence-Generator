@@ -167,7 +167,7 @@ function createSenses(word,type,number) {
     if (!word.proto) return
 
     number = number || word.name.replace(/[^.]+\.?/,'') || 1
-    var sense = word.proto + ( number==1 ? "." : "") + number
+    var sense = word.proto + "." + number
     var proto_sense = pickOne(database[type], {name: sense, type:type})
 
     if(proto_sense) {
