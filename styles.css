@@ -9,6 +9,15 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Crimson Text';
+    src: url('font/crimson_text_roman-webfont.woff2') format('woff2'),
+         url('font/crimson_text_roman-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align: center;}
 .hello {margin: 0 1.8em; margin-bottom: 1em; padding: 2em; text-align: center; font-family: 'Roboto Slab'; color: #0a2376; background: #d8eaff; border-radius: 0 0 1vw 1vw}
 .hello h1 {margin-bottom: 0.25em; font-weight: normal; font-size: 1em;}
@@ -34,10 +43,12 @@ body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align:
     position: relative;
     margin: 0 1.8em;
     padding: 2em 1em;
-    font-size: 3vw;
+    font-size: 5vw;
+    font-size: calc(1.5em + 1vw);
     text-align: center;
     border-bottom: 1px solid #e0e0e0;
-    font-family: 'Roboto Slab';
+/*    font-family: 'Roboto Slab';*/
+    font-family: 'Crimson Text';
 }
 .seed {font-family: Arial,Helvetica,sans-serif; font-size: 1rem; color: #eee; display: block; position: absolute; top: 0; right: 0;}
 
@@ -128,12 +139,12 @@ body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align:
 @media (max-width: 800px) {
 /*  .hello h1 {font-size: 1.1em;}*/
   .hello br {display: none}
-  .sentence {font-size: 1.5em;}
+/*  .sentence {font-size: 1.5em;}*/
 }
 
 @media (min-width: 1100px) {
 /*  .hello h1 {font-size: 1.3em;}*/
-  .sentence {font-size: 2.5em;}
+/*  .sentence {font-size: 2.5em;}*/
 }
 
 
