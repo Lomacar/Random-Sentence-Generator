@@ -852,7 +852,7 @@ function NOUN_INC(r) {
     }
 }
 
-function ACTION (r) {    
+function ACTION (r) {
 
     //TODO: this should probably be definite or generic (eating of pizza, eating of the pizzas, NOT eating of a/12/some pizza )
 
@@ -861,7 +861,7 @@ function ACTION (r) {
         head: 'ving',
         labelChildren: true,
         hasComplement: "actcomp",
-        children: {                                                  //quick fix to avoid messy verbs in lexicon 
+        children: {                                                  //quick fix to avoid messy verbs in lexicon
             ving: [V, {aspect: 'prog', tense: 'pres', pasv: 'false', ptpl:'!-', desc: 'gerund'}],
             actcomp: [ACTION_PT2, {trans:'ving.trans', desc: 'complement'}]
         },
@@ -873,7 +873,7 @@ function ACTION (r) {
 }
 
 function ACTION_PT2 (r) {
-    
+
     var comp //= r.trans > 0.5
     var of = 'of '
 //        //transitive verbs use the object (eating of the pizza)
@@ -896,7 +896,7 @@ function ACTION_PT2 (r) {
             //transitive verbs use the object (eating of the pizza)
             comp = [complement, {complements:'ving.compcore', nocomplement: -1}]
     }
-    
+
     comp[1] = _.extend(comp[1], {case: 'acc', pronominal: false, person: 3})
 
     return {

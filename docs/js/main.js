@@ -4,7 +4,7 @@
 
 function globalRestrictions(r){
     r=r||{}
-    
+
     registerGR(r)
 
     //when a global restriction matches the current constructions label, pull it back in to the normal restrictions
@@ -13,7 +13,7 @@ function globalRestrictions(r){
         try {parent = this.parent.label} catch(e){parent=''}
         parent = parent ? '('+parent+'\\.)?' : ''
         var labelFinder = new RegExp('^'+parent+this.label+'\\.[^.]+$')    //regex to find restriction keys like '(parent.)label.something'
-        
+
         var matchingKeys = Object.keys(RESTRICTIONS).filter(function(x){return labelFinder.test(x)})
         matchingKeys.forEach( function(m) {
             var mKey = m.split('.').pop()
@@ -26,7 +26,7 @@ function globalRestrictions(r){
             delete RESTRICTIONS[m]
         })
     }
-    
+
     return r
 }
 
@@ -102,7 +102,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
             multi = _.extend.apply( this, _.compact(multi) )
             return multi
         }
-        
+
         //temporarily detach special chars like !<>
         // /[A-Za-zÀ-ÖØ-öø-ÿ\-_]+\d*(\.\d+)?(\.\w)?/g //regex for what a complete word.prop can look like
         var split = s.match(/^(\W+)(.+)$/)
@@ -221,7 +221,7 @@ function inflect(word, r){
         if(goodVal(r[para])) {
 
             if (pdigms[para].indexOf(r[para].toString())>-1 || pdigms[para].indexOf(r[para])>-1)
-            //if (magicCompare(r[para], pdigms[para].toString())) 
+            //if (magicCompare(r[para], pdigms[para].toString()))
                 {word[para] = r[para]}
             else {
                 console.warn(
@@ -233,7 +233,7 @@ function inflect(word, r){
         }
         //otherwise pick one at random
         else {
-  
+
             word[para] = _.sample(pdigms[para])
         }
 
@@ -284,7 +284,7 @@ function resolve(query,inf) {
 //take string complement description, return complement construction object
 function complement(r){
     var forced = (r.nocomplement == -1)
-        
+
     if (r.nocomplement==true) return {text: ''}
     else if (goodVal(r.complements))  var complement = options(r.complements, forced)
     else if (goodVal(r.compcore))  var complement = options(r.compcore, forced)
@@ -338,7 +338,7 @@ function complement(r){
     }
 }
 
-// takes a string in format '(55 option_one | 45 option_two)', or '(option_one|otion_two)' or just '(option_fifty_fifty)' 
+// takes a string in format '(55 option_one | 45 option_two)', or '(option_one|otion_two)' or just '(option_fifty_fifty)'
 // and returns one option or an empty string
 // if forced==true it does things to make sure no empty string is returned
 function options(str, forced){
@@ -372,13 +372,13 @@ function options(str, forced){
         //single options
         } else {
 
-            var threshold 
+            var threshold
             if (forced) threshold = 100
             else {
                 threshold = match.match(/^\(?([0-9.]+ )/)
                 threshold = threshold ? threshold.pop() : 50 //percentage
             }
-            
+
             return Math.random()*100 < threshold ? match.replace(/^\(([0-9.]+ +)?(.*)\)$/, '$2') : ''
 
         }
@@ -431,9 +431,9 @@ function pickOne(arr, r){
 //        if(Object.keys(r).length < 8 && (type=="noun" || type=="adjective" || type=="verb")){
 //
 //            randy[type] = randy[type] || _.shuffle(_.range(arr.length))
-//            
+//
 //            var randex
-//            while (randex = randy[type].pop()){               
+//            while (randex = randy[type].pop()){
 //                if (r_match(r, arr[randex])) {
 //                    return arr[randex]
 //                }
@@ -442,7 +442,7 @@ function pickOne(arr, r){
 //            //if the old shuffle list failed, renew it and try again
 //            randy[type] = _.shuffle(_.range(arr.length))
 //
-//            while (randex = randy[type].pop()){               
+//            while (randex = randy[type].pop()){
 //                if (r_match(r, arr[randex])) {
 //                    return arr[randex]
 //                }

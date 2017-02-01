@@ -206,7 +206,7 @@ function magicCompare (one, two, options, operator) {
 
     //convert everything to strings to make life simple
     one = one.toString().trim(); two = two.toString().trim() //ain't nobody got time for no whitespaces
-    
+
     //make sure comma separated values are the second argument, and arguments with <>!&| are first argument
     if (one.findChar(',')){
         if(two.findChar(',')){

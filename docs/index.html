@@ -50,7 +50,7 @@
             var LAST_PARENT = null
             var timer = 0
             var xrayMode = getQueryVariable('mode')=='xray'
-            
+
             var RESTRICTIONS, RESTRICTIONS_BACKUP
             //RESTRICTIONS = {'predicate.name': 'swim','subject.name':'Jack','subject.pronominal':false, 'subject.person':3, 'subject.number':1}
             //RESTRICTIONS = {'predicate.name': 'roll','prep.name':'off of','compext.role':'SOURCE'}
@@ -77,9 +77,9 @@
 
                 C = new branch(SENTENCE)
                 var sentence = stringOut(C);
-                
+
                 console.log(xrayMode ? getPlainText($(sentence)) : sentence)
-                
+
                 RESTRICTIONS = _.clone(RESTRICTIONS_BACKUP)
                 return sentence
                 //console.log([C.head.head.head.aspect, C.head.head.head.tense, C.head.head.head.number, C.head.head.head.person])
