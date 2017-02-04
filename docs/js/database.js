@@ -81,12 +81,13 @@ database.title = [
 ]
 
 database.preposition = [
+
     {name: 'at',    role: 'LOC',     vtags: 'situated',           'lm.tags': 'point|position|boundary|site|table|motorVehicle', 'lm.size': '<9'},
     {name: 'at',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'building|point',                'lm.size': '>7'},
     {name: 'at',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'point'},
     {name: 'at',    role: 'LOC',     vtags: 'activity&!motion',   'lm.tags': 'building|point|table|border',   'lm.size': '>7'},
     {name: 'at',    role: 'LOC',     vtags: 'activity&!motion',   'lm.tags': 'point|table|border'},
-    {name: 'at',    role: 'LOC',     vtags: 'posture',            'lm.tags': 'point|edge|table', 'ncomp.c0.size': '>trajector.size'},
+    {name: 'at',    role: 'LOC',     vtags: 'posture',            'lm.tags': 'point|edge|table'/*, 'ncomp.c0.size': '>trajector.size'*/},
     {name: 'at',    role: 'LOC',     vtags: 'placement',          'lm.tags': 'point'},
     {name: 'at',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'point|line|table|site&!land|position'},
     //{name: 'in',    role: 'LOC',   vtags: '!habit',             'lm.tags': 'volume'},
@@ -94,11 +95,12 @@ database.preposition = [
     {name: 'in',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'building|area', 'lm.size': '>trajector.size'},
     {name: 'in',    role: 'LOC',     vtags: 'posture',            'lm.tags': 'volume|area & !bodyOfWater', 'lm.size': '>trajector.size'},
     {name: 'in',    role: 'LOC',     vtags: 'placement',          'lm.tags': 'volume', 'lm.size': '>trajector.size'},
-    {name: 'in',    role: 'LOC',     vtags: 'copula',              'lm.tags': 'volume|area', 'lm.size': '>trajector.size'},
+    {name: 'in',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'volume|area', 'lm.size': '>trajector.size'},
     {name: 'on',    role: 'LOC',     vtags: 'activity|situated|situated|placement',  'lm.tags': 'surface', 'lm.size': '>trajector.size'},
     {name: 'on',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'field|passengerVehicle'},
-    {name: 'on',    role: 'LOC',     vtags: 'copula',            'lm.tags': 'surface', 'lm.size': '>trajector.size'},
-    //TODO: at,in,on,under,underneath,below,beneath,between,near,next to,far from,away from,in front of, on top of,
+    {name: 'on',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'surface|prominence', 'lm.size': '>trajector.size'},
+    {name: 'on',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'point & !space|line', 'ncomp.c0.size': '>trajector.size'},
+    //TODO: under,underneath,below,beneath,between,near,next to,far from,away from,in front of, on top of,
     //      beside, by, behind, inside, outside, among, amid, around
 
 
@@ -115,15 +117,16 @@ database.preposition = [
     {name: 'across',    role: 'PATH',   vtags: 'contact',      'lm.tags': 'area|surface|path&!vertical|boundary'},
     {name: 'across',    role: 'PATH',   vtags: 'air',          'lm.tags': 'area|surface|path|boundary|volume&gas & !vertical'},
     {name: 'across',    role: 'PATH',   vtags: 'jump',         'lm.tags': 'surface|path|boundary & !vertical'},
-    {name: 'across',    role: 'PATH',   vtags: 'waterSurface', 'lm.tags': 'bodyOfWater'},
+    {name: 'across',    role: 'PATH',   vtags: 'water|waterSurface', 'lm.tags': 'bodyOfWater'},
 
     {name: 'over',      role: 'PATH',   vtags: 'grounded',     'lm.tags': 'boundary|edge|bridge|prominence', 'ncomp.c0.tags': '!place'}, //what about low stuff
     {name: 'over',      role: 'PATH',   vtags: 'contact',      'lm.tags': 'boundary|edge|bridge|prominence', 'ncomp.c0.tags': '!place'}, //
     {name: 'over',      role: 'PATH',   vtags: 'air',          'lm.tags': 'thing|place'},
     {name: 'over',      role: 'PATH',   vtags: 'jump',         'lm.tags': 'thing'},
     {name: 'over',      role: 'PATH',   vtags: 'down',         'lm.tags': 'edge', 'ncomp.c0.tags': '!territory&!position'},
-    {name: 'over',      role: 'PATH',   vtags: 'waterSurface', 'lm.tags': 'openWater'},
+    {name: 'over',      role: 'PATH',   vtags: 'water|waterSurface', 'lm.tags': 'openWater'},
 
+    {name: 'around',    role: 'PATH',   vtags: 'grounded|contact|air',         'lm.tags': 'bounded'},
     {name: 'around',    role: 'PATH',   vtags: 'grounded',     'lm.tags': 'PHYSICAL&!elevated&!line'},
     {name: 'around',    role: 'PATH',   vtags: 'contact|air',      'lm.tags': 'PHYSICAL&!line'},
     {name: 'around',    role: 'PATH',   vtags: 'water|waterSurface',   'lm.tags': 'PHYSICAL&!line'},
@@ -143,7 +146,6 @@ database.preposition = [
     {name: 'along',     role: 'PATH',   vtags: 'grounded',     'lm.tags': 'path|perimeter|edge|boundary & !vertical'},
     {name: 'along',     role: 'PATH',   vtags: 'contact',      'lm.tags': 'path|perimeter|edge|boundary'},
 
-    {name: 'around',    role: 'PATH',   vtags: 'grounded|contact|air',         'lm.tags': 'bounded'},
 
     {name: 'past',      role: 'PATH',   vtags: 'grounded|contact|air|jump',                         'lm.tags': 'PHYSICAL', 'lm.size': '>trajector.size'},
     {name: 'past',      role: 'PATH',   vtags: 'vertical',                                          'lm.tags': 'elevated', 'lm.size': '>trajector.size'},
@@ -155,9 +157,8 @@ database.preposition = [
 
     {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact',                      'lm.tags': 'surface&!elevated&!vertical!bodyOfWater',    'lm.size': '>trajector.size'},
     {name: 'onto',      role: 'GOAL',   vtags: 'air|jump|vertical',                     'lm.tags': 'surface|object',                             'lm.size': '>trajector.size'},
-    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical',    'lm.tags': 'substance&!fluid'},
+    {name: 'onto',      role: 'GOAL',   vtags: 'contact|air|jump|vertical',             'lm.tags': 'substance&!fluid'},
     {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact|air|jump',             'lm.tags': 'passengerVehicle'},
-    {name: 'onto',      role: 'GOAL',   vtags: 'waterSurface',                          'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
 
     {name: 'into',      role: 'GOAL',   vtags: 'grounded',                              'lm.tags': 'area|volume&!elevated',                      'lm.size': '>trajector.size'},
     {name: 'into',      role: 'GOAL',   vtags: 'contact|air|jump',                      'lm.tags': 'area|volume',                                'lm.size': '>trajector.size'},
@@ -166,10 +167,11 @@ database.preposition = [
     {name: 'into',      role: 'GOAL',   vtags: 'down',                                  'lm.tags': 'volume&!elevated|gas',                        'lm.size': '>trajector.size'},
     {name: 'into',      role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'bodyOfWater',                                'lm.size': '>trajector.size'}, //this is for 'sink'
     {name: 'into',      role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'mass|vessel'}, //this is for 'sink'
+    {name: 'into',      role: 'GOAL',   vtags: 'waterSurface',                          'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
 
     {name: 'to',        role: 'GOAL',   vtags: 'grounded|contact|water|waterSurface',   'lm.tags': 'fixed|occasion'}, //TODO: other things?
     {name: 'to',        role: 'GOAL',   vtags: 'down',     trans:'<1',                  'lm.tags': 'bottom|surface&grounded'},
-    {name: 'to',        role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'bottom',  'ncomp.c0.tags': 'bodyOfWater|vessel', 'lm.size': '>trajector.size'}, //this is for 'sink'
+    {name: 'to',        role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'bottom',  'ncomp.c0.tags': 'bodyOfWater|vessel', 'ncomp.c0.size': '>trajector.size'}, //this is for 'sink'
 
     {name: 'toward',    role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'PHYSICAL',    multicomp: false},
 
@@ -206,15 +208,15 @@ database.preposition = [
     {name: 'out of',     role:'SOURCE',  vtags: 'up',               'lm.tags': 'volume',                                                'lm.size': '>trajector.size'},
     {name: 'out of',     role:'SOURCE',  vtags: 'down',             'lm.tags': 'volume&elevated|vessel',                                'lm.size': '>trajector.size'},
 
-    {name: 'off of',     role:'SOURCE',  vtags: 'grounded',                   'lm.tags': 'substance&!fluid|surface&!vertical&!bodyOfWater|object&!void&!lifeform',  'lm.size': '>trajector.size'},
-    {name: 'off of',     role:'SOURCE',  vtags: 'contact',                    'lm.tags': 'substance&!fluid|surface&!bodyOfWater|object&!void',            'lm.size': '>trajector.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'grounded',                   'lm.tags': 'point|edge|path & !vertical & !space & !bodyOfWater',     'ncomp.c0.tags': 'elevated|hasHeight'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'contact',                    'lm.tags': 'point|edge|path & !space & !bodyOfWater'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'contact',                    'lm.tags': 'surface&!bodyOfWater|object&!void',                             'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'up',                         'lm.tags': 'surface&!vertical',                                             'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'down',                       'lm.tags': 'surface & elevated|vertical',                                   'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'down',                       'lm.tags': 'object&!grounded&!void',                                        'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'jump',                       'lm.tags': 'surface&!bodyOfWater|object&elevated|substance&!fluid',         'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'point&elevated|edge&elevated|path&elevated & !space',     'ncomp.c0.tags': '>subject.size'},
-    {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'edge',                                                    'ncomp.c0.tags': 'elevated', 'ncomp.c0.nocomplement':-1},
-    {name: 'off of',     role:'SOURCE',  vtags: 'grounded|contact',           'lm.tags': 'point|edge|path & !space & !bodyOfWater'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'edge',                                                    'ncomp.c0.tags': 'elevated|hasHeight', 'ncomp.c0.nocomplement':-1},
 
 ]
 
@@ -262,10 +264,11 @@ var prohibitions = {
 //default probabilities for paradigms ( used by decide() )
 var probabilities = {
     //general
-    anim:       [1,0, 1,1, 3,2, 4,3],
-    tang:       [1,0, 1,1, 2,2],
+    anim:       [1,0, 1,1, 3,2, 6,3],
+    tang:       [3,0, 3,1, 5,2],
 
-    pronominal: [1,true,25,false], //how likely a NP is to be a pronoun instead
+    pronominal: [1,true,8,false], //how likely a NP is to be a pronoun instead
+    indef_pro: 0.4,   //chance to have an indefinite pronoun
 
     //nounish
     number:     [1,'pl', 5,'sg'],
@@ -275,7 +278,7 @@ var probabilities = {
     quantified: [0.3, true, 0.7, false],
 
     //pronominal
-    person:     [1,1, 1,2, 25,3],
+    person:     [1,1, 1,2, 20,3],
     gender:     [3,'m', 3,'f', 1,'n'],
     dem:        [2,true,5,false],
     prox:       [1,'prox', 1,'dist'],

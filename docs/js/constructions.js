@@ -8,7 +8,7 @@ function CLAUSE(r){
         head: "subject",
         labelChildren: true,
         children: {
-            subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 4,2, 6,3), def: choose(9, 'def', 1, 'indef')}],
+            subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 3,2, 6,3), def: choose(9, 'def', 1, 'indef')}],
             predicate: [AUXP, _.extend({copulant: false, unpack: "subject.R"}, r)],
             adjunct: [ADJUNCT_PP, 'predicate.vp.vword.verb.R']
         }
@@ -82,7 +82,7 @@ function DP(r){
             ncomp:      [complement, {case: 'acc', complements: 'noun.complements', nogap: true, desc: 'noun complement'}]
         },
         postlogic:function(text){
-            return text.replace(/\ba +([aeiouAEIOU])/g, "an $1") // 'a apple' to 'an apple'
+            return text.replace(/\ba[ _]+([aeiouAEIOU])/g, "an $1") // 'a apple' to 'an apple'
         }
     }
 }
@@ -126,7 +126,7 @@ function DET(r) {
                             return QUANT(r)                                       //'12 dogs' is indefinite
                         } else {
                             r.quantified = false
-                            return choose(1, [PREQUANT,r],                        //'12 of my dogs' is definite
+                            return choose(0.5, [PREQUANT,r],                        //'12 of my dogs' is definite
                                           r.count, {
                                                 order: 'det quant',
                                                 head: 'det',
@@ -242,7 +242,23 @@ function PRONOUN(r) {
     //get a dummy noun so that we can make realistic pronouns
     r = $.extend( r, get($.extend(r,{type:'noun'})) )
 
-    //decide(r,'number,case,anim')
+    //indefinite pronouns!
+    if(r.person==3 && toss(probabilities.indef_pro)){
+        var indef1, indef2, indefinite
+        indef1 = toss(0.3) ? ( r.neg?'any':'no') : (r.number == 'pl' ? 'every' : 'some')
+        indef2 = r.anim >= 2 ? options('(one|body)') : 'thing'
+        var nom = r.case == 'nom'
+        if (indef1 == 'every') {
+            if (nom) r['aux.neg'] = false //everybody does not like sentences like this
+            if (toss(0.2)) indef1 = choose(nom, 'not', 1, 'almost') + ' every'
+        }
+        indefinite = indef1+indef2
+        if (indefinite == 'noone') indefinite = 'no one'
+        r.number = 'sg'
+        r.text = indefinite
+        return r
+    }
+
 
     if (!magicCompare(r.anim,3)) r.person=3 //if restrictions demands something less than sentient, then 1st and 2nd person are excluded
     decide(r,'person')
@@ -252,6 +268,7 @@ function PRONOUN(r) {
         r.tags = 'person'
         r.tang = 2
         r.gender = choose(1,'m',1,'f')
+        r.size = 6
     }
     else {
         r.gender = r.gender || (magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n')
@@ -338,7 +355,7 @@ function a_neg(r) {
 function PREDICATE(r){
     decide(r, "tense,aspect,number,person")
 
-    var L = magicCompare(r.tags,"thing")
+    var L = magicCompare(r.tags,"thing") && magicCompare(r.size,"<11") //size check is a partial fix to problems like "The planet is on the ???"
 
     var ptype = choose(2, 'adjective', L, 'location')
 
@@ -653,13 +670,15 @@ function verb_cleanup(text){
                .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
                .replace(/([^e])e_+ing/, "$1ing") // -eing to -ing
                .replace(/e_+ed/, "ed") // -eed to -ed
-               .replace(/\b([^aeio]*[aeiou])([^aeiouywx])_+(ed|ing)/, '$1$2$2$3') // -VCed or -VCing to -VCCxxx
+               .replace(/([^aeio][aeiou])([^aeiouywxr])_+(ed|ing)/, '$1$2$2$3') // -VCed or -VCing to -VCCxxx
                .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
     return text
 }
 
 function WH_CLAUSE(r,c) {
     r = r || {}
+    delete r.neg
+    delete r.pasv
 
     var B = new branch(c||CLAUSE,_.extend(r,{number:'sg'}))
 
@@ -752,6 +771,17 @@ function THAT_CLAUSE(r){
 function INF_PHRASE(r){
     return {
         order: 'to predicate',
+        head: 'predicate',
+        children:{
+            predicate: [VP, {noinflection: true}]
+        }
+    }
+}
+
+//no "to"
+function INF_PHRASE2(r){
+    return {
+        order: 'predicate',
         head: 'predicate',
         children:{
             predicate: [VP, {noinflection: true}]
@@ -916,7 +946,7 @@ function ADJUNCT_PP (r) {
 
 
 function LOCATION(r){
-    r.role='LOC'
+    //return {text: _.sample(['there','here','somewhere','everywhere'])}
 
     r.trans = r.p_trans || 0
     if (r.p_vtags) r.vtags = r.p_vtags
@@ -934,7 +964,7 @@ function LOCATION(r){
         hasComplement: "lm",
         children: {
             trajector: [pass_through, trajector],
-            prep: [get, _.extend(r,{type: 'preposition', role: r.role, desc:'p'})],
+            prep: [get, _.extend(r,{type: 'preposition', role: 'LOC', desc:'p'})],
             lm: [DP, {case: 'dat', number:'sg', quantified: false, partial: false, desc: 'landmark'}]
         }
     }
@@ -955,6 +985,9 @@ function GOAL(r){
 }
 
 function MOTION(r) {
+
+    //return {text: _.sample(['there','here','somewhere','everywhere'])}
+
     var lmr = {}
 
     r.trans = r.p_trans || 0
