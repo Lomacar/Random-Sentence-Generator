@@ -6,7 +6,7 @@
         <link href="styles.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="js/vendor/seedrandom.js"></script>
 
-        <title>Sentence Generator 2.4.1</title>
+        <title>Sentence Generator 2.4.2</title>
         <meta name="description"        content="Randomly generated sentences for everyone!" />
         <meta property="og:image"              content="https://scontent-sea1-1.xx.fbcdn.net/t31.0-8/1957901_10152741022792155_6178618860154638773_o.jpg" />
 
@@ -48,7 +48,6 @@
             var recentlyUsed = []
             var randy = {}
             var LAST_PARENT = null
-            var timer = 0
             var xrayMode = getQueryVariable('mode')=='xray'
 
             var RESTRICTIONS, RESTRICTIONS_BACKUP
@@ -73,7 +72,7 @@
                 window.lastseed = window.seed
                 window.seed = Math.random().toString(32).slice(2)
 
-                recentlyUsed = recentlyUsed.length > 10 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
+                recentlyUsed = recentlyUsed.length > 5 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
 
                 C = new branch(SENTENCE)
                 var sentence = stringOut(C);
@@ -88,12 +87,11 @@
             function loopy(iters){
                 var output = ""
                 var oneline
-                var start = new Date().getTime();
 
                 for(i=0;i<iters;i++,fcounter++) {
                     oneline = oneRandom(seed)
                     oneline = oneline.trim()
-                    oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + (xrayMode ? '':'.') +'<span class="seed">'+window.lastseed+'</span></div>'
+                    oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + (xrayMode ? '':'.') +'<a class="seed" href="?seed='+window.lastseed+'">'+window.lastseed+'</a></div>'
                     if (window.location.protocol!="file:") oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length], "font-size": "calc(1.2em + 0.8vw)" })
                     else oneline = $(oneline) //what the crap?
                     $(oneline).data({c:C})
@@ -102,12 +100,11 @@
 
                 $('.label').off('click').click(randomizer)
 
-                var end = new Date().getTime();
-                //console.log(end-start)
-                //console.log("Timer: " + timer)
             }
 
-            //console.time("full")
+            function oneOff (c, r) {
+                console.log(stringOut(new branch(c, r)))
+            }
 
             $(function(){
 
@@ -131,8 +128,11 @@
                     while(($('body').height() - $(window).height()) < 0 ){
                         loopy(5);
                     }
+
                     setTimeout(function(){
+                        console.time("full")
                         loopy(getQueryVariable('howmany'))
+                        console.timeEnd("full");
                     },50)
 
                 }
@@ -140,7 +140,6 @@
                 if (window.location.protocol!="file:"){
                     $('head').append("<link href='http://fonts.googleapis.com/css?family=Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One|Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Oswald|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative' rel='stylesheet' type='text/css'>")
                 }
-                //console.timeEnd("full");
                 //console.timeEnd("sentence loop");
 
             })

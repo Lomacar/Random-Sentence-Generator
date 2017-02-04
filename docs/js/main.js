@@ -165,23 +165,6 @@ function parseSingleRestriction(s, context, expandPlainStrings){
 
 
 
-/*//processing of special instruction characters in
-function r_special(r){
-    matcha = '!@~<>='.match(/[@~$&#!<>=]/g)[0];
-
-    if(!matcha) return false
-
-    switch(matcha){
-        case '#': console.log('Pound it.');
-            break;
-        case '!': console.log("n't!")
-    }
-
-    return matcha
-}*/
-
-
-
 
 /*-------------------------------------   INFLECT -------------------------------------*/
 
@@ -293,7 +276,7 @@ function complement(r){
 
     complement = compactString(complement)
 
-    var constructions = complement.match(/\b[A-Z]+\w*({[^{}]+})*/g)
+    var constructions = complement.match(/[A-Z1-9_]+(\b|{[^{}]+})+/g)
 
     if (constructions == null) return {text: complement} //this must be a simple word complement like fall _down_
 
@@ -406,7 +389,7 @@ function get(r){
     if(!r.noinflection) inflect(word,r)
 
     //record this word so it isn't overused within the same sentence
-    //if (recentlyUsed && r.type == 'noun' || r.type == 'adjective' || r.type=='verb' ) recentlyUsed.push(word.name.replace(/\d+/g,''))
+    if (recentlyUsed && r.type == 'noun' || r.type == 'adjective' || r.type=='verb' ) recentlyUsed.push(word.name.replace(/\d+/g,''))
 
     return word
 }
@@ -626,12 +609,12 @@ function superSearch(path,context) {
 /*-------------------------------------   OUTPUT -------------------------------------*/
 
 //essentially the toString method for constructions
-function stringOut(c,id){
+function stringOut(c,id,recur){
     var outString
     if(c===undefined) return undefined
     if(typeof c.children !== 'undefined'){
         outString = c.order.replace(/([^_ ])+/g, replacer)
-        outString = stringCleaning(outString, c)
+        outString = stringCleaning(outString, c,recur)
     }
 
     else outString = c.text
@@ -655,13 +638,13 @@ function stringOut(c,id){
         //break down arrays of adjectives or whatnot
         if(typeOf(c.children[a])=='array') {
             var tempstr = ""
-            $.each(c.children[a], function (index, value){tempstr += " "+stringOut(value)})
+            $.each(c.children[a], function (index, value){tempstr += " "+stringOut(value,undefined,1)})
             return tempstr
         }
 
         //or fetch single item
         else {
-            var furtherIn = stringOut(c.children[a])
+            var furtherIn = stringOut(c.children[a],undefined,1)
 
             //if (!furtherIn) {} //error("There was no child '"+a+"' to render.")
             return furtherIn===undefined ? '[???]' : furtherIn
@@ -679,7 +662,7 @@ function stringOut(c,id){
         var label = c.desc||c.label||'clause'
         var constituentClasses = 'class="constituent '+ishead+' '+c.label+'-"'
         return outString ?
-            '<div id="['+C.list.length+']" '+ constituentClasses +'><div class="label">'+label+'</div><div class="construction"> '+stringCleaning(outString,c)+'</div></div>'
+            '<div id="['+C.list.length+']" '+ constituentClasses +'><div class="label">'+label+'</div><div class="construction"> '+stringCleaning(outString,c,recur)+'</div></div>'
             : c.parent && c.parent.hasComplement ?
                 //placeholders needed for potential complements
                 '<div id="['+C.list.length+']" '+ constituentClasses +'></div>'
@@ -690,16 +673,21 @@ function stringOut(c,id){
 
 }
 
-function stringCleaning(string, c){
-    string = string.replace(/\.?\d+([^\]\d]|$)/g,"$1")    // remove numbers, except for [e123] errors
-                   .replace(/\.([^ \b])/g,"$1")           // remove dots that aren't at the end of words
-                   .replace(/  +/g,' ')                   // remove extra spaces
+function stringCleaning(string, c, recur){
+    string = string.replace(/\.([^ \b])/g,"$1")             // remove dots that aren't at the end of words
+                   .replace(/([^\^])\d+([^\]\d]|$)/g,"$1$2")// remove numbers, except for [e123] errors and escaped numbers (^2)
+                   .replace(/  +/g,' ')                     // remove extra spaces
 
     //construction specific cleaning
     if (typeof c.postlogic==='function') string = c.postlogic(string)
 
-    // return with final string cleaning
-    return string.replace(/_/g,"").replace("|","")       // remove underscores and pipes
+    if (!recur) {
+        //return with final string cleaning
+        string = string.replace(/_/g,"").replace("|","") // remove underscores and pipes
+                             .replace(/\^/g,'')                // remove escape characters
+    }
+
+    return string
 }
 
 

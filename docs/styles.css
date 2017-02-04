@@ -50,7 +50,8 @@ body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align:
 /*    font-family: 'Roboto Slab';*/
     font-family: 'Crimson Text';
 }
-.seed {font-family: Arial,Helvetica,sans-serif; font-size: 1rem; color: #eee; display: block; position: absolute; top: 0; right: 0;}
+.seed {font-family: Arial,Helvetica,sans-serif; font-size: 1rem; color: transparent; display: block; position: absolute; top: 0; right: 0;}
+.seed:hover {color: #d8eaff;}
 
 .sentence div {
     transition: opacity 0.5s, padding 0.5s;
