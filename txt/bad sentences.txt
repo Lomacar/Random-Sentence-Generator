@@ -68,7 +68,11 @@ Is forgotten to demonize Colonel Krakowski.
 Lady Isolde is going to like lefting Pastor Chavez behind on a famous beach
 they will not be applauded by several it players 
 That ice is being awarded a computer away.
-was going to be promised by most sugar that the flamingo NARF is going to buzz 
+Mr. Rogers' cougar escapes off of Lucille.
+It are going to be performed on it.
+It have been cancelled by Jean Luc Picard.
+Country-invading are being applauded by Korea.
+
 
 No word could be get'd with the following restrictions: {"case":"acc","volition":true,"reset":true,"person":3,"number":"sg","anim":0,"tang":0,"unique":2,"possessable":0,"count":false,"tags":"activity","def":"def","quantified":false,"gender":"n","tense":"pres","aspect":"prog","type":"verb"} main.js:411
 Undefined selector for route function. Picking one of these at random: {"prog":"ing","retroprog":"ing"} main.js:632

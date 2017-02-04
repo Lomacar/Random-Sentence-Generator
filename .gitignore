@@ -6,3 +6,5 @@ node_modules
 /vakata-jstree-9770c67/
 /dist/theme/
 /localserver.py
+/docs/theme/
+*.zip

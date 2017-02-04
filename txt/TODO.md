@@ -1,21 +1,25 @@
 ##############       TODO        ##############
 
+to be or NOT to be, to do or NOT to do... 
+...neg is getting passed automatically from the matrix clause. it should be deleted in an INF_PHRASE or INF_CLAUSE and then randomly decided again, 
+   but what if a complement needs to specify not to allow a negative INF_THING?
+
 BUG: predict/promise/prophesy randomly don't enforce future tense or prospective aspect
 
-"an unicorn"
+<!--"an unicorn"-->
 
-#passive voice
+<!--passive voice-->
 
-#reflexive
+<!--reflexive-->
  - reciprocal
 
-#prospective aspect
+<!--prospective aspect-->
 
 just, used to, about to
 
 adverbs
 
-#negation
+<!--negation-->
 
 other modals
 
@@ -37,13 +41,13 @@ participles from verbs
 
 'and'
 
-#?proper semantically aware genitive noun phrases
+?<!--proper semantically aware genitive noun phrases-->
 
 mutators - "DEAD man", "bottle OF RUM"
 
-#implications - for hierarchical tags, implemented within lexicon
+<!--implications - for hierarchical tags, implemented within lexicon-->
 
-#relative comparisons in restrictions, like {size: '<subject.size', thing: '!aux.case'}
+<!--relative comparisons in restrictions, like {size: '<subject.size', thing: '!aux.case'}-->
     could be upgraded to handle math like {size: '<5+subject.size'}
 
 ?BUG: sometimes special characters disappear from restrictions like {lm.size: '>trajector.size'}
