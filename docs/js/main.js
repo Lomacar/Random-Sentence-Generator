@@ -91,7 +91,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
     if(typeof s != 'string') return true //numbers could make it up to this point
 
     //expand "object.property(-property)(,obj.property)" to {property:value}
-    if(/^.+\.(\w+(-\w+)*)(,\w+\.(\w+(-\w+)*))*$/.test(s) && !/\.\d+$/.test(s)) {
+    if(/^[<>!]?(\w+\.)+\w+(-\w+)*(,(\w+\.)+\w+(-\w+)*)*$/.test(s) && !/\.\d+$/.test(s)) {
 
         //split comma separated values and parse each one
         if(s.findChar(",")) {
