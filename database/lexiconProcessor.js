@@ -35,7 +35,7 @@ function loadLexicon(){
                  , 'utf8'
                  , function (err) {}
                 )
-    fs.writeFile('../dist/js/test.txt', '\ufeffThis is an example with accents : São Paulo é è à ' + JSON.stringify(database),'utf8');
+    //fs.writeFile('../dist/js/test.txt', '\ufeffThis is an example with accents : São Paulo é è à ' + JSON.stringify(database),'utf8');
     console.log('Updated lexicon'.yellow)
 }
 

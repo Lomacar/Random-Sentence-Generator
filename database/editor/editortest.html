@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Editor</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="theme/style.css" />
+        <style>
+            body {padding: 1em}
+
+            #editor {
+                background-color: #eee;
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 500px;
+                padding: 1em
+            }
+            #tree-container {
+                position: absolute;
+                left: 500px;
+                right: 0
+            }
+
+            /* TREE */
+
+            #jstree {
+                padding-bottom: 50px
+            }
+
+            #tree-search {
+                width: 100%;
+                position: fixed;
+                bottom: 0;
+                font-size: 1.5em;
+            }
+
+            .jstree-closed {
+                font-weight: bold;
+            }
+
+            .jstree-leaf {
+                color: green;
+            }
+
+
+            /* EDITOR */
+
+            #save {
+                position: absolute;
+                bottom: 1rem;
+                font-size: 2em;
+            }
+            #save.changes {
+                box-shadow: 0px 0px 14px 4px rgba(255, 59, 0, 0.31);
+                outline: 1px solid #ff4700;
+            }
+
+            .errormsg {
+                display: none;
+                padding: 0.5em;
+            }
+            input:focus ~ .errormsg {
+                display: block;
+                position: absolute;
+                top:100%;
+                right: 0;
+                margin: 0 0 0 0 !important;
+                background: darkred;
+                color: white;
+                z-index: 100;
+            }
+
+            .form-group {
+                margin-bottom: 0;
+                display: flex;
+            }
+            .form-group .control-label {
+                width: 20%;
+                text-align: right;
+                font-weight: normal;
+                margin: 6px;
+            }
+            .form-group .form-control {
+                height: auto;
+                width: auto;
+                flex-shrink: 99999;
+                padding: 3px 6px;
+            }
+            .form-group input.form-control {
+                width: 100%;
+            }
+            .form-group .help-block {
+                width: auto;
+                margin-left: 1em;
+                margin-top: 0.5em;
+                margin-bottom: 0;
+            }
+            select:required:invalid {
+                color: cadetblue;
+                font-style: italic;
+            }
+            option[value=""][disabled] {
+                display: none;
+            }
+            option {
+                color: black;
+            }
+            ::-webkit-input-placeholder {
+                color: cadetblue !important;
+                font-style: italic;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="editor">
+            <button id="save">Save</button>
+        </div>
+        <div id="tree-container">
+            <input id="tree-search" type="search" />
+            <div id="jstree">
+            </div>
+        </div>
+
+
+        <script src="../../docs/js/vendor/jquery.min.js"></script>
+        <script src="jsoneditor.min.js"></script>
+
+        <script src="../../dist/js/vendor/lodash.min.js" type="text/javascript"></script>
+        <script src="jstree.min.js" type="text/javascript"></script>
+
+        <script type="text/javascript" src="../../dist/js/utilities.js"></script>
+
+        <script type="text/javascript" src="../../dist/js/database.processed.js"></script>
+        <script type="text/javascript" src="../../dist/js/database.js"></script>
+        <script type="text/javascript" src="nouns.js"></script>
+        <script type="text/javascript" src="editor.js"></script>
+
+    </body>
+</html>
