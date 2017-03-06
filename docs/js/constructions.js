@@ -29,7 +29,7 @@ function PASSIVE(r){
         //hasComplement: 'subject',
         children: {
             subject: [NP, {pronominal: false}],
-            predicate: [VP_PASV, _.extend({copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def'), unpack:'subject.R'},r)],
+            predicate: [VP_PASV, _.extend({copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def'), unpack:'subject.anim-tang-size-tags'},r)],
             pasvSubj: [complement, {'case':'nom', complements: 'predicate.compcore', unpack:'predicate.number-person', pasv: true, desc: 'subject'}]
         }
     }
@@ -99,13 +99,17 @@ function DET(r) {
             out.text = 'the'
             break;
         default:
+
             if (r.possessable > Math.pow(Math.random(),0.6) * 9) {
 
-                if (!r.pronominal & toss()) {
+                if (!r.pronominal & toss(0.7)) {
                     return GENITIVE(r)
                 } else {
+                    decide(r, 'number')
                     var it = r.anim == 3 ? 0 : 0.5
-                    out.text = choose(1,'my', 1,'your', 1,'his', 1,'her', it,'its', 1,'our', 1,'their')
+                    out.text = r.number == 'sg'
+                                         ? choose(1,'my', 1,'your', 1,'his', 1,'her', it,'its')
+                                         : choose(1,'your', 1,'our', 1,'their')
                     //                    decide(r, 'number')
                     //                    r.case = 'gen'
                     //                    r.person = r.person || choose(2,1, 2,2, 3,3)
@@ -166,10 +170,10 @@ function GENITIVE(r){
         decide(r2, 'anim')
         if (r2.anim==3) return DET(_.extend(r, {possessable: -111})) //abort possession if the would-be possesed noun is a person or somesuch
         else r2.anim=3
-            } else {
-                //special genitive with specified restricions (like "book's author")
-                r2 = _.extend(r2, toObject(posr))
-            }
+    } else {
+        //special genitive with specified restrictions (like "book's author")
+        r2 = _.extend(r2, toObject(posr))
+    }
 
     if (r2.number=='pl') delete r2.number //plural nouns can be possessed by sg or pl nouns
     if (r2.number=='sg') {
@@ -254,6 +258,7 @@ function PRONOUN(r) {
         }
         indefinite = indef1+indef2
         if (indefinite == 'noone') indefinite = 'no one'
+        if (toss(0.1)) indefinite += " else"
         r.number = 'sg'
         r.text = indefinite
         return r
@@ -355,7 +360,7 @@ function a_neg(r) {
 function PREDICATE(r){
     decide(r, "tense,aspect,number,person")
 
-    var L = magicCompare(r.tags,"thing") && magicCompare(r.size,"<11") //size check is a partial fix to problems like "The planet is on the ???"
+    var L = magicCompare(r.tags,"thing&!feature|territory|phenomena",{tagmode:true}) && magicCompare(r.size,"<11") //size check is a partial fix to problems like "The planet is on the ???"
 
     var ptype = choose(2, 'adjective', L, 'location')
 
@@ -670,7 +675,7 @@ function verb_cleanup(text){
                .replace(/([^aeou])y_+ed/, "$1ied") //change -yed to -ied
                .replace(/([^e])e_+ing/, "$1ing") // -eing to -ing
                .replace(/e_+ed/, "ed") // -eed to -ed
-               .replace(/([^aeio][aeiou])([^aeiouywxr])_+(ed|ing)/, '$1$2$2$3') // -VCed or -VCing to -VCCxxx
+               .replace(/\b([^aeiou]*[^aeio][aeiou])([^aeiouywx])_+(ed|ing)/, '$1$2$2$3') // -VCed or -VCing to -VCCxxx
                .replace(/(ch|sh|s|z|x)_+s\b/g, '$1es') // -s to -es
     return text
 }
@@ -965,7 +970,7 @@ function LOCATION(r){
         children: {
             trajector: [pass_through, trajector],
             prep: [get, _.extend(r,{type: 'preposition', role: 'LOC', desc:'p'})],
-            lm: [DP, {case: 'dat', number:'sg', quantified: false, partial: false, desc: 'landmark'}]
+            lm: [DP, {case: 'dat', number:'sg', quantified: false, partial: false, tags: '!feature', desc: 'landmark'}]
         }
     }
 }
@@ -1028,7 +1033,7 @@ function MOTION(r) {
         children: {
             trajector: [pass_through, trajector],
             prep: [get, _.extend(r,{type: 'preposition', role: r.role, desc:'p'})], //, pasv: 'predicate.pasv'
-            lm: [DP, _.extend(lmr, {case: 'dat', number:'sg',desc:'landmark'})]
+            lm: [DP, _.extend(lmr, {case: 'dat', number:'sg', tags: '!feature', desc:'landmark'})]
         }
     }
 }

@@ -108,10 +108,10 @@ database.preposition = [
 
     {name: 'through',   role: 'PATH',   vtags: 'grounded',     'lm.tags': 'area|surface&vertical&!edge|passage&!vertical&!elevated|obstacle&!elevated', 'lm.size': '>trajector.size'},
     {name: 'through',   role: 'PATH',   vtags: 'contact',      'lm.tags': 'area|passage|opening|obstacle', 'lm.size': '>trajector.size'},
-    {name: 'through',   role: 'PATH',   vtags: 'air',          'lm.tags': 'gas|space|passage|opening|obstacle&!grounded'},
+    {name: 'through',   role: 'PATH',   vtags: 'air',          'lm.tags': 'gas|space|passage|opening|obstacle&!grounded', 'lm.size': '>trajector.size'},
     {name: 'through',   role: 'PATH',   vtags: 'jump',         'lm.tags': 'surface&vertical&!edge|opening|passage&!path&!vertical|obstacle&delimited&!grounded', 'lm.size': '>trajector.size'},
     {name: 'through',   role: 'PATH',   vtags: 'vertical',     'lm.tags': 'passage&vertical',   'lm.size': '>trajector.size'},
-    {name: 'through',   role: 'PATH',   vtags: 'water',        'lm.tags': 'liquid|bodyOfWater'},
+    {name: 'through',   role: 'PATH',   vtags: 'water',        'lm.tags': 'liquid|bodyOfWater', 'lm.size': '>trajector.size'},
 
     {name: 'across',    role: 'PATH',   vtags: 'grounded',     'lm.tags': 'area|surface|path|boundary|bridge & !bodyOfWater & !vertical'},
     {name: 'across',    role: 'PATH',   vtags: 'contact',      'lm.tags': 'area|surface|path&!vertical|boundary'},

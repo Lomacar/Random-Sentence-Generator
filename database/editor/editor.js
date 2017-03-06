@@ -3,6 +3,19 @@ var undo = [],
     undo_enabled = true,
     changes = false
 const undo_length = 10
+var errors = {}
+
+var currentIndex = -1
+var scrollPos
+var $jt
+
+wordClass = getQueryVariable("type")
+rootName = (wordClass+'s').toUpperCase()
+lexicon = eval(wordClass)
+document.title = "Edit:"+_.startCase(wordClass)
+renderTree()
+
+$('body').addClass(wordClass)
 
 var element = document.getElementById('editor');
 
@@ -24,113 +37,10 @@ JSONEditor.defaults.custom_validators.push(function(schema, value, path) {
 
 var options = {
     schema: {
-        "title": "Noun",
+        "title": _.startCase(wordClass),
         "type": "object",
-        "properties": {
-            "name": {
-                "$ref": "#/definitions/name",
-                "propertyOrder": 10
-            },
-            "proto": {
-                type:"string",
-                "propertyOrder": 20
-            },
-            "tags": {
-                "$ref": "#/definitions/taglist",
-                "propertyOrder": 30
-            },
-            "anim": {
-                "$ref": "#/definitions/number",
-                "maximum": 3,
-                "propertyOrder": 40
-            },
-            "tang": {
-                "$ref": "#/definitions/number",
-                "maximum": 2,
-                "propertyOrder": 50
-            },
-            "possessable": {
-                "$ref": "#/definitions/number",
-                "propertyOrder": 60
-            },
-            "posr" : {
-                "$ref": "#/definitions/restrictions",
-                "propertyOrder": 70
-            },
-            "partOf": {
-                "$ref": "#/definitions/taglist",
-                "propertyOrder": 75
-            },
-            "gender": {
-                type: "string",
-                enum: ["","male","female"],
-                default: "",
-                "propertyOrder": 80
-            },
-            "size": {
-                "$ref": "#/definitions/number",
-                "propertyOrder": 90
-            },
-            "unique": {
-                description: "1 = the ___, 2 = bare",
-                type: "string",
-                enum: ["","0","1","2"],
-                "propertyOrder": 100
-            },
-            "count": {
-                type: "string",
-                enum: ["","true","false"],
-                "propertyOrder": 110
-            },
-            "precomp": {
-                "$ref": "#/definitions/complement",
-                "propertyOrder": 120
-            },
-            "complements": {
-                "$ref": "#/definitions/complement",
-                "propertyOrder": 130
-            },
-            "inflections": {
-                type: "string",
-                "propertyOrder": 140
-            },
-            "prohibitions": {
-                type: "string",
-                "propertyOrder": 150
-            },
-            "disabled":{
-                type: "boolean",
-                format: "checkbox",
-                "propertyOrder": 160
-            }
-        },
-        "definitions": {
-            "name": {
-                "type": "string",
-                "minLength": 2,
-                "pattern": "([0-9a-zA-Z. ]|\\^[0-9])+"
-            },
-            "number": {
-                type: "string",
-                default: "",
-                pattern: "^(-?\\d*\.?\\d+ *(, *\\d*\.?\\d)*)?$"
-            },
-            "restrictions": {
-                "type": "string",
-                "pattern": "^[^:,]+:[^:,]+(,[^:,]+:[^:,]+)*$|^$"
-            },
-            "tags": {
-                type: "string",
-                "pattern": "^$|^!?\\w+( ?[&|] ?!?\\w+)*$"
-            },
-            "taglist": {
-                type: "string",
-                "pattern": "^$|^[\\w-]+( ?, ?[\\w-]+)*$"
-            },
-            "complement": {
-                "type": "string"
-            }
-        },
+        "properties": schemas[wordClass],
+        "definitions": definitions,
     },
     theme: "bootstrap3",
     iconlib: "fontawesome4",
@@ -203,9 +113,8 @@ editor.on("change",  function() {
 $('#save').click(saveToDisk)
 
 function saveToDisk() {
-    var errors = editor.validate();
-
-    if(errors.length && currentIndex!=-1) {
+    if(_.size(errors)) {
+        alert("There are "+_.size(errors)+" entries with errors.")
         console.log(errors);
     } else {
         saveEntry()
@@ -214,9 +123,23 @@ function saveToDisk() {
             type:'POST',
             url: "http://localhost:8080/save",
             data: JSON.stringify({type: wordClass,data: lexicon}),
-            contentType: 'application/json'
+            contentType: 'application/json',
+            success: data => {
+                var when = new Date()
+                if(data===true) console.info(rootName + " file saved. " + when.toLocaleTimeString());
+                else alert("Error saving!")
+            },
+            error: data => {
+                alert("Error saving!")
+            }
         })
+        //remove redness
         $("#save").removeClass("changes")
+        var temp = $jt.get_selected()
+        $jt.select_all()
+        $jt.set_type($jt.get_selected(),'default')
+        $jt.deselect_all()
+        $jt.select_node(temp)
         changes = false
     }
 }
@@ -248,21 +171,18 @@ function isBalanced(string) {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-var currentIndex = -1
-var scrollPos
-var $jt
 
-wordClass = "noun"
-lexicon = eval(wordClass)
-renderTree()
+
+
+
 
 function renderTree () {
     var protoTree = {}
     currentIndex = -1
 
     function addChildren (branch, parent) {
-        branch.text = parent ? parent.name : (wordClass+'s').toUpperCase()
-        branch.a_attr = {id: branch.text.replace(/ /g, '_')}
+        branch.text = parent ? parent.name : rootName
+        branch.a_attr = {id: branch.text.replace(/ /g, '_'), class: parent && parent.disabled ? 'disabled':''}
         branch.children = []
         lexicon.forEach(function(n){
             if (parent ? n.proto == branch.text : n.proto == undefined) {
@@ -285,7 +205,27 @@ function renderTree () {
             'check_callback' : true,
         },
         //"plugins" : [ "state" ]
-        "plugins" : ["search"]
+        "plugins" : ["search", "types", "sort"],
+        "types" : {
+            "default" : {
+                icon: "default"
+            },
+            "changed" : {
+                "icon" : "fa fa-asterisk"
+            },
+            "error" : {
+                "icon" : "fa fa-exclamation-circle"
+            }
+        },
+        'sort' :  function (a, b) {
+            if ((this.is_parent(this.get_node(a)) && this.is_parent(this.get_node(b))) || (!this.is_parent(this.get_node(a)) && !this.is_parent(this.get_node(b))) ) {
+                //sort equals by natural order in JSON file
+                return  _.findIndex(lexicon,{name: this.get_text(a)}) > _.findIndex(lexicon,{name: this.get_text(b)}) ? 1 : -1;
+            } else {
+                return this.is_parent(this.get_node(a)) ? 1 : -1
+            }
+        }
+
     })
     .on('loaded.jstree', function() {
         $treeview.jstree('open_all');
@@ -299,10 +239,10 @@ function renderTree () {
         }
 
         if(data.action != "select_node") return //don't try to save the form when deleting a node
-        console.log(data.action);
-        console.log(currentIndex);
+//        console.log(data.action);
+//        console.log(currentIndex);
         if(currentIndex >= 0 && !editor.getEditor('root.name').value) return //don't try to save the form if there is no name
-        console.log("go");
+//        console.log("go");
 
         var i, j, r = [];
         for(i = 0, j = data.selected.length; i < j; i++) {
@@ -310,7 +250,8 @@ function renderTree () {
         }
 
         //"save" editor data back to the lexicon
-        saveEntry()
+        var saved = saveEntry()
+        if(saved=="go back") return
 
         //retrieve new entry from lexicon for editor
         var selectedText = r[r.length-1]
@@ -328,6 +269,7 @@ function renderTree () {
 
         } else {
             console.warn(selectedText + " does not exist.")
+            editor.root.setValue({},true);
         }
         history.pushState({}, '', '#'+selectedText.replace(/ /g, '_'))
     })
@@ -342,15 +284,18 @@ function gotoSelectedNode () {
         if(sel){
             var seltext = '#' + $jt.get_text(sel).replace(/_/g,' ')
             document.getElementById(sel).scrollIntoView(true);
+            window.scrollTo(0,window.scrollY-400);
         }
     }
 }
 
 function selectFromHash (arguments) {
     var bob = location.hash
-    $jt.deselect_all()
-    $jt.select_node(bob)
-    setTimeout(gotoSelectedNode,10)
+    if (bob) {
+        $jt.deselect_all()
+        $jt.select_node(bob)
+        setTimeout(gotoSelectedNode,10)
+    }
 }
 
 //tree filtering/searching
@@ -364,9 +309,73 @@ $('#tree-search').keyup(function () {
 });
 
 function saveEntry () {
-    pushUndo()
+    if(currentIndex == -1 ) return
+
+    //handle errors
+    var err = editor.validate()
+    var name = lexicon[currentIndex].name
+    var here = $jt.get_node(name.replace(/ /g,'_'))
+    if(err.length){
+        $jt.set_type(here,'error')
+        errors[name] = err
+    } else {
+        delete errors[name]
+    }
+
+    //rename entry is tree if name was changed
+    var newName = editor.getEditor('root.name').value
+    if(newName != name){
+        //if the new name is valid, rename the node on the tree
+        if (!editor.validate().length || editor.validate().length && !editor.validate()[0].path == "root.name")  {
+            //$jt.rename_node(here, newName)
+            //and update proto for every child entry
+            lexicon.forEach(entry => {
+                if(entry.proto == name) entry.proto = newName
+            })
+        } else {
+            console.warn("Invalid name.")
+            $jt.deselect_all()
+            $jt.select_node(here)
+            return "go back"
+        }
+    }
+
+    //move entry in try if proto was changed
+    editorProto = editor.getEditor('root.proto').value
+    lexiconProto = lexicon[currentIndex].proto
+    if(editorProto != lexiconProto){
+        if(editorProto === "" && lexiconProto === undefined){
+            //do nothing if you are just "flipping channels" and the entry happens to have no proto
+        }
+        else {
+            if (editorProto == "") {
+                var there = (wordClass+'s').toUpperCase()
+                } else {
+                    var there = $jt.get_node(editorProto.replace(/ /g,'_'))
+                    }
+            if(!there) {
+                alert("Proto does not exist, so it will not be changed.")
+                editor.getEditor('root.proto').setValue(lexiconProto)
+            } else {
+                $jt.move_node(here, there)
+            }
+        }
+    }
+
+    //dim disabled nodes
+    if (editor.getEditor('root.disabled').value == true) $('#'+here.text.replace(/ /g,"_")).addClass('disabled')
+    else $('#'+here.text.replace(/ /g,"_")).removeClass('disabled')
+
+    if(pushUndo() && !err.length){
+        //mark new/modified nodes with icon
+        $jt.set_type(here,'changed')
+    }
+
+    //update lexicon
     lexicon[currentIndex] = editor.getValue()
     prune(lexicon[currentIndex])
+
+    if(newName != name) renderTree()
 }
 
 function pushUndo () {
@@ -375,9 +384,11 @@ function pushUndo () {
         if (undo.length > undo_length) undo = undo.slice(1);
         $("#save").addClass("changes")
         changes = true
+        newness = false
+        return true
     }
-    newness = false
 }
+
 
 window.onbeforeunload = function(evt) {
     if(!changes) return
@@ -391,7 +402,8 @@ window.onbeforeunload = function(evt) {
 
     return message;
 }
-$('body').on('keydown', function (e) {
+
+$('#tree-container').on('keydown', function (e) {
 
     switch (e.key) {
 
@@ -403,6 +415,11 @@ $('body').on('keydown', function (e) {
             insertNode($jt.get_selected(true), e.ctrlKey)
             break;
 
+    }
+
+})
+$('body').on('keydown', e => {
+    switch (e.key) {
         case 'Z':
             if(e.ctrlKey) {
                 if (undo.length) {
@@ -415,8 +432,21 @@ $('body').on('keydown', function (e) {
                     console.warn("Nothing to undo.");
                 }
             }
-    }
+            break;
 
+        case '\\':
+            e.preventDefault()
+            $('#tree-search').select().val('')
+            break;
+
+        case 'Home':
+            if(e.ctrlKey){
+                e.preventDefault()
+                $('#jstree').click()
+                gotoSelectedNode()
+            }
+            break;
+    }
 })
 
 function deleteNode (which) {
@@ -461,29 +491,48 @@ function deleteNode (which) {
 
 function insertNode (refNode,ctrl) {
     refNode = _.last(refNode)
+
+    if (currentIndex == -1) ctrl=true //can't insert as sibling of the root
+
     var par = refNode, //insertion as child
         index = -1
     if(!ctrl) { //normal insertion as sibling
-        par =  $jt.get_node(refNode.parent),
+        par =  $jt.get_node(refNode.parent)
         index = $.inArray(refNode.id, par.children)
     }
 
+    //validate name
     var name = prompt('What shall you call this new thing?')
+    if(editor.validate({name: name}).length) {
+        alert("Invalid name!")
+        return
+    }
 
-    //update the lexicon
     if (_.find(lexicon, {name: name})) {
         alert ("An entry with the name '" + name + "' already exists!")
         return
     }
-    newEntry = {name: name}
-    newEntry.proto = par.text
-    lexicon.push(newEntry)
+
+    //update the lexicon
+    newness = true
+    pushUndo()
+    var newEntry = {name: name}
+    newEntry.proto = currentIndex == -1 ? "" : (par.text == rootName ? "" : par.text)
+    if(currentIndex == -1) {
+        var insertionPoint = lexicon[length]
+    } else {
+        var here = $jt.get_node(lexicon[currentIndex].name.replace(/ /,'_'))
+        var insertionPoint = _.findIndex(lexicon,{name:here.text}) + 1
+    }
+    lexicon.splice(insertionPoint,0,newEntry)
+
 
     //create the node in the tree
-    var hi = $jt.create_node(par,name, index+1)
+    var hi = $jt.create_node(par, name, index+1)
     $jt.deselect_all()
     $jt.select_node(hi)
 
-    newness = true
-    pushUndo()
+    $jt.set_type(hi,'changed')
+
+    $jt.set_id(hi,name)
 }

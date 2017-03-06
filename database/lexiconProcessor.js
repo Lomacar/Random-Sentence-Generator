@@ -5,6 +5,9 @@ eval(fs.readFileSync("csv/csv2json.js")+'');
 eval(fs.readFileSync("../dist/js/utilities.js")+'');
 eval(fs.readFileSync("../dist/js/main.js")+'');
 eval(fs.readFileSync("../dist/js/ontology.js")+'');
+eval(fs.readFileSync("JSON/nouns.js")+'');
+eval(fs.readFileSync("JSON/verbs.js")+'');
+eval(fs.readFileSync("JSON/adjectives.js")+'');
 
 var google_key = "1FYbVHIMfwPJcYl_UgJFEQQ2zee4FkRzQMLWXhyz4qAI"
 var datasource = "" // "google" or else it will use local
@@ -15,15 +18,9 @@ var dbkeys = { verb: [],noun: [], adjective: []}    //basically lists of the CSV
 
 function loadLexicon(){
 
-    data = fs.readFileSync('csv/nouns.csv')+''
-    processLexicon(CSV2JSON(data), 'noun')
-
-    data = fs.readFileSync('csv/verbs.csv')+''
-    processLexicon(CSV2JSON(data), 'verb')
-
-
-    data = fs.readFileSync('csv/adjectives.csv')+''
-    processLexicon(CSV2JSON(data), 'adjective')
+    processLexicon(noun, 'noun')
+    processLexicon(verb, 'verb')
+    processLexicon(adjective, 'adjective')
 
 
     fs.writeFile("../dist/js/database.processed.js",
@@ -44,26 +41,31 @@ function processLexicon(data, type){
 
     //main processing loop
     for (x in database[type]) {
+
+        var a = database[type][x]
+
         //remove empty rows that Google or Git might add
-        if (!database[type][x].name) {
+        if (!a.name) {
             database[type].splice(x,1)
             continue
         }
 
-        var a = database[type][x]
 
         Object.keys(a).forEach(function(val){
+            //console.log(val);
             //build list of column names for each word type
-            if(x==0) dbkeys[type].push(val)
+            if(dbkeys[type].indexOf(val)==-1) dbkeys[type].push(val)
             
-            //remove unnecessary spaces from values
-            a[val] = compactString(a[val])
-            
-            //turn numbers and boolean into the real things
-            a[val] = toNumBool(a[val])
+            if(typeof a[val] !== "undefined") {
+                //remove unnecessary spaces from values
+                if(typeof a[val] == "string") a[val] = compactString(a[val])
+
+                //turn numbers and boolean into the real things
+                a[val] = toNumBool(a[val])
+            }
         })
 
-        delete a.rowNumber //something that Tabletop seems to add in
+        //delete a.rowNumber //something that Tabletop seems to add in
         
         prune(a)
         

@@ -68,6 +68,10 @@ function toNumBool(val){
 
 //turn strings like " this has( {lots: of | spaces! & stuff } )" into "this has({lots:of|spaces! & stuff})"
 function compactString(str){
+    if(typeof str != "string") {
+        console.error("Non-string passed to compactString().");
+        return str
+    }
     return str.trim()
                 .replace(/ *([,|:]) */g,'$1')           //remove spaces around commas, pipes, colons
                 .replace(/([{(]) | ([)}])/g,'$1$2')           //remove spaces inside { } and ( )

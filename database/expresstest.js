@@ -3,6 +3,8 @@ const express = require("express");
 const myParser = require("body-parser");
 const app = express();
 
+const colors = require('colors')
+
 //app.use(myParser.urlencoded({extended : true}));
 
 var urlencodedParser = myParser.urlencoded({ extended:true,limit:5000000, parameterLimit: 5000000 })
@@ -33,18 +35,23 @@ app.use(function (req, res, next) {
 
 
 app.post("/save", function (req,res) {
-    res.send(req.body);
     console.log(req.body.data)
     var type = req.body.type
     var data = req.body.data
-    var file = "./editor/" + type + "s.js"
+    var file = "./JSON/" + type + "s.js"
     //make backup
-    fs.copy(file, "./editor/" + type + "s.backup.js", err => {
-        if (err) return console.error(err)
-        //console.log("success!")
+    fs.copy(file, "./JSON/" + type + "s.backup.js", err => {
+        if (err) {res.send(err); return}
 
-        //write new
-        fs.writeFile(file, type + " = " + JSON.stringify(data))
+        //write original
+        fs.writeFileSync(file, type + " = " + JSON.stringify(data))
+
+        //build processed db
+        console.log("Processing lexicon...".yellow)
+        eval(fs.readFileSync("lexiconProcessor.js")+'');
+        loadLexicon()
+
+        res.send(true)
     });
 });
 

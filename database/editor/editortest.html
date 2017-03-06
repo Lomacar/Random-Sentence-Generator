@@ -10,16 +10,21 @@
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="theme/style.css" />
         <style>
-            body {padding: 1em}
+            body {padding: 0;}
+            body.noun {background: #8fdfef}
+            body.verb {background: #faa67f}
+            body.adjective {background: #8ee867}
+            body.adverb {background: #cb9ae8}
 
             #editor {
-                background-color: #eee;
+                background-color: #333;
                 position: fixed;
                 left: 0;
                 top: 0;
                 height: 100%;
                 width: 500px;
-                padding: 1em
+                padding: 1em;
+                color: white;
             }
             #tree-container {
                 position: absolute;
@@ -27,10 +32,15 @@
                 right: 0
             }
 
+
+
             /* TREE */
 
             #jstree {
-                padding-bottom: 50px
+                padding-bottom: 50px;
+                font-family: 'Source Sans Pro';
+                font-size: 1.3em;
+                font-weight: 500;
             }
 
             #tree-search {
@@ -45,7 +55,35 @@
             }
 
             .jstree-leaf {
-                color: green;
+                font-weight: 400;
+            }
+            #jstree .disabled {
+                opacity: 0.50;
+/*                font-weight: 300;*/
+            }
+            .jstree-default .jstree-clicked {
+                background-color: white;
+            }
+            .jstree-default .jstree-hovered {
+                background-color: rgba(255, 255, 255, 0.5) !important;
+            }
+
+            i.jstree-icon {
+                display: inline-block !important;
+            }
+            i.default {
+                width: 1px !important
+            }
+            i.fa-asterisk {
+                color:  #dd1bdd;
+            }
+            i.fa-exclamation-circle {
+                color: indianred;
+                animation: blinker 1s linear infinite;
+            }
+
+            @keyframes blinker {
+                50% { opacity: 0; }
             }
 
 
@@ -71,11 +109,16 @@
                 top:100%;
                 right: 0;
                 margin: 0 0 0 0 !important;
-                background: darkred;
+                background: #b94a48;
                 color: white;
                 z-index: 100;
             }
-
+            .well {
+                background: #333;
+                border: none;
+                color: #888888;
+                padding: 0;
+            }
             .form-group {
                 margin-bottom: 0;
                 display: flex;
@@ -87,14 +130,43 @@
                 margin: 6px;
             }
             .form-group .form-control {
+                background: #555;
+                box-shadow: none;
+                margin-bottom: 3px;
+                color: white;
+                border: 3px solid transparent;
                 height: auto;
                 width: auto;
                 flex-shrink: 99999;
                 padding: 3px 6px;
             }
+            .form-group .form-control:focus {
+                background-color: #666
+            }
+            .form-group.has-error .form-control{
+                background-color: #b94a48;
+            }
+            .has-error .form-control:focus {
+                box-shadow: none
+            }
             .form-group input.form-control {
                 width: 100%;
             }
+            [data-schematype="boolean"] {
+                width: 24%;
+                float: right;
+                padding-top: 1em;
+            }
+            input[type="checkbox"]{
+                width: 1.1em !important;
+                height: 1.1em;
+                top: -0.1em;
+                right: 0.1em;
+            }
+            option {
+                color: white;
+            }
+
             .form-group .help-block {
                 width: auto;
                 margin-left: 1em;
@@ -105,12 +177,10 @@
                 color: cadetblue;
                 font-style: italic;
             }
-            option[value=""][disabled] {
+            option[value=""]{
                 display: none;
             }
-            option {
-                color: black;
-            }
+
             ::-webkit-input-placeholder {
                 color: cadetblue !important;
                 font-style: italic;
@@ -138,7 +208,10 @@
 
         <script type="text/javascript" src="../../dist/js/database.processed.js"></script>
         <script type="text/javascript" src="../../dist/js/database.js"></script>
-        <script type="text/javascript" src="nouns.js"></script>
+        <script type="text/javascript" src="../JSON/nouns.js"></script>
+        <script type="text/javascript" src="../JSON/verbs.js"></script>
+        <script type="text/javascript" src="../JSON/adjectives.js"></script>
+        <script type="text/javascript" src="schemas.js"></script>
         <script type="text/javascript" src="editor.js"></script>
 
     </body>
