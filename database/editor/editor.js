@@ -93,12 +93,16 @@ editor.on("ready",  function() {
 
 //editor.getEditor('root.unique').setValue(null)
 
+$('#editor').on("keydown",  function() {
+    almostSave()
+});
 editor.on("change",  function() {
+    almostSave()
+});
+
+function almostSave () {
     var errors = editor.validate()
     if(errors.length) {
-        // errors is an array of objects, each with a `path`, `property`, and `message` parameter
-        // `property` is the schema keyword that triggered the validation error (e.g. "minLength")
-        // `path` is a dot separated path into the JSON object (e.g. "root.path.to.field")
         console.log(errors);
     } else if (undo_enabled){
         newness = true
@@ -107,10 +111,17 @@ editor.on("change",  function() {
     //so if the form is being populated and no changes were made, undo must be disabled
     //then renabled when this event finally decides to fire
     undo_enabled = true
-});
+}
 
 
 $('#save').click(saveToDisk)
+
+$('body').on('keydown', e=>{
+    if(e.key=='s' && e.ctrlKey) {
+        e.preventDefault()
+        saveToDisk()
+    }
+})
 
 function saveToDisk() {
     if(_.size(errors)) {
@@ -126,21 +137,24 @@ function saveToDisk() {
             contentType: 'application/json',
             success: data => {
                 var when = new Date()
-                if(data===true) console.info(rootName + " file saved. " + when.toLocaleTimeString());
+                if(data===true) {
+                    console.info(rootName + " file saved. " + when.toLocaleTimeString());
+
+                    //remove redness
+                    $("#save").removeClass("changes")
+                    var temp = $jt.get_selected()
+                    $jt.select_all()
+                    $jt.set_type($jt.get_selected(),'default')
+                    $jt.deselect_all()
+                    $jt.select_node(temp)
+                    changes = false
+                }
                 else alert("Error saving!")
             },
             error: data => {
                 alert("Error saving!")
             }
         })
-        //remove redness
-        $("#save").removeClass("changes")
-        var temp = $jt.get_selected()
-        $jt.select_all()
-        $jt.set_type($jt.get_selected(),'default')
-        $jt.deselect_all()
-        $jt.select_node(temp)
-        changes = false
     }
 }
 
@@ -363,8 +377,8 @@ function saveEntry () {
     }
 
     //dim disabled nodes
-    if (editor.getEditor('root.disabled').value == true) $('#'+here.text.replace(/ /g,"_")).addClass('disabled')
-    else $('#'+here.text.replace(/ /g,"_")).removeClass('disabled')
+    if (editor.getEditor('root.disabled').value == true) $(document.getElementById(here.text.replace(/ /g,"_"))).addClass('disabled')
+    else $(document.getElementById(here.text.replace(/ /g,"_"))).removeClass('disabled')
 
     if(pushUndo() && !err.length){
         //mark new/modified nodes with icon
@@ -418,6 +432,16 @@ $('#tree-container').on('keydown', function (e) {
     }
 
 })
+
+$('#editor').on('keyup', e=>{
+    switch (e.key) {
+        case 'Enter':
+            e.preventDefault()
+            saveEntry()
+            break;
+    }
+})
+
 $('body').on('keydown', e => {
     switch (e.key) {
         case 'Z':

@@ -3,6 +3,7 @@ const express = require("express");
 const myParser = require("body-parser");
 const app = express();
 
+const beautify = require('json-beautify');
 const colors = require('colors')
 
 //app.use(myParser.urlencoded({extended : true}));
@@ -35,7 +36,7 @@ app.use(function (req, res, next) {
 
 
 app.post("/save", function (req,res) {
-    console.log(req.body.data)
+    //console.log(req.body.data)
     var type = req.body.type
     var data = req.body.data
     var file = "./JSON/" + type + "s.js"
@@ -44,7 +45,7 @@ app.post("/save", function (req,res) {
         if (err) {res.send(err); return}
 
         //write original
-        fs.writeFileSync(file, type + " = " + JSON.stringify(data))
+        fs.writeFileSync(file, type + " = " + beautify(data, null, 2, 10))
 
         //build processed db
         console.log("Processing lexicon...".yellow)

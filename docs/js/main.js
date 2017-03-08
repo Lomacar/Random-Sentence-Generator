@@ -486,7 +486,7 @@ function r_match(restrictions, test_object){
 
         if (typeof test_object[r] !== 'undefined') {
 
-            if (magicCompare(test_object[r], rval, {tagmode: (r=='tags'||r=='vtags')})) {
+            if (magicCompare(test_object[r], rval, {tagmode: (r=='tags'||r=='vtags'||r=='partOf')})) {
                 continue
             } else return false
 

@@ -168,7 +168,7 @@ schemas.adjective = _.extend({}, schemas.common, {
 definitions = {
     "name": {
         "type": "string",
-        "pattern": "^([A-Za-z\\u00C0-\\u017F]|\\^.)([0-9A-Za-z\\u00C0-\\u017F\\-. ]|\\^.)*$|^$"
+        "pattern": "^([A-Za-z\\u00C0-\\u017F']|\\^.)([0-9A-Za-z\\u00C0-\\u017F\\-.' ]|\\^.)*$|^$"
     },
     "number": {
         type: "string",
