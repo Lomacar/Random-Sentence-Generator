@@ -3,14 +3,14 @@ noun = [
     "name": "Nile",
     "proto": "river",
     "unique": 1,
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "Outback",
     "proto": "forest",
     "unique": 1,
     "count": "false",
-    "size": 10
+    "size": 10,
   },
   {
     "name": "apocalypse",
@@ -20,7 +20,6 @@ noun = [
     "unique": 1,
     "count": "false",
     "tags": "event",
-    "partOf": "null"
   },
   {
     "name": "North",
@@ -30,7 +29,6 @@ noun = [
     "unique": 1,
     "count": "false",
     "tags": "place",
-    "partOf": "null"
   },
   {
     "name": "Taj Mahal",
@@ -41,7 +39,6 @@ noun = [
     "count": "false",
     "size": 8,
     "tags": "building",
-    "partOf": "null"
   },
   {
     "name": "Canuck",
@@ -52,14 +49,13 @@ noun = [
     "count": "true",
     "tags": "-",
     "prohibitions": "number:sg",
-    "partOf": "null"
   },
   {
     "name": "Loch Ness monster",
     "proto": "dog",
     "unique": 1,
     "size": 7,
-    "tags": "waterAnimal"
+    "tags": "waterAnimal",
   },
   {
     "name": "Jack",
@@ -72,7 +68,6 @@ noun = [
     "size": 6,
     "tags": "person, firstname",
     "precomp": "(10 TITLE{unpack:noun.tags-gender})",
-    "partOf": "null"
   },
   {
     "name": "Sally",
@@ -85,34 +80,33 @@ noun = [
     "size": 6,
     "tags": "person, firstname",
     "precomp": "(10 TITLE{unpack:noun.tags-gender})",
-    "partOf": "null"
   },
   {
     "name": "Pope",
     "proto": "Jack",
-    "unique": 1
+    "unique": 1,
   },
   {
     "name": "Popemobile",
     "proto": "car",
-    "unique": 1
+    "unique": 1,
   },
   {
     "name": "Sahara Desert",
     "proto": "Outback",
-    "unique": 1
+    "unique": 1,
   },
   {
     "name": "Area ^5^1",
     "proto": "Outback",
     "unique": 2,
-    "size": 9
+    "size": 9,
   },
   {
     "name": "Times Square",
     "proto": "Outback",
     "unique": 2,
-    "size": 9
+    "size": 9,
   },
   {
     "name": "Christmas",
@@ -122,7 +116,6 @@ noun = [
     "unique": 2,
     "count": "false",
     "tags": "event",
-    "partOf": "null"
   },
   {
     "name": "dancing",
@@ -132,7 +125,6 @@ noun = [
     "unique": 2,
     "count": "false",
     "tags": "activity",
-    "partOf": "null"
   },
   {
     "name": "Fido",
@@ -140,37 +132,37 @@ noun = [
     "gender": "m",
     "possessable": 0,
     "unique": 2,
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "Snoopy",
-    "proto": "Fido"
+    "proto": "Fido",
   },
   {
     "name": "Shadowfax",
-    "proto": "Fido"
+    "proto": "Fido",
   },
   {
     "name": "Garfield",
-    "proto": "Fido"
+    "proto": "Fido",
   },
   {
     "name": "Hypnotoad",
-    "proto": "Fido"
+    "proto": "Fido",
   },
   {
     "name": "Fluffy",
-    "proto": "Fido"
+    "proto": "Fido",
   },
   {
     "name": "Scooby-doo",
-    "proto": "Fido"
+    "proto": "Fido",
   },
   {
     "name": "R^2D^2",
     "proto": "Fido",
     "anim": 1.5,
-    "tags": "-, machine"
+    "tags": "-, machine",
   },
   {
     "name": "city",
@@ -182,36 +174,35 @@ noun = [
     "count": "true",
     "size": 9,
     "tags": "city",
-    "partOf": "null"
   },
   {
     "name": "town",
-    "proto": "city"
+    "proto": "city",
   },
   {
     "name": "village",
-    "proto": "city"
+    "proto": "city",
   },
   {
     "name": "neighborhood",
     "proto": "city",
-    "size": 8.5
+    "size": 8.5,
   },
   {
     "name": "ghetto",
     "proto": "city",
-    "size": 8.5
+    "size": 8.5,
   },
   {
     "name": "district",
     "proto": "city",
-    "size": 8.5
+    "size": 8.5,
   },
   {
     "name": "region",
     "proto": "country",
     "size": "9,10,11",
-    "tags": "-, region"
+    "tags": "-, region",
   },
   {
     "name": "country",
@@ -223,37 +214,36 @@ noun = [
     "count": "true",
     "size": 11,
     "tags": "country",
-    "partOf": "null"
   },
   {
     "name": "kingdom",
-    "proto": "country"
+    "proto": "country",
   },
   {
     "name": "province",
-    "proto": "country"
+    "proto": "country",
   },
   {
     "name": "state",
-    "proto": "country"
+    "proto": "country",
   },
   {
     "name": "realm",
-    "proto": "state"
+    "proto": "state",
   },
   {
     "name": "Japan",
     "proto": "country",
     "possessable": 0,
     "unique": 2,
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "London",
     "proto": "city",
     "possessable": 0,
     "unique": 2,
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "The Iliad",
@@ -264,28 +254,27 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "readable",
-    "partOf": "null"
   },
   {
     "name": "Stonehenge",
     "proto": "Taj Mahal",
     "unique": 2,
-    "tags": "structure, -"
+    "tags": "structure, -",
   },
   {
     "name": "Buckingham Palace",
     "proto": "Taj Mahal",
-    "unique": 2
+    "unique": 2,
   },
   {
     "name": "vibration.1",
     "proto": "vibration",
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "work.1",
     "proto": "task",
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "cattle",
@@ -298,13 +287,12 @@ noun = [
     "tags": "collective",
     "inflections": "pl:cattle",
     "prohibitions": "number:sg",
-    "partOf": "null"
   },
   {
     "name": "Alp",
     "proto": "Outback",
     "count": "true",
-    "prohibitions": "number:sg"
+    "prohibitions": "number:sg",
   },
   {
     "name": "coin",
@@ -315,7 +303,6 @@ noun = [
     "count": "true",
     "size": 3,
     "tags": "artifact",
-    "partOf": "null"
   },
   {
     "name": "disaster",
@@ -326,7 +313,6 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "happening",
-    "partOf": "null"
   },
   {
     "name": "situation",
@@ -337,65 +323,64 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "situation",
-    "partOf": "null"
   },
   {
     "name": "crisis",
     "proto": "situation",
     "possessable": 1,
     "count": "true",
-    "inflections": "pl:crises"
+    "inflections": "pl:crises",
   },
   {
     "name": "scandal",
-    "proto": "situation"
+    "proto": "situation",
   },
   {
     "name": "emergency",
-    "proto": "situation"
+    "proto": "situation",
   },
   {
     "name": "chaos",
     "proto": "situation",
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "tension",
-    "proto": "chaos"
+    "proto": "chaos",
   },
   {
     "name": "combat",
-    "proto": "chaos"
+    "proto": "chaos",
   },
   {
     "name": "prosperity",
-    "proto": "chaos"
+    "proto": "chaos",
   },
   {
     "name": "peace",
-    "proto": "chaos"
+    "proto": "chaos",
   },
   {
     "name": "tranquility",
-    "proto": "chaos"
+    "proto": "chaos",
   },
   {
     "name": "fun",
-    "proto": "chaos"
+    "proto": "chaos",
   },
   {
     "name": "health",
     "proto": "chaos",
     "possessable": 9,
-    "posr": "tags: lifeform"
+    "posr": "tags: lifeform",
   },
   {
     "name": "hostility",
-    "proto": "situation"
+    "proto": "situation",
   },
   {
     "name": "productivity",
-    "proto": "chaos"
+    "proto": "chaos",
   },
   {
     "name": "problem",
@@ -406,7 +391,6 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "difficulty",
-    "partOf": "null"
   },
   {
     "name": "question",
@@ -418,7 +402,6 @@ noun = [
     "size": 0,
     "tags": "difficulty,information,speechAct",
     "complements": "(40 about NP)",
-    "partOf": "null"
   },
   {
     "name": "task",
@@ -429,7 +412,6 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "difficulty,undertaking",
-    "partOf": "null"
   },
   {
     "name": "journey",
@@ -440,7 +422,6 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "undertaking,accomplishment",
-    "partOf": "null"
   },
   {
     "name": "vibration",
@@ -451,7 +432,6 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "behaviour,feelable,phenomenon",
-    "partOf": "null"
   },
   {
     "name": "strategy",
@@ -463,7 +443,6 @@ noun = [
     "size": 0,
     "tags": "procedure",
     "complements": "(25 for GP)",
-    "partOf": "null"
   },
   {
     "name": "forest",
@@ -474,7 +453,6 @@ noun = [
     "count": "true",
     "size": 9,
     "tags": "terrain",
-    "partOf": "null"
   },
   {
     "name": "apple",
@@ -485,36 +463,35 @@ noun = [
     "count": "true",
     "size": 4,
     "tags": "food",
-    "partOf": "null"
   },
   {
     "name": "mango",
-    "proto": "apple"
+    "proto": "apple",
   },
   {
     "name": "pineapple",
-    "proto": "apple"
+    "proto": "apple",
   },
   {
     "name": "mushroom",
     "proto": "apple",
-    "tags": "food,plant"
+    "tags": "food,plant",
   },
   {
     "name": "sandwich",
     "proto": "apple",
-    "tags": "artifact"
+    "tags": "artifact",
   },
   {
     "name": "pizza",
     "proto": "sandwich",
     "size": "4,5",
-    "tags": "surface"
+    "tags": "surface",
   },
   {
     "name": "pie",
     "proto": "pizza",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "life",
@@ -527,12 +504,11 @@ noun = [
     "tags": "property",
     "inflections": "pl:lives",
     "prohibitions": "def:def,quantified:true",
-    "partOf": "null"
   },
   {
     "name": "color.1",
     "proto": "color",
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "dirt",
@@ -543,7 +519,6 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "aggregate, semisolid",
-    "partOf": "null"
   },
   {
     "name": "garbage",
@@ -554,7 +529,6 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "aggregate",
-    "partOf": "null"
   },
   {
     "name": "light",
@@ -565,7 +539,6 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "energy",
-    "partOf": "null"
   },
   {
     "name": "sky",
@@ -576,7 +549,6 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "thing, volume, elevated",
-    "partOf": "null"
   },
   {
     "name": "truth",
@@ -587,7 +559,6 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "concept",
-    "partOf": "null"
   },
   {
     "name": "weather",
@@ -598,7 +569,6 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "weather",
-    "partOf": "null"
   },
   {
     "name": "wind",
@@ -609,7 +579,6 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "phenomenon, visible",
-    "partOf": "null"
   },
   {
     "name": "fact",
@@ -621,7 +590,6 @@ noun = [
     "size": 0,
     "tags": "information",
     "prohibitions": "case:nom",
-    "partOf": "null"
   },
   {
     "name": "bicycle",
@@ -632,7 +600,6 @@ noun = [
     "count": "true",
     "size": 5,
     "tags": "hasHeight, nonMotorVehicle",
-    "partOf": "null"
   },
   {
     "name": "carpet",
@@ -643,7 +610,6 @@ noun = [
     "count": "true",
     "size": 7,
     "tags": "rideable, artifact, surface, grounded",
-    "partOf": "null"
   },
   {
     "name": "category",
@@ -654,7 +620,6 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "-",
-    "partOf": "null"
   },
   {
     "name": "color",
@@ -665,7 +630,6 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "property,PHYSICAL",
-    "partOf": "null"
   },
   {
     "name": "party",
@@ -676,52 +640,51 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "occasion",
-    "partOf": "null"
   },
   {
     "name": "dinner",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "potluck",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "BBQ",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "concert",
     "proto": "party",
-    "tags": "performance"
+    "tags": "performance",
   },
   {
     "name": "funeral",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "meeting",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "intervention",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "Bible study",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "bake sale",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "farmer's market",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "beauty pageant",
-    "proto": "concert"
+    "proto": "concert",
   },
   {
     "name": "dog",
@@ -732,7 +695,6 @@ noun = [
     "count": "true",
     "size": 5,
     "tags": "beast",
-    "partOf": "null"
   },
   {
     "name": "ghost",
@@ -743,7 +705,6 @@ noun = [
     "count": "true",
     "size": 5,
     "tags": "-",
-    "partOf": "null"
   },
   {
     "name": "house",
@@ -754,109 +715,108 @@ noun = [
     "count": "true",
     "size": 8,
     "tags": "building",
-    "partOf": "null"
   },
   {
     "name": "building",
     "proto": "house",
-    "possessable": 3
+    "possessable": 3,
   },
   {
     "name": "church",
     "proto": "house",
     "possessable": 4,
-    "posr": "tags: organization|city"
+    "posr": "tags: organization|city",
   },
   {
     "name": "temple",
-    "proto": "church"
+    "proto": "church",
   },
   {
     "name": "prison",
     "proto": "house",
     "possessable": 4,
-    "posr": "tags: city"
+    "posr": "tags: city",
   },
   {
     "name": "school",
     "proto": "house",
     "possessable": 4,
-    "posr": "tags: city|person"
+    "posr": "tags: city|person",
   },
   {
     "name": "store",
     "proto": "house",
-    "possessable": 1
+    "possessable": 1,
   },
   {
     "name": "museum",
     "proto": "house",
-    "possessable": 1
+    "possessable": 1,
   },
   {
     "name": "library",
     "proto": "house",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "gym",
     "proto": "house",
-    "possessable": 1
+    "possessable": 1,
   },
   {
     "name": "tower",
     "proto": "house",
-    "possessable": 2
+    "possessable": 2,
   },
   {
     "name": "airport",
     "proto": "house",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "barn",
     "proto": "house",
-    "possessable": 3
+    "possessable": 3,
   },
   {
     "name": "factory",
     "proto": "house",
-    "possessable": 2
+    "possessable": 2,
   },
   {
     "name": "restaurant",
     "proto": "house",
-    "possessable": 1
+    "possessable": 1,
   },
   {
     "name": "mall",
     "proto": "house",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "theatre",
     "proto": "house",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "laboratory",
     "proto": "house",
-    "possessable": 2
+    "possessable": 2,
   },
   {
     "name": "warehouse",
     "proto": "house",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "bunker",
     "proto": "house",
-    "tags": "grounded"
+    "tags": "grounded",
   },
   {
     "name": "station",
     "proto": "house",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "human",
@@ -867,7 +827,6 @@ noun = [
     "count": "true",
     "size": 6,
     "tags": "hasHeight, person, mobile",
-    "partOf": "null"
   },
   {
     "name": "idea",
@@ -878,7 +837,6 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "cognition",
-    "partOf": "null"
   },
   {
     "name": "law",
@@ -889,7 +847,6 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "readable",
-    "partOf": "null"
   },
   {
     "name": "letter",
@@ -901,7 +858,6 @@ noun = [
     "size": 4,
     "tags": "readable",
     "complements": "(30 about NP)",
-    "partOf": "null"
   },
   {
     "name": "life.1",
@@ -909,7 +865,7 @@ noun = [
     "possessable": 6,
     "posr": "number:noun.number",
     "count": "true",
-    "tags": "event,-"
+    "tags": "event,-",
   },
   {
     "name": "light1",
@@ -918,7 +874,7 @@ noun = [
     "possessable": 1,
     "count": "true",
     "size": 4,
-    "tags": "device,-"
+    "tags": "device,-",
   },
   {
     "name": "machine",
@@ -929,7 +885,6 @@ noun = [
     "count": "true",
     "size": "4,5,6,7",
     "tags": "machine",
-    "partOf": "null"
   },
   {
     "name": "pile",
@@ -941,7 +896,6 @@ noun = [
     "size": "4,5,6,7,8",
     "tags": "incline, volume",
     "complements": "(80 of N{(tags: item; (number:pl | count:false); anim:<2; unique:0; size:<noun.size | tags:substance&!fluid;) } )",
-    "partOf": "null"
   },
   {
     "name": "poison",
@@ -952,7 +906,6 @@ noun = [
     "count": "true",
     "size": 4,
     "tags": "substance",
-    "partOf": "null"
   },
   {
     "name": "rock",
@@ -963,17 +916,16 @@ noun = [
     "count": "true",
     "size": "4,5,6,7",
     "tags": "breakable, item",
-    "partOf": "null"
   },
   {
     "name": "stone",
     "proto": "rock",
-    "size": "3,4,5,6"
+    "size": "3,4,5,6",
   },
   {
     "name": "pinecone",
     "proto": "rock",
-    "size": "3,4"
+    "size": "3,4",
   },
   {
     "name": "sensation",
@@ -984,7 +936,6 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "stimulus, feelable",
-    "partOf": "null"
   },
   {
     "name": "snowman",
@@ -996,7 +947,6 @@ noun = [
     "size": 6,
     "tags": "object, hasHeight",
     "inflections": "pl:snowmen",
-    "partOf": "null"
   },
   {
     "name": "statement",
@@ -1007,11 +957,10 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "readable,audible,information",
-    "partOf": "null"
   },
   {
     "name": "prophecy",
-    "proto": "statement"
+    "proto": "statement",
   },
   {
     "name": "storm",
@@ -1022,7 +971,6 @@ noun = [
     "count": "true",
     "size": 9,
     "tags": "weather, event, obstacle",
-    "partOf": "null"
   },
   {
     "name": "team",
@@ -1034,13 +982,12 @@ noun = [
     "size": 0,
     "tags": "organization",
     "complements": "(20 of N{number:pl;anim:>1;person:3;tags:!collective})",
-    "partOf": "null"
   },
   {
     "name": "team1",
     "proto": "team",
     "precomp": "DP{tags:game}",
-    "complements": "--"
+    "complements": "--",
   },
   {
     "name": "tendency",
@@ -1052,7 +999,6 @@ noun = [
     "size": 0,
     "tags": "tendency",
     "complements": "(40 INF_PHRASE   | 25 toward GP)",
-    "partOf": "null"
   },
   {
     "name": "toy",
@@ -1063,13 +1009,12 @@ noun = [
     "count": "true",
     "size": 4,
     "tags": "device",
-    "partOf": "null"
   },
   {
     "name": "uncle",
     "proto": "father",
     "count": "true",
-    "tags": "-"
+    "tags": "-",
   },
   {
     "name": "zombie",
@@ -1080,108 +1025,107 @@ noun = [
     "count": "true",
     "size": 6,
     "tags": "hasHeight, creature, mobile",
-    "partOf": "null"
   },
   {
     "name": "tendency1",
     "proto": "tendency",
     "possessable": 0,
     "complements": "of INF_CLAUSE",
-    "prohibitions": "--"
+    "prohibitions": "--",
   },
   {
     "name": "citizen.1",
     "proto": "citizen",
     "possessable": 0,
-    "prohibitions": "--"
+    "prohibitions": "--",
   },
   {
     "name": "winner",
     "proto": "human",
     "possessable": 0,
     "posr": "tags:contest",
-    "prohibitions": "def:indef"
+    "prohibitions": "def:indef",
   },
   {
     "name": "staff",
     "proto": "choir",
-    "prohibitions": "number:pl,def:indef"
+    "prohibitions": "number:pl,def:indef",
   },
   {
     "name": "fact1",
     "proto": "fact",
     "complements": "(80 that CLAUSE)",
-    "prohibitions": "number:pl,def:indef,case:nom"
+    "prohibitions": "number:pl,def:indef,case:nom",
   },
   {
     "name": "citizen",
     "proto": "human",
     "possessable": 7,
     "posr": "tags:territory",
-    "prohibitions": "number:sg"
+    "prohibitions": "number:sg",
   },
   {
     "name": "^unicorn",
     "proto": "dog",
-    "size": "6,7"
+    "size": "6,7",
   },
   {
     "name": "Abe Lincoln",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "airplane",
     "proto": "machine",
     "size": 8,
-    "tags": "airVehicle, passengerVehicle, elevated"
+    "tags": "airVehicle, passengerVehicle, elevated",
   },
   {
     "name": "Albert Einstein",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Alfred Hitchcock",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "alien",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "amoeba",
     "proto": "bug",
     "size": 1,
-    "tags": "-,lifeform"
+    "tags": "-,lifeform",
   },
   {
     "name": "bacterium",
     "proto": "amoeba",
-    "inflections": "pl: bacteria"
+    "inflections": "pl: bacteria",
   },
   {
     "name": "anaconda",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "army",
-    "proto": "team"
+    "proto": "team",
   },
   {
     "name": "Arnold Schwartzenegger",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "article",
     "proto": "book",
-    "tang": 1
+    "tang": 1,
   },
   {
     "name": "Aunt Jemima",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "baboon",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "bag",
@@ -1193,33 +1137,32 @@ noun = [
     "size": "4,5,6,7",
     "tags": "vessel",
     "complements": "(90 of N{(tags: item; (number:pl | count:false); anim:<2; unique:0; size:<noun.size | tags:substance) } )",
-    "partOf": "null"
   },
   {
     "name": "banana",
-    "proto": "apple"
+    "proto": "apple",
   },
   {
     "name": "Barack Obama",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "basket",
-    "proto": "box"
+    "proto": "box",
   },
   {
     "name": "Big Foot",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Bilbo Baggins",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "boat",
     "proto": "machine",
     "size": "7,8",
-    "tags": "waterVehicle, passengerVehicle, motorVehicle"
+    "tags": "waterVehicle, passengerVehicle, motorVehicle",
   },
   {
     "name": "boat1",
@@ -1230,177 +1173,179 @@ noun = [
     "count": "true",
     "size": "6,7",
     "tags": "waterVehicle",
-    "partOf": "null"
   },
   {
     "name": "submarine",
-    "proto": "boat"
+    "proto": "boat",
   },
   {
     "name": "oil tanker",
-    "proto": "boat"
+    "proto": "boat",
   },
   {
     "name": "book",
-    "proto": "letter"
+    "proto": "letter",
   },
   {
     "name": "book.1",
     "proto": "book",
     "possessable": 0,
     "complements": "(40 by NP{anim:3;number:sg;unique:2}) (40 about NP)",
-    "prohibitions": "case:gen"
+    "prohibitions": "case:gen",
   },
   {
     "name": "Borg",
     "proto": "Canuck",
     "anim": 2,
-    "inflections": "pl:Borg"
+    "inflections": "pl:Borg",
   },
   {
     "name": "bowling ball",
-    "proto": "ball"
+    "proto": "ball",
   },
   {
     "name": "box",
     "proto": "bag",
-    "tags": "structure"
+    "tags": "structure",
   },
   {
     "name": "brother",
-    "proto": "father"
+    "proto": "father",
   },
   {
     "name": "bug",
     "proto": "dog",
-    "disabled": false,
+    "anim": 1.5,
+    "size": "2,3",
     "tags": "bug, -",
-    "anim": "1.5",
-    "size": "2,3"
   },
   {
     "name": "Bugs Bunny",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "bus",
     "proto": "car",
     "size": 7,
-    "tags": "passengerVehicle"
+    "tags": "passengerVehicle",
   },
   {
     "name": "car",
     "proto": "machine",
     "size": 7,
-    "tags": "motorVehicle, groundVehicle, container"
+    "tags": "motorVehicle, groundVehicle, container",
   },
   {
     "name": "centaur",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "chariot",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "Charlemagne",
-    "proto": "Batman"
+    "proto": "Batman",
+  },
+  {
+    "name": "chicken",
+    "proto": "dog",
   },
   {
     "name": "child",
     "proto": "human",
     "possessable": 5,
     "size": 5,
-    "inflections": "pl:children"
+    "inflections": "pl:children",
   },
   {
     "name": "chimney sweep",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "Chuck Norris",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "chupacabra",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "Cinderella",
     "proto": "Sally",
     "tags": "-,person,fullname",
-    "precomp": "--"
+    "precomp": "--",
   },
   {
     "name": "Cleopatra",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "communist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "company",
-    "proto": "team"
+    "proto": "team",
   },
   {
     "name": "computer",
-    "proto": "machine"
+    "proto": "machine",
   },
   {
     "name": "conductor",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "conquistador",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "contraption",
-    "proto": "machine"
+    "proto": "machine",
   },
   {
     "name": "Corolla",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "cow",
     "proto": "dog",
-    "size": 6.5
+    "size": 6.5,
   },
   {
     "name": "criminal",
     "proto": "human",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "crowd",
     "proto": "team",
-    "size": "7,8"
+    "size": "7,8",
   },
   {
     "name": "customer",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "Daffy Duck",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Darth Vader",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "data",
     "proto": "garbage",
     "tang": 1,
-    "tags": "collective,information, visible"
+    "tags": "collective,information, visible",
   },
   {
     "name": "death",
     "proto": "life",
     "complements": "--",
-    "inflections": "pl:deaths"
+    "inflections": "pl:deaths",
   },
   {
     "name": "decision",
@@ -1411,7 +1356,6 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "-",
-    "partOf": "null"
   },
   {
     "name": "device",
@@ -1422,207 +1366,204 @@ noun = [
     "count": "true",
     "size": 4,
     "tags": "device",
-    "partOf": "null"
   },
   {
     "name": "gadget",
     "proto": "device",
-    "size": "3,4,5,6"
+    "size": "3,4,5,6",
   },
   {
     "name": "toaster",
-    "proto": "device"
+    "proto": "device",
   },
   {
     "name": "dinosaur",
     "proto": "dog",
-    "size": "7,8"
+    "size": "7,8",
   },
   {
     "name": "disaster1",
     "proto": "disaster",
-    "tags": "situation,-"
+    "tags": "situation,-",
   },
   {
     "name": "doberman pincher",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "doctor",
     "proto": "human",
-    "possessable": 4
+    "possessable": 4,
   },
   {
     "name": "dragon",
-    "proto": "dinosaur"
+    "proto": "dinosaur",
   },
   {
     "name": "dragonfly",
     "proto": "bug",
-    "disabled": false,
-    "tags": "airAnimal"
   },
   {
     "name": "dung beetle",
-    "proto": "bug"
+    "proto": "bug",
   },
   {
     "name": "earthquake",
     "proto": "disaster",
-    "tags": "event,-"
+    "tags": "event,-",
   },
   {
     "name": "elf",
     "proto": "human",
-    "inflections": "pl:elves"
+    "inflections": "pl:elves",
   },
   {
     "name": "Elmer Fudd",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "enemy",
     "proto": "human",
     "possessable": 6,
-    "posr": "anim:3"
+    "posr": "anim:3",
   },
   {
     "name": "fairy",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "father",
     "proto": "mother",
-    "gender": "m"
+    "gender": "m",
   },
   {
     "name": "Ferrari",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "fish",
     "proto": "bug",
     "size": "4,5,6",
-    "inflections": "pl:fish"
+    "inflections": "pl:fish",
   },
   {
     "name": "fishing",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "flotsam and jetsam",
-    "proto": "garbage"
+    "proto": "garbage",
   },
   {
     "name": "food",
     "proto": "garbage",
-    "tags": "edible"
+    "tags": "edible",
   },
   {
     "name": "furniture",
-    "proto": "money"
+    "proto": "money",
   },
   {
     "name": "germaphobe",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "giant squid",
     "proto": "fish",
-    "size": 7
+    "size": 7,
   },
   {
     "name": "goat",
     "proto": "dog",
-    "size": "5,6"
+    "size": "5,6",
   },
   {
     "name": "Godzilla",
     "proto": "Jack",
     "anim": 2,
     "size": 8,
-    "tags": "-,beast,fullname"
+    "tags": "-,beast,fullname",
   },
   {
     "name": "golf cart",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "gorilla",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "grandfather",
-    "proto": "father"
+    "proto": "father",
   },
   {
     "name": "grasshopper",
-    "proto": "bug"
+    "proto": "bug",
   },
   {
     "name": "great white shark",
     "proto": "dog",
     "size": 7,
-    "tags": "waterAnimal"
+    "tags": "waterAnimal",
   },
   {
     "name": "gymnastics",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "hamster",
     "proto": "dog",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "Harlem Globetrotter",
-    "proto": "Canuck"
+    "proto": "Canuck",
   },
   {
     "name": "Illuminatus",
     "proto": "Canuck",
-    "inflections": "pl:Illuminati"
+    "inflections": "pl:Illuminati",
   },
   {
     "name": "infant",
     "proto": "human",
-    "anim": 2
+    "anim": 2,
   },
   {
     "name": "janitor",
     "proto": "human",
     "possessable": 2,
-    "posr": "tags:building"
+    "posr": "tags:building",
   },
   {
     "name": "jeep",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "John Calvin",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "John Lennon",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Kraken",
     "proto": "dog",
     "size": 7,
-    "tags": "waterAnimal"
+    "tags": "waterAnimal",
   },
   {
     "name": "kung-fu",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "Leeroy Jenkins",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Les Miserables",
-    "proto": "The Iliad"
+    "proto": "The Iliad",
   },
   {
     "name": "letter.1",
@@ -1630,520 +1571,514 @@ noun = [
     "possessable": 0,
     "size": 1,
     "complements": "(40 from NP{anim:3;number:sg}) (40 about NP)",
-    "prohibitions": "case:gen"
+    "prohibitions": "case:gen",
   },
   {
     "name": "Lex Luther",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "llama",
     "proto": "dog",
-    "size": 6
+    "size": 6,
   },
   {
     "name": "mailman",
     "proto": "human",
     "gender": "m",
     "possessable": 3,
-    "inflections": "pl:mailmen"
+    "inflections": "pl:mailmen",
   },
   {
     "name": "Margaret Thatcher",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Martin Luther",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "message",
     "proto": "letter",
     "tang": "1,2",
-    "possessable": 5
+    "possessable": 5,
   },
   {
     "name": "minotaur",
     "proto": "human",
-    "anim": "2,3"
+    "anim": "2,3",
   },
   {
     "name": "minion",
     "proto": "human",
     "possessable": 6,
-    "posr": "anim:3"
+    "posr": "anim:3",
   },
   {
     "name": "missionary",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "money",
     "proto": "garbage",
-    "posr": "tags:person|organization|territory"
+    "posr": "tags:person|organization|territory",
   },
   {
     "name": "monsoon",
-    "proto": "storm"
+    "proto": "storm",
   },
   {
     "name": "Morgan Freeman",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Moss Doerksen",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "mother",
     "proto": "human",
     "gender": "f",
     "possessable": 8,
-    "posr": "anim:>1"
+    "posr": "anim:>1",
   },
   {
     "name": "Mr. Magoo",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "neighbor",
     "proto": "human",
     "possessable": 7,
-    "posr": "anim:3"
+    "posr": "anim:3",
   },
   {
     "name": "visitor",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "guest",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "nerd",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "geek",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "traitor",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "villain",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "hero",
     "proto": "human",
-    "inflections": "pl:heroes"
+    "inflections": "pl:heroes",
   },
   {
     "name": "loser",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "slob",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "hoodlum",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "gangster",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "artist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "accountant",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "anarchist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "waitress",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "dancer",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "lawyer",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "lumberjack",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "soldier",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "linguist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "professor",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "scientist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "footballer",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "player",
     "proto": "human",
-    "disabled": false,
-    "precomp": "DP{tags:game}"
+    "precomp": "DP{tags:game}",
   },
   {
     "name": "coach",
     "proto": "human",
-    "disabled": false,
-    "precomp": "(88 DP{tags:sport})"
+    "precomp": "(88 DP{tags:sport})",
   },
   {
-    "name": "coach1",
+    "name": "coach",
     "proto": "human",
-    "disabled": false,
-    "possessable": "8",
-    "posr": "name: team1, pronominal:false"
+    "possessable": 8,
+    "posr": "name: team1; pronominal:false",
   },
   {
     "name": "hairdresser",
     "proto": "human",
-    "disabled": false
   },
   {
     "name": "supermodel",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "pianist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "spy",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "ambassador",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "carpenter",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "blacksmith",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "maid",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "mechanic",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "musician",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "prisoner",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "slave",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "pilot",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "farmer",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "peasant",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "servant",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "mayor",
     "proto": "human",
-    "complements": "(of DP{tags:city})"
+    "complements": "(of DP{tags:city})",
   },
   {
     "name": "sheriff",
-    "proto": "mayor"
+    "proto": "mayor",
   },
   {
     "name": "cowboy",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "gynaecologist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "dentist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "detective",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "investigator",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "fugitive",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "hostage",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "witness",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "defendant",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "suspect",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "informant",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "florist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "beekeeper",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "passenger",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "patient",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "taxidermist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "salesman",
     "proto": "human",
     "precomp": "(55 N{tags:artifact, number:sg})",
-    "inflections": "pl: salesmen"
+    "inflections": "pl: salesmen",
   },
   {
     "name": "actor",
     "proto": "human",
-    "disabled": false
   },
   {
     "name": "assistant",
     "proto": "human",
-    "disabled": false,
-    "posr": "anim:3"
+    "posr": "anim:3,",
   },
   {
     "name": "priest",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "shepherd",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "magician",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "guard",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "captain",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "clown",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "witch doctor",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "assassin",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "minstrel",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "wizard",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "druid",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "ninja",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "monk",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "nun",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "prophet",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "Nerf-herder",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "stormtrooper",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "Jedi",
     "proto": "human",
-    "inflections": "pl:Jedi"
+    "inflections": "pl:Jedi",
   },
   {
     "name": "Jedi master",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "Jedi warrior",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "Sith lord",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "introvert",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "extrovert",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "tourist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "pedestrian",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "civilian",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "Narnia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Shire",
     "proto": "Alabama",
     "unique": 1,
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "Mordor",
-    "proto": "Alabama"
+    "proto": "Alabama",
   },
   {
     "name": "Neverland",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Metropolis",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Gotham",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "New York",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Timbuktu",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Langley",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Helsinki",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "El Paso",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Frankfurt",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Moscow",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Kathmandu",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Mississippi",
-    "proto": "Nile"
+    "proto": "Nile",
   },
   {
     "name": "North Pole",
@@ -2154,71 +2089,70 @@ noun = [
     "unique": 1,
     "count": "false",
     "tags": "point, site",
-    "partOf": "null"
   },
   {
     "name": "novel",
     "proto": "book",
-    "possessable": 1
+    "possessable": 1,
   },
   {
     "name": "ogre",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "parade",
-    "proto": "concert"
+    "proto": "concert",
   },
   {
     "name": "parrot",
     "proto": "bird",
-    "tags": "airAnimal"
+    "tags": "airAnimal",
   },
   {
     "name": "person",
     "proto": "human",
     "possessable": 1,
-    "inflections": "pl:people"
+    "inflections": "pl:people",
   },
   {
     "name": "picture",
     "proto": "rock",
     "possessable": 3,
     "size": "4,5",
-    "complements": "(of NP)"
+    "complements": "(of NP)",
   },
   {
     "name": "pirate",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "platypus",
     "proto": "dog",
-    "inflections": "pl:platypi"
+    "inflections": "pl:platypi",
   },
   {
     "name": "polygamist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "porcupine",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "prediction",
     "proto": "statement",
-    "tags": "telic"
+    "tags": "telic",
   },
   {
     "name": "pterodactyl",
     "proto": "dog",
-    "size": 7
+    "size": 7,
   },
   {
     "name": "queen",
     "proto": "human",
     "gender": "f",
-    "posr": "tags:territory|collective&person"
+    "posr": "tags:territory|collective&person",
   },
   {
     "name": "queen.1",
@@ -2226,158 +2160,158 @@ noun = [
     "posr": "--",
     "unique": 1,
     "complements": "of DP{tags:territory;}",
-    "prohibitions": "def:indef"
+    "prohibitions": "def:indef",
   },
   {
     "name": "queen1",
     "proto": "queen",
     "complements": "(60  of the N{anim:>1; number:pl;}  |40  of N{(67 number:pl; |33 count:false) tags: !feature} )",
-    "prohibitions": "def:indef,number:pl"
+    "prohibitions": "def:indef,number:pl",
   },
   {
     "name": "king",
     "proto": "queen",
-    "gender": "m"
+    "gender": "m",
   },
   {
     "name": "king1",
-    "proto": "queen1"
+    "proto": "queen1",
   },
   {
     "name": "emperor",
     "proto": "queen",
-    "gender": "m"
+    "gender": "m",
   },
   {
     "name": "prime minister",
     "proto": "queen",
-    "gender": "--"
+    "gender": "--",
   },
   {
     "name": "president",
     "proto": "queen",
-    "gender": "--"
+    "gender": "--",
   },
   {
     "name": "prince",
-    "proto": "king"
+    "proto": "king",
   },
   {
     "name": "princess",
-    "proto": "queen"
+    "proto": "queen",
   },
   {
     "name": "duchess",
-    "proto": "queen"
+    "proto": "queen",
   },
   {
     "name": "earl",
-    "proto": "king"
+    "proto": "king",
   },
   {
     "name": "chief",
-    "proto": "king"
+    "proto": "king",
   },
   {
     "name": "governor",
-    "proto": "president"
+    "proto": "president",
   },
   {
     "name": "Queen Elizabeth",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "rabble-rouser",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "refrigerator",
     "proto": "machine",
-    "tags": "container"
+    "tags": "container",
   },
   {
     "name": "rhinoceros",
     "proto": "dog",
-    "size": 7
+    "size": 7,
   },
   {
     "name": "Robinson Crusoe",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "rockstar",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "Himalaya",
-    "proto": "Alp"
+    "proto": "Alp",
   },
   {
     "name": "saint",
     "proto": "human",
-    "possessable": 2
+    "possessable": 2,
   },
   {
     "name": "Santa Clause",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "sheep",
     "proto": "dog",
     "size": "5,6",
-    "inflections": "pl:sheep"
+    "inflections": "pl:sheep",
   },
   {
     "name": "singing",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "sister",
-    "proto": "mother"
+    "proto": "mother",
   },
   {
     "name": "skunk",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "smartphone",
     "proto": "phone",
     "size": 4,
-    "tags": "audioDevice"
+    "tags": "audioDevice",
   },
   {
     "name": "iPhone",
-    "proto": "smartphone"
+    "proto": "smartphone",
   },
   {
     "name": "stereo",
     "proto": "device",
     "size": 5,
-    "tags": "audioDevice"
+    "tags": "audioDevice",
   },
   {
     "name": "Walkman",
     "proto": "stereo",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "radio",
     "proto": "stereo",
-    "size": "4,5"
+    "size": "4,5",
   },
   {
     "name": "gramophone",
     "proto": "stereo",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "boombox",
     "proto": "stereo",
-    "size": "4,5"
+    "size": "4,5",
   },
   {
     "name": "smoking",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "motorbike",
@@ -2388,280 +2322,283 @@ noun = [
     "count": "true",
     "size": 6,
     "tags": "motorVehicle, groundVehicle",
-    "partOf": "null"
   },
   {
     "name": "snowmobile",
-    "proto": "motorbike"
+    "proto": "motorbike",
   },
   {
     "name": "South America",
     "proto": "Japan",
     "size": 12,
-    "tags": "continent"
+    "tags": "continent",
   },
   {
     "name": "Europe",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "North America",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Africa",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Asia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Antarctica",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Spaniard",
     "proto": "human",
-    "possessable": 0
+    "possessable": 0,
+  },
+  {
+    "name": "spider",
+    "proto": "bug",
   },
   {
     "name": "Spongebob",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Stalin",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "statement.1",
     "proto": "statement",
     "possessable": 0,
-    "complements": "(40 by NP{anim:3}) (40 about NP)"
+    "complements": "(40 by NP{anim:3}) (40 about NP)",
   },
   {
     "name": "Steve Martin",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "stick",
     "proto": "rock",
-    "size": "4,5"
+    "size": "4,5",
   },
   {
     "name": "student",
-    "proto": "doctor"
+    "proto": "doctor",
   },
   {
     "name": "tank",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "the Bible",
-    "proto": "The Iliad"
+    "proto": "The Iliad",
   },
   {
     "name": "thesis",
     "proto": "book",
-    "inflections": "pl:theses"
+    "inflections": "pl:theses",
   },
   {
     "name": "time-travel",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "tire",
     "proto": "rock",
     "size": 5,
-    "tags": "artifact"
+    "tags": "artifact",
   },
   {
     "name": "tractor",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "train",
     "proto": "bus",
-    "size": 8
+    "size": 8,
   },
   {
     "name": "truck",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "tsunami",
     "proto": "disaster",
-    "tags": "phenomenon"
+    "tags": "phenomenon",
   },
   {
     "name": "tuk-tuk",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "turtle",
     "proto": "dog",
     "size": "4,5",
-    "tags": "waterAnimal"
+    "tags": "waterAnimal",
   },
   {
     "name": "van",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "vehicle",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "victim",
     "proto": "human",
     "possessable": 3,
-    "posr": "anim:>1"
+    "posr": "anim:>1",
   },
   {
     "name": "War and Peace",
-    "proto": "The Iliad"
+    "proto": "The Iliad",
   },
   {
     "name": "watermelon",
     "proto": "apple",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "whale-watching",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "William Wallace",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "wipper-snapper",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "wolf",
     "proto": "dog",
     "size": "5,6",
-    "inflections": "pl:wolves"
+    "inflections": "pl:wolves",
   },
   {
     "name": "wombat",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "wood",
     "proto": "garbage",
-    "tags": "solid,-"
+    "tags": "solid,-",
   },
   {
     "name": "wookie",
     "proto": "human",
-    "possessable": 2
+    "possessable": 2,
   },
   {
     "name": "yeti",
     "proto": "dog",
-    "size": 6
+    "size": 6,
   },
   {
     "name": "yoga",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "circumstance",
-    "proto": "situation"
+    "proto": "situation",
   },
   {
     "name": "puzzle",
-    "proto": "problem"
+    "proto": "problem",
   },
   {
     "name": "dilemma",
-    "proto": "problem"
+    "proto": "problem",
   },
   {
     "name": "issue",
-    "proto": "problem"
+    "proto": "problem",
   },
   {
     "name": "equation",
-    "proto": "problem"
+    "proto": "problem",
   },
   {
     "name": "riddle",
     "proto": "question",
-    "possessable": 2
+    "possessable": 2,
   },
   {
     "name": "assignment",
-    "proto": "task"
+    "proto": "task",
   },
   {
     "name": "mission",
-    "proto": "task"
+    "proto": "task",
   },
   {
     "name": "job",
     "proto": "task",
-    "tags": "obligation"
+    "tags": "obligation",
   },
   {
     "name": "quest",
-    "proto": "task"
+    "proto": "task",
   },
   {
     "name": "gang",
-    "proto": "team"
+    "proto": "team",
   },
   {
     "name": "cartel",
     "proto": "team",
-    "precomp": "(drug)"
+    "precomp": "(drug)",
   },
   {
     "name": "government",
     "proto": "choir",
-    "posr": "tags:territory"
+    "posr": "tags:territory",
   },
   {
     "name": "FBI",
     "proto": "choir",
     "unique": 1,
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "CIA",
-    "proto": "FBI"
+    "proto": "FBI",
   },
   {
     "name": "MI^6",
     "proto": "FBI",
-    "unique": 2
+    "unique": 2,
   },
   {
     "name": "Jedi Council",
-    "proto": "FBI"
+    "proto": "FBI",
   },
   {
     "name": "UN",
-    "proto": "FBI"
+    "proto": "FBI",
   },
   {
     "name": "Supreme Court",
-    "proto": "FBI"
+    "proto": "FBI",
   },
   {
     "name": "Mafia",
-    "proto": "FBI"
+    "proto": "FBI",
   },
   {
     "name": "choir",
     "proto": "team",
-    "complements": "--"
+    "complements": "--",
   },
   {
     "name": "band",
-    "proto": "team"
+    "proto": "team",
   },
   {
     "name": "herd",
@@ -2669,80 +2606,80 @@ noun = [
     "anim": 2,
     "size": "8,9",
     "tags": "collective,-",
-    "complements": "(60 of N{number:pl;anim:2;pronominal:false;person:3;tags:!collective})"
+    "complements": "(60 of N{number:pl;anim:2;pronominal:false;person:3;tags:!collective})",
   },
   {
     "name": "luggage",
     "proto": "furniture",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "flock",
     "proto": "herd",
-    "size": "8,9"
+    "size": "8,9",
   },
   {
     "name": "plan",
     "proto": "strategy",
     "tags": "undertaking",
-    "complements": "(30 INF_PHRASE{volition:true})"
+    "complements": "(30 INF_PHRASE{volition:true})",
   },
   {
     "name": "project",
-    "proto": "plan"
+    "proto": "plan",
   },
   {
     "name": "experiment",
-    "proto": "plan"
+    "proto": "plan",
   },
   {
     "name": "scheme",
-    "proto": "plan"
+    "proto": "plan",
   },
   {
     "name": "work",
     "proto": "dancing",
-    "tags": "behaviour, procedure, -"
+    "tags": "behaviour, procedure, -",
   },
   {
     "name": "sorcery",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "voodoo",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "prophecy",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "population",
-    "proto": "government"
+    "proto": "government",
   },
   {
     "name": "toil",
     "proto": "work.1",
-    "tags": "difficulty"
+    "tags": "difficulty",
   },
   {
     "name": "gambling",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "denizen",
     "proto": "citizen",
-    "posr": "tags:place"
+    "posr": "tags:place",
   },
   {
     "name": "author",
     "proto": "human",
-    "posr": "name:book,orsimilar:true"
+    "posr": "name:book,orsimilar:true",
   },
   {
     "name": "parking lot",
     "proto": "forest",
-    "size": 8
+    "size": 8,
   },
   {
     "name": "beach",
@@ -2753,112 +2690,110 @@ noun = [
     "count": "true",
     "size": "7,8",
     "tags": "field",
-    "partOf": "null"
   },
   {
     "name": "park",
     "proto": "forest",
-    "size": "8,9"
+    "size": "8,9",
   },
   {
     "name": "ex-girlfriend",
     "proto": "human",
     "gender": "f",
     "possessable": 8,
-    "posr": "anim:3,gender:!f"
+    "posr": "anim:3,gender:!f",
   },
   {
     "name": "friend",
     "proto": "human",
-    "possessable": 7
+    "possessable": 7,
   },
   {
     "name": "stranger",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "foreigner",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "immigrant",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "owner",
     "proto": "human",
     "possessable": 8,
-    "posr": "anim:<3,tags:object"
+    "posr": "anim:<3,tags:object",
   },
   {
     "name": "owner1",
     "proto": "human",
-    "complements": "(of DP{tags:item|animal|building|organization;def:def;partial:false})"
+    "complements": "(of DP{tags:item|animal|building|organization;def:def;partial:false})",
   },
   {
     "name": "White House",
-    "proto": "Taj Mahal"
+    "proto": "Taj Mahal",
   },
   {
     "name": "stadium",
-    "proto": "house"
+    "proto": "house",
   },
   {
     "name": "Eiffel Tower",
     "proto": "Taj Mahal",
-    "tags": "structure, -"
+    "tags": "structure, -",
   },
   {
     "name": "Empire State Building",
     "proto": "Taj Mahal",
-    "disabled": false
   },
   {
     "name": "Parthenon",
-    "proto": "Taj Mahal"
+    "proto": "Taj Mahal",
   },
   {
     "name": "Great Wall of China",
     "proto": "Taj Mahal",
-    "tags": "perimeter, vertical, structure, surface, -"
+    "tags": "perimeter, vertical, structure, surface, -",
   },
   {
     "name": "Space Needle",
-    "proto": "Taj Mahal"
+    "proto": "Taj Mahal",
   },
   {
     "name": "Louvre",
-    "proto": "Taj Mahal"
+    "proto": "Taj Mahal",
   },
   {
     "name": "swarm",
     "proto": "herd",
-    "size": "6,7,8"
+    "size": "6,7,8",
   },
   {
     "name": "spoon",
     "proto": "rock",
-    "tags": "instrument"
+    "tags": "instrument",
   },
   {
     "name": "knife",
     "proto": "spoon",
-    "inflections": "pl:knives"
+    "inflections": "pl:knives",
   },
   {
     "name": "ball",
     "proto": "rock",
-    "tags": "artifact"
+    "tags": "artifact",
   },
   {
     "name": "midget",
     "proto": "human",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "witch",
     "proto": "human",
-    "gender": "f"
+    "gender": "f",
   },
   {
     "name": "floor",
@@ -2869,23 +2804,22 @@ noun = [
     "count": "true",
     "size": 8,
     "tags": "surface, grounded",
-    "partOf": "null"
   },
   {
     "name": "street",
     "proto": "road",
-    "tags": "surface, grounded"
+    "tags": "surface, grounded",
   },
   {
     "name": "sidewalk",
-    "proto": "street"
+    "proto": "street",
   },
   {
     "name": "ice",
     "proto": "floor",
     "unique": 0,
     "count": "false",
-    "prohibitions": "number:pl, quantified:true, def:indef"
+    "prohibitions": "number:pl, quantified:true, def:indef",
   },
   {
     "name": "ice1",
@@ -2896,11 +2830,10 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "solid",
-    "partOf": "null"
   },
   {
     "name": "lawn",
-    "proto": "floor"
+    "proto": "floor",
   },
   {
     "name": "air",
@@ -2911,7 +2844,6 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "gas",
-    "partOf": "null"
   },
   {
     "name": "sand",
@@ -2922,29 +2854,28 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "aggregate",
-    "partOf": "null"
   },
   {
     "name": "gravel",
-    "proto": "sand"
+    "proto": "sand",
   },
   {
     "name": "bark mulch",
-    "proto": "sand"
+    "proto": "sand",
   },
   {
     "name": "Lego",
-    "proto": "sand"
+    "proto": "sand",
   },
   {
     "name": "heap",
     "proto": "pile",
-    "size": "5,6,7,8"
+    "size": "5,6,7,8",
   },
   {
     "name": "mound",
     "proto": "pile",
-    "size": "4,5,6"
+    "size": "4,5,6",
   },
   {
     "name": "wall",
@@ -2955,20 +2886,19 @@ noun = [
     "count": "true",
     "size": "7,8",
     "tags": "surface, structure, vertical",
-    "partOf": "null"
   },
   {
     "name": "fence",
-    "proto": "wall"
+    "proto": "wall",
   },
   {
     "name": "bridge",
     "proto": "street",
-    "tags": "structure, bridge, elevated"
+    "tags": "structure, bridge, elevated",
   },
   {
     "name": "overpass",
-    "proto": "bridge"
+    "proto": "bridge",
   },
   {
     "name": "lake",
@@ -2980,92 +2910,91 @@ noun = [
     "count": "true",
     "size": "8,9",
     "tags": "openWater",
-    "partOf": "null"
   },
   {
     "name": "ocean",
     "proto": "lake",
     "unique": 1,
-    "size": 13
+    "size": 13,
   },
   {
     "name": "Ocean",
     "proto": "ocean",
     "unique": 1,
     "count": "false",
-    "precomp": "(Atlantic|Pacific|Indian)"
+    "precomp": "(Atlantic|Pacific|Indian)",
   },
   {
     "name": "Mediterranean",
     "proto": "lake",
     "unique": 1,
     "count": "false",
-    "size": 12
+    "size": 12,
   },
   {
     "name": "Bermuda Triangle",
     "proto": "Mediterranean",
-    "size": 11
+    "size": 11,
   },
   {
     "name": "river",
     "proto": "lake",
     "size": 9,
-    "tags": "path"
+    "tags": "path",
   },
   {
     "name": "creek",
     "proto": "river",
     "size": 7,
-    "tags": "-, bodyOfWater"
+    "tags": "-, bodyOfWater",
   },
   {
     "name": "Alabama",
     "proto": "Japan",
-    "tags": "-, region"
+    "tags": "-, region",
   },
   {
     "name": "Crimea",
-    "proto": "Alabama"
+    "proto": "Alabama",
   },
   {
     "name": "Ontario",
-    "proto": "Alabama"
+    "proto": "Alabama",
   },
   {
     "name": "California",
-    "proto": "Alabama"
+    "proto": "Alabama",
   },
   {
     "name": "Arizona",
-    "proto": "Alabama"
+    "proto": "Alabama",
   },
   {
     "name": "Saskatchewan",
-    "proto": "Alabama"
+    "proto": "Alabama",
   },
   {
     "name": "Florida",
-    "proto": "Alabama"
+    "proto": "Alabama",
   },
   {
     "name": "Kentucky",
-    "proto": "Alabama"
+    "proto": "Alabama",
   },
   {
     "name": "Siberia",
-    "proto": "Alabama"
+    "proto": "Alabama",
   },
   {
     "name": "Middle East",
     "proto": "South America",
-    "unique": 1
+    "unique": 1,
   },
   {
     "name": "island",
     "proto": "forest",
     "size": "8,9,10",
-    "tags": "-,land,surface"
+    "tags": "-,land,surface",
   },
   {
     "name": "planet",
@@ -3076,53 +3005,52 @@ noun = [
     "count": "true",
     "size": 14,
     "tags": "land,surface",
-    "partOf": "null"
   },
   {
     "name": "asteroid",
     "proto": "planet",
     "tang": 2,
-    "size": "11,12"
+    "size": "11,12",
   },
   {
     "name": "comet",
     "proto": "planet",
-    "size": "11,12"
+    "size": "11,12",
   },
   {
     "name": "moon",
-    "proto": "planet"
+    "proto": "planet",
   },
   {
     "name": "Earth",
     "proto": "planet",
     "unique": 1,
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "Moon",
-    "proto": "Earth"
+    "proto": "Earth",
   },
   {
     "name": "Mars",
     "proto": "Earth",
-    "unique": 2
+    "unique": 2,
   },
   {
     "name": "Pluto",
-    "proto": "Mars"
+    "proto": "Mars",
   },
   {
     "name": "Tatooine",
-    "proto": "Mars"
+    "proto": "Mars",
   },
   {
     "name": "Coruscant",
-    "proto": "Mars"
+    "proto": "Mars",
   },
   {
     "name": "Krypton",
-    "proto": "Mars"
+    "proto": "Mars",
   },
   {
     "name": "labyrinth",
@@ -3133,45 +3061,44 @@ noun = [
     "count": "true",
     "size": 8,
     "tags": "area,structure",
-    "partOf": "null"
   },
   {
     "name": "computer programming",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "pair of pants",
     "proto": "skirt",
     "size": 5,
-    "inflections": "pl: pants"
+    "inflections": "pl: pants",
   },
   {
     "name": "pairs of pants",
     "proto": "pair of pants",
     "inflections": "pl:pairs of pants",
-    "prohibitions": "number:sg"
+    "prohibitions": "number:sg",
   },
   {
     "name": "dress",
-    "proto": "skirt"
+    "proto": "skirt",
   },
   {
     "name": "skirt",
     "proto": "shirt",
-    "tags": "hasLength"
+    "tags": "hasLength",
   },
   {
     "name": "sweater",
-    "proto": "shirt"
+    "proto": "shirt",
   },
   {
     "name": "jacket",
-    "proto": "shirt"
+    "proto": "shirt",
   },
   {
     "name": "hat",
     "proto": "shirt",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "shirt",
@@ -3182,12 +3109,11 @@ noun = [
     "count": "true",
     "size": 5,
     "tags": "clothing",
-    "partOf": "null"
   },
   {
     "name": "shoe",
     "proto": "shirt",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "heat",
@@ -3198,12 +3124,11 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "energy, feelable",
-    "partOf": "null"
   },
   {
     "name": "pressure",
     "proto": "heat",
-    "tags": "force"
+    "tags": "force",
   },
   {
     "name": "pole",
@@ -3214,11 +3139,10 @@ noun = [
     "count": "true",
     "size": "6,7",
     "tags": "vertical, path, structure",
-    "partOf": "null"
   },
   {
     "name": "ladder",
-    "proto": "pole"
+    "proto": "pole",
   },
   {
     "name": "stair",
@@ -3230,7 +3154,6 @@ noun = [
     "size": "6,7,8",
     "tags": "incline, structure",
     "prohibitions": "number:sg",
-    "partOf": "null"
   },
   {
     "name": "entrance",
@@ -3241,28 +3164,27 @@ noun = [
     "count": "true",
     "size": "4,5,6,7,8",
     "tags": "opening",
-    "partOf": "null"
   },
   {
     "name": "exit",
-    "proto": "entrance"
+    "proto": "entrance",
   },
   {
     "name": "doorway",
     "proto": "entrance",
-    "size": "6,7"
+    "size": "6,7",
   },
   {
     "name": "gate",
     "proto": "entrance",
     "size": "6,7",
-    "tags": "construction, breakable"
+    "tags": "construction, breakable",
   },
   {
     "name": "window",
     "proto": "gate",
     "size": "5,6,7",
-    "tags": "elevated, feature"
+    "tags": "elevated, feature",
   },
   {
     "name": "cloud",
@@ -3273,20 +3195,18 @@ noun = [
     "count": "true",
     "size": "7,8",
     "tags": "thing, elevated, obstacle, gas",
-    "partOf": "null"
   },
   {
     "name": "smoke",
     "proto": "cloud",
-    "disabled": false,
+    "count": "false",
     "tags": "thing, obstacle, gas, -",
-    "count": "false"
   },
   {
     "name": "fume",
     "proto": "smoke",
     "prohibitions": "number:sg",
-    "disabled": true
+    "disabled": "true"
   },
   {
     "name": "fire",
@@ -3297,7 +3217,6 @@ noun = [
     "count": "true",
     "size": "4,5,6,7,8",
     "tags": "volume, phenomenon, audible",
-    "partOf": "null"
   },
   {
     "name": "grass",
@@ -3308,27 +3227,26 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "aggregate",
-    "partOf": "null"
   },
   {
     "name": "grass1",
     "proto": "grass",
-    "tags": "-, feature,obstacle,grounded"
+    "tags": "-, feature,obstacle,grounded",
   },
   {
     "name": "underbrush",
-    "proto": "grass1"
+    "proto": "grass1",
   },
   {
     "name": "field",
-    "proto": "forest"
+    "proto": "forest",
   },
   {
     "name": "field1",
     "proto": "field",
     "size": 8,
     "tags": "-, field",
-    "precomp": "(10 soccer |15 football |7 rugby |9 baseball |10 sports |6 playing)"
+    "precomp": "(10 soccer |15 football |7 rugby |9 baseball |10 sports |6 playing)",
   },
   {
     "name": "property",
@@ -3337,17 +3255,17 @@ noun = [
     "size": "8,9,10",
     "tags": "hasFront",
     "precomp": "--",
-    "prohibitions": "def: indef"
+    "prohibitions": "def: indef",
   },
   {
     "name": "estate",
-    "proto": "property"
+    "proto": "property",
   },
   {
     "name": "court",
     "proto": "field1",
     "size": "7,8",
-    "precomp": "(20 tennis |20 basketball |10 squash |20 volleyball)"
+    "precomp": "(20 tennis |20 basketball |10 squash |20 volleyball)",
   },
   {
     "name": "farm",
@@ -3360,24 +3278,23 @@ noun = [
     "size": 8,
     "tags": "field, hasFront",
     "precomp": "--",
-    "partOf": "null"
   },
   {
     "name": "ranch",
     "proto": "farm",
-    "size": "8,9"
+    "size": "8,9",
   },
   {
     "name": "space station",
     "proto": "farm",
-    "tags": "building"
+    "tags": "building",
   },
   {
     "name": "Death Star",
     "proto": "space station",
     "unique": 1,
     "count": "true",
-    "size": "10,11"
+    "size": "10,11",
   },
   {
     "name": "zoo",
@@ -3389,15 +3306,14 @@ noun = [
     "count": "true",
     "size": 8,
     "tags": "site, area",
-    "partOf": "null"
   },
   {
     "name": "graveyard",
-    "proto": "zoo"
+    "proto": "zoo",
   },
   {
     "name": "junkyard",
-    "proto": "zoo"
+    "proto": "zoo",
   },
   {
     "name": "edge",
@@ -3408,7 +3324,6 @@ noun = [
     "count": "true",
     "tags": "edge, position",
     "complements": "(85 of NP{def:def;tags:bounded|surface&delimited})",
-    "partOf": "null"
   },
   {
     "name": "border",
@@ -3418,11 +3333,10 @@ noun = [
     "unique": 0,
     "count": "true",
     "tags": "boundary",
-    "partOf": "null"
   },
   {
     "name": "finish line",
-    "proto": "border"
+    "proto": "border",
   },
   {
     "name": "road",
@@ -3433,21 +3347,20 @@ noun = [
     "count": "true",
     "size": 8,
     "tags": "path, fixed, site, grounded",
-    "partOf": "null"
   },
   {
     "name": "trail",
     "proto": "road",
-    "size": 7
+    "size": 7,
   },
   {
     "name": "path",
-    "proto": "trail"
+    "proto": "trail",
   },
   {
     "name": "train track",
     "proto": "road",
-    "prohibitions": "number:sg"
+    "prohibitions": "number:sg",
   },
   {
     "name": "chimney",
@@ -3458,7 +3371,6 @@ noun = [
     "count": "true",
     "size": "6,7",
     "tags": "vertical, passage, structure",
-    "partOf": "null"
   },
   {
     "name": "tunnel",
@@ -3469,11 +3381,10 @@ noun = [
     "count": "true",
     "size": "7,8",
     "tags": "passage, structure",
-    "partOf": "null"
   },
   {
     "name": "hallway",
-    "proto": "tunnel"
+    "proto": "tunnel",
   },
   {
     "name": "hill",
@@ -3484,18 +3395,17 @@ noun = [
     "count": "true",
     "size": 8,
     "tags": "prominence, incline",
-    "partOf": "null"
   },
   {
     "name": "mountain",
     "proto": "hill",
-    "size": 9
+    "size": 9,
   },
   {
     "name": "Mount Everest",
     "proto": "mountain",
     "unique": 2,
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "valley",
@@ -3506,19 +3416,18 @@ noun = [
     "count": "true",
     "size": "8,9,10",
     "tags": "depression, path",
-    "partOf": "null"
   },
   {
     "name": "ravine",
     "proto": "valley",
     "size": 8,
-    "tags": "depression"
+    "tags": "depression",
   },
   {
     "name": "canyon",
     "proto": "valley",
     "size": "9,10",
-    "tags": "depression"
+    "tags": "depression",
   },
   {
     "name": "ditch",
@@ -3529,13 +3438,12 @@ noun = [
     "count": "true",
     "size": 7,
     "tags": "depression",
-    "partOf": "null"
   },
   {
     "name": "wilderness",
     "proto": "forest",
     "count": "false",
-    "size": "9,10,11"
+    "size": "9,10,11",
   },
   {
     "name": "hole",
@@ -3545,17 +3453,16 @@ noun = [
     "unique": 0,
     "count": "true",
     "tags": "passage",
-    "partOf": "null"
   },
   {
     "name": "path",
     "proto": "road",
-    "size": "6,7"
+    "size": "6,7",
   },
   {
     "name": "trail",
     "proto": "road",
-    "size": "6,7"
+    "size": "6,7",
   },
   {
     "name": "water",
@@ -3566,41 +3473,40 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "liquid",
-    "partOf": "null"
   },
   {
     "name": "milk",
-    "proto": "water"
+    "proto": "water",
   },
   {
     "name": "beer",
-    "proto": "water"
+    "proto": "water",
   },
   {
     "name": "oil",
-    "proto": "water"
+    "proto": "water",
   },
   {
     "name": "juice",
-    "proto": "water"
+    "proto": "water",
   },
   {
     "name": "paint",
-    "proto": "water"
+    "proto": "water",
   },
   {
     "name": "blood",
-    "proto": "water"
+    "proto": "water",
   },
   {
     "name": "lava",
-    "proto": "mud"
+    "proto": "mud",
   },
   {
     "name": "drain",
     "proto": "chimney",
     "size": "3,4,5,6",
-    "tags": "-, vertical, passage, fixed"
+    "tags": "-, vertical, passage, fixed",
   },
   {
     "name": "pipe",
@@ -3611,17 +3517,16 @@ noun = [
     "count": "true",
     "size": "3,4,5,6",
     "tags": "passage, vessel",
-    "partOf": "null"
   },
   {
     "name": "sewer",
     "proto": "tunnel",
-    "tags": "bodyOfWater"
+    "tags": "bodyOfWater",
   },
   {
     "name": "mine shaft",
     "proto": "drain",
-    "size": "7,8"
+    "size": "7,8",
   },
   {
     "name": "cliff",
@@ -3632,7 +3537,6 @@ noun = [
     "count": "true",
     "size": "8,9",
     "tags": "edge, vertical, surface, land",
-    "partOf": "null"
   },
   {
     "name": "table",
@@ -3643,16 +3547,15 @@ noun = [
     "count": "true",
     "size": 6,
     "tags": "elevated, surface, table",
-    "partOf": "null"
   },
   {
     "name": "desk",
     "proto": "table",
-    "size": 6
+    "size": 6,
   },
   {
     "name": "counter",
-    "proto": "table"
+    "proto": "table",
   },
   {
     "name": "trampoline",
@@ -3663,7 +3566,6 @@ noun = [
     "count": "true",
     "size": 6,
     "tags": "elevated, surface, structure",
-    "partOf": "null"
   },
   {
     "name": "pool",
@@ -3674,17 +3576,16 @@ noun = [
     "count": "true",
     "size": 7,
     "tags": "bodyOfWater",
-    "partOf": "null"
   },
   {
     "name": "pond",
-    "proto": "pool"
+    "proto": "pool",
   },
   {
     "name": "puddle",
     "proto": "pool",
     "size": "5,6,7",
-    "tags": "grounded, obstacle"
+    "tags": "grounded, obstacle",
   },
   {
     "name": "robot",
@@ -3695,16 +3596,15 @@ noun = [
     "count": "true",
     "size": "5,6,7",
     "tags": "person,machine",
-    "partOf": "null"
   },
   {
     "name": "droid",
     "proto": "robot",
-    "anim": "2,3"
+    "anim": "2,3",
   },
   {
     "name": "hipster",
-    "proto": "person"
+    "proto": "person",
   },
   {
     "name": "coast",
@@ -3715,15 +3615,14 @@ noun = [
     "count": "true",
     "size": 9,
     "tags": "site, perimeter",
-    "partOf": "null"
   },
   {
     "name": "shore",
-    "proto": "coast"
+    "proto": "coast",
   },
   {
     "name": "tightrope",
-    "proto": "bridge"
+    "proto": "bridge",
   },
   {
     "name": "English Channel",
@@ -3731,7 +3630,7 @@ noun = [
     "unique": 1,
     "count": "false",
     "size": 10,
-    "tags": "bodyOfWater"
+    "tags": "bodyOfWater",
   },
   {
     "name": "room",
@@ -3742,45 +3641,43 @@ noun = [
     "count": "true",
     "size": 7,
     "tags": "void, area, container",
-    "partOf": "null"
   },
   {
     "name": "kitchen",
-    "proto": "room"
+    "proto": "room",
   },
   {
     "name": "bedroom",
-    "proto": "room"
+    "proto": "room",
   },
   {
     "name": "classroom",
-    "proto": "room"
+    "proto": "room",
   },
   {
     "name": "garage",
     "proto": "room",
-    "disabled": false
   },
   {
     "name": "basement",
-    "proto": "room"
+    "proto": "room",
   },
   {
     "name": "attic",
-    "proto": "room"
+    "proto": "room",
   },
   {
     "name": "office",
-    "proto": "room"
+    "proto": "room",
   },
   {
     "name": "office",
-    "proto": "house"
+    "proto": "house",
   },
   {
     "name": "swamp",
     "proto": "forest",
-    "tags": "bodyOfWater"
+    "tags": "bodyOfWater",
   },
   {
     "name": "stage",
@@ -3791,16 +3688,15 @@ noun = [
     "count": "true",
     "size": 7,
     "tags": "structure, surface",
-    "partOf": "null"
   },
   {
     "name": "cave",
-    "proto": "tunnel"
+    "proto": "tunnel",
   },
   {
     "name": "well",
     "proto": "tunnel",
-    "tags": "vertical"
+    "tags": "vertical",
   },
   {
     "name": "rope",
@@ -3809,16 +3705,15 @@ noun = [
     "possessable": 5,
     "size": 4,
     "tags": "path, instrument",
-    "partOf": "null"
   },
   {
     "name": "mud",
     "proto": "dirt",
-    "tags": "semisolid, viscous, obstacle, grounded, -"
+    "tags": "semisolid, viscous, obstacle, grounded, -",
   },
   {
     "name": "quicksand",
-    "proto": "mud"
+    "proto": "mud",
   },
   {
     "name": "center",
@@ -3829,106 +3724,105 @@ noun = [
     "count": "false",
     "tags": "position, point",
     "complements": "(88 of NP{tags:container|area|space;number:noun.number})",
-    "partOf": "null"
   },
   {
     "name": "top",
     "proto": "center",
     "tags": "elevated",
-    "complements": "(88 of NP{tags:hasHeight&!creature|incline|prominence|path&vertical;number:noun.number})"
+    "complements": "(88 of NP{tags:hasHeight&!creature|incline|prominence|path&vertical;number:noun.number})",
   },
   {
     "name": "bottom",
     "proto": "center",
     "tags": "bottom",
-    "complements": "(88 of NP{tags:hasHeight|structure|volume|line&vertical;number:noun.number})"
+    "complements": "(88 of NP{tags:hasHeight|structure|volume|line&vertical;number:noun.number})",
   },
   {
     "name": "front",
     "proto": "center",
-    "complements": "(88 of NP{anim:<1.5;tags:creature|structure|vehicle|hasFront & !position&!line;number:noun.number})"
+    "complements": "(88 of NP{anim:<1.5;tags:creature|structure|vehicle|hasFront & !position&!line;number:noun.number})",
   },
   {
     "name": "back",
-    "proto": "front"
+    "proto": "front",
   },
   {
     "name": "end",
     "proto": "center",
-    "complements": "(95 of NP{tags:path;number:sg})"
+    "complements": "(95 of NP{tags:path;number:sg})",
   },
   {
     "name": "dump truck",
-    "proto": "truck"
+    "proto": "truck",
   },
   {
     "name": "helicopter",
     "proto": "airplane",
     "size": 7,
-    "tags": "airVehicle, motorVehicle, -"
+    "tags": "airVehicle, motorVehicle, -",
   },
   {
     "name": "hovercraft",
     "proto": "boat",
-    "tags": "groundVehicle"
+    "tags": "groundVehicle",
   },
   {
     "name": "phone",
-    "proto": "device"
+    "proto": "device",
   },
   {
     "name": "camera",
-    "proto": "phone"
+    "proto": "phone",
   },
   {
     "name": "gun",
-    "proto": "phone"
+    "proto": "phone",
   },
   {
     "name": "blow dryer",
     "proto": "phone",
-    "tags": "machine"
+    "tags": "machine",
   },
   {
     "name": "ship",
-    "proto": "boat"
+    "proto": "boat",
   },
   {
     "name": "canoe",
-    "proto": "boat1"
+    "proto": "boat1",
   },
   {
     "name": "SUV",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "Hummer",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "Cadillac",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "yacht",
-    "proto": "boat"
+    "proto": "boat",
   },
   {
     "name": "barge",
-    "proto": "boat"
+    "proto": "boat",
   },
   {
     "name": "jeep",
-    "proto": "car"
+    "proto": "car",
   },
   {
     "name": "jumbo jet",
-    "proto": "airplane"
+    "proto": "airplane",
   },
   {
     "name": "X-wing",
     "proto": "airplane",
-    "size": 7
+    "size": 7,
   },
   {
     "name": "fish",
@@ -3940,592 +3834,595 @@ noun = [
     "size": "4,5",
     "tags": "waterAnimal",
     "inflections": "pl: fish",
-    "partOf": "null"
   },
   {
     "name": "jelly fish",
     "proto": "fish",
-    "inflections": "pl: jelly fish"
+    "inflections": "pl: jelly fish",
   },
   {
     "name": "piranha",
     "proto": "fish",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "orca",
     "proto": "whale",
-    "size": 7
+    "size": 7,
   },
   {
     "name": "whale",
     "proto": "fish",
     "anim": 2,
-    "size": "7,8"
+    "size": "7,8",
   },
   {
     "name": "walrus",
-    "proto": "whale"
+    "proto": "whale",
   },
   {
     "name": "dolphin",
     "proto": "whale",
-    "size": 6
+    "size": 6,
   },
   {
     "name": "manatee",
     "proto": "whale",
-    "size": 6.5
+    "size": 6.5,
   },
   {
     "name": "bird",
     "proto": "dog",
     "size": "4,5",
-    "tags": "airAnimal"
+    "tags": "airAnimal",
   },
   {
     "name": "eagle",
     "proto": "bird",
-    "size": "5,6"
+    "size": "5,6",
   },
   {
     "name": "owl",
     "proto": "bird",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "egret",
     "proto": "bird",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "woodpecker",
-    "proto": "bird"
+    "proto": "bird",
   },
   {
     "name": "crow",
-    "proto": "bird"
+    "proto": "bird",
   },
   {
     "name": "flamingo",
-    "proto": "bird"
+    "proto": "bird",
   },
   {
     "name": "duck",
-    "proto": "bird"
+    "proto": "bird",
   },
   {
     "name": "goose",
     "proto": "bird",
-    "inflections": "pl: geese"
+    "inflections": "pl: geese",
   },
   {
     "name": "chicken",
     "proto": "dog",
-    "disabled": false,
-    "tags": "bird",
-    "size": "5"
+    "size": 5,
   },
   {
     "name": "ostrich",
     "proto": "dog",
-    "disabled": false,
-    "tags": "bird",
-    "size": "6"
+    "size": 6,
   },
   {
     "name": "armadillo",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "fox",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "panda",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "moose",
     "proto": "cow",
-    "inflections": "pl: moose"
+    "inflections": "pl: moose",
   },
   {
     "name": "horse",
-    "proto": "cow"
+    "proto": "cow",
   },
   {
     "name": "pony",
-    "proto": "cow"
+    "proto": "cow",
   },
   {
     "name": "hyena",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "cougar",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "aardvark",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "jackelope",
     "proto": "dog",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "antelope",
     "proto": "dog",
-    "size": 6
+    "size": 6,
   },
   {
     "name": "rabbit",
     "proto": "dog",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "badger",
     "proto": "dog",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "dinosaur",
     "proto": "dog",
-    "size": "6,7,8"
+    "size": "6,7,8",
   },
   {
     "name": "ferret",
     "proto": "dog",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "mouse",
     "proto": "dog",
     "size": 4,
-    "inflections": "pl: mice"
+    "inflections": "pl: mice",
   },
   {
     "name": "frog",
     "proto": "dog",
     "size": 4,
-    "tags": "waterAnimal"
+    "tags": "waterAnimal",
   },
   {
     "name": "newt",
     "proto": "frog",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "lobster",
     "proto": "frog",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "squirrel",
     "proto": "dog",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "pig",
     "proto": "dog",
-    "size": "5,6,6.5"
+    "size": "5,6,6.5",
   },
   {
     "name": "kangaroo",
     "proto": "dog",
-    "size": "5,6"
+    "size": "5,6",
   },
   {
     "name": "monkey",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "giraffe",
     "proto": "dog",
-    "size": 7
+    "size": 7,
   },
   {
     "name": "elephant",
     "proto": "dog",
-    "size": 7
+    "size": 7,
   },
   {
     "name": "mongoose",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "zebra",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "poodle",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "beast",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "animal",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "creature",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "critter",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "rodent",
-    "proto": "dog"
+    "proto": "dog",
   },
   {
     "name": "worm",
     "proto": "bug",
-    "size": 3
+    "size": 3,
   },
   {
     "name": "termite",
-    "proto": "bug"
+    "proto": "bug",
   },
   {
     "name": "ant",
-    "proto": "bug"
+    "proto": "bug",
   },
   {
     "name": "caterpillar",
-    "proto": "bug"
+    "proto": "bug",
   },
   {
     "name": "spider",
-    "proto": "bug"
+    "proto": "bug",
   },
   {
     "name": "left-wing radical",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "right-wing extremist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "fundamentalist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "hippie",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "environmentalist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "pacifist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "terrorist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "fascist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "feminist",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "mobster",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "guru",
-    "proto": "human"
+    "proto": "human",
+  },
+  {
+    "name": "maid",
+    "proto": "human",
   },
   {
     "name": "nurse",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "milkman",
     "proto": "human",
-    "inflections": "pl:milkmen"
+    "inflections": "pl:milkmen",
   },
   {
     "name": "astronaut",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "drug dealer",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "hobo",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "troll",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "police officer",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "CEO",
     "proto": "human",
-    "complements": "(70 of DP{tags:organization;  (number: noun.number | count:false)})"
+    "complements": "(70 of DP{tags:organization;  (number: noun.number | count:false)})",
   },
   {
     "name": "butler",
-    "proto": "human"
+    "proto": "human",
+  },
+  {
+    "name": "mechanic",
+    "proto": "human",
   },
   {
     "name": "cable guy",
-    "proto": "human"
+    "proto": "human",
   },
   {
     "name": "tech support",
     "proto": "human",
     "unique": 2,
     "count": "false",
-    "tags": "-, collective"
+    "tags": "-, collective",
   },
   {
     "name": "tech support1",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "Batman",
     "proto": "Jack",
     "tags": "-,person,fullname",
-    "precomp": "--"
+    "precomp": "--",
   },
   {
     "name": "The Hulk",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Turd Ferguson",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Zaphod Beeblebrox",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Slartibartfast",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "River Tam",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Malcolm Reynolds",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Mr. Darcy",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Scarlett",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Hermione",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Dorothy",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Sarah Connor",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Wonder Woman",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Sauron",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Smaug",
     "proto": "Batman",
     "size": 8,
-    "tags": "airAnimal"
+    "tags": "airAnimal",
   },
   {
     "name": "Dread Pirate Roberts",
     "proto": "Batman",
-    "unique": 1
+    "unique": 1,
   },
   {
     "name": "Mr. Rogers",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Kermit the Frog",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Miss Piggy",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Celine Dion",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Cruella Deville",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Mary Poppins",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Spartacus",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Ghandi",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Vladimir Putin",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Madonna",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Mother Teresa",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Eleanor Roosevelt",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Jane Austen",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Marie Curie",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Amelia Earhart",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Helen Keller",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Sherlock Holmes",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Carmen Sandiego",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Pocahontas",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Katniss Everdeen",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Princess Leia",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
   },
   {
     "name": "Gandalf",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Luke Skywalker",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Han Solo",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Captain Kirk",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Jean Luc Picard",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Henry VIII",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Archduke Franz Ferdinand",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Colonel Mustard",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Backstreet Boy",
-    "proto": "Canuck"
+    "proto": "Canuck",
   },
   {
     "name": "Lex Luther",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Frankenstein",
     "proto": "Batman",
-    "anim": "2,3"
+    "anim": "2,3",
   },
   {
     "name": "Harry Potter",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Davy Crockett",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "John Bunyan",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Genghis Khan",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Moses",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Morgan Freeman",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Noam Chomsky",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "bicycle",
@@ -4536,41 +4433,40 @@ noun = [
     "count": "true",
     "size": 6,
     "tags": "nonMotorVehicle, groundVehicle",
-    "partOf": "null"
   },
   {
     "name": "shopping cart",
-    "proto": "bicycle"
+    "proto": "bicycle",
   },
   {
     "name": "skateboard",
     "proto": "bicycle",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "can",
     "proto": "box",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "jar",
     "proto": "box",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "bottle",
     "proto": "box",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "bucket",
     "proto": "box",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "vat",
     "proto": "box",
-    "size": "6,7"
+    "size": "6,7",
   },
   {
     "name": "bathtub",
@@ -4580,12 +4476,11 @@ noun = [
     "count": "true",
     "size": 6.1,
     "tags": "vessel",
-    "partOf": "null"
   },
   {
     "name": "abyss",
     "proto": "void",
-    "size": "8,9"
+    "size": "8,9",
   },
   {
     "name": "void",
@@ -4595,620 +4490,619 @@ noun = [
     "unique": 0,
     "count": "true",
     "tags": "void",
-    "partOf": "null"
   },
   {
     "name": "outer space",
     "proto": "void",
     "unique": 2,
     "count": "false",
-    "size": 15
+    "size": 15,
   },
   {
     "name": "Billy",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Jedediah",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Hamish",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Ahmed",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Webster",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Rufus",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Mortimer",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Marlon",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Winston",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Milton",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Elmer",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Melvyn",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Jarvis",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Baxter",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Beatrix",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Mavis",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Jezebel",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Olive",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Isolde",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Sinead",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Fatima",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Susie",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Matilda",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Barnabas",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Helmut",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Abdul",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Lawonda",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Tyrese",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Andre",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Confucius",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Agnes",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Antonio",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Bernard",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Celeste",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Clementine",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Cosette",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Daphne",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Li",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Li1",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Meilin",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Yuming",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Huojin",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Zihao",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Fumiko",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Suki",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Takeo",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Akira",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Kibwe",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Najuma",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Edgar",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Ernesto",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Julio",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Ferdinand",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Gaston",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Gerald",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Gustav",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Gwendoline",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Lucille",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Martha",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Oliver",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Philbert",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Sebastian",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Sybil",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Sir Lancelot",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Robin Hood",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Winnie the Pooh",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "Zeus",
-    "proto": "Batman"
+    "proto": "Batman",
   },
   {
     "name": "ZoÃ«",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Victoria",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Astrid",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Cecilia",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Eckhart",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Dietrich",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Edith",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Eugene",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Felix",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Gunther",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Gretchen",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Phyllis",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Salome",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Tatiana",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Wilma",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Boris",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Igor",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Nikolai",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Oxana",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Rudolf",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Anastasia",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Basil",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Mandeep",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Mario",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Luigi",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Mika",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Teemu",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Sami",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Jarkko",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Riita",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Helena",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Sven",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Hildur",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Freja",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Heidi",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Natalia",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Renata",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Stella",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Surinder",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Esperanza",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Otto",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Gideon",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Casper",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Joaquin",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Leopold",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Malcolm",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Rudyard",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Xavier",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Delilah",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Esmeralda",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Myrtle",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Muriel",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Virginia",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Sharmila",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Pipi",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Siosi",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Paora",
-    "proto": "Jack"
+    "proto": "Jack",
   },
   {
     "name": "Pavan",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "Nirmal",
-    "proto": "Sally"
+    "proto": "Sally",
   },
   {
     "name": "rock climbing",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "quilting",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "pottery",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "scrapbooking",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "wood carving",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "taxidermy",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "snowboarding",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "surfing",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "aerobics",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "karate",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "kung fu",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "bird-watching",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "shopping",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "World of Warcraft",
-    "proto": "chess"
+    "proto": "chess",
   },
   {
     "name": "Dungeons and Dragons",
-    "proto": "chess"
+    "proto": "chess",
   },
   {
     "name": "chess",
     "proto": "dancing",
-    "tags": "game, -"
+    "tags": "game, -",
   },
   {
     "name": "poker",
-    "proto": "chess"
+    "proto": "chess",
   },
   {
     "name": "Monopoly",
-    "proto": "chess"
+    "proto": "chess",
   },
   {
     "name": "soccer",
     "proto": "chess",
-    "tags": "sport"
+    "tags": "sport",
   },
   {
     "name": "football",
-    "proto": "soccer"
+    "proto": "soccer",
   },
   {
     "name": "hockey",
-    "proto": "soccer"
+    "proto": "soccer",
   },
   {
     "name": "basketball",
-    "proto": "soccer"
+    "proto": "soccer",
   },
   {
     "name": "cricket",
-    "proto": "soccer"
+    "proto": "soccer",
   },
   {
     "name": "tennis",
-    "proto": "soccer"
+    "proto": "soccer",
   },
   {
     "name": "rugby",
-    "proto": "soccer"
+    "proto": "soccer",
   },
   {
     "name": "game",
@@ -5220,32 +5114,31 @@ noun = [
     "size": 0,
     "tags": "contest",
     "precomp": "(DP{tags:sport})",
-    "partOf": "null"
   },
   {
     "name": "competition",
     "proto": "game",
-    "precomp": "--"
+    "precomp": "--",
   },
   {
     "name": "tournament",
     "proto": "game",
-    "precomp": "(DP{tags:game})"
+    "precomp": "(DP{tags:game})",
   },
   {
     "name": "match",
     "proto": "game",
-    "precomp": "DP{tags:sport}"
+    "precomp": "DP{tags:sport}",
   },
   {
     "name": "contest",
     "proto": "game",
-    "precomp": "(45 DP{tags:game|activity} |25 ACTIVE_STUFF)"
+    "precomp": "(45 DP{tags:game|activity} |25 ACTIVE_STUFF)",
   },
   {
     "name": "race",
     "proto": "game",
-    "precomp": "--"
+    "precomp": "--",
   },
   {
     "name": "Olympic",
@@ -5253,73 +5146,73 @@ noun = [
     "unique": 1,
     "count": "true",
     "precomp": "((_Winter|_Summer))",
-    "prohibitions": "number:sg"
+    "prohibitions": "number:sg",
   },
   {
     "name": "opera",
-    "proto": "concert"
+    "proto": "concert",
   },
   {
     "name": "dance",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "festival",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "inquisition",
     "proto": "party",
-    "tags": "undertaking"
+    "tags": "undertaking",
   },
   {
     "name": "debate",
     "proto": "party",
-    "tags": "contest"
+    "tags": "contest",
   },
   {
     "name": "rave",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "circus",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "thesis defense",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "seminar",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "conference",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "jam session",
-    "proto": "party"
+    "proto": "party",
   },
   {
     "name": "bowling",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "archery",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "astrology",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "gardening",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "beekeeping",
-    "proto": "dancing"
+    "proto": "dancing",
   },
   {
     "name": "science",
@@ -5330,15 +5223,15 @@ noun = [
     "unique": 2,
     "count": "false",
     "size": 0,
-    "tags": "fieldOfStudy"
+    "tags": "fieldOfStudy",
   },
   {
     "name": "religion",
-    "proto": "politics"
+    "proto": "politics",
   },
   {
     "name": "origami",
-    "proto": "politics"
+    "proto": "politics",
   },
   {
     "name": "politics",
@@ -5349,111 +5242,110 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "enterprise",
-    "partOf": "null"
   },
   {
     "name": "warfare",
-    "proto": "politics"
+    "proto": "politics",
   },
   {
     "name": "diplomacy",
-    "proto": "politics"
+    "proto": "politics",
   },
   {
     "name": "terrorism",
-    "proto": "politics"
+    "proto": "politics",
   },
   {
     "name": "marketing",
     "proto": "politics",
-    "tags": "business"
+    "tags": "business",
   },
   {
     "name": "astrology",
-    "proto": "politics"
+    "proto": "politics",
   },
   {
     "name": "alchemy",
-    "proto": "politics"
+    "proto": "politics",
   },
   {
     "name": "physics",
-    "proto": "science"
+    "proto": "science",
   },
   {
     "name": "chemistry",
-    "proto": "science"
+    "proto": "science",
   },
   {
     "name": "healthcare",
-    "proto": "politics"
+    "proto": "politics",
   },
   {
     "name": "crime",
-    "proto": "politics"
+    "proto": "politics",
   },
   {
     "name": "snot",
-    "proto": "poop"
+    "proto": "poop",
   },
   {
     "name": "poop",
     "proto": "dirt",
-    "tags": "semisolid, -"
+    "tags": "semisolid, -",
   },
   {
     "name": "sludge",
-    "proto": "mud"
+    "proto": "mud",
   },
   {
     "name": "Play-Doh",
-    "proto": "dirt"
+    "proto": "dirt",
   },
   {
     "name": "jello",
     "proto": "dirt",
-    "tags": "food"
+    "tags": "food",
   },
   {
     "name": "pudding",
     "proto": "jello",
-    "tags": "viscous, semisolid"
+    "tags": "viscous, semisolid",
   },
   {
     "name": "applesauce",
-    "proto": "jello"
+    "proto": "jello",
   },
   {
     "name": "peanut butter",
-    "proto": "jello"
+    "proto": "jello",
   },
   {
     "name": "porridge",
-    "proto": "jello"
+    "proto": "jello",
   },
   {
     "name": "mashed potato",
     "proto": "jello",
     "count": "true",
     "inflections": "pl: mashed potatoes",
-    "prohibitions": "number:sg"
+    "prohibitions": "number:sg",
   },
   {
     "name": "rice",
     "proto": "dirt",
-    "tags": "food"
+    "tags": "food",
   },
   {
     "name": "salad",
-    "proto": "rice"
+    "proto": "rice",
   },
   {
     "name": "granola",
-    "proto": "rice"
+    "proto": "rice",
   },
   {
     "name": "butter",
-    "proto": "jello"
+    "proto": "jello",
   },
   {
     "name": "cheese",
@@ -5464,50 +5356,49 @@ noun = [
     "count": "false",
     "size": 0,
     "tags": "food, solid",
-    "partOf": "null"
   },
   {
     "name": "marmalade",
-    "proto": "jello"
+    "proto": "jello",
   },
   {
     "name": "Vegemite",
-    "proto": "jello"
+    "proto": "jello",
   },
   {
     "name": "Nutella",
-    "proto": "jello"
+    "proto": "jello",
   },
   {
     "name": "marble",
     "proto": "ball",
-    "size": 3
+    "size": 3,
   },
   {
     "name": "snowball",
-    "proto": "ball"
+    "proto": "ball",
   },
   {
     "name": "chocolate",
-    "proto": "cheese"
+    "proto": "cheese",
   },
   {
     "name": "sugar",
     "proto": "sand",
-    "tags": "food"
+    "tags": "food",
   },
   {
     "name": "salt",
-    "proto": "sugar"
+    "proto": "sugar",
   },
   {
     "name": "snow",
     "proto": "dirt",
-    "tags": "obstacle, grounded"
+    "tags": "obstacle, grounded",
   },
   {
     "name": "debris",
-    "proto": "garbage"
+    "proto": "garbage",
   },
   {
     "name": "hammer",
@@ -5519,62 +5410,61 @@ noun = [
     "count": "true",
     "size": 4,
     "tags": "instrument",
-    "partOf": "null"
   },
   {
     "name": "shovel",
     "proto": "hammer",
-    "size": 5
+    "size": 5,
   },
   {
     "name": "farming implement",
     "proto": "hammer",
-    "size": "4,5"
+    "size": "4,5",
   },
   {
     "name": "chainsaw",
     "proto": "hammer",
     "size": 5,
-    "tags": "machine"
+    "tags": "machine",
   },
   {
     "name": "screwdriver",
-    "proto": "hammer"
+    "proto": "hammer",
   },
   {
     "name": "stethoscope",
-    "proto": "hammer"
+    "proto": "hammer",
   },
   {
     "name": "trumpet",
     "proto": "hammer",
-    "tags": "musicalInstrument"
+    "tags": "musicalInstrument",
   },
   {
     "name": "banjo",
-    "proto": "trumpet"
+    "proto": "trumpet",
   },
   {
     "name": "guitar",
-    "proto": "trumpet"
+    "proto": "trumpet",
   },
   {
     "name": "piano",
     "proto": "trumpet",
     "size": "6,7",
-    "tags": "table"
+    "tags": "table",
   },
   {
     "name": "flute",
-    "proto": "trumpet"
+    "proto": "trumpet",
   },
   {
     "name": "drum",
-    "proto": "trumpet"
+    "proto": "trumpet",
   },
   {
     "name": "synthesizer",
-    "proto": "trumpet"
+    "proto": "trumpet",
   },
   {
     "name": "song",
@@ -5586,606 +5476,604 @@ noun = [
     "count": "true",
     "size": 0,
     "tags": "song",
-    "partOf": "null"
   },
   {
     "name": "music",
     "proto": "song",
     "possessable": 3,
     "count": "false",
-    "precomp": "((rock|elevator|country|electronic|classical|baroque))"
+    "precomp": "((rock|elevator|country|electronic|classical|baroque))",
   },
   {
     "name": "melody",
     "proto": "song",
-    "possessable": 1
+    "possessable": 1,
   },
   {
     "name": "tune",
     "proto": "song",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "ballad",
-    "proto": "song"
+    "proto": "song",
   },
   {
     "name": "sonata",
-    "proto": "song"
+    "proto": "song",
   },
   {
     "name": "jig",
-    "proto": "song"
+    "proto": "song",
   },
   {
     "name": "anthem",
-    "proto": "song"
+    "proto": "song",
   },
   {
     "name": "blue",
     "proto": "song",
     "possessable": 0,
     "unique": 1,
-    "prohibitions": "number:sg"
+    "prohibitions": "number:sg",
   },
   {
     "name": "jazz",
     "proto": "music",
     "possessable": 0,
-    "precomp": "--"
+    "precomp": "--",
   },
   {
     "name": "dubstep",
     "proto": "jazz",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "rock'n'roll",
     "proto": "jazz",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "klezmer",
     "proto": "jazz",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "hip hop",
     "proto": "jazz",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "K-pop",
     "proto": "jazz",
-    "possessable": 0
+    "possessable": 0,
   },
   {
     "name": "Hey Jude",
     "proto": "The Iliad",
-    "tags": "song, -"
+    "tags": "song, -",
   },
   {
     "name": "Moonlight Sonata",
-    "proto": "Hey Jude"
+    "proto": "Hey Jude",
   },
   {
     "name": "Happy Birthday",
-    "proto": "Hey Jude"
+    "proto": "Hey Jude",
   },
   {
     "name": "Hotel California",
-    "proto": "Hey Jude"
+    "proto": "Hey Jude",
   },
   {
     "name": "Amazing Grace",
-    "proto": "Hey Jude"
+    "proto": "Hey Jude",
   },
   {
     "name": "Beethoven's Fifth Symphony",
-    "proto": "Hey Jude"
+    "proto": "Hey Jude",
   },
   {
     "name": "The Ride of the Valkyries",
-    "proto": "Hey Jude"
+    "proto": "Hey Jude",
   },
   {
     "name": "Jingle Bells",
-    "proto": "Hey Jude"
+    "proto": "Hey Jude",
   },
   {
     "name": "Silent Night",
-    "proto": "Hey Jude"
+    "proto": "Hey Jude",
   },
   {
     "name": "Smith",
     "proto": "Jack",
     "tags": "-, person, lastname",
-    "precomp": "TITLE{unpack:noun.tags-gender}"
+    "precomp": "TITLE{unpack:noun.tags-gender}",
   },
   {
     "name": "Chan",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Johnson",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Williams",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Brown",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Jones",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Miller",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Davis",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Garcia",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Rodriguez",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Wilson",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Martinez",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Anderson",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Taylor",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Thomas",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Moore",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Martin",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Jackson",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Thompson",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "White",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Lopez",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Lee",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Gonzalez",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Harris",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Clark",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Lewis",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Robinson",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Walker",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Chavez",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "McDonald",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Washington",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Simpson",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Dixon",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Schmidt",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Spencer",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Cunningham",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Armstrong",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "McCoy",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Chen",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Chan",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Li",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Schultz",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Walters",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Walsh",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Schneider",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Newman",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Wong",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Hopkins",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Stanley",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Bates",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Diaz",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Watson",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Bennett",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Hughes",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Myers",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Foster",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Sanders",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Powell",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Sullivan",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Russell",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Young",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Allen",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Wright",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "King",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Scott",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Green",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Baker",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Adams",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Nelson",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Campbell",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Roberts",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Carter",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Phillips",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Turner",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Parker",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Collins",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Edwards",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Stewart",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Morris",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Nguyen",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Murphy",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Cook",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Rogers",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Cooper",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Moreau",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Laurent",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Dubois",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Fontaine",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Leroux",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Azikewe",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Obasanjo",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Horowitz",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Kaufman",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Krakowski",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Rosenberg",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Hashimoto",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Suzuki",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Tanaka",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Watanabe",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Ito",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Russo",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Mancini",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "De Luca",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Costa",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Lombardi",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Ivanov",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Fedorov",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Saarinen",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Makinen",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Papadopoulos",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "O'Brien",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "De Jong",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Janssen",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Van Dijk",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Singh",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Kapoor",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Chander",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Sidhu",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "Dhaliwal",
-    "proto": "Smith"
+    "proto": "Smith",
   },
   {
     "name": "shenanigan",
-    "prohibitions": "number:sg, def:indef, quant:true",
-    "disabled": false,
-    "tags": "behaviour",
-    "anim": "0",
-    "tang": "0",
-    "possessable": "7",
-    "posr": "tags: person|organization",
-    "size": "0",
+    "anim": 0,
+    "tang": 0,
+    "possessable": 7,
+    "posr": "tags: person,organization",
+    "unique": 0,
     "count": "true",
-    "partOf": "null"
+    "size": 0,
+    "tags": "behaviour",
+    "prohibitions": "number:sg, def:indef, quant:true",
   },
   {
     "name": "lifestyle",
@@ -6198,7 +6086,6 @@ noun = [
     "size": 0,
     "tags": "behaviour",
     "prohibitions": "def:indef,quantified:true",
-    "partOf": "null"
   },
   {
     "name": "item",
@@ -6209,1064 +6096,1061 @@ noun = [
     "count": "true",
     "size": "3,4,5,6",
     "tags": "item",
-    "partOf": "null"
   },
   {
     "name": "thingamajig",
-    "proto": "item"
+    "proto": "item",
   },
   {
     "name": "doodad",
-    "proto": "item"
+    "proto": "item",
   },
   {
     "name": "gizmo",
-    "proto": "device"
+    "proto": "device",
   },
   {
     "name": "artifact",
     "proto": "item",
-    "tags": "artifact"
+    "tags": "artifact",
   },
   {
     "name": "relic",
     "proto": "artifact",
-    "anim": 0
+    "anim": 0,
   },
   {
     "name": "souvenir",
-    "proto": "item"
+    "proto": "item",
   },
   {
     "name": "evidence",
     "proto": "item",
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "specimen",
-    "proto": "item"
+    "proto": "item",
   },
   {
     "name": "sample",
-    "proto": "item"
+    "proto": "item",
   },
   {
     "name": "plant",
-    "disabled": false,
-    "tags": "plant",
-    "anim": "0",
-    "tang": "2",
-    "possessable": "2",
-    "size": "4,5,6,7,8",
+    "anim": 0,
+    "tang": 2,
+    "possessable": 2,
+    "unique": 0,
     "count": "true",
-    "partOf": "null"
+    "size": "4,5,6,7,8",
+    "tags": "plant",
   },
   {
     "name": "vegetation",
     "proto": "plant",
-    "count": "false"
+    "count": "false",
   },
   {
     "name": "tree",
     "proto": "plant",
     "size": "7,8",
     "tags": "volume, vertical, path, elevated, hasHeight",
-    "precomp": "(35 (palm|maple|pine|oak|apple|cherry|cedar|bonsai|Christmas))"
+    "precomp": "(35 (palm|maple|pine|oak|apple|cherry|cedar|bonsai|Christmas))",
   },
   {
     "name": "tree1",
-    "proto": "tree"
+    "proto": "tree",
   },
   {
     "name": "bush",
     "proto": "plant",
     "size": 6,
     "tags": "volume",
-    "precomp": "(35 (raspberry|blueberry|rose))"
+    "precomp": "(35 (raspberry|blueberry|rose))",
   },
   {
     "name": "shrub",
     "proto": "bush",
-    "precomp": "--"
+    "precomp": "--",
   },
   {
     "name": "grapevine",
     "proto": "bush",
-    "size": "6,7"
+    "size": "6,7",
   },
   {
     "name": "fern",
     "proto": "plant",
-    "size": "4,5"
+    "size": "4,5",
   },
   {
     "name": "corn",
     "proto": "plant",
     "count": "false",
     "size": 5,
-    "tags": "food, aggregate"
+    "tags": "food, aggregate",
   },
   {
     "name": "wheat",
     "proto": "corn",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "barley",
     "proto": "corn",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "cactus",
     "proto": "plant",
-    "disabled": false,
-    "tags": "vertical, path"
+    "tags": "vertical, path",
   },
   {
     "name": "flower",
     "proto": "plant",
-    "size": 4
+    "size": 4,
   },
   {
     "name": "dandelion",
-    "proto": "flower"
+    "proto": "flower",
   },
   {
     "name": "tulip",
-    "proto": "flower"
+    "proto": "flower",
   },
   {
     "name": "daffodil",
-    "proto": "flower"
+    "proto": "flower",
   },
   {
     "name": "vine",
     "proto": "plant",
     "size": "4,5",
-    "tags": "path"
+    "tags": "path",
   },
   {
     "name": "grass",
     "proto": "vegetation",
     "size": "3,4,5,6,7,8",
-    "tags": "surface,aggregate,grounded"
+    "tags": "surface,aggregate,grounded",
   },
   {
     "name": "moss",
     "proto": "vegetation",
     "size": "4,5",
-    "tags": "grounded"
+    "tags": "grounded",
   },
   {
     "name": "seaweed",
     "proto": "moss",
-    "tags": "aggregate"
+    "tags": "aggregate",
   },
   {
     "name": "suburb",
-    "proto": "ghetto"
+    "proto": "ghetto",
   },
   {
     "name": "Bangalore",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Bangkok",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Beijing",
-    "proto": "London"
+    "proto": "London",
   },
   {
-    "name": "BogotÃ¡",
-    "proto": "London"
+    "name": "Bogotá",
+    "proto": "London",
   },
   {
     "name": "Buenos Aires",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Cairo",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Chennai",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Chicago",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Chongqing",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Delhi",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Dhaka",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Guangzhou",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Hong Kong",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Hyderabad",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Istanbul",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Jakarta",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Karachi",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Kinshasa",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Kolkata",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Kuala Lumpur",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Lagos",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Lahore",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Lima",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Los Angeles",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Manila",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Mexico City",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Mumbai",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Nagoya",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Osaka",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Philadelphia",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Rio de Janeiro",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Santiago",
-    "proto": "London"
+    "proto": "London",
   },
   {
-    "name": "SÃ£o Paulo",
-    "proto": "London"
+    "name": "São Paulo",
+    "proto": "London",
   },
   {
     "name": "Seoul",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Shanghai",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Shenzhen",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Suzhou",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Taipei",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Tehran",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Tokyo",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Paris",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Dubai",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "New York",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Singapore",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Barcelona",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Amsterdam",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Rome",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Milan",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Vienna",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Prague",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Kabul",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Algiers",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Canberra",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Minsk",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Brussels",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Sarajevo",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Brasilia",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Phnom Penh",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Ottawa",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "San Jose",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Zagreb",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Havana",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Copenhagen",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Quito",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "San Salvador",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Addis Ababa",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Berlin",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Athens",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Guatemala City",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Georgetown",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Port-au-Prince",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Tegucigalpa",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Budapest",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Reykjavik",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "New Delhi",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Baghdad",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Dublin",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Jerusalem",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Kingston",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Nairobi",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Beirut",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Tripoli",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Luxembourg",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Monaco",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Ulaanbaatar",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Wellington",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Pyongyang",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Oslo",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Islamabad",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Ramallah",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Panama City",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Warsaw",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Lisbon",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Bucharest",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "San Marino",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Riyadh",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Dakar",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Belgrade",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Victoria",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Freetown",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Bratislava",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Johannesburg",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Cape Town",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Mogadishu",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Pretoria",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Madrid",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Khartoum",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Stockholm",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Bern",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Damascus",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Kyiv",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Abu Dhabi",
-    "proto": "London"
+    "proto": "London",
   },
   {
-    "name": "Washington^, DC",
-    "proto": "London"
+    "name": "Washington, DC",
+    "proto": "London",
   },
   {
     "name": "Vatican City",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Caracas",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "Hanoi",
-    "proto": "London"
+    "proto": "London",
   },
   {
     "name": "United States",
     "proto": "Japan",
-    "unique": 1
+    "unique": 1,
   },
   {
     "name": "United Kingdom",
-    "proto": "United States"
+    "proto": "United States",
   },
   {
     "name": "United Arab Emirates",
-    "proto": "United States"
+    "proto": "United States",
   },
   {
     "name": "Czech Republic",
-    "proto": "United States"
+    "proto": "United States",
   },
   {
     "name": "Netherlands",
-    "proto": "United States"
+    "proto": "United States",
   },
   {
     "name": "China",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Germany",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "France",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "India",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Italy",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Brazil",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Canada",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Korea",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Russia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Australia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Spain",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Mexico",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Indonesia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Turkey",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Switzerland",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Saudi Arabia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Argentina",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Taiwan",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Sweden",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Belgium",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Poland",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Nigeria",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Iran",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Thailand",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Austria",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Norway",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Egypt",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Venezuela",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Israel",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Philippines",
     "proto": "Japan",
-    "unique": 1
+    "unique": 1,
   },
   {
     "name": "Ireland",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Malaysia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Denmark",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Pakistan",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "South Africa",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Colombia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Finland",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Chile",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Bangladesh",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Portugal",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Vietnam",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Greece",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Romania",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Peru",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "New Zealand",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Algeria",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Qatar",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Iraq",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Kazakhstan",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Hungary",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Kuwait",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Morocco",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Puerto Rico",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Ecuador",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Sudan",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Angola",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Ukraine",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Sri Lanka",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Ethiopia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Kenya",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Guatemala",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Myanmar",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Uzbekistan",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Luxembourg",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Oman",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Costa Rica",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Panama",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Uruguay",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Lebanon",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Bulgaria",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Croatia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Belarus",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Tanzania",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Slovenia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Lithuania",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Ghana",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Tunisia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Jordan",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Libya",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Serbia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Turkmenistan",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Bolivia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Azerbaijan",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Bahrain",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Yemen",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Cameroon",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Latvia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Paraguay",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "El Salvador",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Uganda",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Estonia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Nepal",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Honduras",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Zambia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Cyprus",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Papua New Guinea",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Iceland",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Cambodia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Afghanistan",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Georgia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Zimbabwe",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Jamaica",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Albania",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "Mongolia",
-    "proto": "Japan"
+    "proto": "Japan",
   },
   {
     "name": "heart",
@@ -7279,7 +7163,7 @@ noun = [
     "partOf": "creature",
     "size": "4",
     "unique": "0",
-    "count": "true"
+    "count": true
   },
   {
     "name": "face",
@@ -7291,6 +7175,7 @@ noun = [
     "name": "nose",
     "proto": "heart",
     "disabled": false,
+
     "tags": "container, protrusion",
     "size": "3"
   },
@@ -7298,6 +7183,7 @@ noun = [
     "name": "mouth",
     "proto": "heart",
     "disabled": false,
+
     "tags": "container",
     "size": "3"
   },
@@ -7360,6 +7246,7 @@ noun = [
     "name": "eye",
     "proto": "heart",
     "disabled": false,
+
     "size": "3"
   },
   {
@@ -7390,6 +7277,7 @@ noun = [
     "name": "shoulder",
     "proto": "eye",
     "disabled": false,
+
     "tags": "point",
     "size": "4"
   },
@@ -7397,6 +7285,7 @@ noun = [
     "name": "foot",
     "proto": "eye",
     "disabled": false,
+
     "tags": "appendage",
     "size": "4",
     "inflections": "pl: feet"
@@ -7412,6 +7301,7 @@ noun = [
     "name": "arm",
     "proto": "foot",
     "disabled": false,
+
     "tags": "path",
     "size": "5"
   },
@@ -7419,6 +7309,7 @@ noun = [
     "name": "leg",
     "proto": "arm",
     "disabled": false,
+
     "tags": "vertical",
     "size": "5"
   },
@@ -7426,6 +7317,8 @@ noun = [
     "name": "tail",
     "proto": "heart",
     "disabled": false,
+
+
     "tags": "path",
     "partOf": "beast",
     "size": "3"

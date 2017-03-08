@@ -2,54 +2,54 @@ noun = [
   {
     "name": "Nile",
     "proto": "river",
-    "unique": 1,
-    "count": "false"
+    "unique": "1",
+    "count": "FALSE"
   },
   {
     "name": "Outback",
     "proto": "forest",
-    "unique": 1,
-    "count": "false",
-    "size": 10
+    "unique": "1",
+    "count": "FALSE",
+    "size": "10"
   },
   {
     "name": "apocalypse",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "1",
+    "count": "FALSE",
     "tags": "event",
     "partOf": "null"
   },
   {
     "name": "North",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "1",
+    "count": "FALSE",
     "tags": "place",
     "partOf": "null"
   },
   {
     "name": "Taj Mahal",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
-    "size": 8,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "unique": "1",
+    "count": "FALSE",
+    "size": "8",
     "tags": "building",
     "partOf": "null"
   },
   {
     "name": "Canuck",
-    "anim": 3,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 1,
-    "count": "true",
+    "anim": "3",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "1",
+    "count": "TRUE",
     "tags": "-",
     "prohibitions": "number:sg",
     "partOf": "null"
@@ -57,32 +57,32 @@ noun = [
   {
     "name": "Loch Ness monster",
     "proto": "dog",
-    "unique": 1,
-    "size": 7,
+    "unique": "1",
+    "size": "7",
     "tags": "waterAnimal"
   },
   {
     "name": "Jack",
-    "anim": 3,
-    "tang": 2,
+    "anim": "3",
+    "tang": "2",
     "gender": "m",
-    "possessable": 0,
-    "unique": 2,
-    "count": "false",
-    "size": 6,
+    "possessable": "0",
+    "unique": "2",
+    "count": "FALSE",
+    "size": "6",
     "tags": "person, firstname",
     "precomp": "(10 TITLE{unpack:noun.tags-gender})",
     "partOf": "null"
   },
   {
     "name": "Sally",
-    "anim": 3,
-    "tang": 2,
+    "anim": "3",
+    "tang": "2",
     "gender": "f",
-    "possessable": 0,
-    "unique": 2,
-    "count": "false",
-    "size": 6,
+    "possessable": "0",
+    "unique": "2",
+    "count": "FALSE",
+    "size": "6",
     "tags": "person, firstname",
     "precomp": "(10 TITLE{unpack:noun.tags-gender})",
     "partOf": "null"
@@ -90,47 +90,47 @@ noun = [
   {
     "name": "Pope",
     "proto": "Jack",
-    "unique": 1
+    "unique": "1"
   },
   {
     "name": "Popemobile",
     "proto": "car",
-    "unique": 1
+    "unique": "1"
   },
   {
     "name": "Sahara Desert",
     "proto": "Outback",
-    "unique": 1
+    "unique": "1"
   },
   {
     "name": "Area ^5^1",
     "proto": "Outback",
-    "unique": 2,
-    "size": 9
+    "unique": "2",
+    "size": "9"
   },
   {
     "name": "Times Square",
     "proto": "Outback",
-    "unique": 2,
-    "size": 9
+    "unique": "2",
+    "size": "9"
   },
   {
     "name": "Christmas",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 2,
-    "count": "false",
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "unique": "2",
+    "count": "FALSE",
     "tags": "event",
     "partOf": "null"
   },
   {
     "name": "dancing",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 2,
-    "count": "false",
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "unique": "2",
+    "count": "FALSE",
     "tags": "activity",
     "partOf": "null"
   },
@@ -138,9 +138,9 @@ noun = [
     "name": "Fido",
     "proto": "dog",
     "gender": "m",
-    "possessable": 0,
-    "unique": 2,
-    "count": "false"
+    "possessable": "0",
+    "unique": "2",
+    "count": "FALSE"
   },
   {
     "name": "Snoopy",
@@ -169,18 +169,18 @@ noun = [
   {
     "name": "R^2D^2",
     "proto": "Fido",
-    "anim": 1.5,
+    "anim": "1.5",
     "tags": "-, machine"
   },
   {
     "name": "city",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 2,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "2",
     "posr": "tags: person",
-    "unique": 0,
-    "count": "true",
-    "size": 9,
+    "unique": "0",
+    "count": "TRUE",
+    "size": "9",
     "tags": "city",
     "partOf": "null"
   },
@@ -195,17 +195,17 @@ noun = [
   {
     "name": "neighborhood",
     "proto": "city",
-    "size": 8.5
+    "size": "8.5"
   },
   {
     "name": "ghetto",
     "proto": "city",
-    "size": 8.5
+    "size": "8.5"
   },
   {
     "name": "district",
     "proto": "city",
-    "size": 8.5
+    "size": "8.5"
   },
   {
     "name": "region",
@@ -215,13 +215,13 @@ noun = [
   },
   {
     "name": "country",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 2,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "2",
     "posr": "tags: person",
-    "unique": 0,
-    "count": "true",
-    "size": 11,
+    "unique": "0",
+    "count": "TRUE",
+    "size": "11",
     "tags": "country",
     "partOf": "null"
   },
@@ -244,57 +244,57 @@ noun = [
   {
     "name": "Japan",
     "proto": "country",
-    "possessable": 0,
-    "unique": 2,
-    "count": "false"
+    "possessable": "0",
+    "unique": "2",
+    "count": "FALSE"
   },
   {
     "name": "London",
     "proto": "city",
-    "possessable": 0,
-    "unique": 2,
-    "count": "false"
+    "possessable": "0",
+    "unique": "2",
+    "count": "FALSE"
   },
   {
     "name": "The Iliad",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 2,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "unique": "2",
+    "count": "FALSE",
+    "size": "0",
     "tags": "readable",
     "partOf": "null"
   },
   {
     "name": "Stonehenge",
     "proto": "Taj Mahal",
-    "unique": 2,
+    "unique": "2",
     "tags": "structure, -"
   },
   {
     "name": "Buckingham Palace",
     "proto": "Taj Mahal",
-    "unique": 2
+    "unique": "2"
   },
   {
     "name": "vibration.1",
     "proto": "vibration",
-    "count": "false"
+    "disabled": false
   },
   {
     "name": "work.1",
     "proto": "task",
-    "count": "false"
+    "count": "FALSE"
   },
   {
     "name": "cattle",
-    "anim": 2,
-    "tang": 2,
-    "possessable": 4,
-    "unique": 0,
-    "count": 0.5,
-    "size": 6,
+    "anim": "2",
+    "tang": "2",
+    "possessable": "4",
+    "unique": "0",
+    "count": "0.5",
+    "size": "6",
     "tags": "collective",
     "inflections": "pl:cattle",
     "prohibitions": "number:sg",
@@ -303,47 +303,47 @@ noun = [
   {
     "name": "Alp",
     "proto": "Outback",
-    "count": "true",
+    "count": "TRUE",
     "prohibitions": "number:sg"
   },
   {
     "name": "coin",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
-    "size": 3,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "4",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "3",
     "tags": "artifact",
     "partOf": "null"
   },
   {
     "name": "disaster",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 1,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "1",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "happening",
     "partOf": "null"
   },
   {
     "name": "situation",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "4",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "situation",
     "partOf": "null"
   },
   {
     "name": "crisis",
     "proto": "situation",
-    "possessable": 1,
-    "count": "true",
+    "possessable": "1",
+    "count": "TRUE",
     "inflections": "pl:crises"
   },
   {
@@ -357,7 +357,7 @@ noun = [
   {
     "name": "chaos",
     "proto": "situation",
-    "count": "false"
+    "count": "FALSE"
   },
   {
     "name": "tension",
@@ -386,7 +386,7 @@ noun = [
   {
     "name": "health",
     "proto": "chaos",
-    "possessable": 9,
+    "possessable": "9",
     "posr": "tags: lifeform"
   },
   {
@@ -399,91 +399,91 @@ noun = [
   },
   {
     "name": "problem",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 6,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "6",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "difficulty",
     "partOf": "null"
   },
   {
     "name": "question",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 6,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "6",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "difficulty,information,speechAct",
     "complements": "(40 about NP)",
     "partOf": "null"
   },
   {
     "name": "task",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 6,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "disabled": false,
     "tags": "difficulty,undertaking",
+    "anim": "0",
+    "tang": "0",
+    "possessable": "6",
+    "size": "0",
+    "unique": "0",
     "partOf": "null"
   },
   {
     "name": "journey",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "4",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "undertaking,accomplishment",
     "partOf": "null"
   },
   {
     "name": "vibration",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "disabled": false,
     "tags": "behaviour,feelable,phenomenon",
+    "anim": "0",
+    "tang": "0",
+    "possessable": "3",
+    "size": "0",
+    "unique": "0",
     "partOf": "null"
   },
   {
     "name": "strategy",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 6,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "6",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "procedure",
     "complements": "(25 for GP)",
     "partOf": "null"
   },
   {
     "name": "forest",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 1,
-    "unique": 0,
-    "count": "true",
-    "size": 9,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "1",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "9",
     "tags": "terrain",
     "partOf": "null"
   },
   {
     "name": "apple",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
-    "size": 4,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "4",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "4",
     "tags": "food",
     "partOf": "null"
   },
@@ -514,16 +514,16 @@ noun = [
   {
     "name": "pie",
     "proto": "pizza",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "life",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "unique": "0",
+    "count": "FALSE",
+    "size": "0",
     "tags": "property",
     "inflections": "pl:lives",
     "prohibitions": "def:def,quantified:true",
@@ -532,149 +532,149 @@ noun = [
   {
     "name": "color.1",
     "proto": "color",
-    "count": "false"
+    "count": "FALSE"
   },
   {
     "name": "dirt",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "FALSE",
+    "size": "0",
     "tags": "aggregate, semisolid",
     "partOf": "null"
   },
   {
     "name": "garbage",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "FALSE",
+    "size": "0",
     "tags": "aggregate",
     "partOf": "null"
   },
   {
     "name": "light",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 2,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "2",
+    "count": "FALSE",
+    "size": "0",
     "tags": "energy",
     "partOf": "null"
   },
   {
     "name": "sky",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "1",
+    "count": "FALSE",
+    "size": "0",
     "tags": "thing, volume, elevated",
     "partOf": "null"
   },
   {
     "name": "truth",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "unique": "1",
+    "count": "FALSE",
+    "size": "0",
     "tags": "concept",
     "partOf": "null"
   },
   {
     "name": "weather",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "1",
+    "count": "FALSE",
+    "size": "0",
     "tags": "weather",
     "partOf": "null"
   },
   {
     "name": "wind",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 1,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "1",
+    "unique": "0",
+    "count": "FALSE",
+    "size": "0",
     "tags": "phenomenon, visible",
     "partOf": "null"
   },
   {
     "name": "fact",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "information",
     "prohibitions": "case:nom",
     "partOf": "null"
   },
   {
     "name": "bicycle",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 5,
-    "unique": 0,
-    "count": "true",
-    "size": 5,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "5",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "5",
     "tags": "hasHeight, nonMotorVehicle",
     "partOf": "null"
   },
   {
     "name": "carpet",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 1,
-    "unique": 0,
-    "count": "true",
-    "size": 7,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "1",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "7",
     "tags": "rideable, artifact, surface, grounded",
     "partOf": "null"
   },
   {
     "name": "category",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "-",
     "partOf": "null"
   },
   {
     "name": "color",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "2",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "property,PHYSICAL",
     "partOf": "null"
   },
   {
     "name": "party",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "occasion",
     "partOf": "null"
   },
@@ -725,46 +725,46 @@ noun = [
   },
   {
     "name": "dog",
-    "anim": 2,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": 5,
+    "anim": "2",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "5",
     "tags": "beast",
     "partOf": "null"
   },
   {
     "name": "ghost",
-    "anim": 3,
-    "tang": 1,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 5,
+    "anim": "3",
+    "tang": "1",
+    "possessable": "2",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "5",
     "tags": "-",
     "partOf": "null"
   },
   {
     "name": "house",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 5,
-    "unique": 0,
-    "count": "true",
-    "size": 8,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "5",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "8",
     "tags": "building",
     "partOf": "null"
   },
   {
     "name": "building",
     "proto": "house",
-    "possessable": 3
+    "possessable": "3"
   },
   {
     "name": "church",
     "proto": "house",
-    "possessable": 4,
+    "possessable": "4",
     "posr": "tags: organization|city"
   },
   {
@@ -774,79 +774,79 @@ noun = [
   {
     "name": "prison",
     "proto": "house",
-    "possessable": 4,
+    "possessable": "4",
     "posr": "tags: city"
   },
   {
     "name": "school",
     "proto": "house",
-    "possessable": 4,
+    "possessable": "4",
     "posr": "tags: city|person"
   },
   {
     "name": "store",
     "proto": "house",
-    "possessable": 1
+    "possessable": "1"
   },
   {
     "name": "museum",
     "proto": "house",
-    "possessable": 1
+    "possessable": "1"
   },
   {
     "name": "library",
     "proto": "house",
-    "possessable": 0
+    "possessable": "0"
   },
   {
     "name": "gym",
     "proto": "house",
-    "possessable": 1
+    "possessable": "1"
   },
   {
     "name": "tower",
     "proto": "house",
-    "possessable": 2
+    "possessable": "2"
   },
   {
     "name": "airport",
     "proto": "house",
-    "possessable": 0
+    "possessable": "0"
   },
   {
     "name": "barn",
     "proto": "house",
-    "possessable": 3
+    "possessable": "3"
   },
   {
     "name": "factory",
     "proto": "house",
-    "possessable": 2
+    "possessable": "2"
   },
   {
     "name": "restaurant",
     "proto": "house",
-    "possessable": 1
+    "possessable": "1"
   },
   {
     "name": "mall",
     "proto": "house",
-    "possessable": 0
+    "possessable": "0"
   },
   {
     "name": "theatre",
     "proto": "house",
-    "possessable": 0
+    "possessable": "0"
   },
   {
     "name": "laboratory",
     "proto": "house",
-    "possessable": 2
+    "possessable": "2"
   },
   {
     "name": "warehouse",
     "proto": "house",
-    "possessable": 0
+    "possessable": "0"
   },
   {
     "name": "bunker",
@@ -856,49 +856,49 @@ noun = [
   {
     "name": "station",
     "proto": "house",
-    "possessable": 0
+    "possessable": "0"
   },
   {
     "name": "human",
-    "anim": 3,
-    "tang": 2,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 6,
+    "anim": "3",
+    "tang": "2",
+    "possessable": "2",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "6",
     "tags": "hasHeight, person, mobile",
     "partOf": "null"
   },
   {
     "name": "idea",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "4",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "cognition",
     "partOf": "null"
   },
   {
     "name": "law",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "2",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "readable",
     "partOf": "null"
   },
   {
     "name": "letter",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
-    "size": 4,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "4",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "4",
     "tags": "readable",
     "complements": "(30 about NP)",
     "partOf": "null"
@@ -906,38 +906,38 @@ noun = [
   {
     "name": "life.1",
     "proto": "life",
-    "possessable": 6,
+    "possessable": "6",
     "posr": "number:noun.number",
-    "count": "true",
+    "count": "TRUE",
     "tags": "event,-"
   },
   {
     "name": "light1",
     "proto": "light",
-    "tang": 2,
-    "possessable": 1,
-    "count": "true",
-    "size": 4,
+    "tang": "2",
+    "possessable": "1",
+    "count": "TRUE",
+    "size": "4",
     "tags": "device,-"
   },
   {
     "name": "machine",
-    "anim": 1,
-    "tang": 2,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
+    "anim": "1",
+    "tang": "2",
+    "possessable": "4",
+    "unique": "0",
+    "count": "TRUE",
     "size": "4,5,6,7",
     "tags": "machine",
     "partOf": "null"
   },
   {
     "name": "pile",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
     "size": "4,5,6,7,8",
     "tags": "incline, volume",
     "complements": "(80 of N{(tags: item; (number:pl | count:false); anim:<2; unique:0; size:<noun.size | tags:substance&!fluid;) } )",
@@ -945,22 +945,22 @@ noun = [
   },
   {
     "name": "poison",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 4,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "2",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "4",
     "tags": "substance",
     "partOf": "null"
   },
   {
     "name": "rock",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
     "size": "4,5,6,7",
     "tags": "breakable, item",
     "partOf": "null"
@@ -977,35 +977,35 @@ noun = [
   },
   {
     "name": "sensation",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 1,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "1",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "stimulus, feelable",
     "partOf": "null"
   },
   {
     "name": "snowman",
     "anim": "0,3",
-    "tang": 2,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 6,
+    "tang": "2",
+    "possessable": "2",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "6",
     "tags": "object, hasHeight",
     "inflections": "pl:snowmen",
     "partOf": "null"
   },
   {
     "name": "statement",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "4",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "readable,audible,information",
     "partOf": "null"
   },
@@ -1015,90 +1015,91 @@ noun = [
   },
   {
     "name": "storm",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 1,
-    "unique": 0,
-    "count": "true",
-    "size": 9,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "1",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "9",
     "tags": "weather, event, obstacle",
     "partOf": "null"
   },
   {
     "name": "team",
-    "anim": 3,
-    "tang": 1,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "disabled": false,
     "tags": "organization",
-    "complements": "(20 of N{number:pl;anim:>1;person:3;tags:!collective})",
-    "partOf": "null"
+    "anim": "3",
+    "tang": "1",
+    "possessable": "3",
+    "partOf": "null",
+    "size": "0",
+    "unique": "0",
+    "complements": "(20 of N{number:pl;anim:>1;person:3;tags:!collective})"
   },
   {
     "name": "team1",
     "proto": "team",
+    "disabled": false,
     "precomp": "DP{tags:game}",
     "complements": "--"
   },
   {
     "name": "tendency",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 7,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "7",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "tendency",
     "complements": "(40 INF_PHRASE   | 25 toward GP)",
     "partOf": "null"
   },
   {
     "name": "toy",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": 4,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "4",
     "tags": "device",
     "partOf": "null"
   },
   {
     "name": "uncle",
     "proto": "father",
-    "count": "true",
+    "count": "TRUE",
     "tags": "-"
   },
   {
     "name": "zombie",
-    "anim": 2,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": 6,
+    "anim": "2",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "6",
     "tags": "hasHeight, creature, mobile",
     "partOf": "null"
   },
   {
     "name": "tendency1",
     "proto": "tendency",
-    "possessable": 0,
+    "possessable": "0",
     "complements": "of INF_CLAUSE",
     "prohibitions": "--"
   },
   {
     "name": "citizen.1",
     "proto": "citizen",
-    "possessable": 0,
+    "possessable": "0",
     "prohibitions": "--"
   },
   {
     "name": "winner",
     "proto": "human",
-    "possessable": 0,
+    "possessable": "0",
     "posr": "tags:contest",
     "prohibitions": "def:indef"
   },
@@ -1116,7 +1117,7 @@ noun = [
   {
     "name": "citizen",
     "proto": "human",
-    "possessable": 7,
+    "possessable": "7",
     "posr": "tags:territory",
     "prohibitions": "number:sg"
   },
@@ -1132,7 +1133,7 @@ noun = [
   {
     "name": "airplane",
     "proto": "machine",
-    "size": 8,
+    "size": "8",
     "tags": "airVehicle, passengerVehicle, elevated"
   },
   {
@@ -1150,7 +1151,7 @@ noun = [
   {
     "name": "amoeba",
     "proto": "bug",
-    "size": 1,
+    "size": "1",
     "tags": "-,lifeform"
   },
   {
@@ -1168,12 +1169,13 @@ noun = [
   },
   {
     "name": "Arnold Schwartzenegger",
-    "proto": "Batman"
+    "proto": "Batman",
+    "disabled": "false"
   },
   {
     "name": "article",
     "proto": "book",
-    "tang": 1
+    "tang": "1"
   },
   {
     "name": "Aunt Jemima",
@@ -1185,11 +1187,11 @@ noun = [
   },
   {
     "name": "bag",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
     "size": "4,5,6,7",
     "tags": "vessel",
     "complements": "(90 of N{(tags: item; (number:pl | count:false); anim:<2; unique:0; size:<noun.size | tags:substance) } )",
@@ -1223,11 +1225,11 @@ noun = [
   },
   {
     "name": "boat1",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 5,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "5",
+    "unique": "0",
+    "count": "TRUE",
     "size": "6,7",
     "tags": "waterVehicle",
     "partOf": "null"
@@ -1247,14 +1249,14 @@ noun = [
   {
     "name": "book.1",
     "proto": "book",
-    "possessable": 0,
+    "possessable": "0",
     "complements": "(40 by NP{anim:3;number:sg;unique:2}) (40 about NP)",
     "prohibitions": "case:gen"
   },
   {
     "name": "Borg",
     "proto": "Canuck",
-    "anim": 2,
+    "anim": "2",
     "inflections": "pl:Borg"
   },
   {
@@ -1273,10 +1275,9 @@ noun = [
   {
     "name": "bug",
     "proto": "dog",
-    "disabled": false,
-    "tags": "bug, -",
     "anim": "1.5",
-    "size": "2,3"
+    "size": "2,3",
+    "tags": "bug, -"
   },
   {
     "name": "Bugs Bunny",
@@ -1285,13 +1286,13 @@ noun = [
   {
     "name": "bus",
     "proto": "car",
-    "size": 7,
+    "size": "7",
     "tags": "passengerVehicle"
   },
   {
     "name": "car",
     "proto": "machine",
-    "size": 7,
+    "size": "7",
     "tags": "motorVehicle, groundVehicle, container"
   },
   {
@@ -1307,10 +1308,14 @@ noun = [
     "proto": "Batman"
   },
   {
+    "name": "chicken",
+    "proto": "dog"
+  },
+  {
     "name": "child",
     "proto": "human",
-    "possessable": 5,
-    "size": 5,
+    "possessable": "5",
+    "size": "5",
     "inflections": "pl:children"
   },
   {
@@ -1366,16 +1371,17 @@ noun = [
   {
     "name": "cow",
     "proto": "dog",
-    "size": 6.5
+    "size": "6.5"
   },
   {
     "name": "criminal",
     "proto": "human",
-    "possessable": 0
+    "possessable": "0"
   },
   {
     "name": "crowd",
     "proto": "team",
+    "disabled": false,
     "size": "7,8"
   },
   {
@@ -1393,7 +1399,7 @@ noun = [
   {
     "name": "data",
     "proto": "garbage",
-    "tang": 1,
+    "tang": "1",
     "tags": "collective,information, visible"
   },
   {
@@ -1404,23 +1410,23 @@ noun = [
   },
   {
     "name": "decision",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 6,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "6",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "-",
     "partOf": "null"
   },
   {
     "name": "device",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
-    "size": 4,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "4",
     "tags": "device",
     "partOf": "null"
   },
@@ -1450,7 +1456,7 @@ noun = [
   {
     "name": "doctor",
     "proto": "human",
-    "possessable": 4
+    "possessable": "4"
   },
   {
     "name": "dragon",
@@ -1458,9 +1464,7 @@ noun = [
   },
   {
     "name": "dragonfly",
-    "proto": "bug",
-    "disabled": false,
-    "tags": "airAnimal"
+    "proto": "bug"
   },
   {
     "name": "dung beetle",
@@ -1483,7 +1487,7 @@ noun = [
   {
     "name": "enemy",
     "proto": "human",
-    "possessable": 6,
+    "possessable": "6",
     "posr": "anim:3"
   },
   {
@@ -1529,7 +1533,7 @@ noun = [
   {
     "name": "giant squid",
     "proto": "fish",
-    "size": 7
+    "size": "7"
   },
   {
     "name": "goat",
@@ -1539,8 +1543,8 @@ noun = [
   {
     "name": "Godzilla",
     "proto": "Jack",
-    "anim": 2,
-    "size": 8,
+    "anim": "2",
+    "size": "8",
     "tags": "-,beast,fullname"
   },
   {
@@ -1562,7 +1566,7 @@ noun = [
   {
     "name": "great white shark",
     "proto": "dog",
-    "size": 7,
+    "size": "7",
     "tags": "waterAnimal"
   },
   {
@@ -1572,7 +1576,7 @@ noun = [
   {
     "name": "hamster",
     "proto": "dog",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "Harlem Globetrotter",
@@ -1586,12 +1590,12 @@ noun = [
   {
     "name": "infant",
     "proto": "human",
-    "anim": 2
+    "anim": "2"
   },
   {
     "name": "janitor",
     "proto": "human",
-    "possessable": 2,
+    "possessable": "2",
     "posr": "tags:building"
   },
   {
@@ -1609,7 +1613,7 @@ noun = [
   {
     "name": "Kraken",
     "proto": "dog",
-    "size": 7,
+    "size": "7",
     "tags": "waterAnimal"
   },
   {
@@ -1627,8 +1631,8 @@ noun = [
   {
     "name": "letter.1",
     "proto": "letter",
-    "possessable": 0,
-    "size": 1,
+    "possessable": "0",
+    "size": "1",
     "complements": "(40 from NP{anim:3;number:sg}) (40 about NP)",
     "prohibitions": "case:gen"
   },
@@ -1639,13 +1643,13 @@ noun = [
   {
     "name": "llama",
     "proto": "dog",
-    "size": 6
+    "size": "6"
   },
   {
     "name": "mailman",
     "proto": "human",
     "gender": "m",
-    "possessable": 3,
+    "possessable": "3",
     "inflections": "pl:mailmen"
   },
   {
@@ -1660,7 +1664,7 @@ noun = [
     "name": "message",
     "proto": "letter",
     "tang": "1,2",
-    "possessable": 5
+    "possessable": "5"
   },
   {
     "name": "minotaur",
@@ -1670,7 +1674,7 @@ noun = [
   {
     "name": "minion",
     "proto": "human",
-    "possessable": 6,
+    "possessable": "6",
     "posr": "anim:3"
   },
   {
@@ -1698,7 +1702,7 @@ noun = [
     "name": "mother",
     "proto": "human",
     "gender": "f",
-    "possessable": 8,
+    "possessable": "8",
     "posr": "anim:>1"
   },
   {
@@ -1708,7 +1712,7 @@ noun = [
   {
     "name": "neighbor",
     "proto": "human",
-    "possessable": 7,
+    "possessable": "7",
     "posr": "anim:3"
   },
   {
@@ -1807,26 +1811,22 @@ noun = [
   {
     "name": "player",
     "proto": "human",
-    "disabled": false,
     "precomp": "DP{tags:game}"
   },
   {
     "name": "coach",
     "proto": "human",
-    "disabled": false,
     "precomp": "(88 DP{tags:sport})"
   },
   {
-    "name": "coach1",
+    "name": "coach",
     "proto": "human",
-    "disabled": false,
     "possessable": "8",
-    "posr": "name: team1, pronominal:false"
+    "posr": "name: team1; pronominal:false"
   },
   {
     "name": "hairdresser",
-    "proto": "human",
-    "disabled": false
+    "proto": "human"
   },
   {
     "name": "supermodel",
@@ -1969,14 +1969,12 @@ noun = [
   },
   {
     "name": "actor",
-    "proto": "human",
-    "disabled": false
+    "proto": "human"
   },
   {
     "name": "assistant",
     "proto": "human",
-    "disabled": false,
-    "posr": "anim:3"
+    "posr": "anim:3,"
   },
   {
     "name": "priest",
@@ -2090,8 +2088,8 @@ noun = [
   {
     "name": "Shire",
     "proto": "Alabama",
-    "unique": 1,
-    "count": "false"
+    "unique": "1",
+    "count": "FALSE"
   },
   {
     "name": "Mordor",
@@ -2147,19 +2145,19 @@ noun = [
   },
   {
     "name": "North Pole",
-    "anim": 0,
-    "tang": 1,
+    "anim": "0",
+    "tang": "1",
     "gender": "n",
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
+    "possessable": "0",
+    "unique": "1",
+    "count": "FALSE",
     "tags": "point, site",
     "partOf": "null"
   },
   {
     "name": "novel",
     "proto": "book",
-    "possessable": 1
+    "possessable": "1"
   },
   {
     "name": "ogre",
@@ -2177,13 +2175,13 @@ noun = [
   {
     "name": "person",
     "proto": "human",
-    "possessable": 1,
+    "possessable": "1",
     "inflections": "pl:people"
   },
   {
     "name": "picture",
     "proto": "rock",
-    "possessable": 3,
+    "possessable": "3",
     "size": "4,5",
     "complements": "(of NP)"
   },
@@ -2212,7 +2210,7 @@ noun = [
   {
     "name": "pterodactyl",
     "proto": "dog",
-    "size": 7
+    "size": "7"
   },
   {
     "name": "queen",
@@ -2224,7 +2222,7 @@ noun = [
     "name": "queen.1",
     "proto": "queen",
     "posr": "--",
-    "unique": 1,
+    "unique": "1",
     "complements": "of DP{tags:territory;}",
     "prohibitions": "def:indef"
   },
@@ -2298,7 +2296,7 @@ noun = [
   {
     "name": "rhinoceros",
     "proto": "dog",
-    "size": 7
+    "size": "7"
   },
   {
     "name": "Robinson Crusoe",
@@ -2315,7 +2313,7 @@ noun = [
   {
     "name": "saint",
     "proto": "human",
-    "possessable": 2
+    "possessable": "2"
   },
   {
     "name": "Santa Clause",
@@ -2342,7 +2340,7 @@ noun = [
   {
     "name": "smartphone",
     "proto": "phone",
-    "size": 4,
+    "size": "4",
     "tags": "audioDevice"
   },
   {
@@ -2352,13 +2350,13 @@ noun = [
   {
     "name": "stereo",
     "proto": "device",
-    "size": 5,
+    "size": "5",
     "tags": "audioDevice"
   },
   {
     "name": "Walkman",
     "proto": "stereo",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "radio",
@@ -2368,7 +2366,7 @@ noun = [
   {
     "name": "gramophone",
     "proto": "stereo",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "boombox",
@@ -2381,12 +2379,12 @@ noun = [
   },
   {
     "name": "motorbike",
-    "anim": 1,
-    "tang": 2,
-    "possessable": 7,
-    "unique": 0,
-    "count": "true",
-    "size": 6,
+    "anim": "1",
+    "tang": "2",
+    "possessable": "7",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "6",
     "tags": "motorVehicle, groundVehicle",
     "partOf": "null"
   },
@@ -2397,7 +2395,7 @@ noun = [
   {
     "name": "South America",
     "proto": "Japan",
-    "size": 12,
+    "size": "12",
     "tags": "continent"
   },
   {
@@ -2423,7 +2421,11 @@ noun = [
   {
     "name": "Spaniard",
     "proto": "human",
-    "possessable": 0
+    "possessable": "0"
+  },
+  {
+    "name": "spider",
+    "proto": "bug"
   },
   {
     "name": "Spongebob",
@@ -2436,7 +2438,7 @@ noun = [
   {
     "name": "statement.1",
     "proto": "statement",
-    "possessable": 0,
+    "possessable": "0",
     "complements": "(40 by NP{anim:3}) (40 about NP)"
   },
   {
@@ -2472,7 +2474,7 @@ noun = [
   {
     "name": "tire",
     "proto": "rock",
-    "size": 5,
+    "size": "5",
     "tags": "artifact"
   },
   {
@@ -2482,7 +2484,7 @@ noun = [
   {
     "name": "train",
     "proto": "bus",
-    "size": 8
+    "size": "8"
   },
   {
     "name": "truck",
@@ -2514,7 +2516,7 @@ noun = [
   {
     "name": "victim",
     "proto": "human",
-    "possessable": 3,
+    "possessable": "3",
     "posr": "anim:>1"
   },
   {
@@ -2524,7 +2526,7 @@ noun = [
   {
     "name": "watermelon",
     "proto": "apple",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "whale-watching",
@@ -2556,12 +2558,12 @@ noun = [
   {
     "name": "wookie",
     "proto": "human",
-    "possessable": 2
+    "possessable": "2"
   },
   {
     "name": "yeti",
     "proto": "dog",
-    "size": 6
+    "size": "6"
   },
   {
     "name": "yoga",
@@ -2585,20 +2587,24 @@ noun = [
   },
   {
     "name": "equation",
-    "proto": "problem"
+    "proto": "problem",
+    "disabled": false
   },
   {
     "name": "riddle",
     "proto": "question",
-    "possessable": 2
+    "disabled": false,
+    "possessable": "2"
   },
   {
     "name": "assignment",
-    "proto": "task"
+    "proto": "task",
+    "disabled": false
   },
   {
     "name": "mission",
-    "proto": "task"
+    "proto": "task",
+    "disabled": false
   },
   {
     "name": "job",
@@ -2608,6 +2614,11 @@ noun = [
   {
     "name": "quest",
     "proto": "task"
+  },
+  {
+    "name": "test",
+    "proto": "task",
+    "disabled": false
   },
   {
     "name": "gang",
@@ -2626,8 +2637,8 @@ noun = [
   {
     "name": "FBI",
     "proto": "choir",
-    "unique": 1,
-    "count": "false"
+    "unique": "1",
+    "count": "FALSE"
   },
   {
     "name": "CIA",
@@ -2636,7 +2647,7 @@ noun = [
   {
     "name": "MI^6",
     "proto": "FBI",
-    "unique": 2
+    "unique": "2"
   },
   {
     "name": "Jedi Council",
@@ -2666,7 +2677,7 @@ noun = [
   {
     "name": "herd",
     "proto": "team",
-    "anim": 2,
+    "anim": "2",
     "size": "8,9",
     "tags": "collective,-",
     "complements": "(60 of N{number:pl;anim:2;pronominal:false;person:3;tags:!collective})"
@@ -2674,7 +2685,7 @@ noun = [
   {
     "name": "luggage",
     "proto": "furniture",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "flock",
@@ -2689,7 +2700,8 @@ noun = [
   },
   {
     "name": "project",
-    "proto": "plan"
+    "proto": "plan",
+    "disabled": false
   },
   {
     "name": "experiment",
@@ -2742,15 +2754,15 @@ noun = [
   {
     "name": "parking lot",
     "proto": "forest",
-    "size": 8
+    "size": "8"
   },
   {
     "name": "beach",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
     "size": "7,8",
     "tags": "field",
     "partOf": "null"
@@ -2764,13 +2776,13 @@ noun = [
     "name": "ex-girlfriend",
     "proto": "human",
     "gender": "f",
-    "possessable": 8,
+    "possessable": "8",
     "posr": "anim:3,gender:!f"
   },
   {
     "name": "friend",
     "proto": "human",
-    "possessable": 7
+    "possessable": "7"
   },
   {
     "name": "stranger",
@@ -2787,7 +2799,7 @@ noun = [
   {
     "name": "owner",
     "proto": "human",
-    "possessable": 8,
+    "possessable": "8",
     "posr": "anim:<3,tags:object"
   },
   {
@@ -2810,8 +2822,7 @@ noun = [
   },
   {
     "name": "Empire State Building",
-    "proto": "Taj Mahal",
-    "disabled": false
+    "proto": "Taj Mahal"
   },
   {
     "name": "Parthenon",
@@ -2853,7 +2864,7 @@ noun = [
   {
     "name": "midget",
     "proto": "human",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "witch",
@@ -2862,12 +2873,12 @@ noun = [
   },
   {
     "name": "floor",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 8,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "2",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "8",
     "tags": "surface, grounded",
     "partOf": "null"
   },
@@ -2883,18 +2894,18 @@ noun = [
   {
     "name": "ice",
     "proto": "floor",
-    "unique": 0,
-    "count": "false",
+    "unique": "0",
+    "count": "FALSE",
     "prohibitions": "number:pl, quantified:true, def:indef"
   },
   {
     "name": "ice1",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 2,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "2",
+    "unique": "0",
+    "count": "FALSE",
+    "size": "0",
     "tags": "solid",
     "partOf": "null"
   },
@@ -2904,23 +2915,23 @@ noun = [
   },
   {
     "name": "air",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 1,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "1",
+    "unique": "0",
+    "count": "FALSE",
+    "size": "0",
     "tags": "gas",
     "partOf": "null"
   },
   {
     "name": "sand",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "FALSE",
+    "size": "0",
     "tags": "aggregate",
     "partOf": "null"
   },
@@ -2948,11 +2959,11 @@ noun = [
   },
   {
     "name": "wall",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
     "size": "7,8",
     "tags": "surface, structure, vertical",
     "partOf": "null"
@@ -2972,12 +2983,12 @@ noun = [
   },
   {
     "name": "lake",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 4,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "4",
     "posr": "tags:country|continent",
-    "unique": 0,
-    "count": "true",
+    "unique": "0",
+    "count": "TRUE",
     "size": "8,9",
     "tags": "openWater",
     "partOf": "null"
@@ -2985,38 +2996,38 @@ noun = [
   {
     "name": "ocean",
     "proto": "lake",
-    "unique": 1,
-    "size": 13
+    "unique": "1",
+    "size": "13"
   },
   {
     "name": "Ocean",
     "proto": "ocean",
-    "unique": 1,
-    "count": "false",
+    "unique": "1",
+    "count": "FALSE",
     "precomp": "(Atlantic|Pacific|Indian)"
   },
   {
     "name": "Mediterranean",
     "proto": "lake",
-    "unique": 1,
-    "count": "false",
-    "size": 12
+    "unique": "1",
+    "count": "FALSE",
+    "size": "12"
   },
   {
     "name": "Bermuda Triangle",
     "proto": "Mediterranean",
-    "size": 11
+    "size": "11"
   },
   {
     "name": "river",
     "proto": "lake",
-    "size": 9,
+    "size": "9",
     "tags": "path"
   },
   {
     "name": "creek",
     "proto": "river",
-    "size": 7,
+    "size": "7",
     "tags": "-, bodyOfWater"
   },
   {
@@ -3059,7 +3070,7 @@ noun = [
   {
     "name": "Middle East",
     "proto": "South America",
-    "unique": 1
+    "unique": "1"
   },
   {
     "name": "island",
@@ -3069,19 +3080,19 @@ noun = [
   },
   {
     "name": "planet",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 14,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "2",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "14",
     "tags": "land,surface",
     "partOf": "null"
   },
   {
     "name": "asteroid",
     "proto": "planet",
-    "tang": 2,
+    "tang": "2",
     "size": "11,12"
   },
   {
@@ -3096,8 +3107,8 @@ noun = [
   {
     "name": "Earth",
     "proto": "planet",
-    "unique": 1,
-    "count": "false"
+    "unique": "1",
+    "count": "FALSE"
   },
   {
     "name": "Moon",
@@ -3106,7 +3117,7 @@ noun = [
   {
     "name": "Mars",
     "proto": "Earth",
-    "unique": 2
+    "unique": "2"
   },
   {
     "name": "Pluto",
@@ -3126,12 +3137,12 @@ noun = [
   },
   {
     "name": "labyrinth",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": 8,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "8",
     "tags": "area,structure",
     "partOf": "null"
   },
@@ -3142,7 +3153,7 @@ noun = [
   {
     "name": "pair of pants",
     "proto": "skirt",
-    "size": 5,
+    "size": "5",
     "inflections": "pl: pants"
   },
   {
@@ -3171,32 +3182,32 @@ noun = [
   {
     "name": "hat",
     "proto": "shirt",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "shirt",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 7,
-    "unique": 0,
-    "count": "true",
-    "size": 5,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "7",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "5",
     "tags": "clothing",
     "partOf": "null"
   },
   {
     "name": "shoe",
     "proto": "shirt",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "heat",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 2,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "2",
+    "unique": "0",
+    "count": "FALSE",
+    "size": "0",
     "tags": "energy, feelable",
     "partOf": "null"
   },
@@ -3207,11 +3218,11 @@ noun = [
   },
   {
     "name": "pole",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
     "size": "6,7",
     "tags": "vertical, path, structure",
     "partOf": "null"
@@ -3222,11 +3233,11 @@ noun = [
   },
   {
     "name": "stair",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
     "size": "6,7,8",
     "tags": "incline, structure",
     "prohibitions": "number:sg",
@@ -3234,11 +3245,11 @@ noun = [
   },
   {
     "name": "entrance",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
     "size": "4,5,6,7,8",
     "tags": "opening",
     "partOf": "null"
@@ -3266,11 +3277,11 @@ noun = [
   },
   {
     "name": "cloud",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
     "size": "7,8",
     "tags": "thing, elevated, obstacle, gas",
     "partOf": "null"
@@ -3278,35 +3289,34 @@ noun = [
   {
     "name": "smoke",
     "proto": "cloud",
-    "disabled": false,
-    "tags": "thing, obstacle, gas, -",
-    "count": "false"
+    "count": "FALSE",
+    "tags": "thing, obstacle, gas, -"
   },
   {
     "name": "fume",
     "proto": "smoke",
     "prohibitions": "number:sg",
-    "disabled": true
+    "disabled": "TRUE"
   },
   {
     "name": "fire",
-    "anim": 1,
-    "tang": 2,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
+    "anim": "1",
+    "tang": "2",
+    "possessable": "2",
+    "unique": "0",
+    "count": "TRUE",
     "size": "4,5,6,7,8",
     "tags": "volume, phenomenon, audible",
     "partOf": "null"
   },
   {
     "name": "grass",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "unique": "0",
+    "count": "FALSE",
+    "size": "0",
     "tags": "aggregate",
     "partOf": "null"
   },
@@ -3326,14 +3336,14 @@ noun = [
   {
     "name": "field1",
     "proto": "field",
-    "size": 8,
+    "size": "8",
     "tags": "-, field",
     "precomp": "(10 soccer |15 football |7 rugby |9 baseball |10 sports |6 playing)"
   },
   {
     "name": "property",
     "proto": "field1",
-    "possessable": 5,
+    "possessable": "5",
     "size": "8,9,10",
     "tags": "hasFront",
     "precomp": "--",
@@ -3351,13 +3361,13 @@ noun = [
   },
   {
     "name": "farm",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 5,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "5",
     "posr": "tags: person|organization",
-    "unique": 0,
-    "count": "true",
-    "size": 8,
+    "unique": "0",
+    "count": "TRUE",
+    "size": "8",
     "tags": "field, hasFront",
     "precomp": "--",
     "partOf": "null"
@@ -3375,19 +3385,19 @@ noun = [
   {
     "name": "Death Star",
     "proto": "space station",
-    "unique": 1,
-    "count": "true",
+    "unique": "1",
+    "count": "TRUE",
     "size": "10,11"
   },
   {
     "name": "zoo",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 3,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "3",
     "posr": "tags: person|organization",
-    "unique": 0,
-    "count": "true",
-    "size": 8,
+    "unique": "0",
+    "count": "TRUE",
+    "size": "8",
     "tags": "site, area",
     "partOf": "null"
   },
@@ -3401,22 +3411,22 @@ noun = [
   },
   {
     "name": "edge",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
     "tags": "edge, position",
     "complements": "(85 of NP{def:def;tags:bounded|surface&delimited})",
     "partOf": "null"
   },
   {
     "name": "border",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
     "tags": "boundary",
     "partOf": "null"
   },
@@ -3426,19 +3436,19 @@ noun = [
   },
   {
     "name": "road",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 1,
-    "unique": 0,
-    "count": "true",
-    "size": 8,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "1",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "8",
     "tags": "path, fixed, site, grounded",
     "partOf": "null"
   },
   {
     "name": "trail",
     "proto": "road",
-    "size": 7
+    "size": "7"
   },
   {
     "name": "path",
@@ -3451,22 +3461,22 @@ noun = [
   },
   {
     "name": "chimney",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 1,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "1",
+    "unique": "0",
+    "count": "TRUE",
     "size": "6,7",
     "tags": "vertical, passage, structure",
     "partOf": "null"
   },
   {
     "name": "tunnel",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "2",
+    "unique": "0",
+    "count": "TRUE",
     "size": "7,8",
     "tags": "passage, structure",
     "partOf": "null"
@@ -3477,41 +3487,42 @@ noun = [
   },
   {
     "name": "hill",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 1,
-    "unique": 0,
-    "count": "true",
-    "size": 8,
+    "disabled": false,
     "tags": "prominence, incline",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "1",
+    "size": "8",
+    "unique": "0",
     "partOf": "null"
   },
   {
     "name": "mountain",
     "proto": "hill",
-    "size": 9
+    "disabled": false,
+    "size": "9"
   },
   {
     "name": "Mount Everest",
     "proto": "mountain",
-    "unique": 2,
-    "count": "false"
+    "disabled": false,
+    "unique": "2"
   },
   {
     "name": "valley",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
-    "size": "8,9,10",
+    "disabled": false,
     "tags": "depression, path",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "size": "8,9,10",
+    "unique": "0",
     "partOf": "null"
   },
   {
     "name": "ravine",
     "proto": "valley",
-    "size": 8,
+    "size": "8",
     "tags": "depression"
   },
   {
@@ -3522,29 +3533,29 @@ noun = [
   },
   {
     "name": "ditch",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
-    "size": 7,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "7",
     "tags": "depression",
     "partOf": "null"
   },
   {
     "name": "wilderness",
     "proto": "forest",
-    "count": "false",
+    "count": "FALSE",
     "size": "9,10,11"
   },
   {
     "name": "hole",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
+    "disabled": false,
     "tags": "passage",
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "0",
     "partOf": "null"
   },
   {
@@ -3559,22 +3570,24 @@ noun = [
   },
   {
     "name": "water",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "disabled": false,
     "tags": "liquid",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "size": "0",
+    "unique": "0",
     "partOf": "null"
   },
   {
     "name": "milk",
-    "proto": "water"
+    "proto": "water",
+    "disabled": false
   },
   {
     "name": "beer",
-    "proto": "water"
+    "proto": "water",
+    "disabled": false
   },
   {
     "name": "oil",
@@ -3582,7 +3595,8 @@ noun = [
   },
   {
     "name": "juice",
-    "proto": "water"
+    "proto": "water",
+    "disabled": false
   },
   {
     "name": "paint",
@@ -3604,11 +3618,11 @@ noun = [
   },
   {
     "name": "pipe",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "4",
+    "unique": "0",
+    "count": "TRUE",
     "size": "3,4,5,6",
     "tags": "passage, vessel",
     "partOf": "null"
@@ -3625,30 +3639,30 @@ noun = [
   },
   {
     "name": "cliff",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
     "size": "8,9",
     "tags": "edge, vertical, surface, land",
     "partOf": "null"
   },
   {
     "name": "table",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
-    "size": 6,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "6",
     "tags": "elevated, surface, table",
     "partOf": "null"
   },
   {
     "name": "desk",
     "proto": "table",
-    "size": 6
+    "size": "6"
   },
   {
     "name": "counter",
@@ -3656,23 +3670,23 @@ noun = [
   },
   {
     "name": "trampoline",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
-    "size": 6,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "6",
     "tags": "elevated, surface, structure",
     "partOf": "null"
   },
   {
     "name": "pool",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
-    "size": 7,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "7",
     "tags": "bodyOfWater",
     "partOf": "null"
   },
@@ -3689,10 +3703,10 @@ noun = [
   {
     "name": "robot",
     "anim": "1,2,3",
-    "tang": 2,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
+    "tang": "2",
+    "possessable": "4",
+    "unique": "0",
+    "count": "TRUE",
     "size": "5,6,7",
     "tags": "person,machine",
     "partOf": "null"
@@ -3708,12 +3722,12 @@ noun = [
   },
   {
     "name": "coast",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
-    "size": 9,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "9",
     "tags": "site, perimeter",
     "partOf": "null"
   },
@@ -3728,19 +3742,19 @@ noun = [
   {
     "name": "English Channel",
     "proto": "lake",
-    "unique": 1,
-    "count": "false",
-    "size": 10,
+    "unique": "1",
+    "count": "FALSE",
+    "size": "10",
     "tags": "bodyOfWater"
   },
   {
     "name": "room",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 6,
-    "unique": 0,
-    "count": "true",
-    "size": 7,
+    "anim": "0",
+    "tang": "1",
+    "possessable": "6",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "7",
     "tags": "void, area, container",
     "partOf": "null"
   },
@@ -3758,8 +3772,7 @@ noun = [
   },
   {
     "name": "garage",
-    "proto": "room",
-    "disabled": false
+    "proto": "room"
   },
   {
     "name": "basement",
@@ -3784,12 +3797,12 @@ noun = [
   },
   {
     "name": "stage",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
-    "size": 7,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "7",
     "tags": "structure, surface",
     "partOf": "null"
   },
@@ -3804,10 +3817,10 @@ noun = [
   },
   {
     "name": "rope",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 5,
-    "size": 4,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "5",
+    "size": "4",
     "tags": "path, instrument",
     "partOf": "null"
   },
@@ -3822,11 +3835,11 @@ noun = [
   },
   {
     "name": "center",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "1",
+    "count": "FALSE",
     "tags": "position, point",
     "complements": "(88 of NP{tags:container|area|space;number:noun.number})",
     "partOf": "null"
@@ -3864,7 +3877,7 @@ noun = [
   {
     "name": "helicopter",
     "proto": "airplane",
-    "size": 7,
+    "size": "7",
     "tags": "airVehicle, motorVehicle, -"
   },
   {
@@ -3928,15 +3941,15 @@ noun = [
   {
     "name": "X-wing",
     "proto": "airplane",
-    "size": 7
+    "size": "7"
   },
   {
     "name": "fish",
-    "anim": 1,
-    "tang": 2,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
+    "anim": "1",
+    "tang": "2",
+    "possessable": "4",
+    "unique": "0",
+    "count": "TRUE",
     "size": "4,5",
     "tags": "waterAnimal",
     "inflections": "pl: fish",
@@ -3950,17 +3963,17 @@ noun = [
   {
     "name": "piranha",
     "proto": "fish",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "orca",
     "proto": "whale",
-    "size": 7
+    "size": "7"
   },
   {
     "name": "whale",
     "proto": "fish",
-    "anim": 2,
+    "anim": "2",
     "size": "7,8"
   },
   {
@@ -3970,12 +3983,12 @@ noun = [
   {
     "name": "dolphin",
     "proto": "whale",
-    "size": 6
+    "size": "6"
   },
   {
     "name": "manatee",
     "proto": "whale",
-    "size": 6.5
+    "size": "6.5"
   },
   {
     "name": "bird",
@@ -3991,12 +4004,12 @@ noun = [
   {
     "name": "owl",
     "proto": "bird",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "egret",
     "proto": "bird",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "woodpecker",
@@ -4022,15 +4035,11 @@ noun = [
   {
     "name": "chicken",
     "proto": "dog",
-    "disabled": false,
-    "tags": "bird",
     "size": "5"
   },
   {
     "name": "ostrich",
     "proto": "dog",
-    "disabled": false,
-    "tags": "bird",
     "size": "6"
   },
   {
@@ -4073,22 +4082,22 @@ noun = [
   {
     "name": "jackelope",
     "proto": "dog",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "antelope",
     "proto": "dog",
-    "size": 6
+    "size": "6"
   },
   {
     "name": "rabbit",
     "proto": "dog",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "badger",
     "proto": "dog",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "dinosaur",
@@ -4098,34 +4107,34 @@ noun = [
   {
     "name": "ferret",
     "proto": "dog",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "mouse",
     "proto": "dog",
-    "size": 4,
+    "size": "4",
     "inflections": "pl: mice"
   },
   {
     "name": "frog",
     "proto": "dog",
-    "size": 4,
+    "size": "4",
     "tags": "waterAnimal"
   },
   {
     "name": "newt",
     "proto": "frog",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "lobster",
     "proto": "frog",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "squirrel",
     "proto": "dog",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "pig",
@@ -4144,12 +4153,12 @@ noun = [
   {
     "name": "giraffe",
     "proto": "dog",
-    "size": 7
+    "size": "7"
   },
   {
     "name": "elephant",
     "proto": "dog",
-    "size": 7
+    "size": "7"
   },
   {
     "name": "mongoose",
@@ -4186,7 +4195,7 @@ noun = [
   {
     "name": "worm",
     "proto": "bug",
-    "size": 3
+    "size": "3"
   },
   {
     "name": "termite",
@@ -4249,6 +4258,10 @@ noun = [
     "proto": "human"
   },
   {
+    "name": "maid",
+    "proto": "human"
+  },
+  {
     "name": "nurse",
     "proto": "human"
   },
@@ -4287,14 +4300,18 @@ noun = [
     "proto": "human"
   },
   {
+    "name": "mechanic",
+    "proto": "human"
+  },
+  {
     "name": "cable guy",
     "proto": "human"
   },
   {
     "name": "tech support",
     "proto": "human",
-    "unique": 2,
-    "count": "false",
+    "unique": "2",
+    "count": "FALSE",
     "tags": "-, collective"
   },
   {
@@ -4362,13 +4379,13 @@ noun = [
   {
     "name": "Smaug",
     "proto": "Batman",
-    "size": 8,
+    "size": "8",
     "tags": "airAnimal"
   },
   {
     "name": "Dread Pirate Roberts",
     "proto": "Batman",
-    "unique": 1
+    "unique": "1"
   },
   {
     "name": "Mr. Rogers",
@@ -4529,12 +4546,12 @@ noun = [
   },
   {
     "name": "bicycle",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 7,
-    "unique": 0,
-    "count": "true",
-    "size": 6,
+    "anim": "0",
+    "tang": "2",
+    "possessable": "7",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "6",
     "tags": "nonMotorVehicle, groundVehicle",
     "partOf": "null"
   },
@@ -4545,27 +4562,27 @@ noun = [
   {
     "name": "skateboard",
     "proto": "bicycle",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "can",
     "proto": "box",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "jar",
     "proto": "box",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "bottle",
     "proto": "box",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "bucket",
     "proto": "box",
-    "size": 5
+    "size": "5"
   },
   {
     "name": "vat",
@@ -4574,11 +4591,11 @@ noun = [
   },
   {
     "name": "bathtub",
-    "anim": 0,
-    "tang": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 6.1,
+    "anim": "0",
+    "tang": "2",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "6.1",
     "tags": "vessel",
     "partOf": "null"
   },
@@ -4589,20 +4606,20 @@ noun = [
   },
   {
     "name": "void",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 0,
-    "count": "true",
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "unique": "0",
+    "count": "TRUE",
     "tags": "void",
     "partOf": "null"
   },
   {
     "name": "outer space",
     "proto": "void",
-    "unique": 2,
-    "count": "false",
-    "size": 15
+    "unique": "2",
+    "count": "FALSE",
+    "size": "15"
   },
   {
     "name": "Billy",
@@ -5212,12 +5229,12 @@ noun = [
   },
   {
     "name": "game",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "3",
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "contest",
     "precomp": "(DP{tags:sport})",
     "partOf": "null"
@@ -5250,8 +5267,8 @@ noun = [
   {
     "name": "Olympic",
     "proto": "game",
-    "unique": 1,
-    "count": "true",
+    "unique": "1",
+    "count": "TRUE",
     "precomp": "((_Winter|_Summer))",
     "prohibitions": "number:sg"
   },
@@ -5324,12 +5341,12 @@ noun = [
   {
     "name": "science",
     "proto": "politics",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 2,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "unique": "2",
+    "count": "FALSE",
+    "size": "0",
     "tags": "fieldOfStudy"
   },
   {
@@ -5342,12 +5359,12 @@ noun = [
   },
   {
     "name": "politics",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 2,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "unique": "2",
+    "count": "FALSE",
+    "size": "0",
     "tags": "enterprise",
     "partOf": "null"
   },
@@ -5434,7 +5451,7 @@ noun = [
   {
     "name": "mashed potato",
     "proto": "jello",
-    "count": "true",
+    "count": "TRUE",
     "inflections": "pl: mashed potatoes",
     "prohibitions": "number:sg"
   },
@@ -5457,12 +5474,12 @@ noun = [
   },
   {
     "name": "cheese",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 5,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "5",
+    "unique": "0",
+    "count": "FALSE",
+    "size": "0",
     "tags": "food, solid",
     "partOf": "null"
   },
@@ -5481,7 +5498,7 @@ noun = [
   {
     "name": "marble",
     "proto": "ball",
-    "size": 3
+    "size": "3"
   },
   {
     "name": "snowball",
@@ -5511,20 +5528,21 @@ noun = [
   },
   {
     "name": "hammer",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 9,
-    "posr": "tags: person",
-    "unique": 0,
-    "count": "true",
-    "size": 4,
+    "disabled": false,
     "tags": "instrument",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "2",
+    "possessable": "9",
+    "posr": "tags: person",
+    "partOf": "null",
+    "size": "4",
+    "unique": "0"
   },
   {
     "name": "shovel",
     "proto": "hammer",
-    "size": 5
+    "disabled": false,
+    "size": "5"
   },
   {
     "name": "farming implement",
@@ -5534,8 +5552,9 @@ noun = [
   {
     "name": "chainsaw",
     "proto": "hammer",
-    "size": 5,
-    "tags": "machine"
+    "disabled": false,
+    "tags": "machine",
+    "size": "5"
   },
   {
     "name": "screwdriver",
@@ -5578,32 +5597,32 @@ noun = [
   },
   {
     "name": "song",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 6,
-    "posr": "tags: person",
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "disabled": false,
     "tags": "song",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "0",
+    "possessable": "6",
+    "posr": "tags: person",
+    "partOf": "null",
+    "size": "0",
+    "unique": "0"
   },
   {
     "name": "music",
     "proto": "song",
-    "possessable": 3,
-    "count": "false",
+    "disabled": false,
+    "possessable": "3",
     "precomp": "((rock|elevator|country|electronic|classical|baroque))"
   },
   {
     "name": "melody",
     "proto": "song",
-    "possessable": 1
+    "possessable": "1"
   },
   {
     "name": "tune",
     "proto": "song",
-    "possessable": 0
+    "possessable": "0"
   },
   {
     "name": "ballad",
@@ -5624,40 +5643,43 @@ noun = [
   {
     "name": "blue",
     "proto": "song",
-    "possessable": 0,
-    "unique": 1,
+    "possessable": "0",
+    "unique": "1",
     "prohibitions": "number:sg"
   },
   {
     "name": "jazz",
     "proto": "music",
-    "possessable": 0,
+    "disabled": false,
+    "possessable": "0",
     "precomp": "--"
   },
   {
     "name": "dubstep",
     "proto": "jazz",
-    "possessable": 0
+    "possessable": "0"
   },
   {
     "name": "rock'n'roll",
     "proto": "jazz",
-    "possessable": 0
+    "possessable": "0"
   },
   {
     "name": "klezmer",
     "proto": "jazz",
-    "possessable": 0
+    "possessable": "0"
   },
   {
     "name": "hip hop",
     "proto": "jazz",
-    "possessable": 0
+    "disabled": false,
+    "possessable": "0"
   },
   {
     "name": "K-pop",
     "proto": "jazz",
-    "possessable": 0
+    "disabled": false,
+    "possessable": "0"
   },
   {
     "name": "Hey Jude",
@@ -6176,40 +6198,39 @@ noun = [
   },
   {
     "name": "shenanigan",
-    "prohibitions": "number:sg, def:indef, quant:true",
-    "disabled": false,
-    "tags": "behaviour",
     "anim": "0",
     "tang": "0",
     "possessable": "7",
-    "posr": "tags: person|organization",
+    "posr": "tags: person,organization",
+    "unique": "0",
+    "count": "TRUE",
     "size": "0",
-    "count": "true",
+    "tags": "behaviour",
+    "prohibitions": "number:sg, def:indef, quant:true",
     "partOf": "null"
   },
   {
     "name": "lifestyle",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 7,
+    "anim": "0",
+    "tang": "0",
+    "possessable": "7",
     "posr": "tags: person",
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "unique": "0",
+    "count": "TRUE",
+    "size": "0",
     "tags": "behaviour",
     "prohibitions": "def:indef,quantified:true",
     "partOf": "null"
   },
   {
     "name": "item",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 5,
-    "unique": 0,
-    "count": "true",
-    "size": "3,4,5,6",
+    "disabled": false,
     "tags": "item",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "2",
+    "possessable": "5",
+    "size": "3,4,5,6",
+    "unique": "0"
   },
   {
     "name": "thingamajig",
@@ -6231,7 +6252,7 @@ noun = [
   {
     "name": "relic",
     "proto": "artifact",
-    "anim": 0
+    "anim": "0"
   },
   {
     "name": "souvenir",
@@ -6240,7 +6261,7 @@ noun = [
   {
     "name": "evidence",
     "proto": "item",
-    "count": "false"
+    "count": "FALSE"
   },
   {
     "name": "specimen",
@@ -6257,36 +6278,41 @@ noun = [
     "anim": "0",
     "tang": "2",
     "possessable": "2",
+    "partOf": "null",
     "size": "4,5,6,7,8",
-    "count": "true",
-    "partOf": "null"
+    "unique": "0",
+    "count": "true"
   },
   {
     "name": "vegetation",
     "proto": "plant",
-    "count": "false"
+    "count": "FALSE"
   },
   {
     "name": "tree",
     "proto": "plant",
-    "size": "7,8",
+    "disabled": false,
     "tags": "volume, vertical, path, elevated, hasHeight",
+    "size": "7,8",
     "precomp": "(35 (palm|maple|pine|oak|apple|cherry|cedar|bonsai|Christmas))"
   },
   {
     "name": "tree1",
-    "proto": "tree"
+    "proto": "tree",
+    "disabled": false
   },
   {
     "name": "bush",
     "proto": "plant",
-    "size": 6,
+    "disabled": false,
     "tags": "volume",
+    "size": "6",
     "precomp": "(35 (raspberry|blueberry|rose))"
   },
   {
     "name": "shrub",
     "proto": "bush",
+    "disabled": false,
     "precomp": "--"
   },
   {
@@ -6302,42 +6328,45 @@ noun = [
   {
     "name": "corn",
     "proto": "plant",
-    "count": "false",
-    "size": 5,
-    "tags": "food, aggregate"
+    "disabled": false,
+    "tags": "food, aggregate",
+    "size": "5"
   },
   {
     "name": "wheat",
     "proto": "corn",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "barley",
     "proto": "corn",
-    "size": 4
+    "size": "4"
   },
   {
     "name": "cactus",
     "proto": "plant",
-    "disabled": false,
     "tags": "vertical, path"
   },
   {
     "name": "flower",
     "proto": "plant",
-    "size": 4
+    "disabled": false,
+    "size": "4"
   },
   {
     "name": "dandelion",
-    "proto": "flower"
+    "proto": "flower",
+    "disabled": false
   },
   {
     "name": "tulip",
-    "proto": "flower"
+    "proto": "flower",
+    "disabled": false
   },
   {
     "name": "daffodil",
-    "proto": "flower"
+    "proto": "flower",
+    "disabled": false
   },
   {
     "name": "vine",
@@ -6815,7 +6844,7 @@ noun = [
     "proto": "London"
   },
   {
-    "name": "Washington^, DC",
+    "name": "Washington, DC",
     "proto": "London"
   },
   {
@@ -6833,7 +6862,7 @@ noun = [
   {
     "name": "United States",
     "proto": "Japan",
-    "unique": 1
+    "unique": "1"
   },
   {
     "name": "United Kingdom",
@@ -6970,7 +6999,7 @@ noun = [
   {
     "name": "Philippines",
     "proto": "Japan",
-    "unique": 1
+    "unique": "1"
   },
   {
     "name": "Ireland",
@@ -7278,8 +7307,7 @@ noun = [
     "posr": "number: noun.number",
     "partOf": "creature",
     "size": "4",
-    "unique": "0",
-    "count": "true"
+    "unique": "0"
   },
   {
     "name": "face",

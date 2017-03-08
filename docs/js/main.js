@@ -486,7 +486,7 @@ function r_match(restrictions, test_object){
 
         if (typeof test_object[r] !== 'undefined') {
 
-            if (magicCompare(test_object[r], rval, {tagmode: (r=='tags'||r=='vtags'||r=='partOf')})) {
+            if (magicCompare(test_object[r], rval, {tagmode: (r=='tags'||r=='vtags')})) {
                 continue
             } else return false
 
@@ -540,7 +540,7 @@ function objectSearch(what, context, graceful){
         return null
     }
 
-    if (context.label==what) return context //haha!
+    if (context.label==what) return context //aha!
 
     if (!context.children) {
         if (!context.parent) {
@@ -551,7 +551,14 @@ function objectSearch(what, context, graceful){
             return objectSearch(what, context.parent, graceful) || (graceful?context:null)
         }
     }
-    return (what in context.children) ? context.children[what] : (objectSearch(what, context.parent, graceful) || (graceful?context:null))
+    if (what in context.children) return context.children[what]
+    else if (context.parent){
+        return objectSearch(what, context.parent, graceful) || (graceful?context:null)
+    } else {
+        return console.warn("Object search failed for "+what+" -> " + stringOut(context))
+    }
+
+    //return (what in context.children) ? context.children[what] : (objectSearch(what, context.parent, graceful) || (graceful?context:null))
 }
 
 //searches up the parent nodes for the first object that isn't labeled as what

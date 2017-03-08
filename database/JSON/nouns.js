@@ -1273,9 +1273,10 @@ noun = [
   {
     "name": "bug",
     "proto": "dog",
-    "anim": 1.5,
-    "size": "2,3",
-    "tags": "bug, -"
+    "disabled": false,
+    "tags": "bug, -",
+    "anim": "1.5",
+    "size": "2,3"
   },
   {
     "name": "Bugs Bunny",
@@ -1457,11 +1458,14 @@ noun = [
   },
   {
     "name": "dragonfly",
-    "proto": "bug"
+    "proto": "bug",
+    "disabled": false,
+    "tags": "airAnimal"
   },
   {
     "name": "dung beetle",
-    "proto": "bug"
+    "proto": "bug",
+    "disabled": false
   },
   {
     "name": "earthquake",
@@ -4024,13 +4028,15 @@ noun = [
     "name": "chicken",
     "proto": "dog",
     "disabled": false,
-    "tags": "airAnimal",
+    "tags": "bird",
     "size": "5"
   },
   {
     "name": "ostrich",
     "proto": "dog",
-    "size": 6
+    "disabled": false,
+    "tags": "bird",
+    "size": "6"
   },
   {
     "name": "armadillo",
