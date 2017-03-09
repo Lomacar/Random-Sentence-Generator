@@ -2986,7 +2986,7 @@ verb = [
   },
   {
     "name": "defeat",
-    "disabled": "TRUE"
+    "disabled": true
   },
   {
     "name": "vanquish",
@@ -3050,7 +3050,7 @@ verb = [
     "prohibitions": "pasv: true",
     "disabled": false,
     "compcore": "NP{tags:creature}",
-    "compext": "(60 in the N{partOf:  vp.compcore.tags; number: sg})"
+    "compext": "(60 in the N{partOf:  predicate.compcore.tags; number: sg})"
   },
   {
     "name": "kick",
@@ -3077,7 +3077,7 @@ verb = [
   },
   {
     "name": "wash",
-    "disabled": false
+    "disabled": true
   },
   {
     "name": "domesticate",

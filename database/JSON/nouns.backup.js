@@ -227,7 +227,8 @@ noun = [
   },
   {
     "name": "kingdom",
-    "proto": "country"
+    "proto": "country",
+    "disabled": false
   },
   {
     "name": "province",
@@ -1464,7 +1465,8 @@ noun = [
   },
   {
     "name": "dung beetle",
-    "proto": "bug"
+    "proto": "bug",
+    "disabled": false
   },
   {
     "name": "earthquake",
@@ -2424,6 +2426,10 @@ noun = [
     "name": "Spaniard",
     "proto": "human",
     "possessable": 0
+  },
+  {
+    "name": "spider",
+    "proto": "bug"
   },
   {
     "name": "Spongebob",
@@ -6212,8 +6218,14 @@ noun = [
     "partOf": "null"
   },
   {
+    "name": "ingredient",
+    "proto": "item",
+    "disabled": false
+  },
+  {
     "name": "thingamajig",
-    "proto": "item"
+    "proto": "item",
+    "disabled": false
   },
   {
     "name": "doodad",
@@ -6240,11 +6252,13 @@ noun = [
   {
     "name": "evidence",
     "proto": "item",
+    "disabled": false,
     "count": "false"
   },
   {
     "name": "specimen",
-    "proto": "item"
+    "proto": "item",
+    "disabled": false
   },
   {
     "name": "sample",
@@ -7304,13 +7318,15 @@ noun = [
   {
     "name": "neck",
     "proto": "heart",
+    "disabled": false,
     "tags": "vertical, path"
   },
   {
     "name": "throat",
     "proto": "heart",
-    "size": "3",
-    "tags": "passage"
+    "disabled": false,
+    "tags": "passage",
+    "size": "3"
   },
   {
     "name": "stomach",
@@ -7326,18 +7342,21 @@ noun = [
   },
   {
     "name": "spleen",
-    "proto": "heart"
+    "proto": "heart",
+    "disabled": false
   },
   {
     "name": "head",
     "proto": "heart",
+    "disabled": false,
     "tags": "appendage"
   },
   {
     "name": "back1",
     "proto": "heart",
-    "size": "5",
-    "tags": "vertical, surface"
+    "disabled": false,
+    "tags": "vertical, surface",
+    "size": "5"
   },
   {
     "name": "chest",
@@ -7346,15 +7365,19 @@ noun = [
   },
   {
     "name": "armpit",
-    "proto": "heart"
+    "proto": "heart",
+    "disabled": false,
+    "partOf": "person"
   },
   {
     "name": "groin",
-    "proto": "heart"
+    "proto": "heart",
+    "disabled": false
   },
   {
     "name": "butt",
-    "proto": "heart"
+    "proto": "heart",
+    "disabled": false
   },
   {
     "name": "eye",

@@ -768,7 +768,7 @@ function THAT_CLAUSE(r){
         gap: [blank],
         wh: 'what',
         children:{
-            clause: [SENTENCE, {matrix_class: 'vp.class', matrix_tense: 'vp.tense'}/*,_.pick(r, ['tense', 'mood', 'neg'])*/]
+            clause: [SENTENCE, {matrix_class: 'predicate.class', matrix_tense: 'predicate.tense'}/*,_.pick(r, ['tense', 'mood', 'neg'])*/]
         }
     }
 }
@@ -1042,6 +1042,29 @@ function TITLE(r){
     r.type = 'title'
     return [get, r]
 }
+
+/////////////////////////////////////////////////////////////////////
+
+
+function PASV_SWITCH(r){
+    var patient = r.pasv ? 'subject' : 'vp.compcore'
+
+    //find the patient property and "rename it" to point to the right place
+    for (x in r) {
+        if (_.contains(r[x], '$patient')) {
+            r[x] = r[x].replace('$patient', patient)
+            break
+        }
+    }
+
+    c = r.construction
+    delete r.construction
+
+    return [window[c], r]
+
+}
+
+
 /////////////////////////////////////////////////////////////////////
 
 

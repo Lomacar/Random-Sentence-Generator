@@ -227,7 +227,8 @@ noun = [
   },
   {
     "name": "kingdom",
-    "proto": "country"
+    "proto": "country",
+    "disabled": false
   },
   {
     "name": "province",
@@ -893,15 +894,15 @@ noun = [
   },
   {
     "name": "letter",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 4,
-    "unique": 0,
-    "count": "true",
-    "size": 4,
+    "disabled": false,
     "tags": "readable",
-    "complements": "(30 about NP)",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "2",
+    "possessable": "4",
+    "partOf": "null",
+    "size": "4",
+    "count": "true",
+    "complements": "(30 about NP)"
   },
   {
     "name": "life.1",
@@ -1628,10 +1629,10 @@ noun = [
   {
     "name": "letter.1",
     "proto": "letter",
-    "possessable": 0,
-    "size": 1,
-    "complements": "(40 from NP{anim:3;number:sg}) (40 about NP)",
-    "prohibitions": "case:gen"
+    "prohibitions": "case:gen",
+    "disabled": false,
+    "possessable": "0",
+    "complements": "(40 from NP{anim:3;number:sg}) (40 about NP)"
   },
   {
     "name": "Lex Luther",
@@ -6207,18 +6208,24 @@ noun = [
   },
   {
     "name": "item",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 5,
-    "unique": 0,
-    "count": "true",
-    "size": "3,4,5,6",
+    "disabled": false,
     "tags": "item",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "2",
+    "possessable": "5",
+    "partOf": "null",
+    "size": "3,4,5,6",
+    "count": "true"
+  },
+  {
+    "name": "ingredient",
+    "proto": "item",
+    "disabled": false
   },
   {
     "name": "thingamajig",
-    "proto": "item"
+    "proto": "item",
+    "disabled": false
   },
   {
     "name": "doodad",
@@ -6245,11 +6252,13 @@ noun = [
   {
     "name": "evidence",
     "proto": "item",
+    "disabled": false,
     "count": "false"
   },
   {
     "name": "specimen",
-    "proto": "item"
+    "proto": "item",
+    "disabled": false
   },
   {
     "name": "sample",
@@ -7309,13 +7318,15 @@ noun = [
   {
     "name": "neck",
     "proto": "heart",
+    "disabled": false,
     "tags": "vertical, path"
   },
   {
     "name": "throat",
     "proto": "heart",
-    "size": "3",
-    "tags": "passage"
+    "disabled": false,
+    "tags": "passage",
+    "size": "3"
   },
   {
     "name": "stomach",
@@ -7331,18 +7342,21 @@ noun = [
   },
   {
     "name": "spleen",
-    "proto": "heart"
+    "proto": "heart",
+    "disabled": false
   },
   {
     "name": "head",
     "proto": "heart",
+    "disabled": false,
     "tags": "appendage"
   },
   {
     "name": "back1",
     "proto": "heart",
-    "size": "5",
-    "tags": "vertical, surface"
+    "disabled": false,
+    "tags": "vertical, surface",
+    "size": "5"
   },
   {
     "name": "chest",
@@ -7351,15 +7365,19 @@ noun = [
   },
   {
     "name": "armpit",
-    "proto": "heart"
+    "proto": "heart",
+    "disabled": false,
+    "partOf": "person"
   },
   {
     "name": "groin",
-    "proto": "heart"
+    "proto": "heart",
+    "disabled": false
   },
   {
     "name": "butt",
-    "proto": "heart"
+    "proto": "heart",
+    "disabled": false
   },
   {
     "name": "eye",

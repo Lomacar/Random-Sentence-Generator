@@ -212,6 +212,21 @@ function renderTree () {
     //$.jstree.defaults.core.themes.variant = "large";
     //$.jstree.defaults.core.themes.name = "responsive";
     $.jstree.defaults.core.themes.icons = false;
+    $.jstree.defaults.search.search_callback = function (str, node) {
+        if(_.contains(str, ':')){
+            var key_val = str.split(':')
+            var key = key_val[0]
+            var val = key_val[1].trim()
+            var lex = _.find(database[wordClass], {name: node.text})
+            if (!lex) return false //necessary because the root node does not exist in the lexicon
+            if (str.match(/[><!|&]/)) return magicCompare(lex[key], val)
+            else return _.contains(lex[key]+"", val)
+        }
+
+        //default
+        return _.contains(node.text, str)
+    }
+
     $treeview = $('#jstree')
     $treeview.jstree( {
         'core' : {

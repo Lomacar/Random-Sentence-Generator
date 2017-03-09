@@ -2986,7 +2986,7 @@ verb = [
   },
   {
     "name": "defeat",
-    "disabled": "TRUE"
+    "disabled": true
   },
   {
     "name": "vanquish",
@@ -3047,10 +3047,9 @@ verb = [
   {
     "name": "punch.1",
     "proto": "punch",
-    "prohibitions": "pasv: true",
     "disabled": false,
     "compcore": "NP{tags:creature}",
-    "compext": "(60 in the N{partOf:  vp.compcore.tags; number: sg})"
+    "compext": "(70 in the PASV_SWITCH{construction: N; partOf:  $patient.tags; number: sg})"
   },
   {
     "name": "kick",
