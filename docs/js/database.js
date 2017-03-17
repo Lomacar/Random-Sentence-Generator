@@ -99,7 +99,7 @@ database.preposition = [
     {name: 'on',    role: 'LOC',     vtags: 'activity|situated|situated|placement',  'lm.tags': 'surface', 'lm.size': '>trajector.size'},
     {name: 'on',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'field|passengerVehicle'},
     {name: 'on',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'surface|prominence', 'lm.size': '>trajector.size'},
-    {name: 'on',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'point & !space|line', 'ncomp.c0.size': '>trajector.size'},
+    //{name: 'on',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'point & !space|line', 'ncomp.c0.size': '>trajector.size'},
     //TODO: under,underneath,below,beneath,between,near,next to,far from,away from,in front of, on top of,
     //      beside, by, behind, inside, outside, among, amid, around
 
@@ -157,7 +157,7 @@ database.preposition = [
 
     {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact',                      'lm.tags': 'surface&!elevated&!vertical!bodyOfWater',    'lm.size': '>trajector.size'},
     {name: 'onto',      role: 'GOAL',   vtags: 'air|jump|vertical',                     'lm.tags': 'surface|object',                             'lm.size': '>trajector.size'},
-    {name: 'onto',      role: 'GOAL',   vtags: 'contact|air|jump|vertical',             'lm.tags': 'substance&!fluid'},
+    //{name: 'onto',      role: 'GOAL',   vtags: 'contact|air|jump|vertical',             'lm.tags': 'substance&!fluid'},
     {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact|air|jump',             'lm.tags': 'passengerVehicle'},
 
     {name: 'into',      role: 'GOAL',   vtags: 'grounded',                              'lm.tags': 'area|volume&!elevated',                      'lm.size': '>trajector.size'},
@@ -214,7 +214,7 @@ database.preposition = [
     {name: 'off of',     role:'SOURCE',  vtags: 'up',                         'lm.tags': 'surface&!vertical',                                             'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'down',                       'lm.tags': 'surface & elevated|vertical',                                   'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'down',                       'lm.tags': 'object&!grounded&!void',                                        'lm.size': '>trajector.size'},
-    {name: 'off of',     role:'SOURCE',  vtags: 'jump',                       'lm.tags': 'surface&!bodyOfWater|object&elevated|substance&!fluid',         'lm.size': '>trajector.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'jump',                       'lm.tags': 'surface&!bodyOfWater|object&elevated',         'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'point&elevated|edge&elevated|path&elevated & !space',     'ncomp.c0.tags': '>subject.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'edge',                                                    'ncomp.c0.tags': 'elevated|hasHeight', 'ncomp.c0.nocomplement':-1},
 
@@ -239,10 +239,10 @@ var prohibitions = {
 
     //verb
     aspect: {
-        prog: {class: 'state,event,semel', perm: true, pasv:true},
-        retroprog: {class: 'state,event,semel', perm: true, pasv:true},
-        retro: {perm: true},
-        prosp: {volition: false, class:'state'} //makes no difference for some reason
+        prog: {class: 'state,event,semel', perm: '>0', pasv:true},
+        retroprog: {class: 'state,event,semel', perm: '>0', pasv:true},
+        retro: {perm: '>0'},
+        prosp: {volition: false, class:'state', perm: '>0'} //makes no difference for some reason
     },
     tense: {
         future: {aspect: 'retro', class: 'state', perm:true} //just tends to sound too awkward
@@ -268,7 +268,7 @@ var probabilities = {
     tang:       [3,0, 3,1, 5,2],
 
     pronominal: [1,true,8,false], //how likely a NP is to be a pronoun instead
-    indef_pro: 0.4,   //chance to have an indefinite pronoun
+    indef_pro: 0.4,               //chance to have an indefinite pronoun
 
     //nounish
     number:     [1,'pl', 5,'sg'],
@@ -288,5 +288,9 @@ var probabilities = {
     aspect:     [18,    'simp',    4,   'prog', 3,  'retro', 2, 'prosp'],
     neg:        [18,    false,     1,   true],
     mood:       [1,     'deo',     1,   'epi',  12,  'ind'],
-    complex_aspects: 0.05
+    complex_aspects: 0.05,
+
+    //adjective
+    superlative: [1, true, 10, false],
+    comparative: [1, true, 10, false]
 }

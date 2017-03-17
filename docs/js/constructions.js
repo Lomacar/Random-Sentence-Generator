@@ -1,5 +1,5 @@
 function SENTENCE(r){
-    return choose(12, [CLAUSE, r], 1, [PASSIVE, r], 2.4, [COPULA, r], 0.001, [ALLYOURBASE, r])
+    return choose(12, [CLAUSE, r], 1, [PASSIVE, r], 3, [COPULA, r], 0.001, [ALLYOURBASE, r])
 }
 
 function CLAUSE(r){
@@ -23,14 +23,15 @@ function PASSIVE(r){
     }
 
     return {
-        order: "pasvSubj predicate",
+        order: "pasvSubj aux predicate",
         head: "subject",
         labelChildren: true,
         //hasComplement: 'subject',
         children: {
             subject: [NP, {pronominal: false}],
             predicate: [VP_PASV, _.extend({copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def'), unpack:'subject.anim-tang-size-tags'},r)],
-            pasvSubj: [complement, {'case':'nom', complements: 'predicate.compcore', unpack:'predicate.number-person', pasv: true, desc: 'subject'}]
+            pasvSubj: [complement, {'case':'nom', complements: 'predicate.compcore', unpack:'predicate.number-person', pasv: true, desc: 'subject'}],
+            aux:  [auxiliary, _.extend({}, r, {copulant: false, pasv: true, unpack: 'pasvSubj.number-person'}) ]
         }
     }
 }
@@ -44,7 +45,7 @@ function COPULA(r){
         head: "subject",
         labelChildren: true,
         children: {
-            subject: [NP, {case: 'nom', def: 'def'}],
+            subject: [NP, {case: 'nom', def: 'def', anim: choose(1,0, 1,1, 2,2, 4,3)}],
             predicate: [PREDICATE, _.extend({}, r, {unpack: 'subject.R', copulant: true})]
         }
     }
@@ -61,28 +62,37 @@ function NP(r) {
         3: route(r.pronominal, {
             true: [PRONOUN, r2],
             false: [DP]
-        }
-                )
+        })
     })
 }
 
 function DP(r){
+    decide(r,'def,superlative')
+
+    var order = r.def == "def" ? "preadj* quant*" : "quant* preadj*"
 
     return {
-        order : "det adj* nprecomp* noun ncomp*",
+        order : "det "+order+" super* adj* nprecomp* noun ncomp*",
         head : "noun",
         gap : [blank],
         labelChildren: true,
         hasComplement: "ncomp,nprecomp",
         children: {
             noun:       [N],
-            nprecomp:   [complement, {complements: 'noun.precomp', nogap: true, desc: 'pre-complement'}],
-            adj:        [AP, {unpack:'noun.R', nocomplement: true, no_adj: 'noun.unique', desc:'ap'}, 0.25, 'rank'],
             det:        r.nodeterminer ? [blank] : [DET, {unpack: 'noun.R'}],
+            preadj:     r.superlative || toss(0.8) ? [blank] : [SPECIAL_A, 'noun'],
+            quant:      [QUANT,_.extend({unpack:'noun.R', prequant: false, amount: 'det.amount'},r)],
+            super:      route(r.def == 'def' && r.superlative,{
+                            true: [A, {unpack:'noun.R', no_adj: 'noun.unique', superlative: true, desc:'ap'}],
+                            false: [blank]
+                        }),
+            adj:        [AP, {unpack:'noun.R', nocomplement: true, no_adj: 'noun.unique', superlative: false, desc:'ap'}, 0.25, 'rank'],
+            nprecomp:   [complement, {complements: 'noun.precomp', nogap: true, desc: 'pre-complement'}],
             ncomp:      [complement, {case: 'acc', complements: 'noun.complements', nogap: true, desc: 'noun complement'}]
         },
         postlogic:function(text){
             return text.replace(/\ba[ _]+([aeiouAEIOU])/g, "an $1") // 'a apple' to 'an apple'
+                       .replace('an other', 'another')
         }
     }
 }
@@ -100,9 +110,9 @@ function DET(r) {
             break;
         default:
 
-            if (r.possessable > Math.pow(Math.random(),0.6) * 9) {
+            if (r.def=='def' && r.possessable > Math.pow(Math.random(),0.6) * 9) {
 
-                if (!r.pronominal & toss(0.7)) {
+                if (toss(0.7)) {
                     return GENITIVE(r)
                 } else {
                     decide(r, 'number')
@@ -121,29 +131,15 @@ function DET(r) {
                 }
 
             } else {
-                decide(r,'def')
 
-                if(r.count==false || r.number=='pl') {
+                if(r.def=='def' && (r.count==false || r.number=='pl')) {
                     decide(r, 'quantified')
                     if (r.quantified) {
-                        if(r.def!='def'){
-                            return QUANT(r)                                       //'12 dogs' is indefinite
-                        } else {
-                            r.quantified = false
-                            return choose(0.5, [PREQUANT,r],                        //'12 of my dogs' is definite
-                                          r.count, {
-                                                order: 'det quant',
-                                                head: 'det',
-                                                labelChildren: true,
-                                                children: {
-                                                    det: [DET, r],
-                                                    quant: [QUANT,{justGiveMeANumber:true, desc: 'quantifier'}] //'these 12 dogs' is definite
-                                                }
-                                            }
-                                         )
-                        }
+                        r.quantified = false //I think this prevents in(de)finite loops?
+                        return [PREQUANT,r]
                     }
                 }
+
                 decide(r, 'def,dem,number,partial')
                 if(r.dem) decide(r, 'prox'); else r.prox=''
 
@@ -162,17 +158,22 @@ function DET(r) {
 
 function GENITIVE(r){
     var posr = r.posr
+    var partOf = r.partOf
     var r2 = decide(r, 'number', true)
     r2.case = 'gen'
 
+    if (posr) posr = toObject(posr)
+    else posr = null
+    partOf = partOf=="null" ? null : {tags: partOf}
+    _.extend(posr, partOf)
+
     if (!posr || toss(0.3)) {
         //basic genitive
-        decide(r2, 'anim')
-        if (r2.anim==3) return DET(_.extend(r, {possessable: -111})) //abort possession if the would-be possesed noun is a person or somesuch
-        else r2.anim=3
+        if (r.anim==3) return DET(_.extend(r, {possessable: -111})) //abort possession if the would-be possesed noun is a person or somesuch
+        else r2.anim=">noun.anim"
     } else {
         //special genitive with specified restrictions (like "book's author")
-        r2 = _.extend(r2, toObject(posr))
+        _.extend(r2, posr)
     }
 
     if (r2.number=='pl') delete r2.number //plural nouns can be possessed by sg or pl nouns
@@ -196,24 +197,42 @@ function GENITIVE(r){
 }
 
 function QUANT(r){
-    r.prequant = r.prequant || false
-    r.neg = r.neg || false
 
-    if(r.count==true && toss(0.3) || r.justGiveMeANumber) {
-        return {text: toWords(powerRandom())}
-    } else {
-        return [get, {type: 'quantifier', prequant: r.prequant }]
+    if(!r.unique && r.count==false || r.number=='pl') {
+        decide(r, 'quantified')
+        if (r.quantified) {
+    //        if(r.def!='def'){
+    //
+    //        }
+            r.prequant = r.prequant || false
+            r.neg = r.neg || false
+            if(r.count==true && (toss(0.3) || r.def=='def')) {
+                var amount
+                amount = powerRandom()
+                if (r.amount) amount += r.amount // this is so we don't get things like "nine out of four doctors..."
+                return {text: toWords(amount), amount:amount}
+            } else if (r.def=='indef'||r.prequant){
+                return [get, {type: 'quantifier', prequant: r.prequant }]
+            }
+        }
     }
+
+    return {text:''}
+
+//    if(r.count==true && toss(0.3) || r.justGiveMeANumber) {
+//        return {text: toWords(powerRandom())}
+//    } else {
+//        return [get, {type: 'quantifier', prequant: r.prequant }]
+//    }
 }
 
 function PREQUANT(r){
-
     return {
         order: 'quant of det',
         head: 'quant',
         labelChildren: true,
         children: {
-            quant: [QUANT, {prequant: true, desc: 'quantifier'}],
+            quant: [QUANT, {prequant: true, desc: 'quantifier', quantified: true, def: false}],
             det: [DET, r]
         }
     }
@@ -248,20 +267,7 @@ function PRONOUN(r) {
 
     //indefinite pronouns!
     if(r.person==3 && toss(probabilities.indef_pro)){
-        var indef1, indef2, indefinite
-        indef1 = toss(0.3) ? ( r.neg?'any':'no') : (r.number == 'pl' ? 'every' : 'some')
-        indef2 = r.anim >= 2 ? options('(one|body)') : 'thing'
-        var nom = r.case == 'nom'
-        if (indef1 == 'every') {
-            if (nom) r['aux.neg'] = false //everybody does not like sentences like this
-            if (toss(0.2)) indef1 = choose(nom, 'not', 1, 'almost') + ' every'
-        }
-        indefinite = indef1+indef2
-        if (indefinite == 'noone') indefinite = 'no one'
-        if (toss(0.1)) indefinite += " else"
-        r.number = 'sg'
-        r.text = indefinite
-        return r
+        return [INDEF_PN,r]
     }
 
 
@@ -290,7 +296,6 @@ function PRONOUN(r) {
         }
     }
 
-
     var word = $.extend(r,
                         {type:'pronoun',
                          inflections:"nom.sg.1:I, 2:you, sg.3:it, nom.sg.3.m:he, nom.sg.3.f:she," +
@@ -307,6 +312,42 @@ function PRONOUN(r) {
     word.type = 'pronoun' //important for creating word.R object with safe()
 
     return inflect(word,r)
+}
+
+function INDEF_PN (r) {
+    var indef1, indef2, indefinite
+    indef1 = toss(0.3) ? ( r.neg?'any':'no') : (r.number == 'pl' ? 'every' : 'some')
+    indef2 = r.anim >= 2 ? options('(one|body)') : 'thing'
+    var nom = r.case == 'nom'
+    if (indef1 == 'every') {
+        if (nom) r['aux.neg'] = false //everybody does not like sentences like this
+        if (toss(0.2)) indef1 = choose(nom, 'not', 1, 'almost') + ' every'
+            }
+    indefinite = indef1+indef2
+    if (indefinite == 'noone') indefinite = 'no one'
+    //if (toss(0.1)) indefinite += choose(1, " else", 1 " "+choose
+    r.number = 'sg'
+
+    var extraStuff
+    var safeR
+    if (extraStuff = toss(1)) safeR = safe(r,'adjective')
+
+    return {
+        order: "indef extra*",
+        head: "indef",
+        hasComplement: "extra",
+        children: {
+            indef: [filler, _.extend({}, r,{filler: indefinite})],
+            extra: choose(
+                15, [blank, r],
+                3 * extraStuff, [filler, {filler: "else"}],
+                3 * extraStuff && indef1=='some', [AP, _.extend({}, safeR, {nocomplement: true})],
+                extraStuff, [EQUATIVE,safeR],
+                extraStuff, [COMPARATIVE,safeR],
+                2 * extraStuff, [LOCATION, _.extend({}, safeR, {vtags:"copula"})]
+            )
+        }
+    }
 }
 
 function AP(r) {
@@ -326,6 +367,7 @@ function AP(r) {
 }
 
 function A(r){
+    if (r.no_adj>0) return {text:''}
 
     //a function to use in the future for creating a list of adjective ranks for recursively fetching adjectives
     function randomlist(){
@@ -339,22 +381,85 @@ function A(r){
             return me
         }
     }
+    if (!r.comparative && !r.superlative) decide(r, 'comparative')
+
+    //superlatives or comparatives
+    var more, er, less
+    if(r.comparative || r.superlative) {
+        less = toss(0.2) ? "down" : "up" //for less or least adj
+        if(less=="up") {
+            more = {form:'more', unpack: 'adj.superform-scalar-superlative-comparative', less: "up"}
+            er   = {form:'-er',  unpack: 'adj.superform-scalar-superlative-comparative', less: "up"}
+        } else {
+            more = {form:'more', unpack: 'adj.scalar-superlative-comparative', superform: 'more', less: "down"}
+        }
+
+    }
 
     r.copulant = r.copulant || false
-    return choose(!r.copulant, [PRES_PARTICIPLE],
+    var noptpl = r.copulant || r.scalar
+
+    return choose(!noptpl, [PRES_PARTICIPLE],
                   5, {
-        order:'neg_adj',
-        head:'adj',
-        children:{
-            neg: [a_neg, 'adj'],
-            adj: [get, $.extend({type: 'adjective'} , r)]
-        }
-    }
-                 )
+                    order:'more* neg_adj_er*',
+                    head:'adj',
+                    children:{
+                        neg: [a_neg, 'adj'],
+                        adj: [get, $.extend({type: 'adjective'} , r)],
+                        more: [a_super, more || {text:''}],
+                        er: [a_super, er || {text:''}]
+                    },
+                    postlogic: function(text){
+                        return text.replace(/-er/, 'er')
+                                   .replace(/([^aeiou])y_+(er|est)/, '$1i$2')
+                                   .replace(/e_+e(r|st)/, 'e$1')
+                                   .replace(/\b([^aeiou]*[^aeio][aeiou])([^aeiouywx])_+(er|est)/, '$1$2$2$3')
+                                   .replace('badder', 'worse').replace('baddest','worst')
+                                   .replace('good_er','better').replace('good_est','best')
+                    }
+                })
 }
 
 function a_neg(r) {
-    return r.opposite && toss(0.33) ? {text:r.opposite} : {text:''}
+    return r.opposite && toss(0.2) ? {text:r.opposite} : {text:''}
+}
+
+//it is called super but it handles both superlatives and comparatives
+function a_super (r) {
+
+    //if (r.less == "down" && r.form == "-er") return [blank]
+
+    //if(!r.comparative && !r.superlative) return [blank]
+    if (!r.scalar) return [blank]
+    if (r.form != r.superform) return [blank]
+
+    var query = [r.less, r.superlative, r.superform]
+    var inflections = "up.true.-er: est, up.true.more: most, up.false.-er: -er, up.false.more: more,"
+                    + "down.true: least, down.false: less"
+
+    return {text: resolve(query, inflections)}/*route(r.superlative, {
+            true: {text: route(r.superform,{
+                '-er': 'est',
+                'more': 'most'
+            })},
+            rest: {text: r.superform}
+        })*/
+}
+
+function SPECIAL_A (r) {
+    if (r.unique == 0 || (r.unique < 2 && r.count)) {
+
+        var defs = "next|previous|first|last|usual|other|same"
+        if (r.number == 'sg') defs += "|only|only other"
+
+        return route(r.def, {
+            'def':  {text: options('('+defs+')')},
+            'indef':  {text: options('(previous|other|similar|different)')},
+            'rest':  [blank]
+        })
+    }
+
+   return [blank]
 }
 
 function PREDICATE(r){
@@ -362,7 +467,7 @@ function PREDICATE(r){
 
     var L = magicCompare(r.tags,"thing&!feature|territory|phenomena",{tagmode:true}) && magicCompare(r.size,"<11") //size check is a partial fix to problems like "The planet is on the ???"
 
-    var ptype = choose(2, 'adjective', L, 'location')
+    var ptype = choose(3, 'adjective', L, 'location')
 
     if (ptype == 'location' && r.aspect == 'prog' ) r.aspect = 'simp'
 
@@ -373,9 +478,59 @@ function PREDICATE(r){
         children: {
             aux:  [auxiliary],
             pred: route( ptype, {
-                    'adjective': [AP, _.extend( {}, r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg'})],
+                    'adjective': [AC, _.extend( {}, r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg-copulant'})],
                     'location': [LOCATION, _.extend( {}, r, {vtags:"copula"})]
                   })
+        }
+    }
+}
+
+//adjective constructions
+function AC (r) {
+    return choose(
+            8, [AP, r], //standard adjective
+            1, [EQUATIVE, _.extend( {},r,{description: 'equative'})],
+            1, [COMPARATIVE, _.extend( {},r,{description: 'comparative'})],
+            1, [SUPERLATIVE, _.extend( {},r,{description: 'superlative'})]
+    )
+}
+
+// "as big as"
+function EQUATIVE (r) {
+    return {
+        order: "mod** as adj as np", //why are two asterisks needed to make it optional?
+        head: "adj",
+        labelChildren: true,
+        children: {
+            mod: {text: choose(4, "", 1, "almost", r.neg, "quite", !r.neg, "just", 1, "exactly")},
+            adj:[A, {scalar:'>0', superlative: false, comparative: false}],
+            np: [DP, 'adj.orig']
+        }
+    }
+}
+
+// "bigger then"
+function COMPARATIVE (r) {
+    return {
+        order: "mod** adj than np",
+        head: "adj",
+        labelChildren: true,
+        children: {
+            mod: {text: choose(7, "", 1, "much", !r.neg, "barely", r.neg, "any", 1, "slightly")},
+            adj:[A, {scalar:'>0', superlative: false, comparative: true}],
+            np: [DP, 'adj.orig']
+        }
+    }
+}
+// "the biggest"
+function SUPERLATIVE (r) {
+    return {
+        order: "mod** the adj",
+        head: "adj",
+        labelChildren: true,
+        children: {
+            mod: {text: choose(5, "", !r.neg, "by far")},
+            adj:[A, {scalar:'>0', superlative: true, comparative: false}]
         }
     }
 }
@@ -497,6 +652,8 @@ function auxiliary(r){
         }
     }
 
+    if (r.copulant && r.aspect == 'prog') r.aspect = 'simp'
+
     r.aspect = r.aspect.trim()||'simp'
 
     // -------------------------------------------------------
@@ -563,13 +720,12 @@ function VP(r){
 function VP_PASV(r){
 
     return {
-        order: "aux vp noncore",
+        order: "vp noncore",
         head: "vp",
         labelChildren: true,
         hasComplement: "noncore",
         children: {
             vp: [V_PASV, {desc:'verb'}],
-            aux:  [auxiliary, _.extend({}, r, {unpack: 'vp.number-person'}) ],
             noncore: [VP_PASV_PT2, {unpack: 'vp.R', desc:'passive stuff'}]
         }
     }
@@ -1050,7 +1206,7 @@ function PASV_SWITCH(r){
     var patient = r.pasv ? 'subject' : 'vp.compcore'
 
     //find the patient property and "rename it" to point to the right place
-    for (x in r) {
+    for (var x in r) {
         if (_.contains(r[x], '$patient')) {
             r[x] = r[x].replace('$patient', patient)
             break
@@ -1069,7 +1225,7 @@ function PASV_SWITCH(r){
 
 
 function filler(r){
-    return {text: r.filler}
+    return _.extend(r, {text: r.filler})
 }
 
 function blank(r){

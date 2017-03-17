@@ -102,8 +102,14 @@
 
             }
 
-            function oneOff (c, r) {
-                console.log(stringOut(new branch(c, r)))
+            function oneOff (c, r, s) {
+                if (s) {
+                    Math.seedrandom(s)
+                    _ = _.runInContext()
+                }
+                var construction = new branch(c, r)
+                console.log(stringOut(construction))
+                return construction
             }
 
             $(function(){

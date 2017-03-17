@@ -370,11 +370,7 @@ function magicCompare (one, two, options, operator) {
 //a haphazard attempt at something that generates a random number that sort of follows the power law
 //and gets rounded to a nice "human" amount of precision
 function powerRandom() {
-    //power = Math.pow(10, (Math.round((1 / (Math.random() - 0.1))) + 1)) / 10;
-    //var power = Math.round(  Math.pow(Math.random(), 4) * 14 + 1.3 )
-    //var power = Math.round(  Math.pow(1 - Math.sqrt(-Math.random()+1), 1.9) * 14 + 1 )
-    //power = Math.pow(10, power ) / 10;
-    //var rando = parseInt(_.random(1,9,true) * power);
+
     var curve = 9999    //how strongly small numbers are favored
     var max = 9        //most number of digits the number can have
     var max_prec = 4    //maximum possible precision

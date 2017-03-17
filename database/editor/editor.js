@@ -86,32 +86,13 @@ function populateEditor(data, proto){
 
 }
 
-editor.on("ready",  function() {
 
-})
-
-
-//editor.getEditor('root.unique').setValue(null)
-
-$('#editor').on("keydown",  function() {
-    almostSave()
+$('#editor').on("input",  function(e) {
+    //if you are typing characters or deleting
+    //if (typeof e.which == "number" && e.which > 0 && !e.ctrlKey && !e.metaKey && !e.altKey && e.which != 8) {
+        newness = true && editor.validate().length == 0
+    //}
 });
-editor.on("change",  function() {
-    almostSave()
-});
-
-function almostSave () {
-    var errors = editor.validate()
-    if(errors.length) {
-        console.log(errors);
-    } else if (undo_enabled){
-        newness = true
-    }
-    //for some insane reason the on change event lags behind the actual form change
-    //so if the form is being populated and no changes were made, undo must be disabled
-    //then renabled when this event finally decides to fire
-    undo_enabled = true
-}
 
 
 $('#save').click(saveToDisk)
@@ -129,7 +110,7 @@ function saveToDisk() {
         console.log(errors);
     } else {
         saveEntry()
-        //                    $.post("http://localhost:8080/save", {type: wordClass,data: lexicon})
+
         $.ajax({
             type:'POST',
             url: "http://localhost:8080/save",
@@ -448,12 +429,34 @@ $('#tree-container').on('keydown', function (e) {
 
 })
 
-$('#editor').on('keyup', e=>{
+$('#editor').on('keydown', e=>{
     switch (e.key) {
         case 'Enter':
             e.preventDefault()
             saveEntry()
             break;
+        case 'ArrowDown':
+            e.preventDefault()
+            var focused = ($(':focus'));
+            focused.blur() //necessary so editor change fires and saves form
+            var here = $jt.get_selected()
+            $jt.select_node($jt.get_next_dom(here))
+            $jt.deselect_node(here)
+            focused.focus()
+            focused.select()
+            break;
+        case 'ArrowUp':
+            e.preventDefault()
+            var focused = ($(':focus'));
+            focused.blur() //necessary so editor change fires and saves form
+            var here = $jt.get_selected()
+            $jt.select_node($jt.get_prev_dom(here))
+            $jt.deselect_node(here)
+            focused.focus()
+            focused.select()
+            break;
+        default:
+            //console.log(e.key);
     }
 })
 

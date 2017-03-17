@@ -45,6 +45,7 @@ schemas.noun = _.extend({}, schemas.common, {
     },
     "partOf": {
         "$ref": "#/definitions/taglist",
+        default: "null",
         "propertyOrder": 75
     },
     "gender": {
@@ -154,6 +155,20 @@ schemas.adjective = _.extend({}, schemas.common, {
         type: "string",
         enum: ["", "0", "1", "2"],
         propertyOrder: 300
+    },
+    "scalar": {
+        type: "string",
+        enum: ["", "0", "1", "2"],
+        "options": {
+            enum_titles: ["", "no", "limited", "open"]
+        },
+        propertyOrder: 300
+    },
+    "superform": {
+        type: "string",
+        enum: ["","-er", "more"],
+        format: "radio",
+        propertyOrder: 400
     },
     "opposite": {
         type: "string",

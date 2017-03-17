@@ -1,5 +1,47 @@
 noun = [
   {
+    "name": "committee",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "jury",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "senate",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "board1",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "council",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "clan",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "club",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
     "name": "Nile",
     "proto": "river",
     "unique": 1,
@@ -174,15 +216,15 @@ noun = [
   },
   {
     "name": "city",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 2,
-    "posr": "tags: person",
-    "unique": 0,
-    "count": "true",
-    "size": 9,
+    "disabled": false,
     "tags": "city",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "1",
+    "possessable": "2",
+    "posr": "tags: person",
+    "partOf": "null",
+    "size": "9",
+    "count": "true"
   },
   {
     "name": "town",
@@ -210,8 +252,10 @@ noun = [
   {
     "name": "region",
     "proto": "country",
-    "size": "9,10,11",
-    "tags": "-, region"
+    "disabled": false,
+    "tags": "-, region",
+    "partOf": "null",
+    "size": "9,10,11"
   },
   {
     "name": "country",
@@ -245,15 +289,21 @@ noun = [
   {
     "name": "Japan",
     "proto": "country",
-    "possessable": 0,
-    "unique": 2,
+    "disabled": false,
+    "possessable": "0",
+    "posr": "--",
+    "partOf": "null",
+    "unique": "2",
     "count": "false"
   },
   {
     "name": "London",
     "proto": "city",
-    "possessable": 0,
-    "unique": 2,
+    "disabled": false,
+    "possessable": "0",
+    "posr": "--",
+    "partOf": "null",
+    "unique": "2",
     "count": "false"
   },
   {
@@ -504,18 +554,27 @@ noun = [
   {
     "name": "sandwich",
     "proto": "apple",
+    "disabled": false,
     "tags": "artifact"
+  },
+  {
+    "name": "cake",
+    "proto": "sandwich",
+    "disabled": false,
+    "size": "4,5"
   },
   {
     "name": "pizza",
     "proto": "sandwich",
-    "size": "4,5",
-    "tags": "surface"
+    "disabled": false,
+    "tags": "surface",
+    "size": "4,5"
   },
   {
     "name": "pie",
     "proto": "pizza",
-    "size": 4
+    "disabled": false,
+    "size": "4"
   },
   {
     "name": "life",
@@ -775,14 +834,18 @@ noun = [
   {
     "name": "prison",
     "proto": "house",
-    "possessable": 4,
-    "posr": "tags: city"
+    "disabled": false,
+    "possessable": "4",
+    "posr": "tags: city",
+    "partOf": "null"
   },
   {
     "name": "school",
     "proto": "house",
-    "possessable": 4,
-    "posr": "tags: city|person"
+    "disabled": false,
+    "possessable": "4",
+    "posr": "tags: city|person",
+    "partOf": "null"
   },
   {
     "name": "store",
@@ -861,14 +924,14 @@ noun = [
   },
   {
     "name": "human",
-    "anim": 3,
-    "tang": 2,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 6,
+    "disabled": false,
     "tags": "hasHeight, person, mobile",
-    "partOf": "null"
+    "anim": "3",
+    "tang": "2",
+    "possessable": "2",
+    "partOf": "null",
+    "size": "6",
+    "count": "true"
   },
   {
     "name": "idea",
@@ -1027,33 +1090,35 @@ noun = [
   },
   {
     "name": "team",
-    "anim": 3,
-    "tang": 1,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "disabled": false,
     "tags": "organization",
-    "complements": "(20 of N{number:pl;anim:>1;person:3;tags:!collective})",
-    "partOf": "null"
+    "anim": "3",
+    "tang": "1",
+    "possessable": "3",
+    "partOf": "null",
+    "size": "0",
+    "count": "true",
+    "complements": "(20 of N{number:pl;anim:>1;person:3;tags:!collective})"
   },
   {
     "name": "team1",
     "proto": "team",
+    "disabled": false,
+    "partOf": "null",
     "precomp": "DP{tags:game}",
     "complements": "--"
   },
   {
     "name": "tendency",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 7,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "disabled": false,
     "tags": "tendency",
-    "complements": "(40 INF_PHRASE   | 25 toward GP)",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "0",
+    "possessable": "7",
+    "partOf": "null",
+    "size": "0",
+    "count": "true",
+    "complements": "(40 INF_PHRASE   | 25 toward GP)"
   },
   {
     "name": "toy",
@@ -1069,8 +1134,10 @@ noun = [
   {
     "name": "uncle",
     "proto": "father",
-    "count": "true",
-    "tags": "-"
+    "disabled": false,
+    "tags": "-",
+    "partOf": "null",
+    "count": "true"
   },
   {
     "name": "zombie",
@@ -1093,20 +1160,32 @@ noun = [
   {
     "name": "citizen.1",
     "proto": "citizen",
-    "possessable": 0,
-    "prohibitions": "--"
+    "prohibitions": "--",
+    "disabled": false,
+    "possessable": "0",
+    "partOf": "null"
   },
   {
     "name": "winner",
     "proto": "human",
-    "possessable": 0,
+    "prohibitions": "def:indef",
+    "disabled": false,
+    "possessable": "0",
     "posr": "tags:contest",
-    "prohibitions": "def:indef"
+    "partOf": "null"
   },
   {
     "name": "staff",
     "proto": "choir",
-    "prohibitions": "number:pl,def:indef"
+    "prohibitions": "number:pl,def:indef",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "tribe",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "fact1",
@@ -1117,9 +1196,11 @@ noun = [
   {
     "name": "citizen",
     "proto": "human",
-    "possessable": 7,
+    "prohibitions": "number:sg",
+    "disabled": false,
+    "possessable": "7",
     "posr": "tags:territory",
-    "prohibitions": "number:sg"
+    "partOf": "null"
   },
   {
     "name": "^unicorn",
@@ -1146,7 +1227,9 @@ noun = [
   },
   {
     "name": "alien",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "amoeba",
@@ -1165,7 +1248,9 @@ noun = [
   },
   {
     "name": "army",
-    "proto": "team"
+    "proto": "team",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Arnold Schwartzenegger",
@@ -1186,15 +1271,15 @@ noun = [
   },
   {
     "name": "bag",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": "4,5,6,7",
+    "disabled": false,
     "tags": "vessel",
-    "complements": "(90 of N{(tags: item; (number:pl | count:false); anim:<2; unique:0; size:<noun.size | tags:substance) } )",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "partOf": "null",
+    "size": "4,5,6,7",
+    "count": "true",
+    "complements": "(90 of N{(tags: item; (number:pl | count:false); anim:<2; unique:0; size:<noun.size | tags:substance) } )"
   },
   {
     "name": "banana",
@@ -1269,7 +1354,8 @@ noun = [
   },
   {
     "name": "brother",
-    "proto": "father"
+    "proto": "father",
+    "disabled": false
   },
   {
     "name": "bug",
@@ -1297,7 +1383,9 @@ noun = [
   },
   {
     "name": "centaur",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "chariot",
@@ -1310,8 +1398,11 @@ noun = [
   {
     "name": "child",
     "proto": "human",
-    "possessable": 5,
-    "size": 5,
+    "disabled": false,
+    "possessable": "5",
+    "posr": "tags:creature",
+    "partOf": "null",
+    "size": "5",
     "inflections": "pl:children"
   },
   {
@@ -1338,11 +1429,15 @@ noun = [
   },
   {
     "name": "communist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "company",
-    "proto": "team"
+    "proto": "team",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "computer",
@@ -1350,11 +1445,15 @@ noun = [
   },
   {
     "name": "conductor",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "conquistador",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "contraption",
@@ -1372,16 +1471,23 @@ noun = [
   {
     "name": "criminal",
     "proto": "human",
-    "possessable": 0
+    "disabled": false,
+    "possessable": "0",
+    "partOf": "null"
   },
   {
     "name": "crowd",
     "proto": "team",
+    "disabled": false,
+    "partOf": "null",
     "size": "7,8"
   },
   {
     "name": "customer",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "posr": "tags:person|company",
+    "partOf": "null"
   },
   {
     "name": "Daffy Duck",
@@ -1405,14 +1511,14 @@ noun = [
   },
   {
     "name": "decision",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 6,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "disabled": false,
     "tags": "-",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "0",
+    "possessable": "6",
+    "partOf": "null",
+    "size": "0",
+    "count": "true"
   },
   {
     "name": "device",
@@ -1451,7 +1557,10 @@ noun = [
   {
     "name": "doctor",
     "proto": "human",
-    "possessable": 4
+    "disabled": false,
+    "possessable": "5",
+    "posr": "tags:person",
+    "partOf": "null"
   },
   {
     "name": "dragon",
@@ -1476,6 +1585,8 @@ noun = [
   {
     "name": "elf",
     "proto": "human",
+    "disabled": false,
+    "partOf": "null",
     "inflections": "pl:elves"
   },
   {
@@ -1485,17 +1596,23 @@ noun = [
   {
     "name": "enemy",
     "proto": "human",
-    "possessable": 6,
-    "posr": "anim:3"
+    "disabled": false,
+    "possessable": "6",
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "fairy",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "father",
-    "proto": "mother",
-    "gender": "m"
+    "proto": "boss",
+    "disabled": false,
+    "partOf": "null",
+    "gender": "male"
   },
   {
     "name": "Ferrari",
@@ -1526,7 +1643,9 @@ noun = [
   },
   {
     "name": "germaphobe",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "giant squid",
@@ -1547,7 +1666,9 @@ noun = [
   },
   {
     "name": "golf cart",
-    "proto": "car"
+    "proto": "car",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "gorilla",
@@ -1555,7 +1676,9 @@ noun = [
   },
   {
     "name": "grandfather",
-    "proto": "father"
+    "proto": "father",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "grasshopper",
@@ -1588,13 +1711,17 @@ noun = [
   {
     "name": "infant",
     "proto": "human",
-    "anim": 2
+    "disabled": false,
+    "anim": "2",
+    "partOf": "null"
   },
   {
     "name": "janitor",
     "proto": "human",
-    "possessable": 2,
-    "posr": "tags:building"
+    "disabled": false,
+    "possessable": "3",
+    "posr": "tags:building",
+    "partOf": "null"
   },
   {
     "name": "jeep",
@@ -1646,8 +1773,9 @@ noun = [
   {
     "name": "mailman",
     "proto": "human",
-    "gender": "m",
-    "possessable": 3,
+    "disabled": false,
+    "possessable": "3",
+    "partOf": "null",
     "inflections": "pl:mailmen"
   },
   {
@@ -1667,17 +1795,23 @@ noun = [
   {
     "name": "minotaur",
     "proto": "human",
-    "anim": "2,3"
+    "disabled": false,
+    "anim": "2,3",
+    "partOf": "null"
   },
   {
     "name": "minion",
     "proto": "human",
-    "possessable": 6,
-    "posr": "anim:3"
+    "disabled": false,
+    "possessable": "6",
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "missionary",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "money",
@@ -1697,11 +1831,29 @@ noun = [
     "proto": "Batman"
   },
   {
-    "name": "mother",
+    "name": "boss",
     "proto": "human",
-    "gender": "f",
-    "possessable": 8,
-    "posr": "anim:>1"
+    "disabled": false,
+    "possessable": "8",
+    "posr": "anim:>1",
+    "partOf": "null"
+  },
+  {
+    "name": "mother",
+    "proto": "boss",
+    "disabled": false,
+    "gender": "female"
+  },
+  {
+    "name": "grandmother",
+    "proto": "mother",
+    "disabled": false
+  },
+  {
+    "name": "aunt",
+    "proto": "mother",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Mr. Magoo",
@@ -1710,20 +1862,30 @@ noun = [
   {
     "name": "neighbor",
     "proto": "human",
-    "possessable": 7,
-    "posr": "anim:3"
+    "disabled": false,
+    "possessable": "9",
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "visitor",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "guest",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "possessable": "6",
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "nerd",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "geek",
@@ -1731,91 +1893,160 @@ noun = [
   },
   {
     "name": "traitor",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "villain",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "hero",
     "proto": "human",
+    "disabled": false,
+    "posr": "anim:3",
+    "partOf": "null",
     "inflections": "pl:heroes"
   },
   {
     "name": "loser",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "slob",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "hoodlum",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "gangster",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "artist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "accountant",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "anarchist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "waitress",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "dancer",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "singer",
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "playwright",
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "director",
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "manager",
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "lawyer",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "possessable": "5",
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "lumberjack",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "soldier",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "linguist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "professor",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "posr": "tags:person",
+    "partOf": "null"
   },
   {
     "name": "scientist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "footballer",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "player",
     "proto": "human",
     "disabled": false,
+    "partOf": "null",
     "precomp": "DP{tags:game}"
   },
   {
     "name": "coach",
     "proto": "human",
     "disabled": false,
+    "partOf": "null",
     "precomp": "(88 DP{tags:sport})"
   },
   {
@@ -1823,267 +2054,409 @@ noun = [
     "proto": "human",
     "disabled": false,
     "possessable": "8",
-    "posr": "name: team1, pronominal:false"
+    "posr": "name: team1, pronominal:false",
+    "partOf": "null"
   },
   {
     "name": "hairdresser",
     "proto": "human",
-    "disabled": false
+    "disabled": false,
+    "posr": "tags:person",
+    "partOf": "null"
   },
   {
     "name": "supermodel",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "pianist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "spy",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "ambassador",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null",
+    "complements": "(of N{tags:country})"
   },
   {
     "name": "carpenter",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "blacksmith",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "maid",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "mechanic",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "posr": "tags:person",
+    "partOf": "null"
   },
   {
     "name": "musician",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "prisoner",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "possessable": "4",
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "slave",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "possessable": "4",
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "pilot",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "farmer",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "peasant",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "servant",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "possessable": "4",
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "mayor",
     "proto": "human",
+    "disabled": false,
+    "posr": "tags:city",
+    "partOf": "null",
     "complements": "(of DP{tags:city})"
   },
   {
     "name": "sheriff",
-    "proto": "mayor"
+    "proto": "mayor",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "cowboy",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "gynaecologist",
-    "proto": "human"
+    "proto": "doctor",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "dentist",
-    "proto": "human"
+    "proto": "doctor",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "detective",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "investigator",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "fugitive",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "hostage",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "witness",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "defendant",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "suspect",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "informant",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "florist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "beekeeper",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "passenger",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "possessable": "3",
+    "posr": "tags:person",
+    "partOf": "null"
   },
   {
     "name": "patient",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "possessable": "3",
+    "posr": "name:doctor, orsimilar:true",
+    "partOf": "null"
   },
   {
     "name": "taxidermist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "salesman",
     "proto": "human",
+    "disabled": false,
+    "partOf": "null",
     "precomp": "(55 N{tags:artifact, number:sg})",
     "inflections": "pl: salesmen"
   },
   {
     "name": "actor",
     "proto": "human",
-    "disabled": false
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "assistant",
     "proto": "human",
     "disabled": false,
-    "posr": "anim:3"
+    "posr": "anim:3",
+    "partOf": "null"
   },
   {
     "name": "priest",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "shepherd",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "magician",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "guard",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "captain",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "posr": "tags:waterVehicle",
+    "partOf": "null"
   },
   {
     "name": "clown",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "witch doctor",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "assassin",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "minstrel",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "wizard",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "druid",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "ninja",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "monk",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "nun",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "prophet",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Nerf-herder",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "stormtrooper",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Jedi",
     "proto": "human",
+    "disabled": false,
+    "partOf": "null",
     "inflections": "pl:Jedi"
   },
   {
     "name": "Jedi master",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Jedi warrior",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Sith lord",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "introvert",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "extrovert",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "tourist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "pedestrian",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "civilian",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Narnia",
@@ -2105,15 +2478,21 @@ noun = [
   },
   {
     "name": "Metropolis",
-    "proto": "London"
+    "proto": "London",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Gotham",
-    "proto": "London"
+    "proto": "London",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "New York",
-    "proto": "London"
+    "proto": "London",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Timbuktu",
@@ -2121,7 +2500,9 @@ noun = [
   },
   {
     "name": "Langley",
-    "proto": "London"
+    "proto": "London",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Helsinki",
@@ -2129,7 +2510,9 @@ noun = [
   },
   {
     "name": "El Paso",
-    "proto": "London"
+    "proto": "London",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Frankfurt",
@@ -2165,7 +2548,9 @@ noun = [
   },
   {
     "name": "ogre",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "parade",
@@ -2179,7 +2564,9 @@ noun = [
   {
     "name": "person",
     "proto": "human",
-    "possessable": 1,
+    "disabled": false,
+    "possessable": "1",
+    "partOf": "null",
     "inflections": "pl:people"
   },
   {
@@ -2191,7 +2578,9 @@ noun = [
   },
   {
     "name": "pirate",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "platypus",
@@ -2200,7 +2589,9 @@ noun = [
   },
   {
     "name": "polygamist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "porcupine",
@@ -2219,8 +2610,9 @@ noun = [
   {
     "name": "queen",
     "proto": "human",
-    "gender": "f",
-    "posr": "tags:territory|collective&person"
+    "disabled": false,
+    "posr": "tags:territory|collective&person",
+    "partOf": "null"
   },
   {
     "name": "queen.1",
@@ -2233,8 +2625,10 @@ noun = [
   {
     "name": "queen1",
     "proto": "queen",
-    "complements": "(60  of the N{anim:>1; number:pl;}  |40  of N{(67 number:pl; |33 count:false) tags: !feature} )",
-    "prohibitions": "def:indef,number:pl"
+    "prohibitions": "def:indef,number:pl",
+    "disabled": false,
+    "partOf": "null",
+    "complements": "(60  of the N{anim:>1; number:pl;}  |40  of N{(67 number:pl; |33 count:false) tags: !feature} )"
   },
   {
     "name": "king",
@@ -2248,12 +2642,14 @@ noun = [
   {
     "name": "emperor",
     "proto": "queen",
-    "gender": "m"
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "prime minister",
     "proto": "queen",
-    "gender": "--"
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "president",
@@ -2262,15 +2658,21 @@ noun = [
   },
   {
     "name": "prince",
-    "proto": "king"
+    "proto": "king",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "princess",
-    "proto": "queen"
+    "proto": "queen",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "duchess",
-    "proto": "queen"
+    "proto": "queen",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "earl",
@@ -2278,11 +2680,15 @@ noun = [
   },
   {
     "name": "chief",
-    "proto": "king"
+    "proto": "king",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "governor",
-    "proto": "president"
+    "proto": "president",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Queen Elizabeth",
@@ -2290,7 +2696,9 @@ noun = [
   },
   {
     "name": "rabble-rouser",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "refrigerator",
@@ -2308,7 +2716,9 @@ noun = [
   },
   {
     "name": "rockstar",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Himalaya",
@@ -2317,7 +2727,9 @@ noun = [
   {
     "name": "saint",
     "proto": "human",
-    "possessable": 2
+    "disabled": false,
+    "possessable": "2",
+    "partOf": "null"
   },
   {
     "name": "Santa Clause",
@@ -2335,7 +2747,8 @@ noun = [
   },
   {
     "name": "sister",
-    "proto": "mother"
+    "proto": "mother",
+    "disabled": false
   },
   {
     "name": "skunk",
@@ -2404,7 +2817,9 @@ noun = [
   },
   {
     "name": "Europe",
-    "proto": "Japan"
+    "proto": "Japan",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "North America",
@@ -2425,7 +2840,9 @@ noun = [
   {
     "name": "Spaniard",
     "proto": "human",
-    "possessable": 0
+    "disabled": false,
+    "possessable": "0",
+    "partOf": "null"
   },
   {
     "name": "spider",
@@ -2456,7 +2873,9 @@ noun = [
   },
   {
     "name": "student",
-    "proto": "doctor"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "tank",
@@ -2520,8 +2939,10 @@ noun = [
   {
     "name": "victim",
     "proto": "human",
-    "possessable": 3,
-    "posr": "anim:>1"
+    "disabled": false,
+    "possessable": "3",
+    "posr": "anim:>1",
+    "partOf": "null"
   },
   {
     "name": "War and Peace",
@@ -2542,7 +2963,9 @@ noun = [
   },
   {
     "name": "wipper-snapper",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "wolf",
@@ -2562,7 +2985,9 @@ noun = [
   {
     "name": "wookie",
     "proto": "human",
-    "possessable": 2
+    "disabled": false,
+    "possessable": "2",
+    "partOf": "null"
   },
   {
     "name": "yeti",
@@ -2617,65 +3042,132 @@ noun = [
   },
   {
     "name": "gang",
-    "proto": "team"
+    "proto": "team",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "cartel",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null",
+    "precomp": "(drug)",
+    "complements": "--"
+  },
+  {
+    "name": "guild",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "platoon",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "posse",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "class",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "congregation",
+    "proto": "choir",
+    "disabled": false,
+    "partOf": "null"
+  },
+  {
+    "name": "think tank",
+    "proto": "choir"
+  },
+  {
+    "name": "cadre",
     "proto": "team",
-    "precomp": "(drug)"
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "government",
     "proto": "choir",
-    "posr": "tags:territory"
+    "disabled": false,
+    "posr": "tags:territory",
+    "partOf": "null"
   },
   {
     "name": "FBI",
     "proto": "choir",
-    "unique": 1,
+    "disabled": false,
+    "partOf": "null",
+    "unique": "1",
     "count": "false"
   },
   {
     "name": "CIA",
-    "proto": "FBI"
+    "proto": "FBI",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "MI^6",
     "proto": "FBI",
-    "unique": 2
+    "disabled": false,
+    "partOf": "null",
+    "unique": "2"
   },
   {
     "name": "Jedi Council",
-    "proto": "FBI"
+    "proto": "FBI",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "UN",
-    "proto": "FBI"
+    "proto": "FBI",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Supreme Court",
-    "proto": "FBI"
+    "proto": "FBI",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Mafia",
-    "proto": "FBI"
+    "proto": "FBI",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "choir",
     "proto": "team",
+    "disabled": false,
+    "partOf": "null",
     "complements": "--"
   },
   {
     "name": "band",
-    "proto": "team"
+    "proto": "team",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "herd",
     "proto": "team",
-    "anim": 2,
-    "size": "8,9",
+    "disabled": false,
     "tags": "collective,-",
-    "complements": "(60 of N{number:pl;anim:2;pronominal:false;person:3;tags:!collective})"
+    "anim": "2",
+    "partOf": "null",
+    "size": "8,9",
+    "complements": "(60 of N{number:pl;anim:2;tags:!collective})"
   },
   {
     "name": "luggage",
@@ -2685,7 +3177,10 @@ noun = [
   {
     "name": "flock",
     "proto": "herd",
-    "size": "8,9"
+    "disabled": false,
+    "partOf": "null",
+    "size": "8,9",
+    "complements": "(60 of N{number:pl;tags:bird})"
   },
   {
     "name": "plan",
@@ -2724,7 +3219,10 @@ noun = [
   },
   {
     "name": "population",
-    "proto": "government"
+    "proto": "government",
+    "disabled": false,
+    "partOf": "null",
+    "unique": "1"
   },
   {
     "name": "toil",
@@ -2738,12 +3236,17 @@ noun = [
   {
     "name": "denizen",
     "proto": "citizen",
-    "posr": "tags:place"
+    "disabled": false,
+    "posr": "tags:place",
+    "partOf": "null"
   },
   {
     "name": "author",
     "proto": "human",
-    "posr": "name:book,orsimilar:true"
+    "disabled": false,
+    "possessable": "4",
+    "posr": "name:book,orsimilar:true",
+    "partOf": "null"
   },
   {
     "name": "parking lot",
@@ -2769,36 +3272,50 @@ noun = [
   {
     "name": "ex-girlfriend",
     "proto": "human",
-    "gender": "f",
-    "possessable": 8,
-    "posr": "anim:3,gender:!f"
+    "disabled": false,
+    "possessable": "9",
+    "posr": "anim:3,gender:!f",
+    "partOf": "null"
   },
   {
     "name": "friend",
     "proto": "human",
-    "possessable": 7
+    "disabled": false,
+    "possessable": "9",
+    "posr": "tags:person",
+    "partOf": "null"
   },
   {
     "name": "stranger",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "foreigner",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "immigrant",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "owner",
     "proto": "human",
-    "possessable": 8,
-    "posr": "anim:<3,tags:object"
+    "disabled": false,
+    "possessable": "8",
+    "posr": "anim:<3,tags:object",
+    "partOf": "null"
   },
   {
     "name": "owner1",
     "proto": "human",
+    "disabled": false,
+    "partOf": "null",
     "complements": "(of DP{tags:item|animal|building|organization;def:def;partial:false})"
   },
   {
@@ -2859,12 +3376,15 @@ noun = [
   {
     "name": "midget",
     "proto": "human",
-    "size": 5
+    "disabled": false,
+    "partOf": "null",
+    "size": "5"
   },
   {
     "name": "witch",
     "proto": "human",
-    "gender": "f"
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "floor",
@@ -3032,7 +3552,9 @@ noun = [
   },
   {
     "name": "Crimea",
-    "proto": "Alabama"
+    "proto": "Alabama",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Ontario",
@@ -3040,7 +3562,9 @@ noun = [
   },
   {
     "name": "California",
-    "proto": "Alabama"
+    "proto": "Alabama",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Arizona",
@@ -3197,14 +3721,14 @@ noun = [
   },
   {
     "name": "heat",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 2,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "disabled": false,
     "tags": "energy, feelable",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "1",
+    "possessable": "2",
+    "partOf": "null",
+    "size": "0",
+    "count": "false"
   },
   {
     "name": "pressure",
@@ -3710,7 +4234,9 @@ noun = [
   },
   {
     "name": "hipster",
-    "proto": "person"
+    "proto": "person",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "coast",
@@ -4212,19 +4738,27 @@ noun = [
   },
   {
     "name": "left-wing radical",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "right-wing extremist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "fundamentalist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "hippie",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "environmentalist",
@@ -4240,7 +4774,9 @@ noun = [
   },
   {
     "name": "fascist",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "feminist",
@@ -4269,7 +4805,9 @@ noun = [
   },
   {
     "name": "drug dealer",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "hobo",
@@ -4290,11 +4828,15 @@ noun = [
   },
   {
     "name": "butler",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "cable guy",
-    "proto": "human"
+    "proto": "human",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "tech support",
@@ -6390,7 +6932,9 @@ noun = [
   },
   {
     "name": "Beijing",
-    "proto": "London"
+    "proto": "London",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Bogotá",
@@ -7264,7 +7808,9 @@ noun = [
   },
   {
     "name": "Georgia",
-    "proto": "Japan"
+    "proto": "Japan",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Zimbabwe",
@@ -7272,7 +7818,9 @@ noun = [
   },
   {
     "name": "Jamaica",
-    "proto": "Japan"
+    "proto": "Japan",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Albania",

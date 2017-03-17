@@ -53,7 +53,7 @@ function branch(c, r, p, l, x, y) {
     //dump almost all other c.properties into this
     for(var prop in c){
         if(prop!='head' && prop!='children')
-            this[prop] = c[prop];
+            this[prop] = this[prop]||c[prop];
     }
     //for the rare construction that has a built-in restrictions property
     //this prevents the above loop from overwriting passed in restrictions
@@ -67,6 +67,8 @@ function branch(c, r, p, l, x, y) {
 
         //create a happy package of all the important restrictions on this word, for grabbing from elsewhere
         if (r) this.R = safe(this, this.type)
+        //and make orig safe too
+        if (this.orig) this.orig = safe(this.orig, this.type)
 
         //on rare occasions global restrictions are specified on words, so make sure they get global
         registerGR(c)

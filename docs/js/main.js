@@ -382,6 +382,9 @@ function get(r){
     if(!word)
         return {text: error("No "+r.type+" could be get'd with the following restrictions: "+JSON.stringify(r))}
 
+    //store original database word inside "word" before merging restrictions into "word"
+    word.orig = _.clone(word)
+
     //add existing restrictions to the word
     word = $.extend({},r,word)
 
