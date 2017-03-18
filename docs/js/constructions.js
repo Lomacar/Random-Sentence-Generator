@@ -30,7 +30,7 @@ function PASSIVE(r){
         children: {
             subject: [NP, {pronominal: false}],
             predicate: [VP_PASV, _.extend({copulant: false, ptpl: 'past', pasv:true, def: choose(1, 'indef', 9, 'def'), unpack:'subject.anim-tang-size-tags'},r)],
-            pasvSubj: [complement, {'case':'nom', complements: 'predicate.compcore', unpack:'predicate.number-person', pasv: true, desc: 'subject'}],
+            pasvSubj: [complement, {'case':'nom', complements: 'predicate.compcore', unpack:'predicate.core', pasv: true, desc: 'subject'}],
             aux:  [auxiliary, _.extend({}, r, {copulant: false, pasv: true, unpack: 'pasvSubj.number-person'}) ]
         }
     }
@@ -84,7 +84,7 @@ function DP(r){
             noun:       [N,{def: r.def}],
             det:        r.nodeterminer ? [blank] : [DET, {unpack: 'noun.R'}],
             preadj:     r.superlative || toss(0.8) ? [blank] : [SPECIAL_A, 'noun.R'],
-            quant:      [QUANT,_.extend({unpack:'noun.R', prequant: false, amount: 'det.amount'},r)],
+            quant:      [QUANT,{unpack:'noun.R', prequant: false, amount: 'det.amount'}],
             super:      route(r.def == 'def' && r.superlative,{
                             true: [A, {unpack:'noun.R', no_adj: 'noun.unique', superlative: true, desc:'ap'}],
                             false: [blank]
@@ -732,6 +732,7 @@ function VP_PASV(r){
         hasComplement: "noncore",
         children: {
             vp: [V_PASV, {desc:'verb'}],
+            core: [complement, {'case':'acc','complements': 'vp.compcore', neg:r.neg}],
             noncore: [VP_PASV_PT2, {unpack: 'vp.R', desc:'passive stuff'}]
         }
     }
@@ -1205,7 +1206,7 @@ function TITLE(r){
 
 
 function PASV_SWITCH(r){
-    var patient = r.pasv ? 'subject' : 'vp.compcore'
+    var patient = r.pasv ? 'core' : 'vp.compcore'
 
     //find the patient property and "rename it" to point to the right place
     for (var x in r) {

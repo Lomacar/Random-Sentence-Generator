@@ -2630,7 +2630,7 @@ noun = [
     "posr": "--",
     "partOf": "null",
     "unique": "1",
-    "complements": "of DP{tags:territory;}"
+    "complements": "of DP{tags:territory}"
   },
   {
     "name": "queen1",
@@ -2638,7 +2638,7 @@ noun = [
     "prohibitions": "def:indef,number:pl",
     "disabled": false,
     "partOf": "null",
-    "complements": "(60  of the N{anim:>1; number:pl;}  |40  of N{(67 number:pl; |33 count:false) tags: !feature} )"
+    "complements": "(60  of the N{anim:>1; number:pl;}  |40  of N{(67 number:pl; |33 count:false;) tags: !feature} )"
   },
   {
     "name": "king",
@@ -7411,7 +7411,7 @@ noun = [
     "proto": "London"
   },
   {
-    "name": "Washington^,^ DC",
+    "name": "Washington^,^ D^.C^.",
     "proto": "London",
     "disabled": false,
     "partOf": "null"

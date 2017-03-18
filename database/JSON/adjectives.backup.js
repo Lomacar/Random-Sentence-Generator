@@ -995,7 +995,6 @@ adjective = [
     "name": "mighty",
     "disabled": false,
     "rank": "5",
-    "tags": "sdfgdsfg",
     "anim": ">1",
     "scalar": "2",
     "superform": "-er"

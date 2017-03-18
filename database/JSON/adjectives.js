@@ -1751,7 +1751,7 @@ adjective = [
     "rank": "3",
     "tags": "person|beast",
     "scalar": "2",
-    "superform": "-er"
+    "superform": "more"
   },
   {
     "name": "heartbroken",

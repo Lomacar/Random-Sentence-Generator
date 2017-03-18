@@ -537,7 +537,6 @@ verb = [
     "name": "say",
     "disabled": false,
     "class": "event",
-    "vtags": "speech",
     "anim": "3",
     "ptpl": "null",
     "compext": "THAT_CLAUSE",
@@ -1930,32 +1929,36 @@ verb = [
   },
   {
     "name": "fail",
+    "disabled": false,
     "class": "event",
-    "volition": "FALSE",
-    "ptpl": "null",
     "tags": "telic|procedure|device",
-    "vtags": "--"
+    "vtags": "--",
+    "ptpl": "null"
   },
   {
     "name": "fail.1",
     "proto": "fail",
-    "anim": 3,
-    "ptpl": "-",
+    "disabled": false,
     "tags": "--",
-    "vtags": "--"
+    "vtags": "--",
+    "anim": "3",
+    "ptpl": "-"
   },
   {
     "name": "fail1",
     "proto": "fail",
+    "disabled": false,
+    "vtags": "--",
     "anim": ">1",
     "ptpl": "-",
-    "vtags": "--",
-    "compcore": "( NP{ tags:telic }  | at NP{tags:activity;number:sg})"
+    "compcore": "NP{ tags:telic } "
   },
   {
     "name": "fail1.1",
     "proto": "fail1",
-    "compext": "INF_PHRASE"
+    "disabled": false,
+    "compcore": "--",
+    "compext": "(INF_PHRASE | at NP{tags:activity;number:sg})"
   },
   {
     "name": "pend",
@@ -3144,7 +3147,7 @@ verb = [
     "proto": "punch",
     "disabled": false,
     "compcore": "NP{tags:creature}",
-    "compext": "(70 in the PASV_SWITCH{construction: N; partOf:  $patient.tags; number: sg})"
+    "compext": "(70 in the PASV_SWITCH{construction: N; partOf: $patient.tags; number: sg})"
   },
   {
     "name": "kick",
