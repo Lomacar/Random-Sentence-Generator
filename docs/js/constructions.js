@@ -1059,7 +1059,7 @@ function ACTION (r) {
         labelChildren: true,
         hasComplement: "actcomp",
         children: {                                                  //quick fix to avoid messy verbs in lexicon
-            ving: [V, {aspect: 'prog', tense: 'pres', pasv: 'false', ptpl:'!-', desc: 'gerund'}],
+            ving: [V, {aspect: 'prog', tense: 'pres', pasv: 'false', ptpl:'!null', desc: 'gerund'}],
             actcomp: [ACTION_PT2, {trans:'ving.trans', desc: 'complement'}]
         },
         postlogic: function (text) {
@@ -1073,11 +1073,6 @@ function ACTION_PT2 (r) {
 
     var comp //= r.trans > 0.5
     var of = 'of '
-//        //transitive verbs use the object (eating of the pizza)
-//        ? [complement, {complements:'ving.compcore', nocomplement: -1}]
-//        //intransitive verbs use the subject (running of the bulls)
-//        //'semi-transitive' verbs get nothing (*arguing of with John )
-//        : r.trans == 0.5 ? [filler, {filler:''}] : [NP, {unpack: 'ving.R'}]
 
     switch (r.trans) {
         case 0:
@@ -1086,8 +1081,9 @@ function ACTION_PT2 (r) {
             break
         case 0.5:
             //'semi-transitive' verbs get nothing (*arguing of with John )
-            comp = [filler, {filler:''}]
-            of = ''
+            //comp = [filler, {filler:''}]
+            //actually, just treat them like intransitive
+            comp = [NP, {unpack: 'ving.R'}]
             break
         default:
             //transitive verbs use the object (eating of the pizza)

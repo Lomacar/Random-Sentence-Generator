@@ -56,13 +56,14 @@ noun = [
   },
   {
     "name": "apocalypse",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
+    "disabled": false,
     "tags": "event",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "partOf": "null",
+    "unique": "1",
+    "count": "false"
   },
   {
     "name": "North",
@@ -76,14 +77,15 @@ noun = [
   },
   {
     "name": "Taj Mahal",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
-    "size": 8,
+    "disabled": false,
     "tags": "building",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "2",
+    "possessable": "0",
+    "partOf": "null",
+    "size": "8",
+    "unique": "1",
+    "count": "false"
   },
   {
     "name": "Canuck",
@@ -132,12 +134,16 @@ noun = [
   {
     "name": "Pope",
     "proto": "Jack",
-    "unique": 1
+    "disabled": false,
+    "partOf": "null",
+    "unique": "1"
   },
   {
     "name": "Popemobile",
     "proto": "car",
-    "unique": 1
+    "disabled": false,
+    "partOf": "null",
+    "unique": "1"
   },
   {
     "name": "Sahara Desert",
@@ -340,16 +346,15 @@ noun = [
   },
   {
     "name": "cattle",
-    "anim": 2,
-    "tang": 2,
-    "possessable": 4,
-    "unique": 0,
-    "count": 0.5,
-    "size": 6,
-    "tags": "collective",
-    "inflections": "pl:cattle",
     "prohibitions": "number:sg",
-    "partOf": "null"
+    "disabled": false,
+    "tags": "collective",
+    "anim": "2",
+    "tang": "2",
+    "possessable": "4",
+    "partOf": "null",
+    "size": "6",
+    "inflections": "pl:cattle"
   },
   {
     "name": "Alp",
@@ -629,36 +634,39 @@ noun = [
   },
   {
     "name": "sky",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
-    "size": 0,
+    "disabled": false,
     "tags": "thing, volume, elevated",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "partOf": "null",
+    "size": "0",
+    "unique": "1",
+    "count": "false"
   },
   {
     "name": "truth",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
-    "size": 0,
+    "disabled": false,
     "tags": "concept",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "partOf": "null",
+    "size": "0",
+    "unique": "1",
+    "count": "false"
   },
   {
     "name": "weather",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
-    "size": 0,
+    "disabled": false,
     "tags": "weather",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "partOf": "null",
+    "size": "0",
+    "unique": "1",
+    "count": "false"
   },
   {
     "name": "wind",
@@ -1110,15 +1118,15 @@ noun = [
   },
   {
     "name": "tendency",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 7,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "disabled": false,
     "tags": "tendency",
-    "complements": "(40 INF_PHRASE   | 25 toward GP)",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "0",
+    "possessable": "7",
+    "partOf": "null",
+    "size": "0",
+    "count": "true",
+    "complements": "(40 INF_PHRASE   | 25 toward GP)"
   },
   {
     "name": "toy",
@@ -1271,15 +1279,15 @@ noun = [
   },
   {
     "name": "bag",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": "4,5,6,7",
+    "disabled": false,
     "tags": "vessel",
-    "complements": "(90 of N{(tags: item; (number:pl | count:false); anim:<2; unique:0; size:<noun.size | tags:substance) } )",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "partOf": "null",
+    "size": "4,5,6,7",
+    "count": "true",
+    "complements": "(90 of N{(tags: item; (number:pl | count:false); anim:<2; unique:0; size:<noun.size | tags:substance) } )"
   },
   {
     "name": "banana",
@@ -2617,10 +2625,12 @@ noun = [
   {
     "name": "queen.1",
     "proto": "queen",
+    "prohibitions": "def:indef",
+    "disabled": false,
     "posr": "--",
-    "unique": 1,
-    "complements": "of DP{tags:territory;}",
-    "prohibitions": "def:indef"
+    "partOf": "null",
+    "unique": "1",
+    "complements": "of DP{tags:territory;}"
   },
   {
     "name": "queen1",
@@ -3221,7 +3231,8 @@ noun = [
     "name": "population",
     "proto": "government",
     "disabled": false,
-    "partOf": "null"
+    "partOf": "null",
+    "unique": "1"
   },
   {
     "name": "toil",
@@ -3510,13 +3521,17 @@ noun = [
   {
     "name": "ocean",
     "proto": "lake",
-    "unique": 1,
-    "size": 13
+    "disabled": false,
+    "partOf": "null",
+    "size": "13",
+    "unique": "1"
   },
   {
     "name": "Ocean",
     "proto": "ocean",
-    "unique": 1,
+    "disabled": false,
+    "partOf": "null",
+    "unique": "1",
     "count": "false",
     "precomp": "(Atlantic|Pacific|Indian)"
   },
@@ -3598,14 +3613,14 @@ noun = [
   },
   {
     "name": "planet",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 14,
+    "disabled": false,
     "tags": "land,surface",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "1",
+    "possessable": "2",
+    "partOf": "null",
+    "size": "14",
+    "count": "true"
   },
   {
     "name": "asteroid",
@@ -3625,7 +3640,9 @@ noun = [
   {
     "name": "Earth",
     "proto": "planet",
-    "unique": 1,
+    "disabled": false,
+    "partOf": "null",
+    "unique": "1",
     "count": "false"
   },
   {
@@ -3720,14 +3737,14 @@ noun = [
   },
   {
     "name": "heat",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 2,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "disabled": false,
     "tags": "energy, feelable",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "1",
+    "possessable": "2",
+    "partOf": "null",
+    "size": "0",
+    "count": "false"
   },
   {
     "name": "pressure",
@@ -3880,16 +3897,16 @@ noun = [
   },
   {
     "name": "farm",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 5,
-    "posr": "tags: person|organization",
-    "unique": 0,
-    "count": "true",
-    "size": 8,
+    "disabled": false,
     "tags": "field, hasFront",
-    "precomp": "--",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "1",
+    "possessable": "5",
+    "posr": "tags: person|organization",
+    "partOf": "null",
+    "size": "8",
+    "count": "true",
+    "precomp": "--"
   },
   {
     "name": "ranch",
@@ -3899,7 +3916,9 @@ noun = [
   {
     "name": "space station",
     "proto": "farm",
-    "tags": "building"
+    "disabled": false,
+    "tags": "building",
+    "partOf": "null"
   },
   {
     "name": "Death Star",
@@ -4353,14 +4372,15 @@ noun = [
   },
   {
     "name": "center",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 0,
-    "unique": 1,
-    "count": "false",
+    "disabled": false,
     "tags": "position, point",
-    "complements": "(88 of NP{tags:container|area|space;number:noun.number})",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "1",
+    "possessable": "0",
+    "partOf": "null",
+    "unique": "1",
+    "count": "false",
+    "complements": "(88 of NP{tags:container|area|space;number:noun.number})"
   },
   {
     "name": "top",
@@ -4371,7 +4391,9 @@ noun = [
   {
     "name": "bottom",
     "proto": "center",
+    "disabled": false,
     "tags": "bottom",
+    "partOf": "null",
     "complements": "(88 of NP{tags:hasHeight|structure|volume|line&vertical;number:noun.number})"
   },
   {
@@ -5797,10 +5819,12 @@ noun = [
   {
     "name": "Olympic",
     "proto": "game",
-    "unique": 1,
+    "prohibitions": "number:sg",
+    "disabled": false,
+    "partOf": "null",
+    "unique": "1",
     "count": "true",
-    "precomp": "((_Winter|_Summer))",
-    "prohibitions": "number:sg"
+    "precomp": "((_Winter|_Summer))"
   },
   {
     "name": "opera",
@@ -5871,13 +5895,15 @@ noun = [
   {
     "name": "science",
     "proto": "politics",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 2,
-    "count": "false",
-    "size": 0,
-    "tags": "fieldOfStudy"
+    "disabled": false,
+    "tags": "fieldOfStudy",
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "partOf": "null",
+    "size": "0",
+    "unique": "2",
+    "count": "false"
   },
   {
     "name": "religion",
@@ -5889,31 +5915,40 @@ noun = [
   },
   {
     "name": "politics",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 2,
-    "count": "false",
-    "size": 0,
+    "disabled": false,
     "tags": "enterprise",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "partOf": "null",
+    "size": "0",
+    "unique": "2",
+    "count": "false"
   },
   {
     "name": "warfare",
-    "proto": "politics"
+    "proto": "politics",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "diplomacy",
-    "proto": "politics"
+    "proto": "politics",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "terrorism",
-    "proto": "politics"
+    "proto": "politics",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "marketing",
     "proto": "politics",
-    "tags": "business"
+    "disabled": false,
+    "tags": "business",
+    "partOf": "null"
   },
   {
     "name": "astrology",
@@ -5933,7 +5968,9 @@ noun = [
   },
   {
     "name": "healthcare",
-    "proto": "politics"
+    "proto": "politics",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "crime",
@@ -6125,15 +6162,15 @@ noun = [
   },
   {
     "name": "song",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 6,
-    "posr": "tags: person",
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "disabled": false,
     "tags": "song",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "0",
+    "possessable": "6",
+    "posr": "tags: person",
+    "partOf": "null",
+    "size": "0",
+    "count": "true"
   },
   {
     "name": "music",
@@ -6171,9 +6208,11 @@ noun = [
   {
     "name": "blue",
     "proto": "song",
-    "possessable": 0,
-    "unique": 1,
-    "prohibitions": "number:sg"
+    "prohibitions": "number:sg",
+    "disabled": false,
+    "possessable": "0",
+    "partOf": "null",
+    "unique": "1"
   },
   {
     "name": "jazz",
@@ -7372,8 +7411,10 @@ noun = [
     "proto": "London"
   },
   {
-    "name": "Washington^, DC",
-    "proto": "London"
+    "name": "Washington^,^ DC",
+    "proto": "London",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "Vatican City",
