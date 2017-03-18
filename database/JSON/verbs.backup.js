@@ -555,7 +555,7 @@ verb = [
     "name": "prophesy",
     "proto": "say",
     "disabled": false,
-    "compext": "THAT_CLAUSE{(40 aspect:prosp |60 tense:fut), mood:ind, aspect: (75 simp |25 prog) }",
+    "compext": "THAT_CLAUSE{tense:fut, aspect: (75 simp |25 prog), mood:ind }",
     "inflections": "--"
   },
   {
@@ -3730,9 +3730,9 @@ verb = [
     "name": "hide",
     "disabled": false,
     "class": "event",
-    "ptpl": "null",
     "vtags": "situated",
     "anim": ">1",
+    "ptpl": "null",
     "compext": "(LOCATION)",
     "inflections": "simp.past: hid, retro: hidden"
   },

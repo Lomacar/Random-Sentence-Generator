@@ -1214,6 +1214,7 @@ adjective = [
     "name": "wimpy",
     "proto": "mighty",
     "disabled": false,
+    "tags": "creature",
     "opposite": "--"
   },
   {

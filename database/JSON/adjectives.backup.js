@@ -894,6 +894,7 @@ adjective = [
     "name": "invisible",
     "disabled": false,
     "rank": "1",
+    "tags": "visible",
     "scalar": "0"
   },
   {
@@ -994,6 +995,7 @@ adjective = [
     "name": "mighty",
     "disabled": false,
     "rank": "5",
+    "tags": "sdfgdsfg",
     "anim": ">1",
     "scalar": "2",
     "superform": "-er"
@@ -1213,6 +1215,7 @@ adjective = [
     "name": "wimpy",
     "proto": "mighty",
     "disabled": false,
+    "tags": "creature",
     "opposite": "--"
   },
   {

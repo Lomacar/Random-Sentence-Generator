@@ -436,6 +436,7 @@ verb = [
     "vtags": "--",
     "anim": ">1",
     "tang": "!0",
+    "volition": "false",
     "ptpl": "null",
     "compext": "(WH_CLAUSE   | WH_INF{volition:true})",
     "inflections": "simp.past:knew, retro:known"
@@ -443,15 +444,17 @@ verb = [
   {
     "name": "know1",
     "proto": "know",
-    "ptpl": "-",
+    "disabled": false,
     "vtags": "--",
+    "ptpl": "-",
     "compext": "(40  THAT_CLAUSE    |40  about NP)"
   },
   {
     "name": "know1.1",
     "proto": "know",
-    "ptpl": "past",
+    "disabled": false,
     "vtags": "--",
+    "ptpl": "past",
     "compcore": "NP{tags: person|activity|fieldOfStudy}",
     "compext": "--"
   },
@@ -555,7 +558,7 @@ verb = [
     "name": "prophesy",
     "proto": "say",
     "disabled": false,
-    "compext": "THAT_CLAUSE{(40 aspect:prosp |60 tense:fut), mood:ind, aspect: (75 simp |25 prog) }",
+    "compext": "THAT_CLAUSE{tense:fut, aspect: (75 simp |25 prog), mood:ind }",
     "inflections": "--"
   },
   {
@@ -2809,11 +2812,13 @@ verb = [
   },
   {
     "name": "provoke",
-    "proto": "incite"
+    "proto": "incite",
+    "disabled": false
   },
   {
     "name": "provoke1",
     "proto": "provoke",
+    "disabled": false,
     "compext": "into GP{volition:true}"
   },
   {

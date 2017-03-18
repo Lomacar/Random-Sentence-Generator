@@ -109,6 +109,9 @@ function saveToDisk() {
         alert("There are "+_.size(errors)+" entries with errors.")
         console.log(errors);
     } else {
+        var focused = ($(':focus')); // for some stupid reason
+        focused.blur()               // the form won't be up to date when saving,
+        focused.focus()              // unless you do this
         saveEntry()
 
         $.ajax({
@@ -382,6 +385,7 @@ function saveEntry () {
     }
 
     //update lexicon
+    console.log(editor.getValue().tags);
     lexicon[currentIndex] = editor.getValue()
     prune(lexicon[currentIndex])
 
@@ -433,6 +437,9 @@ $('#editor').on('keydown', e=>{
     switch (e.key) {
         case 'Enter':
             e.preventDefault()
+            var focused = ($(':focus'));
+            focused.blur() //for some stupid reason the form won't be up to date when saving, unless you do this
+            focused.focus()
             saveEntry()
             break;
         case 'ArrowDown':

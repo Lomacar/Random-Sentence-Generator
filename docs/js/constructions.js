@@ -71,6 +71,9 @@ function DP(r){
 
     var order = r.def == "def" ? "preadj* quant*" : "quant* preadj*"
 
+//    console.log("DP");
+//    console.log(r.def);
+
     return {
         order : "det "+order+" super* adj* nprecomp* noun ncomp*",
         head : "noun",
@@ -78,9 +81,9 @@ function DP(r){
         labelChildren: true,
         hasComplement: "ncomp,nprecomp",
         children: {
-            noun:       [N],
+            noun:       [N,{def: r.def}],
             det:        r.nodeterminer ? [blank] : [DET, {unpack: 'noun.R'}],
-            preadj:     r.superlative || toss(0.8) ? [blank] : [SPECIAL_A, 'noun'],
+            preadj:     r.superlative || toss(0.8) ? [blank] : [SPECIAL_A, 'noun.R'],
             quant:      [QUANT,_.extend({unpack:'noun.R', prequant: false, amount: 'det.amount'},r)],
             super:      route(r.def == 'def' && r.superlative,{
                             true: [A, {unpack:'noun.R', no_adj: 'noun.unique', superlative: true, desc:'ap'}],
@@ -99,6 +102,8 @@ function DP(r){
 
 
 function DET(r) {
+//    console.log("DET");
+//    console.log(r.def);
 
     var out = {text: ''}
 
@@ -201,9 +206,10 @@ function QUANT(r){
     if(!r.unique && r.count==false || r.number=='pl') {
         decide(r, 'quantified')
         if (r.quantified) {
-    //        if(r.def!='def'){
-    //
-    //        }
+
+//            console.log("QUANT");
+//            console.log(r.def);
+
             r.prequant = r.prequant || false
             r.neg = r.neg || false
             if(r.count==true && (toss(0.3) || r.def=='def')) {
@@ -232,7 +238,7 @@ function PREQUANT(r){
         head: 'quant',
         labelChildren: true,
         children: {
-            quant: [QUANT, {prequant: true, desc: 'quantifier', quantified: true, def: false}],
+            quant: [QUANT, {prequant: true, desc: 'quantifier', quantified: true, def: 'indef'}],
             det: [DET, r]
         }
     }
