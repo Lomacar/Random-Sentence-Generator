@@ -5,11 +5,11 @@ database.aux_verb = [
 ]
 
 database.quantifier = [
-    {name: 'a lot', prequant: true},
+    {name: 'a lot', prequant: true, amount: 10},
     //{name: 'heaps', prequant: true},
-    {name: 'tons', prequant: true},
+    {name: 'tons', prequant: true, amount: 50},
     //{name: 'plenty', prequant: true},
-    {name: 'a bunch', prequant: true},
+    {name: 'a bunch', prequant: true, amount: 10},
     //{name: 'none', prequant: true, def:'def'},
     //{name: 'no', prequant: false, neg: false},
 
@@ -28,21 +28,21 @@ database.quantifier = [
     {name: 'all', prequant: true, def:'def'},
 
     {name: 'numerous', prequant: false, count: 1},
-    {name: 'a couple', prequant: true, count: 1},
+    {name: 'a couple', prequant: true, count: 1, amount: 3},
 
-    {name: 'a few', prequant: false, count: 1},
-    {name: 'a few', prequant: true, def:'def', count: 1},
-    {name: 'each', prequant: false, number: 'sg', count: 1},
-    {name: 'each', prequant: true, def:'def', count: 1},
-    {name: 'both', prequant: false, count: 1},
-    {name: 'both', prequant: true, def:'def', count: 1},
-    {name: 'several', prequant: false, count: 1},
-    {name: 'several', prequant: true, def:'def', count: 1},
-    {name: 'many', prequant: false, count: 1},
-    {name: 'many', prequant: true, def:'def', count: 1},
+    {name: 'a few', prequant: false, count: 1, amount: 4},
+    {name: 'a few', prequant: true, def:'def', count: 1, amount: 4},
+    {name: 'each', prequant: false, number: 'sg', count: 1, amount: 3},
+    {name: 'each', prequant: true, def:'def', count: 1, amount: 3},
+    {name: 'both', prequant: false, count: 1, amount: 2},
+    {name: 'both', prequant: true, def:'def', count: 1, amount: 2},
+    {name: 'several', prequant: false, count: 1, amount: 5},
+    {name: 'several', prequant: true, def:'def', count: 1, amount: 5},
+    {name: 'many', prequant: false, count: 1, amount: 8},
+    {name: 'many', prequant: true, def:'def', count: 1, amount: 8},
     {name: 'a number', prequant: true, count: 1},
-    {name: 'dozens', prequant: true, count: 1},
-    {name: 'hundreds', prequant: true, count: 1},
+    {name: 'dozens', prequant: true, count: 1, amount: 48},
+    {name: 'hundreds', prequant: true, count: 1, amount: 400},
 
     {name: 'much', prequant: false, count: 0},
     {name: 'much', prequant: true, def:'def', count: 0},
@@ -275,7 +275,7 @@ var probabilities = {
     def:        [3,'def', 1,'indef'],
     proper:     [2,true, 7,false],
     partial:    [1,'', 1,'partial'],
-    quantified: [0.3, true, 0.7, false],
+    quantified: [2, true, 9, false],
 
     //pronominal
     person:     [1,1, 1,2, 20,3],

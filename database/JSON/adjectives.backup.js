@@ -1,5 +1,12 @@
 adjective = [
   {
+    "name": "favorite",
+    "prohibitions": "superlative: false, possessed: false",
+    "disabled": false,
+    "rank": "-999",
+    "scalar": "2"
+  },
+  {
     "name": "Australian",
     "proto": "Canadian",
     "disabled": false
@@ -285,6 +292,7 @@ adjective = [
   {
     "name": "calm1",
     "disabled": false,
+    "rank": "2",
     "tags": "bodyOfWater|terrain|manyOtherThings",
     "anim": "0",
     "scalar": "2",
@@ -1421,7 +1429,7 @@ adjective = [
     "name": "puny",
     "proto": "giant",
     "disabled": false,
-    "scalar": "2"
+    "scalar": "0"
   },
   {
     "name": "pathetic",
@@ -1620,7 +1628,7 @@ adjective = [
   {
     "name": "sturdy",
     "disabled": false,
-    "rank": "3",
+    "rank": "5",
     "tags": "structure",
     "scalar": "2",
     "superform": "-er"
@@ -1659,10 +1667,9 @@ adjective = [
   },
   {
     "name": "flimsy",
+    "proto": "sturdy",
     "disabled": false,
-    "tags": "construction",
-    "scalar": "2",
-    "superform": "-er"
+    "tags": "construction"
   },
   {
     "name": "well-built",
@@ -1675,6 +1682,7 @@ adjective = [
   {
     "name": "high-end",
     "disabled": false,
+    "rank": "0",
     "tags": "device",
     "scalar": "2",
     "superform": "more"
@@ -1751,7 +1759,7 @@ adjective = [
     "rank": "3",
     "tags": "person|beast",
     "scalar": "2",
-    "superform": "-er"
+    "superform": "more"
   },
   {
     "name": "heartbroken",
@@ -1776,6 +1784,7 @@ adjective = [
   {
     "name": "noble",
     "disabled": false,
+    "rank": "4",
     "anim": ">1.5",
     "scalar": "2",
     "superform": "-er"

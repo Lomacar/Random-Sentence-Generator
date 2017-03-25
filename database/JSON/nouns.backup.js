@@ -1629,6 +1629,8 @@ noun = [
   {
     "name": "fish",
     "proto": "bug",
+    "disabled": false,
+    "partOf": "null",
     "size": "4,5,6",
     "inflections": "pl:fish"
   },
@@ -1658,7 +1660,10 @@ noun = [
   {
     "name": "giant squid",
     "proto": "fish",
-    "size": 7
+    "disabled": false,
+    "partOf": "null",
+    "size": "7",
+    "inflections": "--"
   },
   {
     "name": "goat",
@@ -2292,7 +2297,7 @@ noun = [
     "proto": "human",
     "disabled": false,
     "partOf": "null",
-    "precomp": "(55 N{tags:artifact, number:sg})",
+    "precomp": "(55 N{tags:artifact, number:sg, unique: 0})",
     "inflections": "pl: salesmen"
   },
   {
@@ -4498,37 +4503,53 @@ noun = [
   {
     "name": "jelly fish",
     "proto": "fish",
+    "disabled": false,
+    "partOf": "null",
     "inflections": "pl: jelly fish"
   },
   {
     "name": "piranha",
     "proto": "fish",
-    "size": 4
+    "disabled": false,
+    "partOf": "null",
+    "size": "4",
+    "inflections": "--"
   },
   {
     "name": "orca",
     "proto": "whale",
-    "size": 7
+    "disabled": false,
+    "partOf": "null",
+    "size": "7"
   },
   {
     "name": "whale",
     "proto": "fish",
-    "anim": 2,
-    "size": "7,8"
+    "disabled": false,
+    "anim": "2",
+    "partOf": "null",
+    "size": "7,8",
+    "inflections": "--"
   },
   {
     "name": "walrus",
-    "proto": "whale"
+    "proto": "whale",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "dolphin",
     "proto": "whale",
-    "size": 6
+    "disabled": false,
+    "partOf": "null",
+    "size": "6"
   },
   {
     "name": "manatee",
     "proto": "whale",
-    "size": 6.5
+    "disabled": false,
+    "partOf": "null",
+    "size": "6.5"
   },
   {
     "name": "bird",
@@ -6874,8 +6895,10 @@ noun = [
   {
     "name": "bush",
     "proto": "plant",
-    "size": 6,
+    "disabled": false,
     "tags": "volume",
+    "partOf": "null",
+    "size": "6",
     "precomp": "(35 (raspberry|blueberry|rose))"
   },
   {
@@ -6886,7 +6909,10 @@ noun = [
   {
     "name": "grapevine",
     "proto": "bush",
-    "size": "6,7"
+    "disabled": false,
+    "partOf": "null",
+    "size": "6,7",
+    "precomp": "--"
   },
   {
     "name": "fern",

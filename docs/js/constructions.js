@@ -83,10 +83,10 @@ function DP(r){
         children: {
             noun:       [N,{def: r.def}],
             det:        r.nodeterminer ? [blank] : [DET, {unpack: 'noun.R'}],
-            preadj:     r.superlative || toss(0.8) ? [blank] : [SPECIAL_A, 'noun.R'],
-            quant:      [QUANT,{unpack:'noun.R', prequant: false, amount: 'det.amount'}],
+            preadj:     r.superlative || toss(0.9) ? [blank] : [SPECIAL_A, 'noun.R'],
+            quant:      [QUANT,{unpack:'noun.R', prequant: false, quantified: r.quantified, hasPrequant: 'det.quantified', amount: 'det.amount'}],
             super:      route(r.def == 'def' && r.superlative,{
-                            true: [A, {unpack:'noun.R', no_adj: 'noun.unique', superlative: true, desc:'ap'}],
+                            true: [A, {unpack:'noun.R', no_adj: 'noun.unique', superlative: true, possessed: 'det.possessed', desc:'ap'}],
                             false: [blank]
                         }),
             adj:        [AP, {unpack:'noun.R', nocomplement: true, no_adj: 'noun.unique', superlative: false, desc:'ap'}, 0.25, 'rank'],
@@ -121,6 +121,7 @@ function DET(r) {
                     return GENITIVE(r)
                 } else {
                     decide(r, 'number')
+                    out.possessed = true
                     var it = r.anim == 3 ? 0 : 0.5
                     out.text = r.number == 'sg'
                                          ? choose(1,'my', 1,'your', 1,'his', 1,'her', it,'its')
@@ -139,6 +140,10 @@ function DET(r) {
 
                 if(r.def=='def' && (r.count==false || r.number=='pl')) {
                     decide(r, 'quantified')
+                    //if the DP must be quantified, give it a 50/50 chance of being prequant
+                    //then if it is not prequantified it WILL be normally quantified
+                    r.quantified = toss() ? r.quantified : false
+
                     if (r.quantified) {
                         r.quantified = false //I think this prevents in(de)finite loops?
                         return [PREQUANT,r]
@@ -191,7 +196,7 @@ function GENITIVE(r){
         order: "fake gennoun_'s",
         head: 'fake',
         children: {
-            fake: [blank],
+            fake: [blank, {possessed: true}],
             gennoun: [DP, r2]
         },
         postlogic: function(text){
@@ -205,18 +210,25 @@ function QUANT(r){
 
     if(!r.unique && r.count==false || r.number=='pl') {
         decide(r, 'quantified')
+        if (r.hasPrequant) {
+            //if the DP is already prequantified, you don't really need to quantify here, but you can
+            r.quantified = toss() ? r.quantified : false
+        }
+
         if (r.quantified) {
-
-//            console.log("QUANT");
-//            console.log(r.def);
-
             r.prequant = r.prequant || false
             r.neg = r.neg || false
+
+
             if(r.count==true && (toss(0.3) || r.def=='def')) {
                 var amount
                 amount = powerRandom()
                 if (r.amount) amount += r.amount // this is so we don't get things like "nine out of four doctors..."
+                var precision = -((''+amount).length-2) //then round the number up so we don't get "three of the nine hundred and three..."
+                amount = _.ceil(_.ceil(amount,precision))
+
                 return {text: toWords(amount), amount:amount}
+
             } else if (r.def=='indef'||r.prequant){
                 return [get, {type: 'quantifier', prequant: r.prequant }]
             }
@@ -374,6 +386,8 @@ function AP(r) {
 
 function A(r){
     if (r.no_adj>0) return {text:''}
+
+    r.possessed = r.possessed || false //just for the word "favorite"
 
     //a function to use in the future for creating a list of adjective ranks for recursively fetching adjectives
     function randomlist(){
@@ -1161,7 +1175,7 @@ function MOTION(r) {
         delete r.vtags
     }
     if (!r.role) {
-        if(toss(0.1)) { //chance for multiple motion PPs
+        if(toss(0.05)) { //chance for multiple motion PPs
             r.multicomp = true;
             return choose(
                     1, [complement, _.extend(r,{complements: 'SOURCE GOAL'})],
@@ -1232,7 +1246,7 @@ function filler(r){
 }
 
 function blank(r){
-    return {text: ""}
+    return _.extend(r,{text: ""})
 }
 
 function pass_through(r){

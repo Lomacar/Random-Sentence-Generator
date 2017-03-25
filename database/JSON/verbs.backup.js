@@ -1,5 +1,29 @@
 verb = [
   {
+    "name": "hang1",
+    "disabled": false,
+    "class": "activity",
+    "tags": "person",
+    "volition": "true",
+    "ptpl": "null",
+    "compext": "out with NP{tags:person|collective}",
+    "inflections": "simp.past:hung,retro:hung"
+  },
+  {
+    "name": "hang1.1",
+    "proto": "hang1",
+    "disabled": false,
+    "tags": "collective",
+    "compext": "out"
+  },
+  {
+    "name": "hang1.2",
+    "proto": "hang1.1",
+    "prohibitions": "number:sg",
+    "disabled": false,
+    "tags": "person"
+  },
+  {
     "name": "answer",
     "anim": 3,
     "tang": "!0",
@@ -973,22 +997,13 @@ verb = [
   },
   {
     "name": "beat",
-    "anim": 3,
+    "disabled": false,
     "class": "process",
-    "volition": "TRUE",
-    "ptpl": "null",
     "vtags": "--",
+    "anim": "3",
+    "ptpl": "null",
     "compcore": "(up DP{tags: creature})",
     "inflections": "simp.past:beat, retro:beaten"
-  },
-  {
-    "name": "beat.1",
-    "proto": "beat",
-    "ptpl": "past|by2",
-    "vtags": "--",
-    "compcore": "(30 PRONOUN{tags: creature}  |70 DP{tags: creature})",
-    "compext": "up",
-    "prohibitions": "pasv: false"
   },
   {
     "name": "forgive",
@@ -1533,22 +1548,23 @@ verb = [
   },
   {
     "name": "gather",
-    "anim": ">1",
+    "disabled": false,
     "class": "process",
-    "volition": "TRUE",
-    "ptpl": "pres",
     "tags": "collective",
     "vtags": "--",
+    "anim": ">1",
+    "ptpl": "pres",
     "compext": "(together)"
   },
   {
     "name": "gather1",
     "proto": "gather",
-    "ptpl": "-",
+    "prohibitions": "number:sg",
+    "disabled": false,
     "tags": "--",
     "vtags": "--",
-    "compcore": "NP{ ( number:pl;tags:item  | tags:aggregate|tags:collective ); anim:0;tang:2;size:<5 }",
-    "prohibitions": "number:sg"
+    "ptpl": "-",
+    "compcore": "NP{ ( number:pl;tags:item  | tags:aggregate|tags:collective ); anim:0;tang:2;size:<5 }"
   },
   {
     "name": "revolt",
@@ -1592,6 +1608,7 @@ verb = [
   {
     "name": "shake",
     "proto": "glow",
+    "disabled": false,
     "tags": "object",
     "vtags": "--",
     "inflections": "simp.past: shook, retro: shaken"
@@ -1651,12 +1668,12 @@ verb = [
   },
   {
     "name": "glow",
-    "tang": ">0",
+    "disabled": false,
     "class": "activity",
-    "volition": "FALSE",
-    "ptpl": "pres",
     "tags": "matter|place",
-    "vtags": "--"
+    "vtags": "--",
+    "tang": ">0",
+    "ptpl": "pres"
   },
   {
     "name": "quiver",
@@ -1669,6 +1686,8 @@ verb = [
   {
     "name": "jiggle",
     "proto": "shake",
+    "disabled": false,
+    "tags": "item",
     "vtags": "--"
   },
   {
@@ -1714,6 +1733,7 @@ verb = [
   {
     "name": "beat-box",
     "proto": "sing",
+    "disabled": false,
     "vtags": "--"
   },
   {
@@ -3147,7 +3167,7 @@ verb = [
     "proto": "punch",
     "disabled": false,
     "compcore": "NP{tags:creature}",
-    "compext": "(70 in the PASV_SWITCH{construction: N; partOf:  $patient.tags; number: sg})"
+    "compext": "(70 in the PASV_SWITCH{construction: N; partOf: $patient.tags; number: sg})"
   },
   {
     "name": "kick",
@@ -4640,13 +4660,8 @@ verb = [
     "ptpl": "null"
   },
   {
-    "name": "hang out",
-    "disabled": "TRUE",
-    "ptpl": "null"
-  },
-  {
     "name": "hang up",
-    "disabled": "TRUE",
+    "disabled": true,
     "ptpl": "null"
   },
   {

@@ -583,16 +583,16 @@ noun = [
   },
   {
     "name": "life",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 0,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
-    "tags": "property",
-    "inflections": "pl:lives",
     "prohibitions": "def:def,quantified:true",
-    "partOf": "null"
+    "disabled": false,
+    "tags": "property",
+    "anim": "0",
+    "tang": "0",
+    "possessable": "0",
+    "partOf": "null",
+    "size": "0",
+    "count": "false",
+    "inflections": "pl:lives"
   },
   {
     "name": "color.1",
@@ -978,10 +978,12 @@ noun = [
   {
     "name": "life.1",
     "proto": "life",
-    "possessable": 6,
+    "disabled": false,
+    "tags": "event,-",
+    "possessable": "6",
     "posr": "number:noun.number",
-    "count": "true",
-    "tags": "event,-"
+    "partOf": "null",
+    "count": "true"
   },
   {
     "name": "light1",
@@ -1514,6 +1516,8 @@ noun = [
   {
     "name": "death",
     "proto": "life",
+    "disabled": false,
+    "partOf": "null",
     "complements": "--",
     "inflections": "pl:deaths"
   },
@@ -1629,6 +1633,8 @@ noun = [
   {
     "name": "fish",
     "proto": "bug",
+    "disabled": false,
+    "partOf": "null",
     "size": "4,5,6",
     "inflections": "pl:fish"
   },
@@ -1658,7 +1664,10 @@ noun = [
   {
     "name": "giant squid",
     "proto": "fish",
-    "size": 7
+    "disabled": false,
+    "partOf": "null",
+    "size": "7",
+    "inflections": "--"
   },
   {
     "name": "goat",
@@ -3398,14 +3407,14 @@ noun = [
   },
   {
     "name": "floor",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 2,
-    "unique": 0,
-    "count": "true",
-    "size": 8,
+    "disabled": false,
     "tags": "surface, grounded",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "2",
+    "possessable": "2",
+    "partOf": "null",
+    "size": "8",
+    "count": "true"
   },
   {
     "name": "street",
@@ -3419,9 +3428,10 @@ noun = [
   {
     "name": "ice",
     "proto": "floor",
-    "unique": 0,
-    "count": "false",
-    "prohibitions": "number:pl, quantified:true, def:indef"
+    "prohibitions": "number:pl, quantified:true, def:indef",
+    "disabled": false,
+    "partOf": "null",
+    "count": "false"
   },
   {
     "name": "ice1",
@@ -4498,37 +4508,53 @@ noun = [
   {
     "name": "jelly fish",
     "proto": "fish",
+    "disabled": false,
+    "partOf": "null",
     "inflections": "pl: jelly fish"
   },
   {
     "name": "piranha",
     "proto": "fish",
-    "size": 4
+    "disabled": false,
+    "partOf": "null",
+    "size": "4",
+    "inflections": "--"
   },
   {
     "name": "orca",
     "proto": "whale",
-    "size": 7
+    "disabled": false,
+    "partOf": "null",
+    "size": "7"
   },
   {
     "name": "whale",
     "proto": "fish",
-    "anim": 2,
-    "size": "7,8"
+    "disabled": false,
+    "anim": "2",
+    "partOf": "null",
+    "size": "7,8",
+    "inflections": "--"
   },
   {
     "name": "walrus",
-    "proto": "whale"
+    "proto": "whale",
+    "disabled": false,
+    "partOf": "null"
   },
   {
     "name": "dolphin",
     "proto": "whale",
-    "size": 6
+    "disabled": false,
+    "partOf": "null",
+    "size": "6"
   },
   {
     "name": "manatee",
     "proto": "whale",
-    "size": 6.5
+    "disabled": false,
+    "partOf": "null",
+    "size": "6.5"
   },
   {
     "name": "bird",
@@ -6762,29 +6788,29 @@ noun = [
   },
   {
     "name": "shenanigan",
-    "prohibitions": "number:sg, def:indef, quant:true",
+    "prohibitions": "number:sg, def:indef, quantified:true",
     "disabled": false,
     "tags": "behaviour",
     "anim": "0",
     "tang": "0",
     "possessable": "7",
     "posr": "tags: person|organization",
+    "partOf": "null",
     "size": "0",
-    "count": "true",
-    "partOf": "null"
+    "count": "true"
   },
   {
     "name": "lifestyle",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 7,
-    "posr": "tags: person",
-    "unique": 0,
-    "count": "true",
-    "size": 0,
-    "tags": "behaviour",
     "prohibitions": "def:indef,quantified:true",
-    "partOf": "null"
+    "disabled": false,
+    "tags": "behaviour",
+    "anim": "0",
+    "tang": "0",
+    "possessable": "7",
+    "posr": "tags: person",
+    "partOf": "null",
+    "size": "0",
+    "count": "true"
   },
   {
     "name": "item",
@@ -6874,8 +6900,10 @@ noun = [
   {
     "name": "bush",
     "proto": "plant",
-    "size": 6,
+    "disabled": false,
     "tags": "volume",
+    "partOf": "null",
+    "size": "6",
     "precomp": "(35 (raspberry|blueberry|rose))"
   },
   {
@@ -6886,7 +6914,10 @@ noun = [
   {
     "name": "grapevine",
     "proto": "bush",
-    "size": "6,7"
+    "disabled": false,
+    "partOf": "null",
+    "size": "6,7",
+    "precomp": "--"
   },
   {
     "name": "fern",

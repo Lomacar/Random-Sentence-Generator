@@ -373,7 +373,7 @@ function powerRandom() {
 
     var curve = 9999    //how strongly small numbers are favored
     var max = 9        //most number of digits the number can have
-    var max_prec = 4    //maximum possible precision
+    var max_prec = 3    //maximum possible precision
 
     var digits = Math.round( Math.pow( curve, (-Math.random()) ) * (max-1) + 1.3 )
     var rando = parseInt( Math.pow(10, Math.round( digits ))/10 * _.random(1,9,true) )
