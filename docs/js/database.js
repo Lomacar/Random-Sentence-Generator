@@ -68,16 +68,31 @@ database.title = [
     {name: 'Lieutenant', tags: 'lastname'},
     {name: 'Sergeant', tags: 'lastname'},
     {name: 'Colonel', tags: 'lastname'},
+    {name: 'General', tags: 'lastname'},
+    {name: 'Commander', tags: 'lastname'},
+    {name: 'Major', tags: 'lastname'},
+    {name: 'Private', tags: 'lastname'},
+    {name: 'Chief', tags: 'lastname'},
+    {name: 'Coach', tags: 'lastname'},
     {name: 'Agent'},
+    {name: 'Judge'},
+    {name: 'Chancellor'},
+    {name: 'Senator'},
+    {name: 'Count'},
+    {name: 'Officer'},
     {name: 'Mr.', gender: 'm'},{name: 'Mr.', gender: 'm'},
     {name: 'Sir', gender: 'm'},
+    {name: 'Lord', tags: 'lastname'},
+    {name: 'Father', gender: 'm', tags: 'firstname'},
     {name: 'Pastor', gender: 'm'},
     {name: 'King', gender: 'm', tags: 'firstname'},
+    {name: 'Prince', gender: 'm', tags: 'firstname'},
     {name: 'Mrs.', gender: 'f'},{name: 'Mrs.', gender: 'f'},
     {name: 'Miss', gender: 'f'},{name: 'Miss', gender: 'f'},
     {name: 'Madame', gender: 'f'},
     {name: 'Lady', gender: 'f'},
     {name: 'Queen', gender: 'f', tags: 'firstname'},
+    {name: 'Princess', gender: 'f', tags: 'firstname'},
 ]
 
 database.preposition = [
@@ -150,7 +165,7 @@ database.preposition = [
     {name: 'past',      role: 'PATH',   vtags: 'grounded|contact|air|jump',                         'lm.tags': 'PHYSICAL', 'lm.size': '>trajector.size'},
     {name: 'past',      role: 'PATH',   vtags: 'vertical',                                          'lm.tags': 'elevated', 'lm.size': '>trajector.size'},
 
-    {name: 'beyond',    role: 'PATH',   vtags: 'grounded|contact|air|water|waterSurface|down',      'lm.tags': 'PHYSICAL&fixed|boundary|point&!elevated', 'lm.size': '>trajector.size'},
+    {name: 'beyond',    role: 'PATH',   vtags: 'grounded|contact|air|water|waterSurface',           'lm.tags': 'PHYSICAL&fixed|boundary|point&!elevated', 'lm.size': '>trajector.size'},
     {name: 'beyond',    role: 'PATH',   vtags: 'up',                                                'lm.tags': 'PHYSICAL|boundary|point & elevated',      'lm.size': '>trajector.size'},
 
     //////////////////////////////////////////
@@ -202,11 +217,11 @@ database.preposition = [
     {name: 'away from',  role:'SOURCE',  vtags: 'air|water',                        'lm.tags': 'PHYSICAL',                          multicomp: false},
     {name: 'away from',  role:'SOURCE',  vtags: 'air',                              'lm.tags': 'PHYSICAL',                          multicomp: false},
 
-    {name: 'out of',     role:'SOURCE',  vtags: 'grounded',         'lm.tags': 'area|volume&!elevated',                                 'lm.size': '>trajector.size'},
-    {name: 'out of',     role:'SOURCE',  vtags: 'contact|air|jump', 'lm.tags': 'area|volume',                                           'lm.size': '>trajector.size'},
-    {name: 'out of',     role:'SOURCE',  vtags: 'water',            'lm.tags': 'openWater',                                             'lm.size': '>trajector.size'},
-    {name: 'out of',     role:'SOURCE',  vtags: 'up',               'lm.tags': 'volume',                                                'lm.size': '>trajector.size'},
-    {name: 'out of',     role:'SOURCE',  vtags: 'down',             'lm.tags': 'volume&elevated|vessel',                                'lm.size': '>trajector.size'},
+    {name: 'out of',     role:'SOURCE',  vtags: 'grounded',         'lm.tags': 'area|volume&!elevated',                             'lm.size': '>trajector.size'},
+    {name: 'out of',     role:'SOURCE',  vtags: 'contact|air|jump', 'lm.tags': 'area|volume',                                       'lm.size': '>trajector.size'},
+    {name: 'out of',     role:'SOURCE',  vtags: 'water',            'lm.tags': 'openWater',                                         'lm.size': '>trajector.size'},
+    {name: 'out of',     role:'SOURCE',  vtags: 'up',               'lm.tags': 'volume',                                            'lm.size': '>trajector.size'},
+    {name: 'out of',     role:'SOURCE',  vtags: 'down',             'lm.tags': 'volume&elevated|vessel',                            'lm.size': '>trajector.size'},
 
     {name: 'off of',     role:'SOURCE',  vtags: 'grounded',                   'lm.tags': 'point|edge|path & !vertical & !space & !bodyOfWater',     'ncomp.c0.tags': 'elevated|hasHeight'},
     {name: 'off of',     role:'SOURCE',  vtags: 'contact',                    'lm.tags': 'point|edge|path & !space & !bodyOfWater'},
@@ -214,11 +229,62 @@ database.preposition = [
     {name: 'off of',     role:'SOURCE',  vtags: 'up',                         'lm.tags': 'surface&!vertical',                                             'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'down',                       'lm.tags': 'surface & elevated|vertical',                                   'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'down',                       'lm.tags': 'object&!grounded&!void',                                        'lm.size': '>trajector.size'},
-    {name: 'off of',     role:'SOURCE',  vtags: 'jump',                       'lm.tags': 'surface&!bodyOfWater|object&elevated',         'lm.size': '>trajector.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'jump',                       'lm.tags': 'surface&!bodyOfWater|object&elevated',                          'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'point&elevated|edge&elevated|path&elevated & !space',     'ncomp.c0.tags': '>subject.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'edge',                                                    'ncomp.c0.tags': 'elevated|hasHeight', 'ncomp.c0.nocomplement':-1},
 
 ]
+
+//predicative prepositional idioms
+var prep_idiom = [
+    {name:'^ on fire',        tags:'matter&!space&!gas|territory'},
+    {name:'^ in debt',        tags:'person|organization|territory'},
+    {name:'^ in trouble',     tags:'person|organization|territory'},
+    {name:'^ in a hurry',     tags:'creature|vehicle'},
+    {name:'^ in a rush',      tags:'creature|vehicle'},
+    {name:'^ in a rage',      tags:'creature', anim: '>1.5'},
+    {name:'^ in over',        tags:'person', complements:'POSS_PN{unpack:subject.R} head'},
+    {name:'^ out to lunch',   anim:'3'},
+    {name:'^ above reproach', anim:'3'},
+    {name:'^ in cahoots with',tags:'person|organization|territory', complements:"NP{tags:person|organization|territory}"},
+    {name:'^ in league with', tags:'person|organization|territory', complements:"NP{tags:person|organization|territory}"},
+    {name:'^ in charge of',   tags:'person',                        complements:"NP{tags:matter|organization|territory|volitional}"},
+    {name:'^ in charge of',   tags:'territory|organization',        complements:"NP{tags:matter|volitional}"},
+    {name:'^ in charge of',   tags:'person|territory|organization', complements:"(ACTIVE_STUFF|ACTION|PRES_PARTICIPLE){volition:true}"},
+    {name:'^ in control of',  tags:'person|territory|organization', complements:"(NP{tags:situation|event|organization}|NP{number:pl,tags:creature})"},
+    {name:'^ out of luck',    anim:'3'},
+    {name:'^ out of time',    anim:'3'},
+    {name:'^ out of ',        anim:'3',                  complements: 'N{(number:pl|count:false, unique:<1), tags:matter&!fixed, anim: <3}'},
+    {name:'^ out of ',        tags:'territory|building', complements: 'N{(number:pl|count:false, unique:<1), tags:matter&!fixed, anim: <3}'},
+    {name:'^ out of control', anim:'>1'},
+    {name:'^ out of control', tags:'situation|weather|event'},
+    {name:'^ out of ',        anim:'3',                  complements: 'POSS_PN{unpack:subject.R} mind', number:'sg'},
+    {name:'^ out of ',        anim:'3',                  complements: 'POSS_PN{unpack:subject.R} minds', number:'pl'},
+    {name:'^ under',          anim:'>1',                 complements: 'DET{possessable:999; def:def; posr:"anim:3"} control'},
+    {name:'^ under control',  tags:'situation|weather|event'},
+    {name:'^ under the weather',  tags:'person'},
+    {name:'^ on the verge of',complements:"GP{unpack:subject.R}"},
+    {name:'^ on',             tags:'creature|vehicle', complements:"POSS_PN{unpack:subject.R} way (60 GOAL{name:to; lm.size:>subject.size})"},
+    {name:'^ on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} own"},
+    {name:'^ on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} deathbed"},
+    {name:'^ on',             anim:'>0', complements:"death's door"},
+    {name:'^ on sale',        tags:'artifact'},
+    {name:'^ off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rocker", prohibitions: 'number:pl'},
+    {name:'^ off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rockers", prohibitions: 'number:sg'},
+    {name:'^ at',             anim:'3', complements:"the end of POSS_PN{unpack:subject.R} rope"},
+    {name:'^ at odds with',   tags:'person|organization|territory', complements:"NP{tags:person|organization|territory}"},
+    {name:'^ at a standstill',tags:'telic&hasDuration | event&difficulty'},
+    {name:'^ in vain',tags:'telic'},
+]
+
+prep_idiom.forEach(function (i){
+    i.prohibitions = i.prohibitions ? i.prohibitions + ", copulant: false" : "copulant: false"
+    i.scalar = 0
+    i.really_copulant = true
+})
+database.adjective = database.adjective.concat(prep_idiom).concat(prep_idiom).concat(prep_idiom).concat(prep_idiom)
+
+
 
 var paradigms = {
     verb: {tense: ['past','pres','fut'], number: ['sg','pl'], person: [1,2,3], aspect: ['simp', 'prog', 'retro', 'prosp'], mood: ['ind','deo','epi']}, //trans: [0,0.5,1,1.5] //why did I have this?
@@ -265,10 +331,10 @@ var prohibitions = {
 var probabilities = {
     //general
     anim:       [1,0, 1,1, 3,2, 6,3],
-    tang:       [3,0, 3,1, 5,2],
+    tang:       [333,0, 1,1, 5,2],
 
     pronominal: [1,true,8,false], //how likely a NP is to be a pronoun instead
-    indef_pro: 0.4,               //chance to have an indefinite pronoun
+    indef_pro: 0.75,               //chance to have an indefinite pronoun (compounded with chance to have an indefinite NP)
 
     //nounish
     number:     [1,'pl', 5,'sg'],
