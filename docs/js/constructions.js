@@ -8,7 +8,7 @@ function CLAUSE(r){
         head: "subject",
         labelChildren: true,
         children: {
-            subject: [NP, {case: 'nom', anim: choose(1,0, 1,1, 3,2, 6,3), def: choose(9, 'def', 1, 'indef')}],
+            subject: [NP, {case: 'nom', anim: choose(1,0, 1,">0&<2", 3,2, 6,3), def: choose(9, 'def', 1, 'indef')}],
             predicate: [AUXP, _.extend({copulant: false, unpack: "subject.R"}, r)],
             adjunct: [ADJUNCT_PP, 'predicate.vp.vword.verb.R']
         }
@@ -40,12 +40,20 @@ function COPULA(r){
 
     //SHOULD ALLOW PPs(done!) and NPs too
 
+    //attempt to get more abstract subjects
+    r2 = decide(r,'tang', true)
+    r2.anim = choose(2,0, 1,">0&<2", 2,2, 4,3)
+    if (r2.tang == 0 && !magicCompare(r2.anim, 0)) {
+        if(toss()) r2.tang = 2
+        else r2.anim = 0
+    }
+
     return {
         order: "subject predicate",
         head: "subject",
         labelChildren: true,
         children: {
-            subject: [NP, {case: 'nom', def: 'def', anim: choose(1,0, 1,1, 2,2, 4,3)}],
+            subject: [NP, {case: 'nom', def: 'def', anim: r2.anim, tang: r2.tang}],
             predicate: [PREDICATE, _.extend({}, r, {unpack: 'subject.R', copulant: true})]
         }
     }
@@ -67,7 +75,7 @@ function NP(r) {
 }
 
 function DP(r){
-    decide(r,'def,superlative')
+    decide(r,'def,quantified,superlative')
 
     var order = r.def == "def" ? "preadj* quant*" : "quant* preadj*"
 
@@ -86,7 +94,7 @@ function DP(r){
             preadj:     r.superlative || toss(0.9) ? [blank] : [SPECIAL_A, 'noun.R'],
             quant:      [QUANT,{unpack:'noun.R', prequant: false, quantified: r.quantified, hasPrequant: 'det.quantified', amount: 'det.amount'}],
             super:      route(r.def == 'def' && r.superlative,{
-                            true: [A, {unpack:'noun.R', no_adj: 'noun.unique', superlative: true, possessed: 'det.possessed', desc:'ap'}],
+                            true: [A, {unpack:'noun.R', no_adj: 'noun.unique', superlative: true, scalar: '>0', possessed: 'det.possessed', desc:'ap'}],
                             false: [blank]
                         }),
             adj:        [AP, {unpack:'noun.R', nocomplement: true, no_adj: 'noun.unique', superlative: false, desc:'ap'}, 0.25, 'rank'],
@@ -126,14 +134,6 @@ function DET(r) {
                     out.text = r.number == 'sg'
                                          ? choose(1,'my', 1,'your', 1,'his', 1,'her', it,'its')
                                          : choose(1,'your', 1,'our', 1,'their')
-                    //                    decide(r, 'number')
-                    //                    r.case = 'gen'
-                    //                    r.person = r.person || choose(2,1, 2,2, 3,3)
-                    //                    r.anim = Math.max( r.anim, r.person < 3 ? 3 : decide(r, 'anim').anim ) //copied from PRONOUN()
-                    //                    r.gender = magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n'
-                    //
-                    //                    var inflections = '1.sg:my,2:your,3.sg.m:his,3.sg.f:her,3.sg.n:its,1.pl:our,3.pl:their'
-                    //                    out.text = resolve([r.number,r.person,r.gender], inflections)
                 }
 
             } else {
@@ -174,10 +174,10 @@ function GENITIVE(r){
 
     if (posr) posr = toObject(posr)
     else posr = null
-    partOf = partOf=="null" ? null : {tags: partOf}
+    partOf = partOf=="null"||partOf==undefined ? null : {tags: partOf}
     _.extend(posr, partOf)
 
-    if (!posr || toss(0.3)) {
+    if (!posr /*|| toss(0.3)*/) {
         //basic genitive
         if (r.anim==3) return DET(_.extend(r, {possessable: -111})) //abort possession if the would-be possesed noun is a person or somesuch
         else r2.anim=">noun.anim"
@@ -265,7 +265,7 @@ function N(r){
         head: "nword",
         children: {
             nword: [get, { type: 'noun' } ],
-            num: [nNum, 'nword.number-count-inflected']
+            num: [N_NUM, 'nword.number-count-inflected']
         },
         postlogic:function(text){
             return text.replace(/([^aeou])y_+(s)/g, "$1ie$2")
@@ -275,7 +275,7 @@ function N(r){
 }
 
 //plurals for nouns
-function nNum(r){
+function N_NUM(r){
     return {text: r.number+r.count+r.inflected == 'pltrue' ? 's' : ''}
 }
 
@@ -284,7 +284,7 @@ function PRONOUN(r) {
     r = $.extend( r, get($.extend(r,{type:'noun'})) )
 
     //indefinite pronouns!
-    if(r.person==3 && toss(probabilities.indef_pro)){
+    if(r.person==3 && r.def!='def' && toss(probabilities.indef_pro)){
         return [INDEF_PN,r]
     }
 
@@ -332,6 +332,19 @@ function PRONOUN(r) {
     return inflect(word,r)
 }
 
+function POSS_PN (r) {
+    decide(r, 'number,person')
+    r.case = 'gen'
+    r.person = r.person || choose(2,1, 2,2, 3,3)
+    r.anim = Math.max( r.anim, r.person < 3 ? 3 : decide(r, 'anim').anim ) //copied from PRONOUN()
+    r.gender = r.gender || (magicCompare(r.anim, 3) ? choose(1,'m',1,'f') : 'n')
+
+    var inflections = '1.sg:my,2:your,3.sg.m:his,3.sg.f:her,3.sg.n:its,1.pl:our,3.pl:their'
+    r.text = resolve([r.number,r.person,r.gender], inflections) || error("Could not inflect possesive pronoun "+[r.number,r.person,r.gender].join("."))
+
+    return r
+}
+
 function INDEF_PN (r) {
     var indef1, indef2, indefinite
     indef1 = toss(0.3) ? ( r.neg?'any':'no') : (r.number == 'pl' ? 'every' : 'some')
@@ -348,7 +361,7 @@ function INDEF_PN (r) {
 
     var extraStuff
     var safeR
-    if (extraStuff = toss(1)) safeR = safe(r,'adjective')
+    if (extraStuff = toss()) safeR = safe(r,'adjective')
 
     return {
         order: "indef extra*",
@@ -357,9 +370,9 @@ function INDEF_PN (r) {
         children: {
             indef: [filler, _.extend({}, r,{filler: indefinite})],
             extra: choose(
-                15, [blank, r],
-                3 * extraStuff, [filler, {filler: "else"}],
-                3 * extraStuff && indef1=='some', [AP, _.extend({}, safeR, {nocomplement: true})],
+                2, [blank, r],
+                extraStuff, [filler, {filler: "else"}],
+                2 * extraStuff * (indef1=='some'||indef1=='any'), [AP, _.extend({}, safeR, {nocomplement: true})],
                 extraStuff, [EQUATIVE,safeR],
                 extraStuff, [COMPARATIVE,safeR],
                 2 * extraStuff, [LOCATION, _.extend({}, safeR, {vtags:"copula"})]
@@ -446,10 +459,8 @@ function a_neg(r) {
 
 //it is called super but it handles both superlatives and comparatives
 function a_super (r) {
+    r.superlative = r.superlative || false
 
-    //if (r.less == "down" && r.form == "-er") return [blank]
-
-    //if(!r.comparative && !r.superlative) return [blank]
     if (!r.scalar) return [blank]
     if (r.form != r.superform) return [blank]
 
@@ -457,13 +468,7 @@ function a_super (r) {
     var inflections = "up.true.-er: est, up.true.more: most, up.false.-er: -er, up.false.more: more,"
                     + "down.true: least, down.false: less"
 
-    return {text: resolve(query, inflections)}/*route(r.superlative, {
-            true: {text: route(r.superform,{
-                '-er': 'est',
-                'more': 'most'
-            })},
-            rest: {text: r.superform}
-        })*/
+    return {text: resolve(query, inflections)}
 }
 
 function SPECIAL_A (r) {
@@ -498,9 +503,9 @@ function PREDICATE(r){
         children: {
             aux:  [auxiliary],
             pred: route( ptype, {
-                    'adjective': [AC, _.extend( {}, r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg-copulant'})],
-                    'location': [LOCATION, _.extend( {}, r, {vtags:"copula"})]
-                  })
+                'adjective': [AC, _.extend( {}, r, {unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg-copulant'})],
+                'location': [LOCATION, _.extend( {}, r, {vtags:"copula"})]
+            })
         }
     }
 }
@@ -811,7 +816,7 @@ function V(r) {
             verb: [get, {type: 'verb'}],
             asp:  [aspect, 'verb'],
             tns:  [tense, 'verb'],
-            num:  [vNum, 'verb']
+            num:  [V_NUM, 'verb']
         },
         postlogic: verb_cleanup
     }
@@ -835,7 +840,7 @@ function tense(r){
         switch (r.aspect) {
             case 'simp':
                 return {text: route(r.tense, {past: "ed"})}
-                case 'retro':
+            case 'retro':
                 return {text: 'ed'}
         }
     }
@@ -843,7 +848,7 @@ function tense(r){
 }
 
 //s inflection on verbs
-function vNum(r){
+function V_NUM(r){
     return {text: route(r.number+r.person+r.aspect+r.tense+r.inflected, {sg3simppres:"s"})}
 }
 
@@ -1042,6 +1047,9 @@ function PRES_PARTICIPLE(r){
         postlogic: verb_cleanup
     }
 }
+
+//PAST_PARTICIPLE cannot be done, because it would require filtering verbs based on the content of their 'compcore', which would require special modifications to r_match()
+//...or....Maybe auto-attributes could be derived for verbs with a compcore and then verbs could be filtered by those...
 
 function ACTIVE_STUFF(r){
     r.volition = true
