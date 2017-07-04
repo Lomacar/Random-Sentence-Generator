@@ -92,7 +92,7 @@ function processOntology(){
 var urlencodedParser = myParser.urlencoded({ extended:true,limit:5000000, parameterLimit: 5000000 })
 app.use(urlencodedParser);
 
-app.use(myParser.json());
+app.use(myParser.json({limit: '5mb'}));
 
 
 // Add headers

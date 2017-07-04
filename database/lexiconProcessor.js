@@ -1,7 +1,6 @@
 var fs = require('fs');
 var _ = require('lodash')
 
-eval(fs.readFileSync("csv/csv2json.js")+'');
 eval(fs.readFileSync("../dist/js/utilities.js")+'');
 eval(fs.readFileSync("../dist/js/main.js")+'');
 eval(fs.readFileSync("../dist/js/ontology.js")+'');
@@ -247,6 +246,9 @@ function autoAttributes (lex, type) {
             }
         })
     }
+
+    //"null" for some blank attributes
+    if (type=="noun" && !goodVal(w.partOf)) w.partOf = "null"
       
   });
 }

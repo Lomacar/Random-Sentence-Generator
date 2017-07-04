@@ -44,13 +44,16 @@ schemas.noun = _.extend({}, schemas.common, {
         "propertyOrder": 70
     },
     "partOf": {
-        "$ref": "#/definitions/taglist",
-        default: "null",
+        "$ref": "#/definitions/tags",
+        //default: "null",
         "propertyOrder": 75
     },
     "gender": {
         type: "string",
-        enum: ["","male","female"],
+        enum: ["","m","f"],
+        "options": {
+            enum_titles: ["", "male", "female"]
+        },
         default: "",
         "propertyOrder": 80
     },
@@ -99,11 +102,11 @@ schemas.verb = _.extend({}, schemas.common, {
     },
     "anim": {
         "$ref": "#/definitions/numberCompare",
-        "propertyOrder": 200
+        "propertyOrder": 150
     },
     "tang": {
         "$ref": "#/definitions/numberCompare",
-        "propertyOrder": 200
+        "propertyOrder": 150
     },
     "volition": {
         type: "string",

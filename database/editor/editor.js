@@ -203,7 +203,8 @@ function renderTree () {
             var val = key_val[1].trim()
             var lex = _.find(database[wordClass], {name: node.text})
             if (!lex) return false //necessary because the root node does not exist in the lexicon
-            if (str.match(/[><!|&]/)) return magicCompare(lex[key], val)
+            if (str.match(/[><!|&]/)) return magicCompare(lex[key], val, {tagmode: true})
+            else if (val==="") return lex[key]===undefined || lex[key]===""
             else return _.contains(lex[key]+"", val)
         }
 
@@ -295,7 +296,7 @@ function gotoSelectedNode () {
     else {
         var sel = $jt.get_selected()
         if(sel){
-            var seltext = '#' + $jt.get_text(sel).replace(/_/g,' ')
+            $jt.get_text(sel).replace(/_/g,' ')
             document.getElementById(sel).scrollIntoView(true);
             window.scrollTo(0,window.scrollY-400);
         }
@@ -303,7 +304,7 @@ function gotoSelectedNode () {
 }
 
 function selectFromHash (arguments) {
-    var bob = location.hash
+    var bob = location.hash.replace('#','')
     if (bob) {
         $jt.deselect_all()
         $jt.select_node(bob)
@@ -417,7 +418,7 @@ window.onbeforeunload = function(evt) {
     return message;
 }
 
-$('#tree-container').on('keydown', function (e) {
+$('#jstree').on('keydown', function (e) {
 
     switch (e.key) {
 
@@ -426,6 +427,7 @@ $('#tree-container').on('keydown', function (e) {
             break;
 
         case 'Insert':
+            console.log('Insert');
             insertNode($jt.get_selected(true), e.ctrlKey)
             break;
 
@@ -580,6 +582,7 @@ function insertNode (refNode,ctrl) {
     var hi = $jt.create_node(par, name, index+1)
     $jt.deselect_all()
     $jt.select_node(hi)
+    $("#jstree").focus()
 
     $jt.set_type(hi,'changed')
 
