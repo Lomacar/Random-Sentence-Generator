@@ -1,5 +1,13 @@
 adjective = [
   {
+    "name": "on-going",
+    "disabled": false,
+    "rank": "2",
+    "tags": "hasDuration|situation|activity",
+    "perm": "0",
+    "scalar": "0"
+  },
+  {
     "name": "favorite",
     "prohibitions": "superlative: false, possessed: false",
     "disabled": false,
@@ -30,6 +38,7 @@ adjective = [
     "name": "wooden",
     "disabled": false,
     "rank": "-2",
+    "tags": "item|artifact & !substance",
     "anim": "<2",
     "tang": "2",
     "scalar": "0",
@@ -45,7 +54,8 @@ adjective = [
   },
   {
     "name": "Bohemian",
-    "proto": "Canadian"
+    "proto": "Canadian",
+    "disabled": false
   },
   {
     "name": "Japanese",
@@ -111,7 +121,7 @@ adjective = [
     "disabled": false,
     "rank": "0",
     "anim": ">0",
-    "tang": ">0",
+    "tang": ">1",
     "perm": "1",
     "scalar": "1",
     "superform": "-er"
@@ -157,6 +167,7 @@ adjective = [
     "name": "old",
     "disabled": false,
     "rank": "1",
+    "tags": "!occurance",
     "scalar": "2",
     "superform": "-er"
   },
@@ -440,6 +451,24 @@ adjective = [
     "superform": "-er"
   },
   {
+    "name": "crazy",
+    "proto": "clever",
+    "disabled": false
+  },
+  {
+    "name": "crazy.2",
+    "proto": "crazy",
+    "disabled": false,
+    "anim": "--"
+  },
+  {
+    "name": "crazy.1",
+    "proto": "crazy",
+    "disabled": false,
+    "tags": "volitional",
+    "anim": "--"
+  },
+  {
     "name": "outrageous",
     "disabled": false,
     "rank": "3",
@@ -688,7 +717,7 @@ adjective = [
     "proto": "disorganized",
     "prohibitions": "number:sg",
     "disabled": false,
-    "tags": "--"
+    "tags": "!fixed"
   },
   {
     "name": "disorganized1",
@@ -1041,6 +1070,7 @@ adjective = [
     "proto": "old",
     "disabled": false,
     "rank": "2",
+    "perm": "1",
     "scalar": "0"
   },
   {
@@ -1324,6 +1354,13 @@ adjective = [
     "opposite": "un"
   },
   {
+    "name": "worthwhile",
+    "disabled": false,
+    "rank": "3",
+    "tags": "telic|occasion|activity|enterprise",
+    "scalar": "0"
+  },
+  {
     "name": "successful.1",
     "proto": "successful",
     "disabled": false,
@@ -1425,6 +1462,12 @@ adjective = [
     "tags": "hasDuration|hasLength|path"
   },
   {
+    "name": "lengthy",
+    "proto": "long",
+    "disabled": false,
+    "tags": "hasDuration"
+  },
+  {
     "name": "short",
     "proto": "tall",
     "disabled": false
@@ -1432,6 +1475,22 @@ adjective = [
   {
     "name": "short1",
     "proto": "long",
+    "disabled": false
+  },
+  {
+    "name": "brief",
+    "proto": "short1",
+    "disabled": false,
+    "tags": "hasDuration"
+  },
+  {
+    "name": "quick",
+    "proto": "short1",
+    "disabled": false
+  },
+  {
+    "name": "hasty",
+    "proto": "quick",
     "disabled": false
   },
   {
