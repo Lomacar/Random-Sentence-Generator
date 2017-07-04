@@ -49,11 +49,14 @@ function toObject(str){
 		}
 		var obj = {}
 		var keyval
+        str = str.replace(/('|")(.*?):(.*?)\1/g, '$2‡$3') //first, protect colons that might be inside of quotes like "posr:'anim:3'"
+                                                          //and remove the protecting quotes
 		str = str.split(/[;,]/)
 		$.each(str, function(a,b){
 			keyval = b.split(':')
             val = toNumBool(keyval[1]) //attempt to treat numbers and booleans as such
             val = isNaN(val) && val!==undefined ? keyval[1].trim() : val //but if they aren't numbers leave them as strings
+            if (typeof val=='string') val = val.replace(/‡/g,':') //convert any 'protected colons' back to real colons
 			obj[keyval[0].trim()] = val
 		})
 		return obj
