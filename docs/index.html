@@ -7,9 +7,8 @@
         <script type="text/javascript" src="js/vendor/seedrandom.js"></script>
 
         <title>Sentence Generator 2.4.3</title>
-        <meta name="description"        content="Randomly generated sentences for everyone!" />
-        <meta property="og:image"              content="https://scontent-sea1-1.xx.fbcdn.net/t31.0-8/1957901_10152741022792155_6178618860154638773_o.jpg" />
-
+        <meta name="description" content="Randomly generated sentences for everyone!" />
+        <meta property="og:image" content="https://scontent-sea1-1.xx.fbcdn.net/t31.0-8/1957901_10152741022792155_6178618860154638773_o.jpg" />
     </head>
 
     <body>
@@ -22,6 +21,8 @@
                 </p>
             </div>
         </div>
+
+        <div class="xray-instructions">Click on any label to randomize that part of the sentence.</div>
 
         <script src="js/vendor/jquery.min.js" type="text/javascript"></script>
         <script src="js/vendor/lodash.min.js" type="text/javascript"></script>
@@ -128,6 +129,7 @@
 
                    $("#scroll").removeClass("active")
                    $("#xray").addClass("active")
+                   $("body").addClass("xray")
 
                 } else {
 

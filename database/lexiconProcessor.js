@@ -228,6 +228,13 @@ function autoAttributes (lex, type) {
         if (goodVal(w.compcore)) w.trans += 1
         if (goodVal(w.compext)) w.trans += 0.5
     }
+
+    //nouns with capital letters are proper nouns
+    if (type=='noun') {
+        var clean_word = w.name.replace(/^\W+/g,'')
+        if (/[A-Z]/.test(clean_word[0])) w.proper = true
+        else w.proper = false
+    }
       
     //noun attributes based on tags
     if (type=='noun') {

@@ -1,5 +1,78 @@
 adjective = [
   {
+    "name": "involve",
+    "prohibitions": "copulant:false",
+    "disabled": false,
+    "anim": ">1.5",
+    "perm": "0",
+    "scalar": "1",
+    "superform": "more",
+    "opposite": "un",
+    "complements": "NP{tags: volitional | telic | situation }"
+  },
+  {
+    "name": "tolerable",
+    "disabled": false,
+    "rank": "3",
+    "perm": "0",
+    "scalar": "2",
+    "superform": "more",
+    "opposite": "in"
+  },
+  {
+    "name": "refreshing",
+    "disabled": false,
+    "rank": "3",
+    "tags": "episode",
+    "perm": "1",
+    "scalar": "2",
+    "superform": "more"
+  },
+  {
+    "name": "meaningful",
+    "disabled": false,
+    "rank": "3",
+    "tags": "experience",
+    "perm": "1",
+    "scalar": "2",
+    "superform": "more"
+  },
+  {
+    "name": "dramatic",
+    "proto": "meaningful"
+  },
+  {
+    "name": "traumatic",
+    "proto": "dramatic",
+    "disabled": false
+  },
+  {
+    "name": "meaningless",
+    "proto": "meaningful",
+    "disabled": false
+  },
+  {
+    "name": "over",
+    "prohibitions": "copulant:false",
+    "disabled": false,
+    "rank": "100",
+    "tags": "hasDuration",
+    "perm": "2",
+    "scalar": "0"
+  },
+  {
+    "name": "over2",
+    "proto": "over",
+    "disabled": false
+  },
+  {
+    "name": "fickle",
+    "proto": "shy",
+    "disabled": false,
+    "anim": "3",
+    "superform": "more"
+  },
+  {
     "name": "on-going",
     "disabled": false,
     "rank": "2",
@@ -49,6 +122,7 @@ adjective = [
     "disabled": false,
     "rank": "-1",
     "anim": ">0",
+    "perm": "2",
     "scalar": "0",
     "opposite": "non-"
   },
@@ -122,7 +196,7 @@ adjective = [
     "rank": "0",
     "anim": ">0",
     "tang": ">1",
-    "perm": "1",
+    "perm": "2",
     "scalar": "1",
     "superform": "-er"
   },
@@ -167,6 +241,7 @@ adjective = [
     "name": "old",
     "disabled": false,
     "rank": "1",
+    "tags": "!occurance",
     "scalar": "2",
     "superform": "-er"
   },
@@ -174,6 +249,7 @@ adjective = [
     "name": "normal",
     "disabled": false,
     "rank": "5",
+    "perm": "2",
     "scalar": "0",
     "opposite": "ab"
   },
@@ -219,6 +295,7 @@ adjective = [
     "disabled": false,
     "rank": "1",
     "anim": "3",
+    "perm": "0",
     "scalar": "2",
     "superform": "-er",
     "complements": "(20 that SENTENCE   | 20 at NP   | 20 with NP{anim:>2})"
@@ -320,6 +397,7 @@ adjective = [
     "rank": "2",
     "tags": "bodyOfWater|terrain|manyOtherThings",
     "anim": "0",
+    "perm": "0",
     "scalar": "2",
     "superform": "-er"
   },
@@ -447,12 +525,13 @@ adjective = [
     "rank": "3",
     "anim": ">1.5",
     "scalar": "2",
-    "superform": "-er"
+    "superform": "more"
   },
   {
     "name": "crazy",
     "proto": "clever",
-    "disabled": false
+    "disabled": false,
+    "superform": "-er"
   },
   {
     "name": "crazy.2",
@@ -866,6 +945,7 @@ adjective = [
     "name": "divine",
     "disabled": false,
     "rank": "4",
+    "perm": "2",
     "scalar": "0"
   },
   {
@@ -952,6 +1032,7 @@ adjective = [
     "name": "wholesome",
     "disabled": false,
     "rank": "4",
+    "perm": "2",
     "scalar": "1",
     "superform": "more",
     "opposite": "un"
@@ -1296,7 +1377,7 @@ adjective = [
     "name": "difficult",
     "disabled": false,
     "rank": "4",
-    "tags": "situation|difficulty|act|procedure|performance",
+    "tags": "situation|difficulty|act|procedure|performance|experience|contest",
     "perm": "1",
     "scalar": "2",
     "superform": "more"

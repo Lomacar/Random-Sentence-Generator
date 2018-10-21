@@ -3,6 +3,7 @@ const chokidar = require('chokidar');
 const express = require("express");
 const myParser = require("body-parser");
 const app = express();
+const cors = require('cors')
 const beautify = require('json-beautify');
 const colors = require('colors');
 
@@ -93,6 +94,7 @@ var urlencodedParser = myParser.urlencoded({ extended:true,limit:5000000, parame
 app.use(urlencodedParser);
 
 app.use(myParser.json({limit: '5mb'}));
+app.use(cors())
 
 
 // Add headers
@@ -115,6 +117,7 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.get("/", function (req,res) { res.send('Hello World!') } );
 
 app.post("/save", function (req,res) {
     //console.log(req.body.data)

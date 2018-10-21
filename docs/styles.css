@@ -39,6 +39,9 @@ body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align:
     background: white;
 }
 
+.xray-instructions {display: none; font-family: 'Roboto Slab'; font-size: 1.2em;}
+.xray .xray-instructions {display: block}
+
 .sentence {
     position: relative;
     margin: 0 1.8em;

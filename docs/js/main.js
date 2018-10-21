@@ -124,6 +124,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
             props = props.map(function(x){
                 //get the {property:value} for each x under obj
                 var p = propertySearch(obj,x)
+                if (typeOf(p) == 'object') return p
                 var out = {}
                 out[x] = p
                 return out
@@ -647,9 +648,18 @@ function stringOut(c,id,recur){
 
         //break down arrays of adjectives or whatnot
         if(typeOf(c.children[a])=='array') {
-            var tempstr = ""
-            $.each(c.children[a], function (index, value){tempstr += " "+stringOut(value,undefined,1)})
-            return tempstr
+            var temp = []
+            var lastbit = ""
+            $.each(c.children[a], function (index, value){
+                if(goodVal(value.text)) temp.push(stringOut(value,undefined,1))
+            })
+            //tempstr = tempstr.join(c.separator[0])
+            if (c.separator[1]!==undefined) {
+                var lastbit = c.separator[1] + temp.pop()
+            }
+            temp = temp.join(c.separator[0]) + lastbit
+
+            return temp
         }
 
         //or fetch single item
@@ -687,6 +697,7 @@ function stringCleaning(string, c, recur){
     string = string.replace(/\.([^ \b])/g,"$1")             // remove dots that aren't at the end of words
                    .replace(/([^\^])\d+([^\]\d]|$)/g,"$1$2")// remove numbers, except for [e123] errors and escaped numbers (^2)
                    .replace(/  +/g,' ')                     // remove extra spaces
+                   .replace(/ ,/,',')                       // remove spaces before commas
 
     //construction specific cleaning
     if (typeof c.postlogic==='function') string = c.postlogic(string)

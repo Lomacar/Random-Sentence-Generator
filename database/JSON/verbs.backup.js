@@ -1,5 +1,219 @@
 verb = [
   {
+    "name": "expand",
+    "disabled": false,
+    "class": "process",
+    "tags": "gas|organization|stretchy",
+    "volition": "false",
+    "ptpl": "pres"
+  },
+  {
+    "name": "disperse",
+    "disabled": false,
+    "class": "process",
+    "tags": "collective",
+    "anim": "!0",
+    "ptpl": "pres"
+  },
+  {
+    "name": "dissipate",
+    "disabled": false,
+    "class": "process",
+    "tags": "gas",
+    "volition": "false",
+    "ptpl": "pres"
+  },
+  {
+    "name": "swirl",
+    "disabled": false,
+    "class": "activity",
+    "tags": "fluid&!viscous",
+    "volition": "false",
+    "ptpl": "pres"
+  },
+  {
+    "name": "involve",
+    "disabled": false,
+    "class": "state",
+    "tags": "volitional | telic | situation | experience",
+    "volition": "false",
+    "ptpl": "null",
+    "compext": "(ACTIVE_STUFF|NP{tags: activity|enterprise}|NP)"
+  },
+  {
+    "name": "involve1",
+    "proto": "involve",
+    "disabled": false,
+    "tags": "--",
+    "anim": "3",
+    "volition": "true",
+    "compcore": "NP{anim:3}",
+    "compext": "in (ACTIVE_STUFF|NP{tags: activity|event&volitional})"
+  },
+  {
+    "name": "participate",
+    "disabled": false,
+    "class": "activity",
+    "tags": "person",
+    "volition": "true",
+    "ptpl": "null",
+    "compext": "(80 in NP{tags: occasion})"
+  },
+  {
+    "name": "take88",
+    "proto": "participate",
+    "disabled": false,
+    "compext": "part (88 in NP{tags: occasion})"
+  },
+  {
+    "name": "block",
+    "disabled": false,
+    "tags": "object",
+    "tang": "2",
+    "ptpl": "past",
+    "compcore": "NP{tags:(40 path |30 opening |20 creature |10 vehicle)}"
+  },
+  {
+    "name": "head",
+    "disabled": false,
+    "class": "activity",
+    "tags": "creature|vehicle",
+    "vtags": "motion, generalMotion",
+    "volition": "true",
+    "ptpl": "null",
+    "compext": "DIR"
+  },
+  {
+    "name": "head1",
+    "proto": "head",
+    "disabled": false,
+    "class": "event"
+  },
+  {
+    "name": "head2",
+    "proto": "head1",
+    "disabled": false,
+    "compext": "(off|out)"
+  },
+  {
+    "name": "get",
+    "disabled": false,
+    "class": "event",
+    "anim": "3",
+    "ptpl": "null",
+    "compcore": "NP{tags:PHYSICAL & !fixed; anim: <3}",
+    "inflections": "simp.past:got, retro:gotten"
+  },
+  {
+    "name": "get1",
+    "proto": "get",
+    "disabled": false,
+    "class": "process",
+    "compcore": "--",
+    "compext": "(better|sick)"
+  },
+  {
+    "name": "get3",
+    "proto": "get",
+    "disabled": false,
+    "compcore": "rid of NP"
+  },
+  {
+    "name": "avoid",
+    "disabled": false,
+    "class": "activity",
+    "anim": ">1.5",
+    "volition": "true",
+    "ptpl": "null",
+    "compcore": "(70 NP |30 GP{unpack:subject.R} )"
+  },
+  {
+    "name": "avoid2",
+    "proto": "avoid",
+    "disabled": false
+  },
+  {
+    "name": "rescue",
+    "disabled": false,
+    "class": "event",
+    "anim": "2,3",
+    "volition": "true",
+    "compcore": "NP{tags:object&!fixed | substance}",
+    "compext": "(from (NP{tags:phenomenon|place|organization|happening|situation} | NP{tags:person}) )"
+  },
+  {
+    "name": "kiss",
+    "disabled": false,
+    "class": "semel",
+    "tags": "person",
+    "volition": "true",
+    "ptpl": "past",
+    "compcore": "NP(77 {tags: person} |23 {tags: !person & !liquid; tang: 2})"
+  },
+  {
+    "name": "hug",
+    "proto": "kiss",
+    "disabled": false,
+    "compcore": "NP{tags:creature; size: >3}"
+  },
+  {
+    "name": "let",
+    "prohibitions": "pasv: true",
+    "disabled": false,
+    "class": "event",
+    "anim": "3",
+    "volition": "true",
+    "compext": "INF_CLAUSE2{volition: true; anim:>1.5}",
+    "inflections": "simp.past:let, retro: let"
+  },
+  {
+    "name": "let1",
+    "proto": "let",
+    "disabled": false,
+    "compext": "go (70 of NP{tags:(touchable|item; (size: <subject.size))})"
+  },
+  {
+    "name": "let2",
+    "proto": "let",
+    "disabled": false,
+    "compcore": "NP{anim:>0.5}",
+    "compext": "go"
+  },
+  {
+    "name": "act",
+    "disabled": true,
+    "class": "activity",
+    "anim": ">1.5",
+    "volition": "true",
+    "compext": "AP{unpack: subject.R} ← HOW TO RESTRICT A's? new atag attribute with values of \"behaviour\" and \"disposition?\""
+  },
+  {
+    "name": "end1",
+    "prohibitions": "aspect: prog",
+    "disabled": false,
+    "class": "event",
+    "volition": "false",
+    "ptpl": "null",
+    "compext": "up GP{unpack: subject.R}"
+  },
+  {
+    "name": "deserve",
+    "disabled": false,
+    "class": "state",
+    "anim": "3",
+    "volition": "false",
+    "ptpl": "null",
+    "compcore": "NP{tags:!place}"
+  },
+  {
+    "name": "deserve.1",
+    "proto": "deserve",
+    "disabled": false,
+    "anim": "--",
+    "tang": ">1",
+    "compcore": "NP{anim: <3;tang:>0;tags:!place | building}"
+  },
+  {
     "name": "panic",
     "disabled": false,
     "class": "activity",
@@ -7,6 +221,20 @@ verb = [
     "volition": "false",
     "ptpl": "pres",
     "inflections": "prog:panicking,retro:panicked,simp.past:panicked"
+  },
+  {
+    "name": "survive",
+    "disabled": false,
+    "class": "event",
+    "tags": "lifeform|construction|site|territory|organization",
+    "volition": "false",
+    "ptpl": "pres"
+  },
+  {
+    "name": "survive.1",
+    "proto": "survive",
+    "disabled": false,
+    "class": "activity"
   },
   {
     "name": "hang1",
@@ -22,7 +250,7 @@ verb = [
     "name": "hang1.1",
     "proto": "hang1",
     "disabled": false,
-    "tags": "collective",
+    "tags": "organization | person",
     "compext": "out"
   },
   {
@@ -257,12 +485,12 @@ verb = [
   },
   {
     "name": "die",
-    "tang": "!0",
+    "disabled": false,
     "class": "process",
-    "volition": "FALSE",
-    "ptpl": "pres",
     "tags": "lifeform",
     "vtags": "--",
+    "tang": "!0",
+    "ptpl": "pres",
     "inflections": "prog:dying, retroprog:dying"
   },
   {
@@ -308,18 +536,20 @@ verb = [
   },
   {
     "name": "fall",
-    "tang": 2,
+    "disabled": false,
     "class": "event",
-    "volition": "FALSE",
-    "ptpl": "pres",
     "tags": "hasHeight",
     "vtags": "--",
+    "tang": "2",
+    "volition": "false",
+    "ptpl": "pres",
     "compext": "(30 down | 30 over)",
     "inflections": "simp.past:fell, retro:fallen"
   },
   {
     "name": "fall1",
     "proto": "fall",
+    "disabled": false,
     "tags": "!fixed",
     "vtags": "motion, vertical, down",
     "compext": "MOTION"
@@ -327,6 +557,7 @@ verb = [
   {
     "name": "fall2",
     "proto": "fall",
+    "disabled": false,
     "tags": "protrusion",
     "compext": "off"
   },
@@ -368,13 +599,13 @@ verb = [
   },
   {
     "name": "float",
-    "tang": 2,
+    "disabled": false,
     "class": "activity",
-    "volition": "FALSE",
-    "ptpl": "pres",
     "tags": "!fixed",
     "vtags": "motion, air, waterSurface",
-    "compext": "(MOTION)"
+    "tang": "2",
+    "ptpl": "pres",
+    "compext": "(PATH)"
   },
   {
     "name": "fly",
@@ -468,11 +699,18 @@ verb = [
     "disabled": false,
     "class": "event",
     "tags": "creature",
+    "vtags": "null",
     "anim": ">1",
     "volition": "false",
     "ptpl": "null",
     "compcore": "to sleep",
     "compext": "--"
+  },
+  {
+    "name": "go4",
+    "proto": "go",
+    "disabled": false,
+    "compext": "to NP{tags: occasion}"
   },
   {
     "name": "go3.1",
@@ -498,6 +736,12 @@ verb = [
     "compext": "MOTION"
   },
   {
+    "name": "hike.1",
+    "proto": "walk.1",
+    "disabled": false,
+    "compext": "MOTION{size:>8}"
+  },
+  {
     "name": "hate",
     "proto": "like",
     "volition": "FALSE",
@@ -515,6 +759,15 @@ verb = [
     "ptpl": "null",
     "compcore": "NP{tags:object|substance; anim: <3}",
     "inflections": "simp.past:had, simp.pres.sg.3:has, retro:had"
+  },
+  {
+    "name": "have1",
+    "proto": "have",
+    "disabled": false,
+    "class": "activity",
+    "anim": "3",
+    "tang": "--",
+    "compcore": "NP{noposs: true; tags: experience}"
   },
   {
     "name": "imagine",
@@ -632,6 +885,7 @@ verb = [
     "class": "process",
     "vtags": "activity",
     "anim": "3",
+    "volition": "true",
     "ptpl": "past",
     "compcore": "NP{tags:readable; person:3}",
     "inflections": "simp.past:read, retro:read"
@@ -770,15 +1024,6 @@ verb = [
     "compext": "at NP{tang: 2}"
   },
   {
-    "name": "skate",
-    "proto": "walk",
-    "disabled": false,
-    "class": "activity",
-    "anim": "3",
-    "tang": ">0",
-    "ptpl": "pres"
-  },
-  {
     "name": "sleep",
     "disabled": false,
     "class": "activity",
@@ -801,6 +1046,7 @@ verb = [
     "name": "snap",
     "disabled": false,
     "class": "event",
+    "tags": "object",
     "vtags": "--",
     "anim": "<2",
     "tang": "2",
@@ -820,8 +1066,9 @@ verb = [
   {
     "name": "swim",
     "proto": "walk",
-    "ptpl": "pres",
+    "disabled": false,
     "vtags": "motion, water",
+    "ptpl": "pres",
     "inflections": "simp.past:swam, retro:swum"
   },
   {
@@ -947,7 +1194,7 @@ verb = [
   {
     "name": "write",
     "proto": "read",
-    "volition": "TRUE",
+    "disabled": false,
     "vtags": "--",
     "inflections": "simp.past:wrote, retro:written"
   },
@@ -1051,7 +1298,7 @@ verb = [
     "vtags": "--",
     "volition": "false",
     "ptpl": "null",
-    "compext": "(with NP{tags:object} | into NP{tags:object} )"
+    "compext": "(80 with NP{tags:object&!fixed} |20 into NP{tags:object; size: >subject.size} )"
   },
   {
     "name": "sparkle",
@@ -1075,7 +1322,9 @@ verb = [
     "name": "keep1",
     "proto": "keep",
     "disabled": false,
-    "compcore": "NP{tags: object|substance & !fixed; anim: <3}"
+    "anim": ">1.5",
+    "volition": "true",
+    "compcore": "NP{tags: object|substance & !fixed; anim: <subject.anim}"
   },
   {
     "name": "stop",
@@ -1292,7 +1541,8 @@ verb = [
   {
     "name": "frolick",
     "proto": "dance1",
-    "anim": 2
+    "disabled": false,
+    "anim": "2"
   },
   {
     "name": "grumble",
@@ -1410,15 +1660,16 @@ verb = [
   },
   {
     "name": "dance",
-    "anim": 3,
+    "disabled": false,
     "class": "activity",
-    "volition": "TRUE",
-    "ptpl": "pres",
-    "vtags": "activity"
+    "tags": "creature&!bug",
+    "vtags": "activity",
+    "ptpl": "pres"
   },
   {
     "name": "dance1",
     "proto": "dance",
+    "disabled": false,
     "vtags": "motion, grounded",
     "compext": "(GOAL | PATH)"
   },
@@ -1497,6 +1748,7 @@ verb = [
     "class": "event",
     "vtags": "--",
     "anim": "3",
+    "volition": "false",
     "ptpl": "null",
     "compext": "(80 (WH_CLAUSE|about NP{def:def}|THAT_CLAUSE))",
     "inflections": "simp.past:forgot, retro:forgotten"
@@ -1558,7 +1810,21 @@ verb = [
     "name": "figure",
     "proto": "realize",
     "disabled": false,
+    "volition": "true",
     "compext": "out (WH_CLAUSE|THAT_CLAUSE)"
+  },
+  {
+    "name": "figure2",
+    "proto": "figure",
+    "disabled": false,
+    "compcore": "PRONOUN{nocomplement:true}",
+    "compext": "out"
+  },
+  {
+    "name": "figure3",
+    "proto": "figure",
+    "disabled": false,
+    "compext": "out WH_INF{anim:3;tags:person;volition:true}"
   },
   {
     "name": "find1",
@@ -1576,8 +1842,15 @@ verb = [
     "name": "discover1",
     "proto": "discover",
     "disabled": false,
-    "compcore": "NP{tags:territory}",
+    "compcore": "NP{tags:territory|activity|enterprise|event&!episode&!experience}",
     "compext": "--"
+  },
+  {
+    "name": "discover1.1",
+    "proto": "discover1",
+    "disabled": false,
+    "compcore": "NP{tags: matter|phenomenon}",
+    "compext": "LOCATION"
   },
   {
     "name": "lie",
@@ -1694,28 +1967,32 @@ verb = [
   },
   {
     "name": "work",
+    "disabled": false,
     "class": "state",
-    "volition": "FALSE",
-    "ptpl": "null",
     "tags": "device",
-    "vtags": "--"
+    "vtags": "--",
+    "volition": "false",
+    "ptpl": "null"
   },
   {
     "name": "work1",
     "proto": "work",
-    "anim": 3,
+    "disabled": false,
     "tags": "--",
     "vtags": "habit",
+    "anim": "3",
+    "volition": "true",
     "compext": "(LOCATION)"
   },
   {
     "name": "work2",
     "proto": "work",
-    "anim": 3,
+    "disabled": false,
     "class": "activity",
-    "volition": "TRUE",
-    "ptpl": "pres",
     "tags": "--",
+    "anim": "3",
+    "volition": "true",
+    "ptpl": "pres",
     "compext": "(on NP{tags: undertaking|device|vehicle})"
   },
   {
@@ -1730,6 +2007,7 @@ verb = [
     "name": "move1",
     "proto": "move",
     "disabled": false,
+    "tags": "weather",
     "vtags": "motion, generalMotion",
     "anim": "3",
     "tang": "<9",
@@ -1854,6 +2132,8 @@ verb = [
   {
     "name": "run",
     "proto": "walk",
+    "disabled": false,
+    "compext": "((away|off))",
     "inflections": "simp.past: ran, retro: run"
   },
   {
@@ -1869,11 +2149,13 @@ verb = [
   },
   {
     "name": "jog",
-    "proto": "walk"
+    "proto": "walk",
+    "disabled": false
   },
   {
     "name": "waddle",
-    "proto": "walk"
+    "proto": "walk",
+    "disabled": false
   },
   {
     "name": "rollerblade",
@@ -1892,7 +2174,8 @@ verb = [
   },
   {
     "name": "moonwalk",
-    "proto": "walk"
+    "proto": "walk",
+    "disabled": false
   },
   {
     "name": "shiver",
@@ -1933,22 +2216,23 @@ verb = [
   },
   {
     "name": "bounce",
+    "disabled": false,
+    "class": "semel",
+    "tags": "object",
+    "vtags": "--",
     "anim": "<2",
     "tang": ">1",
-    "class": "semel",
-    "volition": "FALSE",
-    "ptpl": "pres",
-    "tags": "object",
-    "vtags": "--"
+    "volition": "false",
+    "ptpl": "pres"
   },
   {
     "name": "bounce.1",
     "proto": "bounce",
-    "anim": ">0",
+    "disabled": false,
     "class": "process",
-    "volition": "TRUE",
     "tags": "--",
     "vtags": "motion, grounded",
+    "anim": ">0",
     "compext": "(MOTION)"
   },
   {
@@ -1958,12 +2242,12 @@ verb = [
   },
   {
     "name": "function",
-    "anim": 1,
+    "disabled": false,
     "class": "activity",
-    "volition": "FALSE",
-    "ptpl": "pres",
     "tags": "device",
-    "vtags": "--"
+    "vtags": "--",
+    "anim": "1",
+    "ptpl": "pres"
   },
   {
     "name": "bleed",
@@ -1979,16 +2263,18 @@ verb = [
   },
   {
     "name": "organize",
-    "anim": 3,
+    "disabled": false,
     "class": "process",
-    "volition": "TRUE",
-    "ptpl": "past",
     "vtags": "--",
+    "anim": "3",
+    "volition": "true",
+    "ptpl": "past",
     "compcore": "NP{(number:pl;tags:!feature|tags:collective)}"
   },
   {
     "name": "organize1",
     "proto": "organize",
+    "disabled": false,
     "compcore": "NP{tags:occasion}"
   },
   {
@@ -2003,6 +2289,16 @@ verb = [
     "compext": "at NP{tags:visible}"
   },
   {
+    "name": "stare",
+    "proto": "look",
+    "disabled": false
+  },
+  {
+    "name": "glare",
+    "proto": "look",
+    "disabled": false
+  },
+  {
     "name": "look2",
     "disabled": false,
     "class": "state",
@@ -2014,12 +2310,31 @@ verb = [
   },
   {
     "name": "travel",
-    "anim": ">1",
+    "disabled": false,
     "class": "process",
-    "volition": "TRUE",
-    "ptpl": "null",
     "vtags": "motion, generalMotion",
+    "anim": ">1",
+    "ptpl": "null",
     "compext": "(MOTION)"
+  },
+  {
+    "name": "travel1",
+    "proto": "travel",
+    "disabled": false,
+    "class": "process",
+    "tags": "weather",
+    "vtags": "motion, grounded",
+    "anim": "--",
+    "volition": "false"
+  },
+  {
+    "name": "retreat",
+    "proto": "travel"
+  },
+  {
+    "name": "return",
+    "proto": "travel",
+    "disabled": false
   },
   {
     "name": "come",
@@ -2153,7 +2468,8 @@ verb = [
   {
     "name": "end",
     "proto": "begin",
-    "disabled": false
+    "disabled": false,
+    "inflections": "--"
   },
   {
     "name": "agree",
@@ -2239,6 +2555,11 @@ verb = [
     "ptpl": "null"
   },
   {
+    "name": "succeed",
+    "proto": "fail",
+    "disabled": false
+  },
+  {
     "name": "fail.1",
     "proto": "fail",
     "disabled": false,
@@ -2286,15 +2607,16 @@ verb = [
   },
   {
     "name": "change",
+    "disabled": false,
     "class": "activity",
-    "volition": "FALSE",
-    "ptpl": "pres",
     "tags": "ABSTRACT|phenomenon",
-    "vtags": "--"
+    "vtags": "--",
+    "ptpl": "pres"
   },
   {
     "name": "change.1",
     "proto": "change",
+    "disabled": false,
     "class": "event",
     "vtags": "--"
   },
@@ -2339,6 +2661,15 @@ verb = [
     "compcore": "NP{tags:thing|occasion|undertaking|difficulty}"
   },
   {
+    "name": "join",
+    "disabled": false,
+    "class": "event",
+    "anim": ">1.5",
+    "volition": "true",
+    "ptpl": "null",
+    "compcore": "(NP{anim:3}|NP{tags:organization})"
+  },
+  {
     "name": "repair",
     "disabled": false,
     "class": "process",
@@ -2361,9 +2692,9 @@ verb = [
   {
     "name": "crawl",
     "proto": "walk",
+    "disabled": false,
     "tags": "creature",
-    "vtags": "motion, contact",
-    "compext": "MOTION"
+    "vtags": "motion, contact"
   },
   {
     "name": "burn",
@@ -2371,16 +2702,18 @@ verb = [
     "class": "activity",
     "tags": "object|substance&!fluid|place",
     "vtags": "--",
+    "volition": "false",
     "ptpl": "pres",
     "inflections": "retro: burnt"
   },
   {
     "name": "burn.1",
     "proto": "burn",
-    "volition": "TRUE",
-    "ptpl": "past",
+    "disabled": false,
     "tags": "person",
     "vtags": "--",
+    "volition": "true",
+    "ptpl": "past",
     "compcore": "NP{tags:object|substance&!fluid|place}"
   },
   {
@@ -2420,11 +2753,12 @@ verb = [
   },
   {
     "name": "nuke",
+    "disabled": false,
     "class": "event",
-    "volition": "TRUE",
-    "ptpl": "past",
     "tags": "person|territory|organization",
     "vtags": "--",
+    "volition": "true",
+    "ptpl": "past",
     "compcore": "NP{ tags:territory|site}"
   },
   {
@@ -2442,8 +2776,8 @@ verb = [
     "name": "wear",
     "disabled": false,
     "class": "state",
+    "tags": "creature",
     "vtags": "--",
-    "anim": ">1",
     "volition": "true",
     "ptpl": "past",
     "compcore": "NP{tags:clothing}",
@@ -2455,10 +2789,56 @@ verb = [
     "class": "event",
     "vtags": "motion, generalMotion",
     "anim": ">1",
+    "volition": "true",
     "ptpl": "past|by2",
     "compcore": "NP{tags:item|mass|solid;anim:<3}",
     "compext": "MOTION",
     "inflections": "simp.past: took, retro: taken"
+  },
+  {
+    "name": "take3",
+    "proto": "take",
+    "disabled": false,
+    "class": "activity",
+    "tags": "person",
+    "vtags": "--",
+    "volition": "true",
+    "ptpl": "null",
+    "compcore": "NP{def:indef, name: shower, orsimilar: true}",
+    "compext": "--"
+  },
+  {
+    "name": "take4",
+    "proto": "take",
+    "disabled": false,
+    "tags": "person",
+    "vtags": "--",
+    "volition": "true",
+    "ptpl": "null",
+    "compcore": "NP{possessed: false; name:pill; orsimilar: true}",
+    "compext": "--"
+  },
+  {
+    "name": "take404",
+    "proto": "take4",
+    "disabled": false
+  },
+  {
+    "name": "take444",
+    "proto": "take4",
+    "disabled": false
+  },
+  {
+    "name": "take454",
+    "proto": "take4",
+    "disabled": false
+  },
+  {
+    "name": "take3.1",
+    "proto": "take3",
+    "disabled": false,
+    "tags": "animal",
+    "compcore": "NP{def:indef, name: nap, orsimilar: true}"
   },
   {
     "name": "take1",
@@ -2472,6 +2852,14 @@ verb = [
     "compext": "(70 off DP{tags:clothing}|30  PRONOUN{tags:clothing} off)"
   },
   {
+    "name": "take99",
+    "proto": "take",
+    "disabled": false,
+    "ptpl": "null",
+    "compcore": "NP{name: shortcut}",
+    "compext": "(30 (GOAL|PATH))"
+  },
+  {
     "name": "take2",
     "proto": "take",
     "disabled": false,
@@ -2483,27 +2871,64 @@ verb = [
   {
     "name": "put1",
     "proto": "take1",
-    "ptpl": "TODO",
+    "disabled": false,
     "vtags": "placement",
+    "ptpl": "TODO",
     "compext": "(85 on DP{tags:clothing}   | 15 PRONOUN{tags:clothing} on)",
     "inflections": "simp.past: put, retro: put"
   },
   {
     "name": "put",
-    "anim": ">1",
-    "tang": ">0",
+    "disabled": false,
     "class": "event",
-    "volition": "TRUE",
-    "ptpl": "past|by2",
-    "tags": "substance|object&!fixed",
+    "tags": "creature",
     "vtags": "placement",
-    "compcore": "NP{tags:PHYSICAL&!fixed; size: <subject.size}",
+    "volition": "true",
+    "ptpl": "past|by2",
+    "compcore": "NP{tags:matter&!fixed; size: <subject.size}",
     "compext": "LOCATION",
+    "inflections": "simp.past: put, retro: put"
+  },
+  {
+    "name": "put4",
+    "proto": "put",
+    "disabled": false,
+    "volition": "true",
+    "ptpl": "null",
+    "compcore": "down DP{tags:matter&!fixed; size: <subject.size}",
+    "compext": "--"
+  },
+  {
+    "name": "put4.1",
+    "proto": "put4",
+    "disabled": false,
+    "compcore": "PRONOUN{tags:matter&!fixed; size: <subject.size} down"
+  },
+  {
+    "name": "put3",
+    "proto": "put2",
+    "disabled": false,
+    "class": "activity",
+    "vtags": "--",
+    "ptpl": "null",
+    "compcore": "--",
+    "compext": "up with NP"
+  },
+  {
+    "name": "put2",
+    "disabled": false,
+    "class": "activity",
+    "vtags": "--",
+    "anim": "3",
+    "volition": "true",
+    "ptpl": "null",
+    "compext": "off ACTIVE_STUFF",
     "inflections": "simp.past: put, retro: put"
   },
   {
     "name": "place",
     "proto": "put",
+    "disabled": false,
     "inflections": "--"
   },
   {
@@ -2519,7 +2944,8 @@ verb = [
   },
   {
     "name": "wander",
-    "proto": "walk"
+    "proto": "walk",
+    "disabled": false
   },
   {
     "name": "sneak",
@@ -2554,11 +2980,12 @@ verb = [
   },
   {
     "name": "jump",
+    "disabled": false,
     "class": "event",
-    "volition": "TRUE",
-    "ptpl": "pres",
     "tags": "creature",
     "vtags": "motion, jump",
+    "volition": "true",
+    "ptpl": "pres",
     "compext": "MOTION"
   },
   {
@@ -2572,26 +2999,29 @@ verb = [
   },
   {
     "name": "climb",
+    "disabled": false,
     "class": "process",
-    "volition": "TRUE",
-    "ptpl": "null",
     "tags": "creature&!waterAnimal",
     "vtags": "motion, vertical, up, contact",
+    "volition": "true",
+    "ptpl": "null",
     "compext": "MOTION{tags:hasHeight|vertical; anim:0}"
   },
   {
     "name": "climb.1",
     "proto": "climb",
+    "disabled": false,
     "compcore": "NP{tags:hasHeight|vertical & !void; anim:0}",
     "compext": "--"
   },
   {
     "name": "slide",
+    "disabled": false,
     "class": "process",
-    "volition": "FALSE",
-    "ptpl": "null",
     "tags": "object&!fixed",
     "vtags": "motion, grounded",
+    "volition": "false",
+    "ptpl": "null",
     "compext": "MOTION",
     "inflections": "simp.past: slid, retro: slid"
   },
@@ -2603,27 +3033,32 @@ verb = [
   {
     "name": "slither",
     "proto": "slide",
-    "anim": ">1",
-    "volition": "TRUE",
+    "disabled": false,
     "tags": "creature",
     "vtags": "motion, contact",
+    "anim": ">1",
+    "volition": "true",
     "inflections": "--"
   },
   {
     "name": "leap",
-    "proto": "jump"
+    "proto": "jump",
+    "disabled": false
   },
   {
     "name": "shuffle",
-    "proto": "limp"
+    "proto": "limp",
+    "disabled": false
   },
   {
     "name": "saunter",
-    "proto": "limp"
+    "proto": "limp",
+    "disabled": false
   },
   {
     "name": "mosey",
-    "proto": "limp"
+    "proto": "limp",
+    "disabled": false
   },
   {
     "name": "stroll",
@@ -2631,7 +3066,8 @@ verb = [
   },
   {
     "name": "trot",
-    "proto": "limp"
+    "proto": "limp",
+    "disabled": false
   },
   {
     "name": "jog",
@@ -2639,7 +3075,8 @@ verb = [
   },
   {
     "name": "skip",
-    "proto": "limp"
+    "proto": "limp",
+    "disabled": false
   },
   {
     "name": "scurry",
@@ -2651,7 +3088,8 @@ verb = [
   },
   {
     "name": "march",
-    "proto": "walk"
+    "proto": "walk",
+    "disabled": false
   },
   {
     "name": "roll",
@@ -2659,7 +3097,9 @@ verb = [
   },
   {
     "name": "race",
-    "proto": "run"
+    "proto": "run",
+    "disabled": false,
+    "compext": "--"
   },
   {
     "name": "transport",
@@ -2703,10 +3143,11 @@ verb = [
   },
   {
     "name": "annex",
+    "disabled": false,
     "class": "event",
-    "volition": "TRUE",
-    "ptpl": "past",
     "tags": "country",
+    "volition": "true",
+    "ptpl": "past",
     "compcore": "NP{tags: region}"
   },
   {
@@ -2734,7 +3175,7 @@ verb = [
     "volition": "true",
     "ptpl": "past|by2",
     "compcore": "NP{tags:object&!fixed; anim: <3}",
-    "compext": "MOTION"
+    "compext": "((GOAL|to NP{anim:3}))"
   },
   {
     "name": "descend",
@@ -2768,15 +3209,18 @@ verb = [
   },
   {
     "name": "soar",
-    "proto": "fly"
+    "proto": "fly",
+    "disabled": false
   },
   {
     "name": "glide",
-    "proto": "fly"
+    "proto": "fly",
+    "disabled": false
   },
   {
     "name": "drift",
-    "proto": "float"
+    "proto": "float",
+    "disabled": false
   },
   {
     "name": "drop",
@@ -2786,17 +3230,19 @@ verb = [
   },
   {
     "name": "pour",
+    "disabled": false,
     "class": "process",
-    "volition": "TRUE",
-    "ptpl": "null",
     "tags": "person",
     "vtags": "motion, vertical, down",
+    "volition": "true",
+    "ptpl": "null",
     "compcore": "NP{tags:liquid|aggregate}",
     "compext": "(MOTION{volition:false})"
   },
   {
     "name": "dump",
-    "proto": "pour"
+    "proto": "pour",
+    "disabled": false
   },
   {
     "name": "sprinkle",
@@ -2826,11 +3272,11 @@ verb = [
   },
   {
     "name": "flow",
+    "disabled": false,
     "class": "activity",
-    "volition": "FALSE",
-    "ptpl": "pres",
     "tags": "liquid",
     "vtags": "motion, grounded",
+    "ptpl": "pres",
     "compext": "MOTION"
   },
   {
@@ -2909,20 +3355,23 @@ verb = [
   },
   {
     "name": "teleport",
-    "proto": "jump"
+    "proto": "jump",
+    "disabled": false
   },
   {
     "name": "enter",
-    "anim": ">1",
+    "disabled": false,
     "class": "event",
-    "volition": "TRUE",
-    "ptpl": "null",
     "vtags": "motion, generalMotion",
+    "anim": ">1",
+    "volition": "true",
+    "ptpl": "null",
     "compext": "(45 GOAL{name:into} |45 NP{tags:building|area|volume|gas;number:sg;partial:false})"
   },
   {
     "name": "exit",
     "proto": "enter",
+    "disabled": false,
     "compext": "(33 SOURCE{name:from} |63 NP{tags:building|area|volume|gas;number:sg;partial:false})",
     "inflections": "simp.past: exited, retro: exited, prog: exiting"
   },
@@ -3002,18 +3451,32 @@ verb = [
   {
     "name": "describe",
     "proto": "talk",
+    "disabled": false,
     "class": "process",
     "ptpl": "past|by2",
     "compcore": "NP"
   },
   {
     "name": "talk",
-    "anim": 3,
+    "disabled": false,
     "class": "activity",
-    "volition": "TRUE",
-    "ptpl": "null",
     "vtags": "activity",
+    "anim": "3",
+    "volition": "true",
+    "ptpl": "null",
     "compext": "to NP{anim:3}"
+  },
+  {
+    "name": "spoke",
+    "proto": "talk",
+    "disabled": false
+  },
+  {
+    "name": "talk1",
+    "proto": "talk",
+    "disabled": false,
+    "ptpl": "past",
+    "compext": "about NP"
   },
   {
     "name": "award",
@@ -3022,11 +3485,12 @@ verb = [
   },
   {
     "name": "build",
-    "anim": 3,
+    "disabled": false,
     "class": "process",
-    "volition": "TRUE",
-    "ptpl": "past",
     "vtags": "creation",
+    "anim": "3",
+    "volition": "true",
+    "ptpl": "past",
     "compcore": "NP{tags:construction}",
     "inflections": "simp.past: built, retro: built"
   },
@@ -3048,6 +3512,7 @@ verb = [
   {
     "name": "design",
     "proto": "build",
+    "disabled": false,
     "compcore": "NP{tags:artifact}"
   },
   {
@@ -3060,15 +3525,17 @@ verb = [
   {
     "name": "sabotage",
     "proto": "destroy",
+    "disabled": false,
     "anim": ">1",
     "compcore": "NP{tags:instrument}"
   },
   {
     "name": "destroy",
+    "disabled": false,
+    "class": "process",
     "anim": ">0",
     "tang": ">0",
-    "class": "process",
-    "volition": "TRUE",
+    "volition": "true",
     "ptpl": "past",
     "compcore": "NP{tags:thing&!void|territory}"
   },
@@ -3110,24 +3577,28 @@ verb = [
   },
   {
     "name": "promote",
-    "anim": 3,
+    "disabled": false,
     "class": "activity",
-    "volition": "TRUE",
+    "anim": "3",
+    "volition": "true",
     "ptpl": "past",
     "compcore": "NP{tags: volitional | person | territory}"
   },
   {
     "name": "advertise",
     "proto": "promote",
+    "disabled": false,
     "compcore": "NP{tags: volitional | territory | artifact}"
   },
   {
     "name": "discredit",
-    "proto": "promote"
+    "proto": "promote",
+    "disabled": false
   },
   {
     "name": "demonize",
-    "proto": "promote"
+    "proto": "promote",
+    "disabled": false
   },
   {
     "name": "criticize",
@@ -3141,11 +3612,12 @@ verb = [
   },
   {
     "name": "order",
-    "anim": 3,
+    "disabled": false,
     "class": "event",
-    "volition": "TRUE",
-    "ptpl": "null",
     "vtags": "--",
+    "anim": "3",
+    "volition": "true",
+    "ptpl": "null",
     "compcore": "NP{anim:3}",
     "compext": "INF_PHRASE{volition:true}"
   },
@@ -3157,23 +3629,28 @@ verb = [
   {
     "name": "discourage",
     "proto": "order",
+    "disabled": false,
     "compext": "from GP{volition:true; unpack:c0.R}"
   },
   {
     "name": "persuade",
-    "proto": "encourage"
+    "proto": "encourage",
+    "disabled": false
   },
   {
     "name": "dissuade",
-    "proto": "discourage"
+    "proto": "discourage",
+    "disabled": false
   },
   {
     "name": "prevent",
-    "proto": "discourage"
+    "proto": "discourage",
+    "disabled": false
   },
   {
     "name": "prohibit",
-    "proto": "discourage"
+    "proto": "discourage",
+    "disabled": false
   },
   {
     "name": "prohibit1",
@@ -3257,16 +3734,18 @@ verb = [
   },
   {
     "name": "hunt",
-    "anim": ">1",
-    "tang": 2,
+    "disabled": false,
     "class": "activity",
-    "volition": "TRUE",
+    "anim": ">1",
+    "tang": "2",
+    "volition": "true",
     "ptpl": "null",
     "compcore": "N{tags:animal; number:pl;}"
   },
   {
     "name": "hunt.1",
     "proto": "hunt",
+    "disabled": false,
     "compcore": "--",
     "compext": "for NP{tags:lifeform|item|substance}"
   },
@@ -3669,6 +4148,7 @@ verb = [
   {
     "name": "invade",
     "proto": "nuke",
+    "disabled": false,
     "class": "process",
     "compcore": "NP{tags:territory}"
   },
@@ -3726,16 +4206,44 @@ verb = [
     "inflections": "simp.past: stood, retro: stood"
   },
   {
+    "name": "stand1",
+    "proto": "stand",
+    "disabled": false,
+    "class": "event",
+    "compext": "up"
+  },
+  {
+    "name": "stand2",
+    "proto": "stand1",
+    "disabled": false,
+    "compext": "up for NP{anim:3}"
+  },
+  {
     "name": "sit",
     "proto": "stand",
     "disabled": false,
+    "compext": "LOCATION{lm.tags:furniture}",
     "inflections": "simp.past: sat, retro: sat"
+  },
+  {
+    "name": "sit1",
+    "proto": "sit",
+    "disabled": false,
+    "class": "event",
+    "compext": "(30 up |70 down)"
   },
   {
     "name": "lie1",
     "proto": "stand",
     "disabled": false,
     "inflections": "simp.past: lay, retro: lain, prog: lying, retroprog: lying"
+  },
+  {
+    "name": "lie2",
+    "proto": "lie1",
+    "disabled": false,
+    "class": "event",
+    "compext": "down"
   },
   {
     "name": "squat",
@@ -3753,14 +4261,14 @@ verb = [
     "name": "watch",
     "disabled": false,
     "class": "activity",
-    "anim": ">1.5",
+    "anim": ">1",
     "volition": "true",
     "ptpl": "null",
-    "compcore": "(80 NP{tags:creature|event|activity})"
+    "compcore": "(80 NP{tags:creature|performance|activity})"
   },
   {
     "name": "hear",
-    "disabled": "TRUE",
+    "disabled": true,
     "ptpl": "null"
   },
   {
@@ -3809,14 +4317,13 @@ verb = [
     "ptpl": "null"
   },
   {
-    "name": "have",
-    "disabled": "TRUE",
-    "ptpl": "null"
-  },
-  {
     "name": "own",
-    "disabled": "TRUE",
-    "ptpl": "null"
+    "disabled": false,
+    "class": "state",
+    "anim": "3",
+    "volition": "false",
+    "ptpl": "null",
+    "compcore": "NP{tang:>0; anim:<3}"
   },
   {
     "name": "owe",
@@ -3860,7 +4367,7 @@ verb = [
   },
   {
     "name": "disappoint",
-    "disabled": "TRUE",
+    "disabled": true,
     "ptpl": "null"
   },
   {
@@ -3904,6 +4411,7 @@ verb = [
     "disabled": false,
     "class": "event",
     "anim": "3",
+    "volition": "true",
     "ptpl": "past",
     "compcore": "NP{anim:3}",
     "compext": "to (70 NP{tags:occasion} |30 NP{tags:site})"
@@ -3991,6 +4499,7 @@ verb = [
   {
     "name": "escape",
     "proto": "travel",
+    "disabled": false,
     "tags": "creature",
     "compext": "SOURCE"
   },
@@ -4003,6 +4512,7 @@ verb = [
   {
     "name": "rampage",
     "proto": "walk",
+    "disabled": false,
     "compext": "PATH"
   },
   {
@@ -4013,8 +4523,8 @@ verb = [
   {
     "name": "hike",
     "proto": "walk",
-    "tags": "person",
-    "compext": "MOTION{size:>8}"
+    "disabled": false,
+    "tags": "person"
   },
   {
     "name": "carpool",
@@ -4071,7 +4581,8 @@ verb = [
   },
   {
     "name": "rush",
-    "proto": "walk"
+    "proto": "walk",
+    "disabled": false
   },
   {
     "name": "dive",
@@ -4085,11 +4596,11 @@ verb = [
   },
   {
     "name": "arrive",
+    "disabled": false,
     "class": "event",
-    "volition": "FALSE",
-    "ptpl": "null",
     "tags": "creature|motorVehicle|DELIVERYorSOMETHING|MSG",
-    "compcore": "(45 at NP{tags:site|position|occasion;number:sg} |25 in NP{tags:area;number:sg;} |5 through NP{tags:passage;})"
+    "ptpl": "null",
+    "compext": "(45 at NP{tags:site|position|occasion;number:sg} |25 in NP{tags:area;number:sg;} |5 through NP{tags:passage;})"
   },
   {
     "name": "threaten",
@@ -4139,8 +4650,21 @@ verb = [
     "anim": "3",
     "volition": "true",
     "ptpl": "null",
-    "compcore": "NP{tags:place|occasion; number:sg}",
+    "compcore": "NP{tags:place; number:sg}",
     "inflections": "simp.past: left, retro: left"
+  },
+  {
+    "name": "leave4",
+    "proto": "leave",
+    "disabled": false,
+    "compcore": "NP{tags: occasion; number: sg}"
+  },
+  {
+    "name": "leave5",
+    "proto": "leave4",
+    "disabled": false,
+    "vtags": "--",
+    "compcore": "NP{tags:organization}"
   },
   {
     "name": "leave1",
@@ -4286,7 +4810,8 @@ verb = [
     "name": "deteriorate",
     "proto": "escalate",
     "disabled": false,
-    "tags": "situation|malady|system|event|PHYSICAL"
+    "tags": "situation|malady|system|event|PHYSICAL",
+    "ptpl": "null"
   },
   {
     "name": "improve",
@@ -4798,11 +5323,6 @@ verb = [
     "ptpl": "null"
   },
   {
-    "name": "figure out",
-    "disabled": "TRUE",
-    "ptpl": "null"
-  },
-  {
     "name": "fill in",
     "disabled": "TRUE",
     "ptpl": "null"
@@ -5074,7 +5594,7 @@ verb = [
   },
   {
     "name": "have on",
-    "disabled": "TRUE",
+    "disabled": true,
     "ptpl": "null"
   },
   {
@@ -5184,17 +5704,17 @@ verb = [
   },
   {
     "name": "leave out",
-    "disabled": "TRUE",
+    "disabled": true,
     "ptpl": "null"
   },
   {
     "name": "let down",
-    "disabled": "TRUE",
+    "disabled": true,
     "ptpl": "null"
   },
   {
     "name": "let in on",
-    "disabled": "TRUE",
+    "disabled": true,
     "ptpl": "null"
   },
   {
@@ -5209,12 +5729,12 @@ verb = [
   },
   {
     "name": "let on",
-    "disabled": "TRUE",
+    "disabled": true,
     "ptpl": "null"
   },
   {
     "name": "let up",
-    "disabled": "TRUE",
+    "disabled": true,
     "ptpl": "null"
   },
   {

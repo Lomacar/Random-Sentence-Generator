@@ -1,3 +1,38 @@
+//default probabilities for paradigms ( used by decide() )
+var probabilities = {
+    //general
+    anim:       [1,0, 1,1, 3,2, 6,3],
+    tang:       [9999,0, 1,1, 5,2],
+
+    pronominal: [1,true,8,false], //how likely a NP is to be a pronoun instead
+    indef_pro: 0.75,               //chance to have an indefinite pronoun (compounded with chance to have an indefinite NP)
+
+    //nounish
+    number:     [1,'pl', 5,'sg'],
+    def:        [3,'def', 1,'indef'],
+    proper:     [2,true, 7,false],
+    partial:    [1,'', 1,'partial'],
+    quantified: [2, true, 9, false],
+    np_coordination: 0.2,
+
+    //pronominal
+    person:     [1,1, 1,2, 20,3],
+    gender:     [3,'m', 3,'f', 1,'n'],
+    dem:        [2,true,5,false],
+    prox:       [1,'prox', 1,'dist'],
+
+    //verby
+    tense:      [5,     'pres',    12,  'past', 1,  'fut'],
+    aspect:     [18,    'simp',    4,   'prog', 3,  'retro', 2, 'prosp'],
+    neg:        [18,    false,     1,   true],
+    mood:       [1,     'deo',     1,   'epi',  12,  'ind'],
+    complex_aspects: 0.05,
+
+    //adjective
+    superlative: [1, true, 28, false],
+    comparative: [1, true, 20, false]
+}
+
 database.aux_verb = [
     { "name": "be", "inflections": "simp.past:were, simp.past.sg:was, simp.past.sg.2:were, simp.pres: are, simp.pres.sg.1: am, simp.pres.sg.3:is, retro:been, prog:being"},
     { "name": "do", "inflections": "simp.pres.sg.3:does, simp.past:did, retro: done, prog:doing"},
@@ -40,7 +75,7 @@ database.quantifier = [
     {name: 'several', prequant: true, def:'def', count: 1, amount: 5},
     {name: 'many', prequant: false, count: 1, amount: 8},
     {name: 'many', prequant: true, def:'def', count: 1, amount: 8},
-    {name: 'a number', prequant: true, count: 1},
+    {name: 'a number', prequant: true, count: 1, amount: 7},
     {name: 'dozens', prequant: true, count: 1, amount: 48},
     {name: 'hundreds', prequant: true, count: 1, amount: 400},
 
@@ -111,7 +146,8 @@ database.preposition = [
     {name: 'in',    role: 'LOC',     vtags: 'posture',            'lm.tags': 'volume|area & !bodyOfWater', 'lm.size': '>trajector.size'},
     {name: 'in',    role: 'LOC',     vtags: 'placement',          'lm.tags': 'volume', 'lm.size': '>trajector.size'},
     {name: 'in',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'volume|area', 'lm.size': '>trajector.size'},
-    {name: 'on',    role: 'LOC',     vtags: 'activity|situated|situated|placement',  'lm.tags': 'surface', 'lm.size': '>trajector.size'},
+    {name: 'on',    role: 'LOC',     vtags: 'activity|situated|placement',  'lm.tags': 'surface', 'lm.size': '>trajector.size'},
+    {name: 'on',    role: 'LOC',     vtags: 'posture',              'lm.tags': 'furniture'},
     {name: 'on',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'field|passengerVehicle'},
     {name: 'on',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'surface|prominence', 'lm.size': '>trajector.size'},
     //{name: 'on',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'point & !space|line', 'ncomp.c0.size': '>trajector.size'},
@@ -170,32 +206,32 @@ database.preposition = [
 
     //////////////////////////////////////////
 
-    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact',                      'lm.tags': 'surface&!elevated&!vertical!bodyOfWater',    'lm.size': '>trajector.size'},
-    {name: 'onto',      role: 'GOAL',   vtags: 'air|jump|vertical',                     'lm.tags': 'surface|object',                             'lm.size': '>trajector.size'},
-    //{name: 'onto',      role: 'GOAL',   vtags: 'contact|air|jump|vertical',             'lm.tags': 'substance&!fluid'},
-    {name: 'onto',      role: 'GOAL',   vtags: 'grounded|contact|air|jump',             'lm.tags': 'passengerVehicle'},
+    {name: 'onto',      role: 'GOAL|DIR',   vtags: 'grounded|contact',                      'lm.tags': 'surface&!elevated&!vertical!bodyOfWater',    'lm.size': '>trajector.size'},
+    {name: 'onto',      role: 'GOAL|DIR',   vtags: 'air|jump|vertical',                     'lm.tags': 'surface|object',                             'lm.size': '>trajector.size'},
+    //{name: 'onto',      role: 'GOAL|DIR',   vtags: 'contact|air|jump|vertical',             'lm.tags': 'substance&!fluid'},
+    {name: 'onto',      role: 'GOAL|DIR',   vtags: 'grounded|contact|air|jump',             'lm.tags': 'passengerVehicle'},
 
-    {name: 'into',      role: 'GOAL',   vtags: 'grounded',                              'lm.tags': 'area|volume&!elevated',                      'lm.size': '>trajector.size'},
-    {name: 'into',      role: 'GOAL',   vtags: 'contact|air|jump',                      'lm.tags': 'area|volume',                                'lm.size': '>trajector.size'},
-    {name: 'into',      role: 'GOAL',   vtags: 'water',                                 'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
-    {name: 'into',      role: 'GOAL',   vtags: 'up',                                    'lm.tags': 'volume&elevated|gas',                        'lm.size': '>trajector.size'},
-    {name: 'into',      role: 'GOAL',   vtags: 'down',                                  'lm.tags': 'volume&!elevated|gas',                        'lm.size': '>trajector.size'},
-    {name: 'into',      role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'bodyOfWater',                                'lm.size': '>trajector.size'}, //this is for 'sink'
-    {name: 'into',      role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'mass|vessel'}, //this is for 'sink'
-    {name: 'into',      role: 'GOAL',   vtags: 'waterSurface',                          'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'grounded',                              'lm.tags': 'area|volume&!elevated',                      'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'contact|air|jump',                      'lm.tags': 'area|volume',                                'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'water',                                 'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'up',                                    'lm.tags': 'volume&elevated|gas',                        'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'down',                                  'lm.tags': 'volume&!elevated|gas',                        'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'bodyOfWater',                                'lm.size': '>trajector.size'}, //this is for 'sink'
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'mass|vessel'}, //this is for 'sink'
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'waterSurface',                          'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
 
-    {name: 'to',        role: 'GOAL',   vtags: 'grounded|contact|water|waterSurface',   'lm.tags': 'fixed|occasion'}, //TODO: other things?
-    {name: 'to',        role: 'GOAL',   vtags: 'down',     trans:'<1',                  'lm.tags': 'bottom|surface&grounded'},
-    {name: 'to',        role: 'GOAL',   vtags: 'downWater',                             'lm.tags': 'bottom',  'ncomp.c0.tags': 'bodyOfWater|vessel', 'ncomp.c0.size': '>trajector.size'}, //this is for 'sink'
+    {name: 'to',        role: 'GOAL|DIR',   vtags: 'grounded|contact|water|waterSurface',   'lm.tags': 'fixed|occasion'}, //TODO: other things?
+    {name: 'to',        role: 'GOAL|DIR',   vtags: 'down',     trans:'<1',                  'lm.tags': 'bottom|surface&grounded'},
+    {name: 'to',        role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'bottom',  'ncomp.c0.tags': 'bodyOfWater|vessel', 'ncomp.c0.size': '>trajector.size'}, //this is for 'sink'
 
-    {name: 'toward',    role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'PHYSICAL',    multicomp: false},
+    {name: 'toward',    role: 'GOAL|DIR',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'PHYSICAL',    multicomp: false},
 
     {name: 'under',     role: 'GOAL',   vtags: 'grounded|air|jump',                     'lm.tags': 'object&elevated',                 multicomp: false},
     {name: 'under',     role: 'GOAL',   vtags: 'contact|water',                         'lm.tags': 'object&!grounded',                multicomp: false},
 
     {name: 'behind',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'thing',    multicomp: false},
 
-    {name: 'beside',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'thing',    multicomp: false},
+    //{name: 'beside',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'thing',    multicomp: false},
 
     {name: 'in front of',     role: 'GOAL',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',  'lm.tags': 'thing',    multicomp: false},
 
@@ -263,7 +299,7 @@ var prep_idiom = [
     {name:'^ under',          anim:'>1',                 complements: 'DET{possessable:999; def:def; posr:"anim:3"} control'},
     {name:'^ under control',  tags:'situation|weather|event'},
     {name:'^ under the weather',  tags:'person'},
-    {name:'^ on the verge of',complements:"GP{unpack:subject.R}"},
+    {name:'^ on the verge of',prohibitions:"real_aspect:prosp,tense:fut", complements:"GP{unpack:subject.R}"},
     {name:'^ on',             tags:'creature|vehicle', complements:"POSS_PN{unpack:subject.R} way (60 GOAL{name:to; lm.size:>subject.size})"},
     {name:'^ on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} own"},
     {name:'^ on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} deathbed"},
@@ -325,38 +361,4 @@ var prohibitions = {
         indef: {class: 'state'}
     }
 
-}
-
-//default probabilities for paradigms ( used by decide() )
-var probabilities = {
-    //general
-    anim:       [1,0, 1,1, 3,2, 6,3],
-    tang:       [333,0, 1,1, 5,2],
-
-    pronominal: [1,true,8,false], //how likely a NP is to be a pronoun instead
-    indef_pro: 0.75,               //chance to have an indefinite pronoun (compounded with chance to have an indefinite NP)
-
-    //nounish
-    number:     [1,'pl', 5,'sg'],
-    def:        [3,'def', 1,'indef'],
-    proper:     [2,true, 7,false],
-    partial:    [1,'', 1,'partial'],
-    quantified: [2, true, 9, false],
-
-    //pronominal
-    person:     [1,1, 1,2, 20,3],
-    gender:     [3,'m', 3,'f', 1,'n'],
-    dem:        [2,true,5,false],
-    prox:       [1,'prox', 1,'dist'],
-
-    //verby
-    tense:      [5,     'pres',    12,  'past', 1,  'fut'],
-    aspect:     [18,    'simp',    4,   'prog', 3,  'retro', 2, 'prosp'],
-    neg:        [18,    false,     1,   true],
-    mood:       [1,     'deo',     1,   'epi',  12,  'ind'],
-    complex_aspects: 0.05,
-
-    //adjective
-    superlative: [1, true, 10, false],
-    comparative: [1, true, 10, false]
 }
