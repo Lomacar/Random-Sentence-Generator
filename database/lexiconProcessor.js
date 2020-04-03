@@ -222,42 +222,59 @@ function addImpliedTags(tags){
 function autoAttributes (lex, type) {
     lex.forEach(function (w) {
     
-    //label verb transitivity; 1 = core transitivity, 0.5 = noncore, 1.5 = both
-    if (type=='verb') {
-        w.trans = 0
-        if (goodVal(w.compcore)) w.trans += 1
-        if (goodVal(w.compext)) w.trans += 0.5
-    }
+		//label verb transitivity; 1 = core transitivity, 0.5 = noncore, 1.5 = both
+		if (type=='verb') {
+			w.trans = 0
+			if (goodVal(w.compcore)) w.trans += 1
+			if (goodVal(w.compext)) w.trans += 0.5
+		}
+		
+		//verbs with an irregular simp.past also have the same retro form, 
+		//unless they have their own irregular retro too
+		if (type=='verb') {
+			if (w.inflections && w.inflections.match(/simp\.past/) && !w.inflections.match(/retro/)){
+				w.inflections = w.inflections.replace(/simp\.past:([^,]+)/,"simp.past: $1, retro: $1")
+			}
+		}
+		
+		//same as last function but for prog and retroprog
+		if (type=='verb') {
+			if (w.inflections && w.inflections.match(/\bprog\b/)){
+				w.inflections = w.inflections.replace(/\bprog\b:([^,]+)/,"prog: $1, retroprog: $1")
+			}
+		}
 
-    //nouns with capital letters are proper nouns
-    if (type=='noun') {
-        var clean_word = w.name.replace(/^\W+/g,'')
-        if (/[A-Z]/.test(clean_word[0])) w.proper = true
-        else w.proper = false
-    }
-      
-    //noun attributes based on tags
-    if (type=='noun') {
-        var tagImplications = {
-            'object' : {count: true, tang: 2},
-            'person' : {anim: 3}
-        }
-        _.forIn(tagImplications, function(imp,tag){
-            if(w.tags && magicCompare(w.tags,tag,{tagmode: true})) {
-                _.forIn(imp,function (val,key) {
-                    if (!goodVal(w[key])) { //only fill in blanks
-                        w[key] = val
-                    }
-                })
-                //_.extend(w,imp)
-            }
-        })
-    }
+		//nouns with capital letters and unique are proper nouns
+		if (type=='noun') {
+			var clean_word = w.name.replace(/^\W+/g,'')
+			if (/[A-Z]/.test(clean_word[0])) {
+				w.proper = true
+				w.proper &= w.unique > 0 // so that nouns like American or Brit aren't considered proper
+			} else w.proper = false
+		}
+		  
+		//noun attributes based on tags
+		if (type=='noun') {
+			var tagImplications = {
+				'object' : {count: true, tang: 2},
+				'person' : {anim: 3}
+			}
+			_.forIn(tagImplications, function(imp,tag){
+				if(w.tags && magicCompare(w.tags,tag,{tagmode: true})) {
+					_.forIn(imp,function (val,key) {
+						if (!goodVal(w[key])) { //only fill in blanks
+							w[key] = val
+						}
+					})
+					//_.extend(w,imp)
+				}
+			})
+		}
 
-    //"null" for some blank attributes
-    if (type=="noun" && !goodVal(w.partOf)) w.partOf = "null"
-      
-  });
+		//"null" for some blank attributes
+		if (type=="noun" && !goodVal(w.partOf)) w.partOf = "null"
+		  
+	});
 }
 
 

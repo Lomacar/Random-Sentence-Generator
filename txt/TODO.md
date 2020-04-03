@@ -29,6 +29,8 @@ possessive pronouns
 
 indefinite pronouns, here/there, the X one/those ones
 
+enough / too much/many (takes up det and quant slots)
+
 relative clause
 
 PP adjunct for nouns and verbs

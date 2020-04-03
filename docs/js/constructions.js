@@ -10,8 +10,9 @@ function CLAUSE(r) {
         children: {
             subject: [NP, {
                 case: 'nom',
-                anim: choose(4, 0, 2, ">0&<2", 2, 2, 5, 3),
-                def: choose(9, 'def', 1, 'indef')
+                anim: choose(4, 0, 2, ">0&<2", 2, 2, 7, 3),
+                def: choose(9, 'def', 1, 'indef'),
+				pronominal: false
             }],
             predicate: [AUXP, _.extend({
                 copulant: false,
@@ -480,7 +481,7 @@ function POSS_PN(r) {
     r.gender = r.gender || (magicCompare(r.anim, 3) ? choose(1, 'm', 1, 'f') : 'n')
 
     var inflections = '1.sg:my,2:your,3.sg.m:his,3.sg.f:her,3.sg.n:its,1.pl:our,3.pl:their'
-    r.text = resolve([r.number, r.person, r.gender], inflections) || error("Could not inflect possesive pronoun " + [r.number, r.person, r.gender].join("."))
+    r.text = resolve([r.number, r.person, r.gender], inflections) || error("Could not inflect possessive pronoun " + [r.number, r.person, r.gender].join("."))
 
     return r
 }
@@ -709,7 +710,7 @@ function PREDICATE(r) {
 //adjective constructions
 function AC(r) {
     return choose(
-        8, [AP, r], //standard adjective
+        18, [AP, r], //standard adjective
         1, [EQUATIVE, _.extend({}, r, {
             description: 'equative'
         })],

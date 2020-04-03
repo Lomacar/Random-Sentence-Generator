@@ -29,8 +29,8 @@ var probabilities = {
     complex_aspects: 0.05,
 
     //adjective
-    superlative: [1, true, 28, false],
-    comparative: [1, true, 20, false]
+    superlative: [1, true, 42, false],
+    comparative: [1, true, 30, false]
 }
 
 database.aux_verb = [
@@ -215,9 +215,10 @@ database.preposition = [
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'contact|air|jump',                      'lm.tags': 'area|volume',                                'lm.size': '>trajector.size'},
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'water',                                 'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'up',                                    'lm.tags': 'volume&elevated|gas',                        'lm.size': '>trajector.size'},
-    {name: 'into',      role: 'GOAL|DIR',   vtags: 'down',                                  'lm.tags': 'volume&!elevated|gas',                        'lm.size': '>trajector.size'},
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'down',                                  'lm.tags': 'volume&!elevated|gas',                       'lm.size': '>trajector.size'},
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'bodyOfWater',                                'lm.size': '>trajector.size'}, //this is for 'sink'
-    {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'mass|vessel'}, //this is for 'sink'
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'mass'}, //this is for 'sink'
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'vessel',                                     'lm.size': '>trajector.size'}, //this is for 'sink'
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'waterSurface',                          'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
 
     {name: 'to',        role: 'GOAL|DIR',   vtags: 'grounded|contact|water|waterSurface',   'lm.tags': 'fixed|occasion'}, //TODO: other things?
@@ -273,44 +274,49 @@ database.preposition = [
 
 //predicative prepositional idioms
 var prep_idiom = [
-    {name:'^ on fire',        tags:'matter&!space&!gas|territory'},
-    {name:'^ in debt',        tags:'person|organization|territory'},
-    {name:'^ in trouble',     tags:'person|organization|territory'},
-    {name:'^ in a hurry',     tags:'creature|vehicle'},
-    {name:'^ in a rush',      tags:'creature|vehicle'},
-    {name:'^ in a rage',      tags:'creature', anim: '>1.5'},
-    {name:'^ in over',        tags:'person', complements:'POSS_PN{unpack:subject.R} head'},
-    {name:'^ out to lunch',   anim:'3'},
-    {name:'^ above reproach', anim:'3'},
-    {name:'^ in cahoots with',tags:'person|organization|territory', complements:"NP{tags:person|organization|territory}"},
-    {name:'^ in league with', tags:'person|organization|territory', complements:"NP{tags:person|organization|territory}"},
-    {name:'^ in charge of',   tags:'person',                        complements:"NP{tags:matter|organization|territory|volitional}"},
-    {name:'^ in charge of',   tags:'territory|organization',        complements:"NP{tags:matter|volitional}"},
-    {name:'^ in charge of',   tags:'person|territory|organization', complements:"(ACTIVE_STUFF|ACTION|PRES_PARTICIPLE){volition:true}"},
-    {name:'^ in control of',  tags:'person|territory|organization', complements:"(NP{tags:situation|event|organization}|NP{number:pl,tags:creature})"},
-    {name:'^ out of luck',    anim:'3'},
-    {name:'^ out of time',    anim:'3'},
-    {name:'^ out of ',        anim:'3',                  complements: 'N{(number:pl|count:false, unique:<1), tags:matter&!fixed, anim: <3}'},
-    {name:'^ out of ',        tags:'territory|building', complements: 'N{(number:pl|count:false, unique:<1), tags:matter&!fixed, anim: <3}'},
-    {name:'^ out of control', anim:'>1'},
-    {name:'^ out of control', tags:'situation|weather|event'},
-    {name:'^ out of ',        anim:'3',                  complements: 'POSS_PN{unpack:subject.R} mind', number:'sg'},
-    {name:'^ out of ',        anim:'3',                  complements: 'POSS_PN{unpack:subject.R} minds', number:'pl'},
-    {name:'^ under',          anim:'>1',                 complements: 'DET{possessable:999; def:def; posr:"anim:3"} control'},
-    {name:'^ under control',  tags:'situation|weather|event'},
-    {name:'^ under the weather',  tags:'person'},
-    {name:'^ on the verge of',prohibitions:"real_aspect:prosp,tense:fut", complements:"GP{unpack:subject.R}"},
-    {name:'^ on',             tags:'creature|vehicle', complements:"POSS_PN{unpack:subject.R} way (60 GOAL{name:to; lm.size:>subject.size})"},
-    {name:'^ on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} own"},
-    {name:'^ on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} deathbed"},
-    {name:'^ on',             anim:'>0', complements:"death's door"},
-    {name:'^ on sale',        tags:'artifact'},
-    {name:'^ off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rocker", prohibitions: 'number:pl'},
-    {name:'^ off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rockers", prohibitions: 'number:sg'},
-    {name:'^ at',             anim:'3', complements:"the end of POSS_PN{unpack:subject.R} rope"},
-    {name:'^ at odds with',   tags:'person|organization|territory', complements:"NP{tags:person|organization|territory}"},
-    {name:'^ at a standstill',tags:'telic&hasDuration | event&difficulty'},
-    {name:'^ in vain',tags:'telic'},
+    {name:'on fire',        tags:'matter&!space&!gas|territory'},
+    {name:'in debt',        tags:'person|organization|territory'},
+    {name:'in trouble',     tags:'person|organization|territory'},
+    {name:'in a hurry',     tags:'creature|vehicle'},
+    {name:'in a rush',      tags:'creature|vehicle'},
+    {name:'in a rage',      tags:'creature', anim: '>1.5'},
+    {name:'in a coma',      tags:'creature', anim: '>1.5'},
+    {name:'in over',        tags:'person', complements:'POSS_PN{unpack:subject.R} head'},
+    {name:'in the way',     tags:'touchable'},
+	{name:'in',     		tags:'touchable', complements:'GENITIVE{anim:>1} way'},
+    {name:'out to lunch',   anim:'3'},
+    {name:'above reproach', anim:'3'},
+    {name:'in cahoots with',tags:'person|organization|territory', complements:"NP{tags:person|organization|territory}"},
+    {name:'in league with', tags:'person|organization|territory', complements:"NP{tags:person|organization|territory}"},
+    {name:'in charge of',   tags:'person',                        complements:"NP{tags:matter|organization|territory|volitional}"},
+    {name:'in charge of',   tags:'territory|organization',        complements:"NP{tags:matter|volitional}"},
+    {name:'in charge of',   tags:'person|territory|organization', complements:"(ACTIVE_STUFF|ACTION|PRES_PARTICIPLE){volition:true}"},
+    {name:'in control of',  tags:'person|territory|organization', complements:"(NP{tags:situation|event|organization}|NP{number:pl,tags:creature})"},
+    {name:'out of luck',    anim:'3'},
+    {name:'out of time',    anim:'3'},
+    {name:'out of ',        anim:'3',                  complements: 'N{(number:pl|count:false, unique:<1), tags:matter&!fixed, anim: <3}'},
+    {name:'out of ',        tags:'territory|building', complements: 'N{(number:pl|count:false, unique:<1), tags:matter&!fixed, anim: <3}'},
+    {name:'out of control', anim:'>1'},
+    {name:'out of control', tags:'situation|weather|event'},
+    {name:'out of ',        anim:'3',                  complements: 'POSS_PN{unpack:subject.R} mind', number:'sg'},
+    {name:'out of ',        anim:'3',                  complements: 'POSS_PN{unpack:subject.R} minds', number:'pl'},
+    {name:'out of shape',   tags:'creature'},
+    {name:'out of breath',   tags:'creature'},
+    {name:'under',          anim:'>1',                 complements: 'DET{possessable:999; def:def; posr:"anim:3"} control'},
+    {name:'under control',  tags:'situation|weather|event'},
+    {name:'under the weather',  tags:'person'},
+    {name:'on the verge of',	prohibitions:"real_aspect:prosp,tense:fut", complements:"GP{unpack:subject.R}"},
+    {name:'on',             tags:'creature|vehicle', complements:"POSS_PN{unpack:subject.R} way (60 GOAL{name:to; lm.size:>subject.size})"},
+    {name:'on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} own"},
+    {name:'on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} deathbed"},
+    {name:'on',             anim:'>0', complements:"death's door"},
+    {name:'on sale',        tags:'artifact'},
+    {name:'off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rocker", prohibitions: 'number:pl'},
+    {name:'off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rockers", prohibitions: 'number:sg'},
+    {name:'at',             anim:'3', complements:"the end of POSS_PN{unpack:subject.R} rope"},
+    {name:'at odds with',   tags:'person|organization|territory', complements:"NP{tags:person|organization|territory}"},
+    {name:'at a standstill',tags:'telic&hasDuration | event&difficulty'},
+    {name:'in vain',tags:'telic'},
 ]
 
 prep_idiom.forEach(function (i){

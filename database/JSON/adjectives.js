@@ -1,5 +1,57 @@
 adjective = [
   {
+    "name": "pleased",
+    "prohibitions": "copulant:false, r_aspect:prog",
+    "disabled": false,
+    "anim": "3",
+    "perm": "0",
+    "scalar": "2",
+    "superform": "more",
+    "opposite": "dis",
+    "complements": "(with NP{tags:effect|person|state})"
+  },
+  {
+    "name": "incomplete",
+    "disabled": false,
+    "tags": "undertaking|communication|construction",
+    "perm": "0",
+    "scalar": "1",
+    "superform": "more"
+  },
+  {
+    "name": "pregnant",
+    "prohibitions": "gender: m",
+    "disabled": false,
+    "rank": "0.5",
+    "tags": "person|beast",
+    "perm": "1",
+    "scalar": "0"
+  },
+  {
+    "name": "on time",
+    "proto": "late",
+    "disabled": false,
+    "scalar": "0"
+  },
+  {
+    "name": "late",
+    "prohibitions": "copulant: false",
+    "disabled": false,
+    "anim": "3",
+    "perm": "0",
+    "scalar": "2",
+    "superform": "-er",
+    "complements": "(50 for|15 to) NP{tags:occasion}"
+  },
+  {
+    "name": "late.1",
+    "proto": "late",
+    "disabled": false,
+    "tags": "occasion",
+    "anim": "--",
+    "complements": "--"
+  },
+  {
     "name": "involved",
     "prohibitions": "copulant:false",
     "disabled": false,
@@ -1208,7 +1260,7 @@ adjective = [
     "name": "ethical",
     "disabled": false,
     "rank": "2",
-    "tags": "ABSTRACT",
+    "tags": "volition",
     "scalar": "2",
     "superform": "more",
     "opposite": "un"
