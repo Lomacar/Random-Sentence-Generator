@@ -4,7 +4,7 @@
 
 function globalRestrictions(r){
     r=r||{}
-    
+
     registerGR(r)
 
     //when a global restriction matches the current constructions label, pull it back in to the normal restrictions
@@ -13,7 +13,7 @@ function globalRestrictions(r){
         try {parent = this.parent.label} catch(e){parent=''}
         parent = parent ? '('+parent+'\\.)?' : ''
         var labelFinder = new RegExp('^'+parent+this.label+'\\.[^.]+$')    //regex to find restriction keys like '(parent.)label.something'
-        
+
         var matchingKeys = Object.keys(RESTRICTIONS).filter(function(x){return labelFinder.test(x)})
         matchingKeys.forEach( function(m) {
             var mKey = m.split('.').pop()
@@ -26,7 +26,7 @@ function globalRestrictions(r){
             delete RESTRICTIONS[m]
         })
     }
-    
+
     return r
 }
 
@@ -91,7 +91,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
     if(typeof s != 'string') return true //numbers could make it up to this point
 
     //expand "object.property(-property)(,obj.property)" to {property:value}
-    if(/^.+\.(\w+(-\w+)*)(,\w+\.(\w+(-\w+)*))*$/.test(s) && !/\.\d+$/.test(s)) {
+    if(/^[<>!]?(\w+\.)+\w+(-\w+)*(,(\w+\.)+\w+(-\w+)*)*$/.test(s) && !/\.\d+$/.test(s)) {
 
         //split comma separated values and parse each one
         if(s.findChar(",")) {
@@ -102,7 +102,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
             multi = _.extend.apply( this, _.compact(multi) )
             return multi
         }
-        
+
         //temporarily detach special chars like !<>
         // /[A-Za-zÀ-ÖØ-öø-ÿ\-_]+\d*(\.\d+)?(\.\w)?/g //regex for what a complete word.prop can look like
         var split = s.match(/^(\W+)(.+)$/)
@@ -124,6 +124,7 @@ function parseSingleRestriction(s, context, expandPlainStrings){
             props = props.map(function(x){
                 //get the {property:value} for each x under obj
                 var p = propertySearch(obj,x)
+                if (typeOf(p) == 'object') return p
                 var out = {}
                 out[x] = p
                 return out
@@ -162,23 +163,6 @@ function parseSingleRestriction(s, context, expandPlainStrings){
     if (expandPlainStrings) return objectSearch(s, context) // it is either asking for an object
     else return true
 }
-
-
-
-/*//processing of special instruction characters in
-function r_special(r){
-    matcha = '!@~<>='.match(/[@~$&#!<>=]/g)[0];
-
-    if(!matcha) return false
-
-    switch(matcha){
-        case '#': console.log('Pound it.');
-            break;
-        case '!': console.log("n't!")
-    }
-
-    return matcha
-}*/
 
 
 
@@ -221,7 +205,7 @@ function inflect(word, r){
         if(goodVal(r[para])) {
 
             if (pdigms[para].indexOf(r[para].toString())>-1 || pdigms[para].indexOf(r[para])>-1)
-            //if (magicCompare(r[para], pdigms[para].toString())) 
+            //if (magicCompare(r[para], pdigms[para].toString()))
                 {word[para] = r[para]}
             else {
                 console.warn(
@@ -233,7 +217,7 @@ function inflect(word, r){
         }
         //otherwise pick one at random
         else {
-  
+
             word[para] = _.sample(pdigms[para])
         }
 
@@ -284,7 +268,7 @@ function resolve(query,inf) {
 //take string complement description, return complement construction object
 function complement(r){
     var forced = (r.nocomplement == -1)
-        
+
     if (r.nocomplement==true) return {text: ''}
     else if (goodVal(r.complements))  var complement = options(r.complements, forced)
     else if (goodVal(r.compcore))  var complement = options(r.compcore, forced)
@@ -293,7 +277,7 @@ function complement(r){
 
     complement = compactString(complement)
 
-    var constructions = complement.match(/\b[A-Z]+\w*({[^{}]+})*/g)
+    var constructions = complement.match(/[A-Z1-9_]+(\b|{[^{}]+})+/g)
 
     if (constructions == null) return {text: complement} //this must be a simple word complement like fall _down_
 
@@ -338,7 +322,7 @@ function complement(r){
     }
 }
 
-// takes a string in format '(55 option_one | 45 option_two)', or '(option_one|otion_two)' or just '(option_fifty_fifty)' 
+// takes a string in format '(55 option_one | 45 option_two)', or '(option_one|otion_two)' or just '(option_fifty_fifty)'
 // and returns one option or an empty string
 // if forced==true it does things to make sure no empty string is returned
 function options(str, forced){
@@ -372,13 +356,13 @@ function options(str, forced){
         //single options
         } else {
 
-            var threshold 
+            var threshold
             if (forced) threshold = 100
             else {
                 threshold = match.match(/^\(?([0-9.]+ )/)
                 threshold = threshold ? threshold.pop() : 50 //percentage
             }
-            
+
             return Math.random()*100 < threshold ? match.replace(/^\(([0-9.]+ +)?(.*)\)$/, '$2') : ''
 
         }
@@ -399,6 +383,9 @@ function get(r){
     if(!word)
         return {text: error("No "+r.type+" could be get'd with the following restrictions: "+JSON.stringify(r))}
 
+    //store original database word inside "word" before merging restrictions into "word"
+    word.orig = _.clone(word)
+
     //add existing restrictions to the word
     word = $.extend({},r,word)
 
@@ -406,7 +393,7 @@ function get(r){
     if(!r.noinflection) inflect(word,r)
 
     //record this word so it isn't overused within the same sentence
-    //if (recentlyUsed && r.type == 'noun' || r.type == 'adjective' || r.type=='verb' ) recentlyUsed.push(word.name.replace(/\d+/g,''))
+    if (recentlyUsed && r.type == 'noun' || r.type == 'adjective' || r.type=='verb' ) recentlyUsed.push(word.name.replace(/\d+/g,''))
 
     return word
 }
@@ -431,9 +418,9 @@ function pickOne(arr, r){
 //        if(Object.keys(r).length < 8 && (type=="noun" || type=="adjective" || type=="verb")){
 //
 //            randy[type] = randy[type] || _.shuffle(_.range(arr.length))
-//            
+//
 //            var randex
-//            while (randex = randy[type].pop()){               
+//            while (randex = randy[type].pop()){
 //                if (r_match(r, arr[randex])) {
 //                    return arr[randex]
 //                }
@@ -442,7 +429,7 @@ function pickOne(arr, r){
 //            //if the old shuffle list failed, renew it and try again
 //            randy[type] = _.shuffle(_.range(arr.length))
 //
-//            while (randex = randy[type].pop()){               
+//            while (randex = randy[type].pop()){
 //                if (r_match(r, arr[randex])) {
 //                    return arr[randex]
 //                }
@@ -557,7 +544,7 @@ function objectSearch(what, context, graceful){
         return null
     }
 
-    if (context.label==what) return context //haha!
+    if (context.label==what) return context //aha!
 
     if (!context.children) {
         if (!context.parent) {
@@ -568,7 +555,14 @@ function objectSearch(what, context, graceful){
             return objectSearch(what, context.parent, graceful) || (graceful?context:null)
         }
     }
-    return (what in context.children) ? context.children[what] : (objectSearch(what, context.parent, graceful) || (graceful?context:null))
+    if (what in context.children) return context.children[what]
+    else if (context.parent){
+        return objectSearch(what, context.parent, graceful) || (graceful?context:null)
+    } else {
+        return console.warn("Object search failed for "+what+" -> " + stringOut(context))
+    }
+
+    //return (what in context.children) ? context.children[what] : (objectSearch(what, context.parent, graceful) || (graceful?context:null))
 }
 
 //searches up the parent nodes for the first object that isn't labeled as what
@@ -626,12 +620,12 @@ function superSearch(path,context) {
 /*-------------------------------------   OUTPUT -------------------------------------*/
 
 //essentially the toString method for constructions
-function stringOut(c,id){
+function stringOut(c,id,recur){
     var outString
     if(c===undefined) return undefined
     if(typeof c.children !== 'undefined'){
         outString = c.order.replace(/([^_ ])+/g, replacer)
-        outString = stringCleaning(outString, c)
+        outString = stringCleaning(outString, c,recur)
     }
 
     else outString = c.text
@@ -654,14 +648,23 @@ function stringOut(c,id){
 
         //break down arrays of adjectives or whatnot
         if(typeOf(c.children[a])=='array') {
-            var tempstr = ""
-            $.each(c.children[a], function (index, value){tempstr += " "+stringOut(value)})
-            return tempstr
+            var temp = []
+            var lastbit = ""
+            $.each(c.children[a], function (index, value){
+                if(goodVal(value.text)) temp.push(stringOut(value,undefined,1))
+            })
+            //tempstr = tempstr.join(c.separator[0])
+            if (c.separator[1]!==undefined) {
+                var lastbit = c.separator[1] + temp.pop()
+            }
+            temp = temp.join(c.separator[0]) + lastbit
+
+            return temp
         }
 
         //or fetch single item
         else {
-            var furtherIn = stringOut(c.children[a])
+            var furtherIn = stringOut(c.children[a],undefined,1)
 
             //if (!furtherIn) {} //error("There was no child '"+a+"' to render.")
             return furtherIn===undefined ? '[???]' : furtherIn
@@ -679,7 +682,7 @@ function stringOut(c,id){
         var label = c.desc||c.label||'clause'
         var constituentClasses = 'class="constituent '+ishead+' '+c.label+'-"'
         return outString ?
-            '<div id="['+C.list.length+']" '+ constituentClasses +'><div class="label">'+label+'</div><div class="construction"> '+stringCleaning(outString,c)+'</div></div>'
+            '<div id="['+C.list.length+']" '+ constituentClasses +'><div class="label">'+label+'</div><div class="construction"> '+stringCleaning(outString,c,recur)+'</div></div>'
             : c.parent && c.parent.hasComplement ?
                 //placeholders needed for potential complements
                 '<div id="['+C.list.length+']" '+ constituentClasses +'></div>'
@@ -690,16 +693,22 @@ function stringOut(c,id){
 
 }
 
-function stringCleaning(string, c){
-    string = string.replace(/\.?\d+([^\]\d]|$)/g,"$1")    // remove numbers, except for [e123] errors
-                   .replace(/\.([^ \b])/g,"$1")           // remove dots that aren't at the end of words
-                   .replace(/  +/g,' ')                   // remove extra spaces
+function stringCleaning(string, c, recur){
+    string = string.replace(/\.([^ \b])/g,"$1")             // remove dots that aren't at the end of words
+                   .replace(/([^\^])\d+([^\]\d]|$)/g,"$1$2")// remove numbers, except for [e123] errors and escaped numbers (^2)
+                   .replace(/  +/g,' ')                     // remove extra spaces
+                   .replace(/ ,/,',')                       // remove spaces before commas
 
     //construction specific cleaning
     if (typeof c.postlogic==='function') string = c.postlogic(string)
 
-    // return with final string cleaning
-    return string.replace(/_/g,"").replace("|","")       // remove underscores and pipes
+    if (!recur) {
+        //return with final string cleaning
+        string = string.replace(/_/g,"").replace("|","") // remove underscores and pipes
+                             .replace(/\^/g,'')                // remove escape characters
+    }
+
+    return string
 }
 
 

@@ -49,11 +49,14 @@ function toObject(str){
 		}
 		var obj = {}
 		var keyval
+        str = str.replace(/('|")(.*?):(.*?)\1/g, '$2‡$3') //first, protect colons that might be inside of quotes like "posr:'anim:3'"
+                                                          //and remove the protecting quotes
 		str = str.split(/[;,]/)
 		$.each(str, function(a,b){
 			keyval = b.split(':')
             val = toNumBool(keyval[1]) //attempt to treat numbers and booleans as such
             val = isNaN(val) && val!==undefined ? keyval[1].trim() : val //but if they aren't numbers leave them as strings
+            if (typeof val=='string') val = val.replace(/‡/g,':') //convert any 'protected colons' back to real colons
 			obj[keyval[0].trim()] = val
 		})
 		return obj
@@ -68,6 +71,10 @@ function toNumBool(val){
 
 //turn strings like " this has( {lots: of | spaces! & stuff } )" into "this has({lots:of|spaces! & stuff})"
 function compactString(str){
+    if(typeof str != "string") {
+        console.error("Non-string passed to compactString().");
+        return str
+    }
     return str.trim()
                 .replace(/ *([,|:]) */g,'$1')           //remove spaces around commas, pipes, colons
                 .replace(/([{(]) | ([)}])/g,'$1$2')           //remove spaces inside { } and ( )
@@ -206,7 +213,7 @@ function magicCompare (one, two, options, operator) {
 
     //convert everything to strings to make life simple
     one = one.toString().trim(); two = two.toString().trim() //ain't nobody got time for no whitespaces
-    
+
     //make sure comma separated values are the second argument, and arguments with <>!&| are first argument
     if (one.findChar(',')){
         if(two.findChar(',')){
@@ -366,14 +373,10 @@ function magicCompare (one, two, options, operator) {
 //a haphazard attempt at something that generates a random number that sort of follows the power law
 //and gets rounded to a nice "human" amount of precision
 function powerRandom() {
-    //power = Math.pow(10, (Math.round((1 / (Math.random() - 0.1))) + 1)) / 10;
-    //var power = Math.round(  Math.pow(Math.random(), 4) * 14 + 1.3 )
-    //var power = Math.round(  Math.pow(1 - Math.sqrt(-Math.random()+1), 1.9) * 14 + 1 )
-    //power = Math.pow(10, power ) / 10;
-    //var rando = parseInt(_.random(1,9,true) * power);
+
     var curve = 9999    //how strongly small numbers are favored
     var max = 9        //most number of digits the number can have
-    var max_prec = 4    //maximum possible precision
+    var max_prec = 3    //maximum possible precision
 
     var digits = Math.round( Math.pow( curve, (-Math.random()) ) * (max-1) + 1.3 )
     var rando = parseInt( Math.pow(10, Math.round( digits ))/10 * _.random(1,9,true) )

@@ -6,10 +6,9 @@
         <link href="styles.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="js/vendor/seedrandom.js"></script>
 
-        <title>Sentence Generator 2.4.1</title>
-        <meta name="description"        content="Randomly generated sentences for everyone!" />
-        <meta property="og:image"              content="https://scontent-sea1-1.xx.fbcdn.net/t31.0-8/1957901_10152741022792155_6178618860154638773_o.jpg" />
-
+        <title>Sentence Generator 2.4.4</title>
+        <meta name="description" content="Randomly generated sentences for everyone!" />
+        <meta property="og:image" content="https://scontent-sea1-1.xx.fbcdn.net/t31.0-8/1957901_10152741022792155_6178618860154638773_o.jpg" />
     </head>
 
     <body>
@@ -22,6 +21,8 @@
                 </p>
             </div>
         </div>
+
+        <div class="xray-instructions">Click on any label to randomize that part of the sentence.</div>
 
         <script src="js/vendor/jquery.min.js" type="text/javascript"></script>
         <script src="js/vendor/lodash.min.js" type="text/javascript"></script>
@@ -48,9 +49,8 @@
             var recentlyUsed = []
             var randy = {}
             var LAST_PARENT = null
-            var timer = 0
             var xrayMode = getQueryVariable('mode')=='xray'
-            
+
             var RESTRICTIONS, RESTRICTIONS_BACKUP
             //RESTRICTIONS = {'predicate.name': 'swim','subject.name':'Jack','subject.pronominal':false, 'subject.person':3, 'subject.number':1}
             //RESTRICTIONS = {'predicate.name': 'roll','prep.name':'off of','compext.role':'SOURCE'}
@@ -73,13 +73,13 @@
                 window.lastseed = window.seed
                 window.seed = Math.random().toString(32).slice(2)
 
-                recentlyUsed = recentlyUsed.length > 10 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
+                recentlyUsed = recentlyUsed.length > 5 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
 
                 C = new branch(SENTENCE)
                 var sentence = stringOut(C);
-                
+
                 console.log(xrayMode ? getPlainText($(sentence)) : sentence)
-                
+
                 RESTRICTIONS = _.clone(RESTRICTIONS_BACKUP)
                 return sentence
                 //console.log([C.head.head.head.aspect, C.head.head.head.tense, C.head.head.head.number, C.head.head.head.person])
@@ -88,25 +88,30 @@
             function loopy(iters){
                 var output = ""
                 var oneline
-                var start = new Date().getTime();
 
                 for(i=0;i<iters;i++,fcounter++) {
                     oneline = oneRandom(seed)
                     oneline = oneline.trim()
-                    oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + (xrayMode ? '':'.') +'<span class="seed">'+window.lastseed+'</span></div>'
-                    if (window.location.protocol!="file:") $(oneline).css({"font-family": fonts[fcounter%fonts.length], "font-size": "calc(1.2em + 0.8vw)" })
+                    oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + (xrayMode ? '':'.') +'<a class="seed" href="?seed='+window.lastseed+'">'+window.lastseed+'</a></div>'
+                    if (window.location.protocol!="file:") oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length], "font-size": "calc(1.2em + 0.8vw)" })
+                    else oneline = $(oneline) //what the crap?
                     $(oneline).data({c:C})
                     $('body').append(oneline)
                 }
 
                 $('.label').off('click').click(randomizer)
 
-                var end = new Date().getTime();
-                //console.log(end-start)
-                //console.log("Timer: " + timer)
             }
 
-            //console.time("full")
+            function oneOff (c, r, s) {
+                if (s) {
+                    Math.seedrandom(s)
+                    _ = _.runInContext()
+                }
+                var construction = new branch(c, r)
+                console.log(stringOut(construction))
+                return construction
+            }
 
             $(function(){
 
@@ -124,14 +129,18 @@
 
                    $("#scroll").removeClass("active")
                    $("#xray").addClass("active")
+                   $("body").addClass("xray")
 
                 } else {
 
                     while(($('body').height() - $(window).height()) < 0 ){
                         loopy(5);
                     }
+
                     setTimeout(function(){
+                        console.time("full")
                         loopy(getQueryVariable('howmany'))
+                        console.timeEnd("full");
                     },50)
 
                 }
@@ -139,7 +148,6 @@
                 if (window.location.protocol!="file:"){
                     $('head').append("<link href='http://fonts.googleapis.com/css?family=Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One|Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Oswald|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative' rel='stylesheet' type='text/css'>")
                 }
-                //console.timeEnd("full");
                 //console.timeEnd("sentence loop");
 
             })
