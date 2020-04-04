@@ -332,7 +332,7 @@ function GENITIVE(r) {
 
 function QUANT(r) {
 
-    if (!r.unique && r.count == false || r.number == 'pl') {
+    if (!r.unique && (r.count == false || r.number == 'pl')) {
         decide(r, 'quantified')
         if (r.hasPrequant) {
             //if the DP is already prequantified, you don't really need to quantify here, but you can

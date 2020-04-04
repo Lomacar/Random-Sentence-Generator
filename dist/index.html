@@ -6,7 +6,7 @@
         <link href="styles.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="js/vendor/seedrandom.js"></script>
 
-        <title>Sentence Generator 2.4.4</title>
+        <title>Sentence Generator 2.4.5</title>
         <meta name="description" content="Randomly generated sentences for everyone!" />
         <meta property="og:image" content="https://scontent-sea1-1.xx.fbcdn.net/t31.0-8/1957901_10152741022792155_6178618860154638773_o.jpg" />
     </head>
@@ -40,10 +40,11 @@
 
             /***** GLOBAL VAARRRRRSSZ! ******/
 
-            var fonts = ("Oswald|Raleway|Roboto+Slab|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite"
-                         + "|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Cinzel+Decorative|Abril+Fatface|Pirata+One"
-                         + "|Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Stint+Ultra+Expanded|Flavors|Ribeye+Marrow|Griffy|Alex+Brush|Ceviche+One")
-            .replace(/\+/g, " ").split('|')
+            var fontstring = "Lora|Satisfy|Calistoga|Comic+Neue|Vidaloka|Oldenburg|Titan+One|Kaushan+Script|Bellota|Turret+Road|Saira+Stencil+One"
+                            + "|Roboto+Slab|Abril+Fatface|Quicksand|Unkempt|Parisienne|Pirata+One|Mystery+Quest|Yanone+Kaffeesatz"
+                            + "|Special+Elite|Mountains+of+Christmas|Galada|Kelly+Slab|Ribeye|Elsie|Fontdiner+Swanky"
+                //fontstring = "Bellota"
+            var fonts = fontstring.replace(/\+/g, " ").split('|')
             var fcounter = 0
 
             var recentlyUsed = []
@@ -73,7 +74,8 @@
                 window.lastseed = window.seed
                 window.seed = Math.random().toString(32).slice(2)
 
-                recentlyUsed = recentlyUsed.length > 5 ? [] : recentlyUsed //keep track of recently used words so you don't sound dumb repeating yourself
+                //keep track of recently used words so you don't sound dumb repeating yourself
+                recentlyUsed = recentlyUsed.length > 5 ? [] : recentlyUsed
 
                 C = new branch(SENTENCE)
                 var sentence = stringOut(C);
@@ -92,9 +94,13 @@
                 for(i=0;i<iters;i++,fcounter++) {
                     oneline = oneRandom(seed)
                     oneline = oneline.trim()
-                    oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() + oneline.slice(1) + (xrayMode ? '':'.') +'<a class="seed" href="?seed='+window.lastseed+'">'+window.lastseed+'</a></div>'
-                    if (window.location.protocol!="file:") oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length], "font-size": "calc(1.2em + 0.8vw)" })
-                    else oneline = $(oneline) //what the crap?
+                    oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() 
+                                + oneline.slice(1) + (xrayMode ? '':'.') 
+                                + '<a class="seed" href="?seed='+ window.lastseed + '">' + window.lastseed 
+                                + '</a></div>'
+                    if (window.location.protocol!="file:") {
+                        oneline = $(oneline).css({"font-family": fonts[fcounter%fonts.length]})
+                    } else oneline = $(oneline) //what the crap?
                     $(oneline).data({c:C})
                     $('body').append(oneline)
                 }
@@ -140,13 +146,13 @@
                     setTimeout(function(){
                         console.time("full")
                         loopy(getQueryVariable('howmany'))
-                        console.timeEnd("full");
+                        console.timeEnd("full")
                     },50)
 
                 }
 
                 if (window.location.protocol!="file:"){
-                    $('head').append("<link href='http://fonts.googleapis.com/css?family=Flavors|Ribeye+Marrow|Griffy|Stint+Ultra+Expanded|Alex+Brush|Ceviche+One|Crafty+Girls|Kelly+Slab|Just+Me+Again+Down+Here|Oswald|Raleway:200|Yanone+Kaffeesatz|Amatic+SC|Kaushan+Script|Special+Elite|Mountains+of+Christmas|Oldenburg|Sancreek|Sansita+One|Abril+Fatface|Pirata+One|Cinzel+Decorative' rel='stylesheet' type='text/css'>")
+                    $('head').append("<link href='https://fonts.googleapis.com/css?family="+fontstring+"' rel='stylesheet' type='text/css'>")
                 }
                 //console.timeEnd("sentence loop");
 

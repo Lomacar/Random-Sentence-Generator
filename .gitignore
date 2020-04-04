@@ -8,3 +8,4 @@ node_modules
 /localserver.py
 /docs/theme/
 *.zip
+gh-pages.cmd
