@@ -17,12 +17,13 @@
             according to the rules of English grammar, with some semantic awareness.</h1>
             <div class="mode-selector">
                 <p class="modes">Mode:
-                    <a id="scroll" class="active" href="?mode=scroll">Infinite Scroll</a> <a id="xray" href="?mode=xray">X-Ray</a>
+                    <a id="scroll" class="active" href="?mode=scroll">Infinite Scroll</a> 
+                    <a id="xray" href="?mode=xray">X-Ray</a>
                 </p>
             </div>
         </div>
 
-        <div class="xray-instructions">Click on any label to randomize that part of the sentence.</div>
+        <div class="xray-instructions">Click on any label to randomize that part of the sentence. This mode is in beta.</div>
 
         <script src="js/vendor/jquery.min.js" type="text/javascript"></script>
         <script src="js/vendor/lodash.min.js" type="text/javascript"></script>
@@ -49,8 +50,10 @@
 
             var recentlyUsed = []
             var randy = {}
+            var C = {}
             var LAST_PARENT = null
             var xrayMode = getQueryVariable('mode')=='xray'
+            var debugMode = getQueryVariable('mode')=='debug'
 
             var RESTRICTIONS, RESTRICTIONS_BACKUP
             //RESTRICTIONS = {'predicate.name': 'swim','subject.name':'Jack','subject.pronominal':false, 'subject.person':3, 'subject.number':1}
@@ -68,7 +71,7 @@
             _ = _.runInContext() //updates lodash to use seedrandom generator
 
 
-            function oneRandom(seed){
+            function oneRandom(){
                 //C = new branch(CLAUSE, {tense: "pres", aspect:"simp", number:'pl'})
                 Math.seedrandom(window.seed)
                 window.lastseed = window.seed
@@ -92,7 +95,8 @@
                 var oneline
 
                 for(i=0;i<iters;i++,fcounter++) {
-                    oneline = oneRandom(seed)
+                    Math.random() //for some reason this is needed for sentences to always be consistently seeded
+                    oneline = oneRandom()
                     oneline = oneline.trim()
                     oneline =  '<div class="sentence">' + oneline.charAt(0).toUpperCase() 
                                 + oneline.slice(1) + (xrayMode ? '':'.') 
@@ -137,6 +141,10 @@
                    $("#xray").addClass("active")
                    $("body").addClass("xray")
 
+                } else if (debugMode){
+
+                    loopy(1)
+
                 } else {
 
                     while(($('body').height() - $(window).height()) < 0 ){
@@ -164,7 +172,7 @@
 
                 var wintop = $(window).scrollTop(), docheight = $(document).height(), winheight = $(window).height();
 
-                if  (!xrayMode && $(window).scrollTop() > $(document).height() - $(window).height() - 100) {
+                if  (!(xrayMode|debugMode) && $(window).scrollTop() > $(document).height() - $(window).height() - 100) {
                     loopy(5)
                 }
 

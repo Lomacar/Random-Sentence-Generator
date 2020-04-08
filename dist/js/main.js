@@ -627,7 +627,6 @@ function stringOut(c,id,recur){
         outString = c.order.replace(/([^_ ])+/g, replacer)
         outString = stringCleaning(outString, c,recur)
     }
-
     else outString = c.text
 
 
@@ -687,6 +686,20 @@ function stringOut(c,id,recur){
                 //placeholders needed for potential complements
                 '<div id="['+C.list.length+']" '+ constituentClasses +'></div>'
                 : ''
+
+    } else if (debugMode && (c.label == null || c.parent.labelChildren)) {
+
+        var json = c.restrictions ? JSON.stringify(c.restrictions).replace(/,\"/g,"\n\"") : ""
+
+        var label = c.desc||c.label||'clause'
+        var constituentClasses = 'class="constituent '+ishead+' '+c.label+'-"'
+        return outString ?
+            '<div '+ constituentClasses +'><div title=\''+json+'\' class="label">'+label+'</div><div class="construction"> '+stringCleaning(outString,c,recur)+'</div></div>'
+            : c.parent && c.parent.hasComplement ?
+                //placeholders needed for potential complements
+                '<div '+ constituentClasses +'></div>'
+                : ''
+
     } else {
         return outString
     }
@@ -695,10 +708,11 @@ function stringOut(c,id,recur){
 
 function stringCleaning(string, c, recur){
     string = string.replace(/\.([^ \b])/g,"$1")             // remove dots that aren't at the end of words
-                   .replace(/([^\^])\d+([^\]\d]|$)/g,"$1$2")// remove numbers, except for [e123] errors and escaped numbers (^2)
                    .replace(/  +/g,' ')                     // remove extra spaces
                    .replace(/ ,/,',')                       // remove spaces before commas
-
+    if (!debugMode) 
+        string = string.replace(/([^\^])\d+([^\]\d]|$)/g,"$1$2")// remove numbers, except for [e123] errors and escaped numbers (^2)
+    
     //construction specific cleaning
     if (typeof c.postlogic==='function') string = c.postlogic(string)
 
@@ -793,6 +807,8 @@ function decide(r, pdgms, filter){
 
         if (!goodVal(r[pdm])) { //gotta choose one at random, sort of
 
+            //get the paradigm probabilities and filter it against 
+            //universal probabilities that collide with the given restrictions
             var pdm_list = _.clone(probabilities[pdm])
             if (pdm_list) {
                 for (var i = 1; i < pdm_list.length; i += 2) {
@@ -803,7 +819,7 @@ function decide(r, pdgms, filter){
 
                 }
             }
-            out_r[pdm] = choose(pdm_list)
+            out_r[pdm] = choose(pdm_list) //pick a paradigm based on surviving valid probabilities
 
         } else { //keep the existing value
             out_r[pdm] = r[pdm]
