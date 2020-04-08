@@ -6,10 +6,6 @@
 
 - BUG: predict/promise/prophesy randomly don't enforce future tense or prospective aspect
 
-<!--"an unicorn"-->
-
-<!--passive voice-->
-
 <!--reflexive-->
 - reciprocal
 
@@ -30,6 +26,8 @@
 - indefinite pronouns, here/there, the X one/those ones
 
 - enough / too much/many (takes up det and quant slots)
+
+- neg and pasv allowed in WH_CLAUSE
 
 - relative clause
 
@@ -63,6 +61,10 @@
 - doors and windows are passages, but they shouldn't be volumes...
 
 - prevent sentences like "They keep stopping starting going."
+
+- make a way to regenerate a branch with same seed and modified restrictions (for PASSIVE) or different seed and same restrictions (for xray mode)
+
+- handling of passives with indirect objects (ie. give) and datives
 
 
 Other things I said before:

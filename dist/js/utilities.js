@@ -141,10 +141,10 @@ function factorPermutations(lists) {
 }
 
 function error(msg){
-    if(typeof error_num === 'undefined') error_num = 1
-	console.warn('e'+error_num+': '+msg)
+    if(typeof error_num === 'undefined') error_num = 0
 	error_num++
-	return '[e'+(error_num-1)+']'
+	console.warn('e'+error_num+': '+msg)
+	return '[e'+error_num+']'
 }
 
 

@@ -18,7 +18,7 @@ watcher.on('change', function(path){
 })
 
 function doTheThings (path) {
-    console.log(path.bgBlue)
+    console.log(path.bgRed)
 
     if(path==ontologyFile){
         console.log("Processing ontology...".green)

@@ -1,8 +1,29 @@
 ## 2.4.5
-- Lexicon processing: removed retro inflections that are the same as simp.past. They are now added automatically when the lexicon is compiled. Same thing for irregular prog inflections. They now automatically receive the same retroprog inflection.
-- Lexicon processing: proper nouns must also be unique, not just start with a capital letter
-- Lexicon: added demonyms (nationality nouns)
-- Lexicon: more feeling verbs (surprise, enrage, scare, annoy)
-- Lexicon: "attack" "experience"
-- Appearance: new fonts and larger text
-- Constructions: fixed bug with quantifiers on unique nouns
+
+### Lexicon processing:
+- autoSenses function can automatically created senses from existing words
+  - created a rule for phrasal verbs which can have the particle before or after the object
+- removed retro inflections that are the same as simp.past. 
+  - They are now added automatically when the lexicon is compiled. 
+  - Same thing for irregular prog inflections. They now automatically receive the same retroprog inflection.
+- proper nouns must also be unique, not just start with a capital letter
+
+### Lexicon:
+- added demonyms (nationality nouns)
+- more feeling verbs (surprise, enrage, scare, annoy)
+- "attack" "experience"
+- new handling of phrasal verbs using @ symbol to mark the phrasal particle
+
+### Appearance
+- new fonts and larger text
+
+### Constructions
+- Entirely new passive construction
+  - replaced set of multiple custom passive constructions with a single one that generates a regular clause first (like WH_CLAUSE construction) and then pciks it apart to make a passive
+- fixed bug with quantifiers on unique nouns
+
+### Database
+- universal prohibition: activities and enterprises can't be plural (NP was deciding number and picking pl even if 'activity' was a restriction in tags)
+
+### Behind the scenes
+- created debugMode (?mode=debug), doesn't do much yet, but lists restrictions when you hover on each construction

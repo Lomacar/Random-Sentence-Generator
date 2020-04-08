@@ -274,9 +274,10 @@ database.preposition = [
 
 //predicative prepositional idioms
 var prep_idiom = [
-    {name:'on fire',        tags:'matter&!space&!gas|territory'},
     {name:'in debt',        tags:'person|organization|territory'},
-    {name:'in trouble',     tags:'person|organization|territory'},
+    {name:'in trouble',     tags:'creature|organization|territory'},
+    {name:'in harm\'s way', tags:'creature|organization|territory'},
+    {name:'in danger',      tags:'creature|organization|territory', complements:"(of GP{unpack:subject.R})"},
     {name:'in a hurry',     tags:'creature|vehicle'},
     {name:'in a rush',      tags:'creature|vehicle'},
     {name:'in a rage',      tags:'creature', anim: '>1.5'},
@@ -306,13 +307,17 @@ var prep_idiom = [
     {name:'under control',  tags:'situation|weather|event'},
     {name:'under the weather',  tags:'person'},
     {name:'on the verge of',	prohibitions:"real_aspect:prosp,tense:fut", complements:"GP{unpack:subject.R}"},
+    {name:'on fire',        tags:'matter&!space&!gas|territory'},
     {name:'on',             tags:'creature|vehicle', complements:"POSS_PN{unpack:subject.R} way (60 GOAL{name:to; lm.size:>subject.size})"},
     {name:'on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} own"},
     {name:'on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} deathbed"},
     {name:'on',             anim:'>0', complements:"death's door"},
     {name:'on sale',        tags:'artifact'},
+    {name:'on schedule',    tags:'person|event|undertaking|result'},
+    {name:'on time',        tags:'person|event|undertaking|result', complements: 'for NP{tags:occasion}'},
     {name:'off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rocker", prohibitions: 'number:pl'},
     {name:'off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rockers", prohibitions: 'number:sg'},
+    {name:'off course',     tags:'person|vehicle'},
     {name:'at',             anim:'3', complements:"the end of POSS_PN{unpack:subject.R} rope"},
     {name:'at odds with',   tags:'person|organization|territory', complements:"NP{tags:person|organization|territory}"},
     {name:'at a standstill',tags:'telic&hasDuration | event&difficulty'},
@@ -360,8 +365,8 @@ var prohibitions = {
     },
 
     //noun
-    number: {
-        pl: {count: false},
+    number: {               // probably many other tags as well
+        pl: {count: false, tags: 'activity, enterprise'}, //what about proper place names? Only Alps and Himalayas right now
     },
     subj_def: {
         indef: {class: 'state'}
