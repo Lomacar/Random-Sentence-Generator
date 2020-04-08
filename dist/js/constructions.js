@@ -11,8 +11,8 @@ function CLAUSE(r) {
             subject: [NP, {
                 case: 'nom',
                 anim: choose(4, 0, 2, ">0&<2", 2, 2, 7, 3),
-                def: choose(9, 'def', 1, 'indef'),
-				pronominal: false
+                def: choose(9, 'def', 1, 'indef')
+				//,pronominal: false
             }],
             predicate: [AUXP, _.extend({
                 copulant: false,
@@ -43,41 +43,80 @@ function CLAUSE(r) {
 //    }
 //}
 
+
 function PASSIVE(r) {
-    decide(r, "tense,aspect,person,number")
-    if (r.person < 3) {
-        r.anim = 3
-        r.tags = 'person'
+    r = r || {}
+    
+    function reinflect(word, rr){
+        delete word.inflected
+        delete word.text
+        word = inflect(word, _.extend(word, rr))
+        word.text = word.inflected || word.name
+    }
+
+    //get a regular clause to build a passive out of
+    var B = new branch(CLAUSE, _.extend(r, {
+        aspect: 'retro', //this is a cheat to get the right form of the verb for passive
+        tense: 'pres', //I guess tense can't be future or it will screw up the aspect
+        ptpl: 'past', //this is so only verbs that like to be passive are choosen
+        trans: '>0.5' //and only transitive verbs can be passivized
+    }))
+    
+    var patient = superSearch('predicate.vp.compcore.c0', B)
+    var agent   = superSearch('subject', B)
+    var compext = superSearch('predicate.vp.compext', B)
+    //var aux     = superSearch('predicate.aux', B)
+    var vb      = superSearch('predicate.vp.vword', B)
+    var adjunct = superSearch('adjunct', B)
+
+    //console.log(stringOut(B))
+
+    //re-inflect pronouns
+    if (patient && patient.type == 'pronoun') reinflect(patient, {case: 'nom'})
+    if (agent && agent.type == 'pronoun') reinflect(agent, {case: 'acc'})
+    patient = patient || {text: error('Patient not found for passive clause.')}
+    agent = agent || {text: error('Agent not found for passive clause.')}
+    //reinflect(vb, {aspect: 'retro'})
+
+    //handle pesky phrasal particles
+    // if (compext) {
+    //     compstr = compext.order ? 'order' : 'text' //compext doesn't have an order attr if it is just text
+    //     phrasal = compext[compstr].match(/@\w+/)
+    //     if (phrasal){
+    //         compext[compstr] = compext[compstr].replace(phrasal, '')
+    //         vb.order = vb.order + ' ' + phrasal[0]
+    // }   }
+    
+    //determine if passive clause has an agent and if it goes before or after the extra complement
+    var agentAndOrComplement = 'compext*'
+    var by = superSearch('ptpl', vb)
+    var hasAgent = toss() && !_.contains(by, 'no-by')
+    if (hasAgent) {
+        var orders = ['by agent compext*', 'compext* by agent']
+        if (_.contains(by, 'by1')) agentAndOrComplement = orders[0]
+        else if (_.contains(by, 'by2')) agentAndOrComplement = orders[1]
+        else agentAndOrComplement = _.sample(orders)
     }
 
     return {
-        order: "pasvSubj aux predicate",
-        head: "subject",
+        order: "patient aux vb " + agentAndOrComplement + " adjunct*",
+        head: "dummy",
         labelChildren: true,
-        //hasComplement: 'subject',
         children: {
-            subject: [NP, {
-                pronominal: false
-            }],
-            predicate: [VP_PASV, _.extend({
-                copulant: false,
-                ptpl: 'past',
-                pasv: true,
-                def: choose(1, 'indef', 9, 'def'),
-                unpack: 'subject.anim-tang-size-tags'
-            }, r)],
-            pasvSubj: [complement, {
-                'case': 'nom',
-                complements: 'predicate.compcore',
-                unpack: 'predicate.core',
-                pasv: true,
-                desc: 'subject'
-            }],
-            aux: [auxiliary, _.extend({}, r, {
-                copulant: false,
-                pasv: true,
-                unpack: 'pasvSubj.number-person'
-            })]
+            'dummy': [pass_through, {original_clause: B}],
+            'patient': patient,
+            'aux': [auxiliary, 
+                    _.extend(
+                        r,                    
+                        {unpack: 'patient.R', pasv: true, copulant: false},
+                        //because we cheated with retro aspect above, clear it here
+                        //same with tense
+                        {aspect: '', tense:''} 
+                   )],
+            'vb': vb,
+            'agent': agent,
+            'compext': compext,
+            'adjunct': adjunct
         }
     }
 }
@@ -115,6 +154,10 @@ function COPULA(r) {
 
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 function NP(r) {
     r = decide(r, "person,pronominal,number")
     var r2 = (r.pasv == true || typeof r.pasv == 'undefined') ? {} : {
@@ -122,6 +165,7 @@ function NP(r) {
         subj_number: 'subject.number',
         subj_gender: 'subject.gender'
     }
+    r = _.extend(r, r2) //unbelievably, this line was missing for a long time
 
     //sometimes, return a set of coordinated noun phrases instead of a plural noun
 //    if (toss(probabilities.np_coordination) && r.number == 'pl' && !r.already_plural) return [NP_COORD, _.extend(r, {
@@ -1008,102 +1052,6 @@ function VP(r) {
     }
 }
 
-function VP_PASV(r) {
-
-    return {
-        order: "vp noncore",
-        head: "vp",
-        labelChildren: true,
-        hasComplement: "noncore",
-        children: {
-            vp: [V_PASV, {
-                desc: 'verb'
-            }],
-            core: [complement, {
-                'case': 'acc',
-                'complements': 'vp.compcore',
-                neg: r.neg
-            }],
-            noncore: [VP_PASV_PT2, {
-                unpack: 'vp.R',
-                desc: 'passive stuff'
-            }]
-        }
-    }
-}
-
-function VP_PASV_PT2(r) {
-    var order = 'compext'
-    var hasAgent = toss() && !_.contains(r.ptpl, 'no-by')
-
-    if (hasAgent) {
-        var orders = ['agent compext', 'compext agent']
-        if (_.contains(r.ptpl, 'by1')) order = orders[0]
-        else if (_.contains(r.ptpl, 'by2')) order = orders[1]
-        else order = _.sample(orders)
-    }
-
-    return {
-        order: order,
-        head: 'dummy',
-        actualHead: 'compext',
-        labelChildren: true,
-        children: {
-            dummy: [blank],
-            compext: [complement, {
-                'case': 'dat',
-                unpack: 'vp.compext-number-person',
-                vtags: 'vp.vtags',
-                pasv: true,
-                desc: 'complement'
-            }],
-            agent: hasAgent ? [PASV_AGENT, {
-                case: 'acc',
-                unpack: "vp.R",
-                neg: 'vp.neg',
-                pasv: false
-            }] : null
-        }
-    }
-}
-
-function V_PASV(r) {
-    return {
-        order: "verb_en",
-        head: "verb",
-        gap: [get, {
-            type: 'aux_verb',
-            name: 'do'
-        }],
-        children: {
-            verb: [get, {
-                type: 'verb',
-                aspect: 'retro'
-            }],
-            en: [tense, 'verb']
-                //tns:  [tense, 'verb', {unpack: 'verb', noinflection: false}]
-        },
-        postlogic: verb_cleanup
-    }
-}
-
-function PASV_AGENT(r) {
-    delete r.number
-    delete r.person
-
-    return {
-        order: 'by agent',
-        head: 'agent',
-        children: {
-            agent: [NP, {
-                pronominal: false,
-                unpack: 'subject.R',
-                name: 'subject.name'
-            }]
-        }
-    }
-}
-
 function V(r) {
     return {
         order: "verb_asp_tns_num",
@@ -1664,27 +1612,6 @@ function MOTION(r) {
 function TITLE(r) {
     r.type = 'title'
     return [get, r]
-}
-
-/////////////////////////////////////////////////////////////////////
-
-
-function PASV_SWITCH(r) {
-    var patient = r.pasv ? 'core' : 'vp.compcore'
-
-    //find the patient property and "rename it" to point to the right place
-    for (var x in r) {
-        if (_.contains(r[x], '$patient')) {
-            r[x] = r[x].replace('$patient', patient)
-            break
-        }
-    }
-
-    c = r.construction
-    delete r.construction
-
-    return [window[c], r]
-
 }
 
 
