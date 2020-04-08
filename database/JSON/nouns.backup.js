@@ -22,14 +22,23 @@ noun = [
   {
     "name": "result",
     "proto": "effect",
+    "disabled": false,
+    "tags": "result",
+    "posr": "tags:volitional & hasDuration|TEMPORAL"
+  },
+  {
+    "name": "success",
+    "proto": "result"
+  },
+  {
+    "name": "failure",
+    "proto": "result",
     "disabled": false
   },
   {
     "name": "outcome",
-    "proto": "effect",
-    "disabled": false,
-    "tags": "result",
-    "posr": "tags:volitional & hasDuration|TEMPORAL"
+    "proto": "result",
+    "disabled": false
   },
   {
     "name": "door",
@@ -440,7 +449,8 @@ noun = [
     "disabled": false,
     "tags": "hasHeight, event",
     "partOf": "null",
-    "size": "8,9"
+    "size": "8,9",
+    "count": "true"
   },
   {
     "name": "hail",
@@ -605,9 +615,10 @@ noun = [
   {
     "name": "Outback",
     "proto": "forest",
-    "unique": 1,
-    "count": "false",
-    "size": 10
+    "disabled": false,
+    "size": "10",
+    "unique": "1",
+    "count": "false"
   },
   {
     "name": "apocalypse",
@@ -718,7 +729,8 @@ noun = [
   {
     "name": "Sahara Desert",
     "proto": "Outback",
-    "unique": 1
+    "disabled": false,
+    "unique": "1"
   },
   {
     "name": "Area ^5^1",
@@ -865,7 +877,8 @@ noun = [
   },
   {
     "name": "state",
-    "proto": "country"
+    "proto": "country",
+    "disabled": false
   },
   {
     "name": "realm",
@@ -1160,14 +1173,24 @@ noun = [
   },
   {
     "name": "forest",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 1,
-    "unique": 0,
-    "count": "true",
-    "size": 9,
+    "disabled": false,
     "tags": "terrain",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "1",
+    "possessable": "1",
+    "partOf": "null",
+    "size": "9,10",
+    "count": "true"
+  },
+  {
+    "name": "jungle",
+    "proto": "forest",
+    "disabled": false
+  },
+  {
+    "name": "desert",
+    "proto": "forest",
+    "disabled": false
   },
   {
     "name": "apple",
@@ -2029,6 +2052,7 @@ noun = [
     "possessable": "3",
     "partOf": "null",
     "size": "0",
+    "unique": "0",
     "count": "true",
     "complements": "(20 of N{number:pl;person:3;tags:person&!appellation})"
   },
@@ -2690,7 +2714,8 @@ noun = [
   },
   {
     "name": "fishing",
-    "proto": "dancing"
+    "proto": "dancing",
+    "disabled": false
   },
   {
     "name": "flotsam and jetsam",
@@ -3930,7 +3955,8 @@ noun = [
   },
   {
     "name": "smoking",
-    "proto": "dancing"
+    "proto": "dancing",
+    "disabled": false
   },
   {
     "name": "motorbike",
@@ -4161,7 +4187,8 @@ noun = [
   {
     "name": "riddle",
     "proto": "question",
-    "possessable": 2
+    "disabled": false,
+    "possessable": "2"
   },
   {
     "name": "assignment",
@@ -4415,7 +4442,8 @@ noun = [
   },
   {
     "name": "gambling",
-    "proto": "dancing"
+    "proto": "dancing",
+    "disabled": false
   },
   {
     "name": "denizen",
@@ -4453,6 +4481,7 @@ noun = [
   {
     "name": "park",
     "proto": "forest",
+    "disabled": false,
     "size": "8,9"
   },
   {
@@ -4670,18 +4699,19 @@ noun = [
   },
   {
     "name": "wall",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": "7,8",
+    "disabled": false,
     "tags": "surface, structure, vertical",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "partOf": "null",
+    "size": "7,8",
+    "count": "true"
   },
   {
     "name": "fence",
-    "proto": "wall"
+    "proto": "wall",
+    "disabled": false
   },
   {
     "name": "bridge",
@@ -4807,8 +4837,9 @@ noun = [
   {
     "name": "island",
     "proto": "forest",
-    "size": "8,9,10",
-    "tags": "-,land,surface"
+    "disabled": false,
+    "tags": "-,land,surface",
+    "size": "8,9,10"
   },
   {
     "name": "planet",
@@ -4987,14 +5018,14 @@ noun = [
   },
   {
     "name": "entrance",
-    "anim": 0,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": "4,5,6,7,8",
+    "disabled": false,
     "tags": "opening",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "2",
+    "possessable": "3",
+    "partOf": "null",
+    "size": "4,5,6,7,8",
+    "count": "true"
   },
   {
     "name": "exit",
@@ -5012,13 +5043,15 @@ noun = [
     "proto": "entrance",
     "disabled": false,
     "tags": "construction, breakable, door",
+    "partOf": "vertical&surface&structure",
     "size": "6,7"
   },
   {
     "name": "window",
     "proto": "gate",
-    "size": "5,6,7",
-    "tags": "elevated, feature"
+    "disabled": false,
+    "tags": "elevated, feature",
+    "size": "5,6,7"
   },
   {
     "name": "cloud",
@@ -5077,13 +5110,15 @@ noun = [
   },
   {
     "name": "field",
-    "proto": "forest"
+    "proto": "forest",
+    "disabled": false
   },
   {
     "name": "field1",
     "proto": "field",
-    "size": 8,
+    "disabled": false,
     "tags": "-, field",
+    "size": "8",
     "precomp": "(10 soccer |15 football |7 rugby |9 baseball |10 sports |6 playing)"
   },
   {
@@ -5102,6 +5137,7 @@ noun = [
   {
     "name": "court",
     "proto": "field1",
+    "disabled": false,
     "size": "7,8",
     "precomp": "(20 tennis |20 basketball |10 squash |20 volleyball)"
   },
@@ -5291,7 +5327,8 @@ noun = [
     "tang": "2",
     "possessable": "0",
     "partOf": "null",
-    "size": "8,9,10",
+    "size": "9,10",
+    "unique": "0",
     "count": "true"
   },
   {
@@ -5333,15 +5370,17 @@ noun = [
   {
     "name": "canyon",
     "proto": "valley",
-    "size": "9,10",
-    "tags": "depression"
+    "disabled": false,
+    "tags": "depression",
+    "size": "9,10"
   },
   {
     "name": "Grand Canyon",
     "proto": "canyon",
     "disabled": false,
     "partOf": "null",
-    "unique": "1"
+    "unique": "1",
+    "count": "false"
   },
   {
     "name": "ditch",
@@ -5357,8 +5396,9 @@ noun = [
   {
     "name": "wilderness",
     "proto": "forest",
-    "count": "false",
-    "size": "9,10,11"
+    "disabled": false,
+    "size": "9,10,11",
+    "count": "false"
   },
   {
     "name": "hole",
@@ -5878,13 +5918,15 @@ noun = [
   {
     "name": "swamp",
     "proto": "forest",
+    "disabled": false,
     "tags": "bodyOfWater"
   },
   {
     "name": "oasis",
     "proto": "forest",
     "disabled": false,
-    "partOf": "null"
+    "partOf": "null",
+    "size": "9"
   },
   {
     "name": "stage",
@@ -6812,7 +6854,8 @@ noun = [
   },
   {
     "name": "Hamish",
-    "proto": "Jack"
+    "proto": "Jack",
+    "disabled": false
   },
   {
     "name": "Ahmed",
@@ -7348,7 +7391,8 @@ noun = [
   },
   {
     "name": "scrapbooking",
-    "proto": "dancing"
+    "proto": "dancing",
+    "disabled": false
   },
   {
     "name": "wood carving",
@@ -7386,7 +7430,8 @@ noun = [
   },
   {
     "name": "shopping",
-    "proto": "dancing"
+    "proto": "dancing",
+    "disabled": false
   },
   {
     "name": "World of Warcraft",
@@ -7897,14 +7942,14 @@ noun = [
   },
   {
     "name": "cheese",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 5,
-    "unique": 0,
-    "count": "false",
-    "size": 0,
+    "disabled": false,
     "tags": "food, solid",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "2",
+    "possessable": "5",
+    "partOf": "null",
+    "size": "0",
+    "count": "false"
   },
   {
     "name": "marmalade",
@@ -8810,6 +8855,7 @@ noun = [
     "posr": "tags: person",
     "partOf": "null",
     "size": "0",
+    "unique": "0",
     "count": "true"
   },
   {

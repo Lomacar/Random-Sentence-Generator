@@ -31,7 +31,8 @@ adjective = [
     "name": "on time",
     "proto": "late",
     "disabled": false,
-    "scalar": "0"
+    "scalar": "0",
+    "complements": "(33 for NP{tags:occasion})"
   },
   {
     "name": "late",
@@ -41,7 +42,7 @@ adjective = [
     "perm": "0",
     "scalar": "2",
     "superform": "-er",
-    "complements": "(50 for|15 to) NP{tags:occasion}"
+    "complements": "((70 for|30 to) NP{tags:occasion})"
   },
   {
     "name": "late.1",

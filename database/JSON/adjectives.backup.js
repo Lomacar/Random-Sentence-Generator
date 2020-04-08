@@ -1,14 +1,14 @@
 adjective = [
   {
     "name": "pleased",
-    "prohibitions": "copular:false",
+    "prohibitions": "copulant:false, r_aspect:prog",
     "disabled": false,
     "anim": "3",
     "perm": "0",
     "scalar": "2",
     "superform": "more",
     "opposite": "dis",
-    "complements": "(with NP{tags:effect|person|state}"
+    "complements": "(with NP{tags:effect|person|state})"
   },
   {
     "name": "incomplete",
@@ -41,7 +41,7 @@ adjective = [
     "perm": "0",
     "scalar": "2",
     "superform": "-er",
-    "complements": "(50 for|15 to) NP{tags:occasion}"
+    "complements": "((70 for|30 to) NP{tags:occasion})"
   },
   {
     "name": "late.1",

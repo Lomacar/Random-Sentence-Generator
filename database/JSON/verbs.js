@@ -1,5 +1,17 @@
 verb = [
   {
+    "name": "hand",
+    "proto": "give",
+    "disabled": false,
+    "inflections": "--"
+  },
+  {
+    "name": "hand1",
+    "proto": "hand",
+    "disabled": false,
+    "compext": "@over to NP{anim:3}"
+  },
+  {
     "name": "experience",
     "disabled": false,
     "class": "state",
@@ -72,7 +84,7 @@ verb = [
     "proto": "remove",
     "disabled": false,
     "compcore": "NP{tags:component}",
-    "compext": "(70 from PASV_SWITCH{construction: NP; partOf: $patient.tags; number: sg})"
+    "compext": "(70 from NP{tags: compcore.partOf; number: sg})"
   },
   {
     "name": "expand",
@@ -186,6 +198,7 @@ verb = [
     "class": "process",
     "tags": "creature",
     "anim": "--",
+    "volition": "false",
     "compcore": "--",
     "compext": "(better|sick)"
   },
@@ -193,6 +206,7 @@ verb = [
     "name": "get2",
     "proto": "get1",
     "disabled": false,
+    "volition": "true",
     "compext": "up"
   },
   {
@@ -203,28 +217,20 @@ verb = [
     "inflections": "simp.past: woke, retro: woken"
   },
   {
-    "name": "wake.2",
-    "proto": "wake",
-    "disabled": false,
-    "ptpl": "null",
-    "compcore": "up DP{tags:creature}",
-    "compext": "--",
-    "inflections": "simp.past: woke, retro: woken"
-  },
-  {
     "name": "wake.1",
     "proto": "wake",
     "disabled": false,
     "tags": "phenomenon|creature",
     "ptpl": "past|by2",
     "compcore": "NP{tags:creature}",
-    "compext": "up",
+    "compext": "@up",
     "inflections": "simp.past: woke, retro: woken"
   },
   {
     "name": "get3",
     "proto": "get",
     "disabled": false,
+    "volition": "true",
     "compcore": "rid of NP"
   },
   {
@@ -267,11 +273,11 @@ verb = [
   },
   {
     "name": "let",
-    "prohibitions": "pasv: true",
     "disabled": false,
     "class": "event",
     "anim": "3",
     "volition": "true",
+    "ptpl": "null",
     "compext": "INF_CLAUSE2{volition: true; anim:>1.5}",
     "inflections": "simp.past:let"
   },
@@ -285,6 +291,7 @@ verb = [
     "name": "let2",
     "proto": "let",
     "disabled": false,
+    "ptpl": "past|by2",
     "compcore": "NP{anim:>0.5}",
     "compext": "go"
   },
@@ -755,6 +762,7 @@ verb = [
     "vtags": "--",
     "anim": "3",
     "tang": "!0",
+    "volition": "true",
     "ptpl": "past|by2",
     "compcore": "NP{anim:<3;tang:2; tags: !fixed}",
     "compext": "to NP{anim:3}",
@@ -1720,8 +1728,14 @@ verb = [
     "tags": "person",
     "vtags": "performance, activity",
     "volition": "true",
-    "ptpl": "past|pres",
-    "compcore": "(40 NP{number:pl;tags:item;size:<subject.size})"
+    "ptpl": "pres"
+  },
+  {
+    "name": "juggle.1",
+    "proto": "juggle",
+    "disabled": false,
+    "ptpl": "past",
+    "compcore": "NP{number:pl;tags:item;size:<subject.size}"
   },
   {
     "name": "long",
@@ -1980,8 +1994,16 @@ verb = [
     "name": "figure2",
     "proto": "figure",
     "disabled": false,
+    "ptpl": "past",
     "compcore": "PRONOUN{nocomplement:true}",
-    "compext": "out"
+    "compext": "@out"
+  },
+  {
+    "name": "figure2.1",
+    "proto": "figure2",
+    "disabled": false,
+    "compcore": "--",
+    "compext": "@out NP"
   },
   {
     "name": "figure3",
@@ -2282,7 +2304,7 @@ verb = [
     "volition": "true",
     "ptpl": "past|by2",
     "compcore": "NP{tags:device;anim:1}",
-    "compext": "(on|off)"
+    "compext": "@(on|off)"
   },
   {
     "name": "shake",
@@ -2621,7 +2643,8 @@ verb = [
   },
   {
     "name": "postpone",
-    "proto": "cancel"
+    "proto": "cancel",
+    "disabled": false
   },
   {
     "name": "begin",
@@ -3134,14 +3157,14 @@ verb = [
     "name": "throw1",
     "proto": "throw",
     "disabled": false,
-    "compext": "away"
+    "compext": "@away"
   },
   {
     "name": "throw1.1",
     "proto": "throw1",
     "disabled": false,
-    "compcore": "away",
-    "compext": "DP{tags:object&!fixed|substance&!gas;size:<subject.size}"
+    "compcore": "--",
+    "compext": "@away DP{tags:object&!fixed|substance&!gas;size:<subject.size}"
   },
   {
     "name": "jump",
@@ -3673,16 +3696,17 @@ verb = [
     "compext": "to NP{anim:3}"
   },
   {
-    "name": "spoke",
+    "name": "speak",
     "proto": "talk",
+    "prohibitions": "simp.past: spoke, retro:spoken",
     "disabled": false
   },
   {
     "name": "talk1",
     "proto": "talk",
     "disabled": false,
-    "ptpl": "past",
-    "compext": "about NP"
+    "ptpl": "null",
+    "compext": "(to NP{anim:3}) about NP"
   },
   {
     "name": "award",
@@ -4198,7 +4222,7 @@ verb = [
     "proto": "hit",
     "disabled": false,
     "compcore": "NP{tags:creature}",
-    "compext": "(80 in the PASV_SWITCH{construction: N; partOf: $patient.tags; number: sg}) (67 with NP{tags:item; number:sg; size:<6})"
+    "compext": "(80 in the N{partOf: compcore.tags; number: sg}) (67 with NP{tags:item; number:sg; size:<6})"
   },
   {
     "name": "whack.2",
@@ -4229,11 +4253,12 @@ verb = [
     "proto": "punch",
     "disabled": false,
     "compcore": "NP{tags:creature}",
-    "compext": "(80 in the PASV_SWITCH{construction: N; partOf: $patient.tags; number: sg})"
+    "compext": "(80 in the N{ partOf: compcore.tags; number: sg})"
   },
   {
     "name": "kick",
-    "proto": "punch"
+    "proto": "punch",
+    "disabled": false
   },
   {
     "name": "smack",

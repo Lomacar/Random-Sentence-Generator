@@ -75,16 +75,17 @@ function processLexicon(data, type){
         lookup[type][a.name] = x
     }
 
+    
     //Prototypes
     for (x in database[type]) {
-        setProto(database[type][x],type,x)
+        setProto(database[type][x],type)
     }
 
     //Senses
     for (var x in database[type]) {
         createSenses(database[type][x],type)
     }
-
+    
     if(type=='noun') {
 
         //add implied tags to words
@@ -102,7 +103,7 @@ function processLexicon(data, type){
                 toObject( database[type][z].tags.split(',').forEach(function(y){t[y]=y}) )
             }
         }
-
+        
         //then do complicated merging of tag objects
         for (var z in database[type]) {
             var a = database[type][z]
@@ -131,31 +132,33 @@ function processLexicon(data, type){
                 delete database[type][z].tagsObject
                 delete database[type][z].parallelSense
             }
-        }
-        //end of tag merging
-
-
+        } //end of tag merging     
+        
     } //end of noun only section
     
+
+    //rule-based creation of senses
+    autoSenses(database[type], type)
     //rule-based adding of properties to words
     autoAttributes(database[type], type)
+
 
     //very final processing
     for (var b in database[type]) {
         // collapse prototype inheritance
         database[type][b] = $extend({},database[type][b])
-
+        
         // remove empty strings that were created from "--" which were used to block prototype inheritance
         prune(database[type][b])
     }
 
 }
 
-function setProto(a,type,x){
+function setProto(a,type){
     if (a.proto) {
         var proto = pickOne(database[type], {name: a.proto, type:type})
         if (!proto) error('Prototype "' + a.proto + '" could not be found for '+a.name+'.')
-        else a = database[type][x] = Object.setPrototypeOf(a, proto )
+        else a = Object.setPrototypeOf(a, proto )
 
         if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
         { error('Prototype assignment failed for '+a.name+'.')}
@@ -277,6 +280,39 @@ function autoAttributes (lex, type) {
 	});
 }
 
+//rule-based creation of senses
+function autoSenses (lex, type) {
+    var senseNum
+
+    lex.forEach(function (w) {
+        senseNum = 0
+        w = $extend({},w) //this must be done in order to collapse prototype inheritance
+
+        if (type=='verb') {
+
+            //create alternate phrasal verbs (V particle DP) from (V NP particle)
+            if (typeof w.compext == 'string' && w.compext.match('@')) {
+                if (typeof w.compcore == 'string' && w.compcore.match('NP{')){
+                    new_sense = _.clone(w)
+                    //presumably if there is extra stuff after the phrasal particle in compext
+                    //the compcore portion should go between the particle and the extra stuff
+                    new_sense.compext = new_sense.compext.replace(/(@\w+)/, '$1 ' + w.compcore.replace('NP{', 'DP{'))
+                    new_sense.compcore = ''
+
+                    addNewSense(new_sense)
+                }
+            }
+
+        }
+
+    })
+
+    function addNewSense(new_sense){
+        new_sense.name += '.' + ++senseNum
+        setProto(new_sense,type)
+        lex.push(new_sense)
+    }
+}
 
 //copied from jQuery
 function $extend() {
