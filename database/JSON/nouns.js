@@ -1427,7 +1427,8 @@ noun = [
   {
     "name": "rodeo",
     "proto": "game",
-    "disabled": false
+    "disabled": false,
+    "precomp": "--"
   },
   {
     "name": "dinner",

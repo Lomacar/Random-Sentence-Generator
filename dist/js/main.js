@@ -708,6 +708,7 @@ function stringOut(c,id,recur){
 
 function stringCleaning(string, c, recur){
     string = string.replace(/\.([^ \b])/g,"$1")             // remove dots that aren't at the end of words
+                   .replace('@','')                        // remove @ used for phrasal verbs
                    .replace(/  +/g,' ')                     // remove extra spaces
                    .replace(/ ,/,',')                       // remove spaces before commas
     if (!debugMode) 

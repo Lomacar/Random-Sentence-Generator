@@ -609,7 +609,8 @@ noun = [
   {
     "name": "Nile",
     "proto": "river",
-    "unique": 1,
+    "disabled": false,
+    "unique": "1",
     "count": "false"
   },
   {
@@ -5169,9 +5170,10 @@ noun = [
   {
     "name": "Death Star",
     "proto": "space station",
-    "unique": 1,
-    "count": "true",
-    "size": "10,11"
+    "disabled": false,
+    "size": "10,11",
+    "unique": "1",
+    "count": "false"
   },
   {
     "name": "zoo",
