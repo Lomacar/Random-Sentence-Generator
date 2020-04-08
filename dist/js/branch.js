@@ -10,12 +10,12 @@ function branch(c, r, p, l, x, y) {
 
     this.randomize = y
 
-    //if(xrayMode){
+    if(xrayMode){ //this slows down sentence creation significantly
         this.seed = x || Math.random().toString(32).slice(2);
         Math.seedrandom(this.seed)
         ///console.log(this.seed)
         _ = _.runInContext();
-   // }
+    }
 
     if(r && "desc" in r) {
         this.desc = r.desc
