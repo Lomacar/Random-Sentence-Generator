@@ -292,11 +292,11 @@ function autoSenses (lex, type) {
 
             //create alternate phrasal verbs (V particle DP) from (V NP particle)
             if (typeof w.compext == 'string' && w.compext.match('@')) {
-                if (typeof w.compcore == 'string' && w.compcore.match('NP{')){
+                if (typeof w.compcore == 'string' && w.compcore.match(/\bNP\b/)){
                     new_sense = _.clone(w)
                     //presumably if there is extra stuff after the phrasal particle in compext
                     //the compcore portion should go between the particle and the extra stuff
-                    new_sense.compext = new_sense.compext.replace(/(@\w+)/, '$1 ' + w.compcore.replace('NP{', 'DP{'))
+                    new_sense.compext = new_sense.compext.replace(/(@\w+)/, '$1 ' + w.compcore.replace(/\bNP\b/, 'DP'))
                     new_sense.compcore = ''
 
                     addNewSense(new_sense)
@@ -308,7 +308,7 @@ function autoSenses (lex, type) {
     })
 
     function addNewSense(new_sense){
-        new_sense.name += '.' + ++senseNum
+        new_sense.name += '.0' + ++senseNum
         setProto(new_sense,type)
         lex.push(new_sense)
     }

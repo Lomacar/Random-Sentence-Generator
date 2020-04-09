@@ -450,6 +450,7 @@ noun = [
     "tags": "hasHeight, event",
     "partOf": "null",
     "size": "8,9",
+    "unique": "0",
     "count": "true"
   },
   {
@@ -547,7 +548,8 @@ noun = [
   },
   {
     "name": "General Motors",
-    "proto": "IBM"
+    "proto": "IBM",
+    "disabled": false
   },
   {
     "name": "Congress",
@@ -1303,11 +1305,19 @@ noun = [
     "count": "false"
   },
   {
+    "name": "darkness",
+    "proto": "light",
+    "disabled": false,
+    "tags": "--, phenomena, situation"
+  },
+  {
     "name": "shadow",
     "proto": "light",
     "disabled": false,
     "tags": "sight",
-    "partOf": "null"
+    "partOf": "null",
+    "unique": "0",
+    "count": "true"
   },
   {
     "name": "sky",
@@ -1537,6 +1547,11 @@ noun = [
     "count": "true"
   },
   {
+    "name": "château",
+    "proto": "house",
+    "disabled": false
+  },
+  {
     "name": "cabin",
     "proto": "house",
     "disabled": false,
@@ -1617,68 +1632,86 @@ noun = [
   {
     "name": "store",
     "proto": "house",
-    "possessable": 1
+    "disabled": false,
+    "tags": "establishment",
+    "possessable": "2"
   },
   {
     "name": "museum",
-    "proto": "house",
+    "proto": "store",
     "disabled": false,
     "possessable": "1"
   },
   {
     "name": "library",
-    "proto": "house",
-    "possessable": 0
+    "proto": "museum",
+    "disabled": false,
+    "possessable": "0"
   },
   {
     "name": "gym",
     "proto": "house",
-    "possessable": 1
+    "disabled": false,
+    "possessable": "1"
   },
   {
     "name": "tower",
     "proto": "house",
-    "possessable": 2
+    "disabled": false,
+    "possessable": "2"
   },
   {
     "name": "airport",
     "proto": "house",
-    "possessable": 0
+    "disabled": false,
+    "possessable": "0"
   },
   {
     "name": "barn",
     "proto": "house",
-    "possessable": 3
+    "disabled": false,
+    "possessable": "3"
   },
   {
     "name": "factory",
     "proto": "house",
-    "possessable": 2
+    "disabled": false,
+    "possessable": "2"
   },
   {
     "name": "restaurant",
-    "proto": "house",
-    "possessable": 1
+    "proto": "store",
+    "disabled": false,
+    "possessable": "2"
+  },
+  {
+    "name": "café",
+    "proto": "restaurant",
+    "disabled": false
   },
   {
     "name": "mall",
     "proto": "house",
-    "possessable": 0
+    "disabled": false,
+    "possessable": "0"
   },
   {
     "name": "theatre",
-    "proto": "house",
-    "possessable": 0
+    "proto": "store",
+    "disabled": false,
+    "possessable": "1"
   },
   {
     "name": "laboratory",
     "proto": "house",
-    "possessable": 2
+    "disabled": false,
+    "possessable": "2"
   },
   {
     "name": "warehouse",
     "proto": "house",
-    "possessable": 0
+    "disabled": false,
+    "possessable": "0"
   },
   {
     "name": "bunker",
@@ -1688,7 +1721,8 @@ noun = [
   {
     "name": "station",
     "proto": "house",
-    "possessable": 0
+    "disabled": false,
+    "possessable": "0"
   },
   {
     "name": "human",
@@ -2354,7 +2388,14 @@ noun = [
   {
     "name": "box",
     "proto": "bag",
+    "disabled": false,
     "tags": "structure"
+  },
+  {
+    "name": "container",
+    "proto": "box",
+    "disabled": false,
+    "size": "3,4,5,6,7,8"
   },
   {
     "name": "brother",
@@ -2387,6 +2428,12 @@ noun = [
     "disabled": false,
     "tags": "motorVehicle, groundVehicle, container",
     "size": "7"
+  },
+  {
+    "name": "lawnmower",
+    "proto": "car",
+    "disabled": false,
+    "size": "5,6"
   },
   {
     "name": "centaur",
@@ -2446,6 +2493,7 @@ noun = [
     "name": "company",
     "proto": "team",
     "disabled": false,
+    "tags": "company",
     "partOf": "null",
     "complements": "--"
   },
@@ -4542,7 +4590,8 @@ noun = [
   },
   {
     "name": "stadium",
-    "proto": "house"
+    "proto": "house",
+    "disabled": false
   },
   {
     "name": "Empire State Building",
@@ -4609,7 +4658,7 @@ noun = [
   {
     "name": "floor",
     "disabled": false,
-    "tags": "surface, grounded",
+    "tags": "surface, grounded, structure",
     "anim": "0",
     "tang": "2",
     "possessable": "2",
@@ -4648,7 +4697,14 @@ noun = [
   },
   {
     "name": "lawn",
-    "proto": "floor"
+    "proto": "floor",
+    "disabled": false,
+    "tags": "-, field"
+  },
+  {
+    "name": "yard",
+    "proto": "lawn",
+    "disabled": false
   },
   {
     "name": "air",
@@ -5125,16 +5181,26 @@ noun = [
   },
   {
     "name": "property",
-    "proto": "field1",
-    "possessable": 5,
+    "proto": "field",
+    "prohibitions": "def: indef",
+    "disabled": false,
+    "tags": "-, realEstate, hasFront",
+    "possessable": "6",
     "size": "8,9,10",
-    "tags": "hasFront",
-    "precomp": "--",
-    "prohibitions": "def: indef"
+    "precomp": "--"
+  },
+  {
+    "name": "land",
+    "proto": "field",
+    "disabled": false,
+    "tags": "field, realEstate",
+    "possessable": "4",
+    "size": "8,9,10"
   },
   {
     "name": "estate",
-    "proto": "property"
+    "proto": "property",
+    "disabled": false
   },
   {
     "name": "court",
@@ -5146,7 +5212,7 @@ noun = [
   {
     "name": "farm",
     "disabled": false,
-    "tags": "field, hasFront",
+    "tags": "field, realEstate",
     "anim": "0",
     "tang": "1",
     "possessable": "5",
@@ -5159,6 +5225,7 @@ noun = [
   {
     "name": "ranch",
     "proto": "farm",
+    "disabled": false,
     "size": "8,9"
   },
   {
@@ -6503,8 +6570,17 @@ noun = [
     "name": "CEO",
     "proto": "human",
     "disabled": false,
+    "possessable": "0",
     "partOf": "null",
-    "complements": "(of DP{tags:company;  (number: noun.number | count:false)})"
+    "complements": "(of DP{tags: company; (number: noun.number | count:false)})"
+  },
+  {
+    "name": "CEO.1",
+    "proto": "CEO",
+    "disabled": false,
+    "possessable": "8",
+    "posr": "tags: company",
+    "complements": "--"
   },
   {
     "name": "butler",
@@ -6812,6 +6888,7 @@ noun = [
   {
     "name": "vat",
     "proto": "box",
+    "disabled": false,
     "size": "6,7"
   },
   {

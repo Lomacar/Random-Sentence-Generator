@@ -521,7 +521,7 @@ adjective = [
     "superform": "-er"
   },
   {
-    "name": "naive",
+    "name": "naÏve",
     "disabled": false,
     "rank": "2",
     "anim": "3",
@@ -530,7 +530,7 @@ adjective = [
   },
   {
     "name": "pretentious",
-    "proto": "naive",
+    "proto": "naÏve",
     "disabled": false,
     "superform": "more",
     "opposite": "un"

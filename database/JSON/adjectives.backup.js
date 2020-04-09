@@ -31,7 +31,8 @@ adjective = [
     "name": "on time",
     "proto": "late",
     "disabled": false,
-    "scalar": "0"
+    "scalar": "0",
+    "complements": "(33 for NP{tags:occasion})"
   },
   {
     "name": "late",

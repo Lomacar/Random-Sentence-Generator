@@ -773,9 +773,9 @@ verb = [
     "proto": "give",
     "disabled": false,
     "vtags": "--",
-    "ptpl": "null",
-    "compcore": "NP{anim:3} DP{anim:<3;tang:2; tags: !fixed}",
-    "compext": "--"
+    "ptpl": "past|by2",
+    "compcore": "NP{anim:3} ",
+    "compext": "DP{anim:<3;tang:2; tags: !fixed}"
   },
   {
     "name": "give1",
@@ -792,8 +792,9 @@ verb = [
     "proto": "give1",
     "disabled": false,
     "anim": "3",
-    "compcore": "(away DP{tags: substance|item|animal}|NP{tags: substance|item|animal} away)",
-    "compext": "--"
+    "ptpl": "past",
+    "compcore": "NP{tags: touchable&!fixed; anim: <3}",
+    "compext": "@away "
   },
   {
     "name": "go",
@@ -1362,8 +1363,9 @@ verb = [
   {
     "name": "ride.1",
     "proto": "ride",
-    "ptpl": "past",
+    "disabled": false,
     "vtags": "--",
+    "ptpl": "past",
     "compcore": "NP{ (tags:rideable | tags:beast;size:>5);number:subject.number; anim: <3 }"
   },
   {
@@ -1377,6 +1379,7 @@ verb = [
   {
     "name": "ride.3",
     "proto": "ride.2",
+    "disabled": false,
     "ptpl": "past|by2",
     "compcore": "DP{ (tags:rideable | tags:beast;size:>5);number:subject.number; anim: <3}",
     "compext": "(MOTION)"
@@ -1559,8 +1562,9 @@ verb = [
     "vtags": "--",
     "anim": "3",
     "volition": "true",
-    "ptpl": "null",
-    "compcore": "(up DP{tags: creature})",
+    "ptpl": "past|by2",
+    "compcore": "NP{tags: creature}",
+    "compext": "@up ",
     "inflections": "simp.past:beat, retro:beaten"
   },
   {
@@ -1728,8 +1732,14 @@ verb = [
     "tags": "person",
     "vtags": "performance, activity",
     "volition": "true",
-    "ptpl": "past|pres",
-    "compcore": "(40 NP{number:pl;tags:item;size:<subject.size})"
+    "ptpl": "pres"
+  },
+  {
+    "name": "juggle.1",
+    "proto": "juggle",
+    "disabled": false,
+    "ptpl": "past",
+    "compcore": "NP{number:pl;tags:item;size:<subject.size}"
   },
   {
     "name": "long",
@@ -1744,6 +1754,7 @@ verb = [
   {
     "name": "misunderstand",
     "proto": "understand",
+    "disabled": false,
     "vtags": "--",
     "inflections": "simp.past:misunderstood"
   },
@@ -3572,6 +3583,7 @@ verb = [
   {
     "name": "sink",
     "proto": "rise",
+    "disabled": false,
     "vtags": "motion, downWater",
     "compext": "GOAL",
     "inflections": "simp.past: sank, retro: sunk"
@@ -3880,6 +3892,7 @@ verb = [
   {
     "name": "prohibit1",
     "proto": "denounce.1",
+    "disabled": false,
     "compext": "--"
   },
   {
@@ -4342,17 +4355,43 @@ verb = [
   {
     "name": "love",
     "proto": "like",
+    "disabled": false,
     "compcore": "(NP| NP{tags:person})"
   },
   {
     "name": "sell",
-    "disabled": "TRUE",
-    "ptpl": "null"
+    "proto": "purchase",
+    "disabled": false,
+    "ptpl": "null",
+    "inflections": "simp.past:sold"
+  },
+  {
+    "name": "purchase",
+    "disabled": false,
+    "class": "event",
+    "anim": "3",
+    "volition": "true",
+    "ptpl": "past",
+    "compcore": "NP{tags:object&!person|property|substance|component&artifact}"
   },
   {
     "name": "buy",
-    "disabled": true,
-    "ptpl": "null"
+    "proto": "purchase",
+    "disabled": false,
+    "inflections": "simp.past: bought"
+  },
+  {
+    "name": "rent",
+    "proto": "purchase",
+    "disabled": false,
+    "class": "activity",
+    "compcore": "NP{tags:machine|building|property}",
+    "inflections": "--"
+  },
+  {
+    "name": "lease",
+    "proto": "rent",
+    "disabled": false
   },
   {
     "name": "capsize",
@@ -4907,6 +4946,25 @@ verb = [
     "proto": "leave",
     "disabled": false,
     "compcore": "NP{tags: occasion; number: sg}"
+  },
+  {
+    "name": "join1",
+    "proto": "leave4",
+    "disabled": false,
+    "vtags": "--",
+    "inflections": "--"
+  },
+  {
+    "name": "register",
+    "proto": "join1",
+    "disabled": false,
+    "compext": "(for NP{tags: occasion; number: sg})"
+  },
+  {
+    "name": "sign1",
+    "proto": "register",
+    "disabled": false,
+    "compext": "(up for NP{tags: occasion; number: sg})"
   },
   {
     "name": "leave5",
