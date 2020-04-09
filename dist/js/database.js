@@ -4,7 +4,7 @@ var probabilities = {
     anim:       [1,0, 1,1, 3,2, 6,3],
     tang:       [9999,0, 1,1, 5,2],
 
-    pronominal: [1,true,8,false], //how likely a NP is to be a pronoun instead
+    pronominal: [1,true,6,false], //how likely a NP is to be a pronoun instead
     indef_pro: 0.75,               //chance to have an indefinite pronoun (compounded with chance to have an indefinite NP)
 
     //nounish
@@ -13,10 +13,12 @@ var probabilities = {
     proper:     [2,true, 7,false],
     partial:    [1,'', 1,'partial'],
     quantified: [2, true, 9, false],
+    numeral: 0.3, //whether to quantify by numeral or quantifier
+    prequant: 0.2,
     np_coordination: 0.2,
 
     //pronominal
-    person:     [1,1, 1,2, 20,3],
+    person:     [1,1, 1,2, 10,3],
     gender:     [3,'m', 3,'f', 1,'n'],
     dem:        [2,true,5,false],
     prox:       [1,'prox', 1,'dist'],
@@ -41,52 +43,49 @@ database.aux_verb = [
 
 database.quantifier = [
     {name: 'a lot', prequant: true, amount: 10},
-    //{name: 'heaps', prequant: true},
     {name: 'tons', prequant: true, amount: 50},
-    //{name: 'plenty', prequant: true},
     {name: 'a bunch', prequant: true, amount: 10},
+    //{name: 'heaps', prequant: true},
+    //{name: 'plenty', prequant: true},
     //{name: 'none', prequant: true, def:'def'},
     //{name: 'no', prequant: false, neg: false},
 
-    {name: 'any', prequant: false, neg: true},
-    {name: 'any', prequant: true, def:'def', neg: true},
+    {name: 'any', neg: true},
 
+    {name: 'most'},
+    {name: 'some'},
+    {name: 'all', prequant: true, def:'def'},
+    //{name: 'all', prequant: false},
     //{name: 'enough', prequant: false},
     //{name: 'enough', prequant: true, def:'def'},
     //{name: 'not enough', prequant: false},
     //{name: 'not enough', prequant: true, def:'def'},
-    {name: 'most', prequant: false},
-    {name: 'most', prequant: true, def:'def'},
-    {name: 'some', prequant: false},
-    {name: 'some', prequant: true, def:'def'},
-    //{name: 'all', prequant: false},
-    {name: 'all', prequant: true, def:'def'},
-
+    
+    //COUNTABLE ONLY
     {name: 'numerous', prequant: false, count: 1},
-    {name: 'a couple', prequant: true, count: 1, amount: 3},
+    
+    {name: 'each', count: 1, prequant: false, number: 'sg', def:'indef', amount: 3}, //currently never reached because quants must be plural
+    {name: 'each', count: 1, prequant: true, def:'indef', amount: 3},
+    {name: 'every', count: 1, prequant: false, number: 'sg', def:'indef'}, //currently never reached because quants must be plural
+    {name: 'both', count: 1, amount: 2},
+    
+    {name: 'a few', count: 1, amount: 4},
+    {name: 'several', count: 1, amount: 5},
+    {name: 'many', count: 1, amount: 8},
 
-    {name: 'a few', prequant: false, count: 1, amount: 4},
-    {name: 'a few', prequant: true, def:'def', count: 1, amount: 4},
-    {name: 'each', prequant: false, number: 'sg', count: 1, amount: 3},
-    {name: 'each', prequant: true, def:'def', count: 1, amount: 3},
-    {name: 'both', prequant: false, count: 1, amount: 2},
-    {name: 'both', prequant: true, def:'def', count: 1, amount: 2},
-    {name: 'several', prequant: false, count: 1, amount: 5},
-    {name: 'several', prequant: true, def:'def', count: 1, amount: 5},
-    {name: 'many', prequant: false, count: 1, amount: 8},
-    {name: 'many', prequant: true, def:'def', count: 1, amount: 8},
     {name: 'a number', prequant: true, count: 1, amount: 7},
     {name: 'dozens', prequant: true, count: 1, amount: 48},
     {name: 'hundreds', prequant: true, count: 1, amount: 400},
+    {name: 'thousand', prequant: true, count: 1, amount: 4000},
+    {name: 'millions', prequant: true, count: 1, amount: 4000000},
 
-    {name: 'much', prequant: false, count: 0},
-    {name: 'much', prequant: true, def:'def', count: 0},
+    //UNCOUNTABLE ONLY
+    {name: 'much', count: 0},
     //{name: 'too much', prequant: false, count: 0},
     //{name: 'too much', prequant: true, def:'def', count: 0},
     //{name: 'too much', prequant: false, count: 0},
     //{name: 'too much', prequant: true, def:'def', count: 0},
     {name: 'a little', prequant: false, count: 0},
-    {name: 'a little', prequant: true, def:'def', count: 0},
     //{name: 'too little', prequant: false, count: 0},
     //{name: 'too little', prequant: true, def:'def', count: 0},
 
@@ -218,7 +217,7 @@ database.preposition = [
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'down',                                  'lm.tags': 'volume&!elevated|gas',                       'lm.size': '>trajector.size'},
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'bodyOfWater',                                'lm.size': '>trajector.size'}, //this is for 'sink'
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'mass'}, //this is for 'sink'
-    {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'vessel',                                     'lm.size': '>trajector.size'}, //this is for 'sink'
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'container',                                  'lm.size': '>trajector.size'}, //this is for 'sink'
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'waterSurface',                          'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
 
     {name: 'to',        role: 'GOAL|DIR',   vtags: 'grounded|contact|water|waterSurface',   'lm.tags': 'fixed|occasion'}, //TODO: other things?

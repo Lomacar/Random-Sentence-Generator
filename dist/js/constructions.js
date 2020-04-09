@@ -172,6 +172,8 @@ function NP(r) {
 //        already_plural: true
 //    })]
 // crash caused at SEED 415
+    var pronominal = '' + r.person + r.pronominal
+    var quantinfo = pronominal == '3false' ? {amount: 'np.quant.amount', qname: 'np.quant.name'} : {}
 
     return {
         order: "prequant* np",
@@ -179,13 +181,10 @@ function NP(r) {
         gap: [blank],
         labelChildren: true,
         children: {
-            prequant: [PREQUANT, {unpack: 'np.R', prequant: 'np.prequant'}],
-            np: route(r.person, {
+            prequant: [PREQUANT, {unpack: 'np.R-prequant', ...quantinfo}],
+            np: route(pronominal, {
                 rest: [PRONOUN, r2],
-                3: route(r.pronominal, {
-                    true: [PRONOUN, r2],
-                    false: [DP]
-                })
+                '3false': [DP]
             })
         }
     }
@@ -208,7 +207,8 @@ function DP(r) {
         hasComplement: "ncomp,nprecomp",
         children: {
             noun: [N, {
-                def: r.def
+                def: r.def, 
+                prequant: toss( probabilities.prequant * (1-r.quantified/2) ) //prequant 1/2 as likely if already quant
             }],
             det: r.nodeterminer ? [blank] : [DET, { //nodeterminer is only used by the verb 'mix' and should be removed
                 unpack: 'noun.R-noposs'
@@ -217,9 +217,7 @@ function DP(r) {
             quant: [QUANT, {
                 unpack: 'noun.R',
                 prequant: false,
-                quantified: r.quantified,
-                hasPrequant: 'det.quantified',
-                amount: 'det.amount'
+                quantified: true//r.quantified
             }],
             super: route(r.def == 'def' && r.superlative, {
                 true: [A, {
@@ -308,17 +306,17 @@ function DET(r) {
 
         } else {
 
-            if (r.def == 'def' && (r.count == false || r.number == 'pl')) {
-                decide(r, 'quantified')
-                    //if the DP must be quantified, give it a 50/50 chance of being prequant
-                    //then if it is not prequantified it WILL be normally quantified
-                // r.quantified = toss() ? r.quantified : false
+            // if (r.def == 'def' && (r.count == false || r.number == 'pl')) {
+            //     decide(r, 'quantified')
+            //         if the DP must be quantified, give it a 50/50 chance of being prequant
+            //         then if it is not prequantified it WILL be normally quantified
+            //     r.quantified = toss() ? r.quantified : false
 
-                // if (r.quantified) {
-                //     r.quantified = false //I think this prevents in(de)finite loops?
-                //     return [PREQUANT, r]
-                // }
-            }
+            //     if (r.quantified) {
+            //         r.quantified = false //I think this prevents in(de)finite loops?
+            //         return [PREQUANT, r]
+            //     }
+            // }
 
             decide(r, 'def,dem,number,partial')
             if (r.dem) decide(r, 'prox');
@@ -327,7 +325,7 @@ function DET(r) {
             if (r.count == false && r.def == 'indef') {
                 out.text = '' //prevents 'a' on mass nouns
             } else {
-                var inflections = 'def.prox.sg:this, def.prox.pl:these, def.dist.sg:that, def.dist.pl:those, indef.sg:a, def.def:the'
+                var inflections = 'def:the, def.prox.sg:this, def.prox.pl:these, def.dist.sg:that, def.dist.pl:those, indef.sg:a'
                 out.text = resolve([r.def, r.prox, r.number, r.partial], inflections)
             }
 
@@ -385,55 +383,55 @@ function GENITIVE(r) {
 
 function QUANT(r) {
 
-    if (!r.unique && (r.count == false || r.number == 'pl')) {
+    if (!r.unique && (r.count == false || r.number == 'pl')) { //this presently excludes 'each house'
         decide(r, 'quantified')
-        if (r.hasPrequant) {
-            //if the DP is already prequantified, you don't really need to quantify here, but you can
-            r.quantified = toss() ? r.quantified : false
-        }
 
         if (r.quantified) {
             r.prequant = r.prequant || false
             r.neg = r.neg || false
 
-
-            if (r.count == true && (toss(0.3) || r.def == 'def')) {
+            //numerals for countable, definite and some indefinite NPs
+            //can include prequantification (if NP is quantified with numerals)
+            if (r.count == true && toss(probabilities.numeral * (1+(r.def=='indef')))) { //triple the probability for indefinite NPs because they are so rare here for some reason
                 var amount
                 amount = powerRandom()
-                if (r.amount) amount += r.amount // this is so we don't get things like "nine out of four doctors..."
-                var precision = -(('' + amount).length - 2) //then round the number up so we don't get "three of the nine hundred and three..."
-                amount = _.ceil(_.ceil(amount, precision))
+                if (r.amount) { //if this is a case of prequantification, the first number must be smaller than the second
+                    amount = amount % r.amount
+                    amount = amount || 1 //modulus can produce zeros, so this fixes that
+                }
 
                 return {
                     text: toWords(amount),
                     amount: amount
                 }
-
-            } else if (r.def == 'indef' || r.prequant) {
+            
+            //quantifiers for noncount NPs ('some mud') or countable NPs that skipped the numerals above ('some dogs')
+            //unless the NPs are definite and not prequant ('the some mud', but 'some of the mud' is ok)
+            //or for prequantification on definite NPs (quantified with numerals)
+            //note that this excludes the possibility of 'the few/several/numerous dogs', maybe these are more like adjectives
+            } else if (!(r.def=='def' && !r.prequant)) {
+                var amount = r.amount ? '<'+r.amount : null
                 return [get, {
                     type: 'quantifier',
-                    prequant: r.prequant
+                    prequant: r.prequant,
+                    amount: amount,
+                    neg: r.neg
                 }]
             }
         }
     }
 
-    return {
-        text: ''
-    }
-
-    //    if(r.count==true && toss(0.3) || r.justGiveMeANumber) {
-    //        return {text: toWords(powerRandom())}
-    //    } else {
-    //        return [get, {type: 'quantifier', prequant: r.prequant }]
-    //    }
+    return [blank]
 }
 
 function PREQUANT(r) {
     if (!r.prequant) return [blank]
+    if (r.def == 'indef') return [blank] // can't have "3 of a dog" or "some of mud"
+    if (r.qname) return [blank] // can't have "3 of some X" or "some of several X"
+    if (r.unique || (r.count == true && r.number != 'pl')) return [blank]
 
     return {
-        order: '!!!! quant of',
+        order: 'quant of',
         head: 'quant',
         children: {
             quant: [QUANT, {
