@@ -144,10 +144,10 @@ function COPULA(r) {
                 anim: r2.anim,
                 tang: r2.tang
             }],
-            predicate: [PREDICATE, _.extend({}, r, {
+            predicate: [PREDICATE, {...r,
                 unpack: 'subject.R',
                 copulant: true
-            })]
+            }]
         }
     }
 }
@@ -165,7 +165,7 @@ function NP(r) {
         subj_number: 'subject.number',
         subj_gender: 'subject.gender'
     }
-    r = _.extend(r, r2) //unbelievably, this line was missing for a long time
+    r2 = _.extend(r, r2) //unbelievably, this line was missing for a long time
 
     //sometimes, return a set of coordinated noun phrases instead of a plural noun
 //    if (toss(probabilities.np_coordination) && r.number == 'pl' && !r.already_plural) return [NP_COORD, _.extend(r, {
@@ -173,13 +173,22 @@ function NP(r) {
 //    })]
 // crash caused at SEED 415
 
-    return route(r.person, {
-        rest: [PRONOUN, r2],
-        3: route(r.pronominal, {
-            true: [PRONOUN, r2],
-            false: [DP]
-        })
-    })
+    return {
+        order: "prequant* np",
+        head: "np",
+        gap: [blank],
+        labelChildren: true,
+        children: {
+            prequant: [PREQUANT, {unpack: 'np.R', prequant: 'np.prequant'}],
+            np: route(r.person, {
+                rest: [PRONOUN, r2],
+                3: route(r.pronominal, {
+                    true: [PRONOUN, r2],
+                    false: [DP]
+                })
+            })
+        }
+    }
 }
 
 function DP(r) {
@@ -201,7 +210,7 @@ function DP(r) {
             noun: [N, {
                 def: r.def
             }],
-            det: r.nodeterminer ? [blank] : [DET, {
+            det: r.nodeterminer ? [blank] : [DET, { //nodeterminer is only used by the verb 'mix' and should be removed
                 unpack: 'noun.R-noposs'
             }],
             preadj: r.superlative || toss(0.9) ? [blank] : [SPECIAL_A, 'noun.R'],
@@ -215,7 +224,7 @@ function DP(r) {
             super: route(r.def == 'def' && r.superlative, {
                 true: [A, {
                     unpack: 'noun.R',
-                    no_adj: 'noun.unique',
+                    no_adj: 'noun.unique', //should be noun.proper?
                     superlative: true,
                     scalar: '>0',
                     possessed: 'det.possessed',
@@ -226,7 +235,7 @@ function DP(r) {
             adj: [AP, {
                 unpack: 'noun.R',
                 nocomplement: true,
-                no_adj: 'noun.unique',
+                no_adj: 'noun.unique', //should be noun.proper?
                 superlative: false,
                 desc: 'ap'
             }, 0.25, 'rank'],
@@ -303,12 +312,12 @@ function DET(r) {
                 decide(r, 'quantified')
                     //if the DP must be quantified, give it a 50/50 chance of being prequant
                     //then if it is not prequantified it WILL be normally quantified
-                r.quantified = toss() ? r.quantified : false
+                // r.quantified = toss() ? r.quantified : false
 
-                if (r.quantified) {
-                    r.quantified = false //I think this prevents in(de)finite loops?
-                    return [PREQUANT, r]
-                }
+                // if (r.quantified) {
+                //     r.quantified = false //I think this prevents in(de)finite loops?
+                //     return [PREQUANT, r]
+                // }
             }
 
             decide(r, 'def,dem,number,partial')
@@ -421,18 +430,18 @@ function QUANT(r) {
 }
 
 function PREQUANT(r) {
+    if (!r.prequant) return [blank]
+
     return {
-        order: 'quant of det',
+        order: '!!!! quant of',
         head: 'quant',
-        labelChildren: true,
         children: {
             quant: [QUANT, {
                 prequant: true,
                 desc: 'quantifier',
                 quantified: true,
                 def: 'indef'
-            }],
-            det: [DET, r]
+            }]
         }
     }
 }
@@ -500,15 +509,21 @@ function PRONOUN(r) {
         }
     }
 
+    //prequantified pronouns
+    if (r.number == 'pl' && !r.unique && r.case != 'reflex' && toss()) {
+        r.case = 'acc'
+        r.prequant = true
+    }
+
     var word = $.extend(r, {
         type: 'pronoun',
-        inflections: "nom.sg.1:I, 2:you, sg.3:it, nom.sg.3.m:he, nom.sg.3.f:she," +
-            " nom.pl.1:we, nom.pl.3:they, acc.sg.1:me, acc.sg.3.m: him," +
-            " acc.sg.3.f:her, acc.pl.1:us, acc.pl.3: them," +
-            " reflex.sg.1:myself, reflex.pl.1:ourselves," +
-            " reflex.sg.2:yourself, reflex.pl.2:yourselves," +
-            " reflex.sg.3.m:himself, reflex.sg.3.f:herself, reflex.sg.3.n:itself," +
-            " reflex.pl.3:themselves",
+        inflections: "nom.sg.1:I, 2:you, sg.3:it, nom.sg.3.m:he, nom.sg.3.f:she, \
+                      nom.pl.1:we, nom.pl.3:they, acc.sg.1:me, acc.sg.3.m: him, \
+                      acc.sg.3.f:her, acc.pl.1:us, acc.pl.3: them, \
+                      reflex.sg.1:myself, reflex.pl.1:ourselves, \
+                      reflex.sg.2:yourself, reflex.pl.2:yourselves, \
+                      reflex.sg.3.m:himself, reflex.sg.3.f:herself, reflex.sg.3.n:itself, \
+                      reflex.pl.3:themselves",
         gap: [blank]
     })
 
@@ -1142,19 +1157,10 @@ function WH_CLAUSE(r, c) {
     } else {
 
         //what,who,whose,where
-        var findGaps = function (branch, parent) {
-            $.each(branch, function (k, v) {
-                if (k == 'parent' || k == 'head') return true
-                if (k == 'gap' && v) {
-                    if (propertySearch(branch, 'nogap')) return true //prevent noun complements and other things from partaking
-                    if (branch.forceGap) {
-                        gaps = [branch] //prevent gapping inside nested WHs
-                        return false
-                    }
-                    gaps.push(branch)
-                }
-                if (typeOf(v) == 'object') findGaps(v, branch)
-            })
+        function findGaps(branch) {
+            if (branch.gap) gaps.push(branch)
+            //look for gaps in sub-branches
+            if (branch.children) $.each(branch.children, (k,v)=> findGaps(v))
         }
 
         findGaps(B)
