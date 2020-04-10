@@ -328,7 +328,7 @@ function saveEntry () {
     //handle errors
     var err = editor.validate()
     var name = lexicon[currentIndex].name
-    var here = $jt.get_node(name.replace(/ /g,'_'))
+    var here = $jt.get_node(name) || $jt.get_node(name.replace(/ /g,'_'))
     if(err.length){
         $jt.set_type(here,'error')
         errors[name] = err
