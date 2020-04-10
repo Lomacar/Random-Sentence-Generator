@@ -4,16 +4,16 @@ var probabilities = {
     anim:       [1,0, 1,1, 3,2, 6,3],
     tang:       [9999,0, 1,1, 5,2],
 
-    pronominal: [1,true,6,false], //how likely a NP is to be a pronoun instead
+    pronominal: [1,true,7,false], //how likely a NP is to be a pronoun instead
     indef_pro: 0.75,               //chance to have an indefinite pronoun (compounded with chance to have an indefinite NP)
 
     //nounish
     number:     [1,'pl', 5,'sg'],
-    def:        [3,'def', 1,'indef'],
+    def:        [2,'def', 1,'indef'],
     proper:     [2,true, 7,false],
     partial:    [1,'', 1,'partial'],
     quantified: [2, true, 9, false],
-    numeral: 0.3, //whether to quantify by numeral or quantifier
+    numeral: 0.35, //whether to quantify by numeral or quantifier
     prequant: 0.2,
     np_coordination: 0.2,
 
@@ -51,10 +51,13 @@ database.quantifier = [
     //{name: 'no', prequant: false, neg: false},
 
     {name: 'any', neg: true},
+    {name: 'any', count: 0, number: 'sg|pl', neg: true},
 
-    {name: 'most'},
-    {name: 'some'},
-    {name: 'all', prequant: true, def:'def'},
+    {name: 'most', amount: 4},
+    {name: 'most', count: 0, number: 'sg|pl', amount: 4},
+    {name: 'some', amount: 4},
+    {name: 'some', count: 0, number: 'sg|pl', amount: 4},
+    {name: 'all', prequant: true, def:'def', amount: 4},
     //{name: 'all', prequant: false},
     //{name: 'enough', prequant: false},
     //{name: 'enough', prequant: true, def:'def'},
@@ -91,6 +94,10 @@ database.quantifier = [
 
     {name: 'a bit', prequant: true, count: 0}
 ]
+
+//all quantifiers besides the ones allowed to be singular (each, every)
+//must be marked as plural so that they aren't still selected by QUANT when number is 'sg'
+database.quantifier.forEach((q)=>{if(!q.number) q.number='pl'})
 
 database.title = [
     {name: 'Dr.'},{name: 'Dr.'},
@@ -313,7 +320,6 @@ var prep_idiom = [
     {name:'on',             anim:'>0', complements:"death's door"},
     {name:'on sale',        tags:'artifact'},
     {name:'on schedule',    tags:'person|event|undertaking|result'},
-    {name:'on time',        tags:'person|event|undertaking|result', complements: 'for NP{tags:occasion}'},
     {name:'off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rocker", prohibitions: 'number:pl'},
     {name:'off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rockers", prohibitions: 'number:sg'},
     {name:'off course',     tags:'person|vehicle'},
@@ -365,7 +371,7 @@ var prohibitions = {
 
     //noun
     number: {               // probably many other tags as well
-        pl: {count: false, tags: 'activity, enterprise'}, //what about proper place names? Only Alps and Himalayas right now
+        pl: {count: false, tags: 'activity, enterprise, substance'}, //what about proper place names? Only Alps and Himalayas right now
     },
     subj_def: {
         indef: {class: 'state'}

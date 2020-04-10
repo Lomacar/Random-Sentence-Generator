@@ -11,7 +11,7 @@ function CLAUSE(r) {
             subject: [NP, {
                 case: 'nom',
                 anim: choose(4, 0, 2, ">0&<2", 2, 2, 7, 3),
-                def: choose(9, 'def', 1, 'indef')
+                def: choose(8, 'def', 1, 'indef')
 				//,pronominal: false
             }],
             predicate: [AUXP, _.extend({
@@ -72,8 +72,8 @@ function PASSIVE(r) {
     //console.log(stringOut(B))
 
     //re-inflect pronouns
-    if (patient && patient.type == 'pronoun') reinflect(patient, {case: 'nom'})
-    if (agent && agent.type == 'pronoun') reinflect(agent, {case: 'acc'})
+    if (patient && superSearch('type', patient) == 'pronoun') reinflect(patient, {case: 'nom'})
+    if (agent && superSearch('type', agent) == 'pronoun') reinflect(agent, {case: 'acc'})
     patient = patient || {text: error('Patient not found for passive clause.')}
     agent = agent || {text: error('Agent not found for passive clause.')}
     //reinflect(vb, {aspect: 'retro'})
@@ -166,6 +166,7 @@ function NP(r) {
         subj_gender: 'subject.gender'
     }
     r2 = _.extend(r, r2) //unbelievably, this line was missing for a long time
+                        //is it only needed for pronouns?
 
     //sometimes, return a set of coordinated noun phrases instead of a plural noun
 //    if (toss(probabilities.np_coordination) && r.number == 'pl' && !r.already_plural) return [NP_COORD, _.extend(r, {
@@ -191,13 +192,15 @@ function NP(r) {
 }
 
 function DP(r) {
-    decide(r, 'def,quantified,superlative')
+    decide(r, 'def,number,quantified,superlative')
     r.noposs = r.noposs || false
 
     var order = r.def == "def" ? "preadj* quant*" : "quant* preadj*"
 
-    //    console.log("DP");
-    //    console.log(r.def);
+    //there is too much 'the/this/that one' going on so let's reduce quantification on singular definites
+    if (r.quantified && r.def=='def' && r.number=='sg') r.quantified = toss(0.25)
+    //on the other hand quantified indefinites are so rare...
+    if (!r.quantified && r.def=='indef') r.quantified = toss(0.25)
 
     return {
         order: "det " + order + " super* adj* nprecomp* noun ncomp*",
@@ -208,16 +211,16 @@ function DP(r) {
         children: {
             noun: [N, {
                 def: r.def, 
-                prequant: toss( probabilities.prequant * (1-r.quantified/2) ) //prequant 1/2 as likely if already quant
+                prequant: toss( probabilities.prequant  ) //* (1-r.quantified/2) //prequant 1/2 as likely if already quant
             }],
             det: r.nodeterminer ? [blank] : [DET, { //nodeterminer is only used by the verb 'mix' and should be removed
-                unpack: 'noun.R-noposs'
+                unpack: 'noun.R-noposs-quantified'
             }],
             preadj: r.superlative || toss(0.9) ? [blank] : [SPECIAL_A, 'noun.R'],
             quant: [QUANT, {
                 unpack: 'noun.R',
                 prequant: false,
-                quantified: true//r.quantified
+                quantified: r.quantified
             }],
             super: route(r.def == 'def' && r.superlative, {
                 true: [A, {
@@ -278,8 +281,8 @@ function NP_COORD(r) {
 
 
 function DET(r) {
-    //    console.log("DET");
-    //    console.log(r.def);
+    if (r.quantified == true && r.def == 'indef') 
+        return [blank] //prevents any determiner on quantified indefinites
 
     var out = {
         text: ''
@@ -305,18 +308,6 @@ function DET(r) {
             }
 
         } else {
-
-            // if (r.def == 'def' && (r.count == false || r.number == 'pl')) {
-            //     decide(r, 'quantified')
-            //         if the DP must be quantified, give it a 50/50 chance of being prequant
-            //         then if it is not prequantified it WILL be normally quantified
-            //     r.quantified = toss() ? r.quantified : false
-
-            //     if (r.quantified) {
-            //         r.quantified = false //I think this prevents in(de)finite loops?
-            //         return [PREQUANT, r]
-            //     }
-            // }
 
             decide(r, 'def,dem,number,partial')
             if (r.dem) decide(r, 'prox');
@@ -381,54 +372,63 @@ function GENITIVE(r) {
     }
 }
 
-function QUANT(r) {
 
-    if (!r.unique && (r.count == false || r.number == 'pl')) { //this presently excludes 'each house'
-        decide(r, 'quantified')
+function QUANT (r) {
+    var out = {text: ''}
+    
+    if (!r.quantified || r.unique) return out
 
-        if (r.quantified) {
-            r.prequant = r.prequant || false
-            r.neg = r.neg || false
+    //there are so many dimensions to consider that it is best to use the resolve function
+    //to determine whether to allow a number, quantifier, either or none
+    var prequant = r.prequant ? 'prequant' : 'quant'
+    var directions = "prequant.def: both, quant.indef: both, prequant.def.false: quantifier, quant.indef.false: quantifier, quant.def.true: numeral"
+    var answer = resolve([prequant, r.def, r.count],directions)
 
-            //numerals for countable, definite and some indefinite NPs
-            //can include prequantification (if NP is quantified with numerals)
-            if (r.count == true && toss(probabilities.numeral * (1+(r.def=='indef')))) { //triple the probability for indefinite NPs because they are so rare here for some reason
-                var amount
+    answer = answer=='both'? choose(probabilities.numeral,'numeral',1-probabilities.numeral,'quantifier') : answer
+
+    switch (answer) {
+
+        case 'numeral':
+            var amount
+            if (r.number == 'sg') {
+                amount = 1
+            } else {
                 amount = powerRandom()
                 if (r.amount) { //if this is a case of prequantification, the first number must be smaller than the second
                     amount = amount % r.amount
                     amount = amount || 1 //modulus can produce zeros, so this fixes that
                 }
-
-                return {
-                    text: toWords(amount),
-                    amount: amount
-                }
-            
-            //quantifiers for noncount NPs ('some mud') or countable NPs that skipped the numerals above ('some dogs')
-            //unless the NPs are definite and not prequant ('the some mud', but 'some of the mud' is ok)
-            //or for prequantification on definite NPs (quantified with numerals)
-            //note that this excludes the possibility of 'the few/several/numerous dogs', maybe these are more like adjectives
-            } else if (!(r.def=='def' && !r.prequant)) {
-                var amount = r.amount ? '<'+r.amount : null
-                return [get, {
-                    type: 'quantifier',
-                    prequant: r.prequant,
-                    amount: amount,
-                    neg: r.neg
-                }]
             }
-        }
+
+            if (!r.prequant && r.number=='pl' && amount < 2) 
+                amount = _.sample([2,3]) //can't have "one things"
+
+            out = {
+                text: toWords(amount),
+                amount: amount
+            }
+            break
+
+        case 'quantifier':
+            var amount = r.amount ? '<'+(r.amount+1) : null //if prequantification, first amount must be smaller than or equal to second
+            out = [get, {
+                type: 'quantifier',
+                prequant: r.prequant,
+                amount: amount,
+                neg: r.neg
+            }]
     }
 
-    return [blank]
+    return out
 }
 
+//this function should just be mrged into QUANT
 function PREQUANT(r) {
     if (!r.prequant) return [blank]
     if (r.def == 'indef') return [blank] // can't have "3 of a dog" or "some of mud"
     if (r.qname) return [blank] // can't have "3 of some X" or "some of several X"
-    if (r.unique || (r.count == true && r.number != 'pl')) return [blank]
+    if (r.unique) return [blank] //can't have "3 science" or "3 the Eifel Tower"
+    if (r.amount == 1 || r.number == 'sg') return [blank] //can't have "# of one dogs" or "# of the dog"
 
     return {
         order: 'quant of',
@@ -437,8 +437,7 @@ function PREQUANT(r) {
             quant: [QUANT, {
                 prequant: true,
                 desc: 'quantifier',
-                quantified: true,
-                def: 'indef'
+                quantified: true
             }]
         }
     }
@@ -740,7 +739,7 @@ function PREDICATE(r) {
 
     var L = magicCompare(r.tags, "thing&!feature|territory|phenomena", {
             tagmode: true
-        }) && magicCompare(r.size, "<11") //size check is a partial fix to problems like "The planet is on the ???"
+        }) && magicCompare(r.size, "<11") //size check is a partial fix to problems like "The moon is on the ???"
 
     var ptype = choose(3, 'adjective', L, 'location')
 
@@ -753,12 +752,14 @@ function PREDICATE(r) {
         children: {
             aux: [auxiliary],
             pred: route(ptype, {
-                'adjective': [AC, _.extend({}, r, {
+                'adjective': [AC, { 
+                    ...r, 
                     unpack: 'aux.tense-aspect-mood-noinflection-real_aspect-neg-copulant'
-                })],
-                'location': [LOCATION, _.extend({}, r, {
+                }],
+                'location': [LOCATION, {
+                    ...r,
                     vtags: "copula"
-                })]
+                }]
             })
         }
     }
@@ -839,7 +840,7 @@ function SUPERLATIVE(r) {
 }
 
 function AUXP(r) {
-    r = decide(r, "tense,aspect,number,person")
+    decide(r, "tense,aspect,number,person")
 
     return {
         order: 'aux vp',
