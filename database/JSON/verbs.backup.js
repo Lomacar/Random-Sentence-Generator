@@ -1415,7 +1415,20 @@ verb = [
   {
     "name": "wait1",
     "proto": "wait",
-    "compext": "(80 for (NP{tags:creature|vehicle|event} (LOCATION) | INF_CLAUSE))"
+    "disabled": false,
+    "compext": "(LOCATION) for INF_CLAUSE"
+  },
+  {
+    "name": "wait2",
+    "proto": "wait",
+    "disabled": false,
+    "compext": "for NP{tags:creature|vehicle|event} (LOCATION)"
+  },
+  {
+    "name": "wait1.1",
+    "proto": "wait1",
+    "disabled": false,
+    "compext": "INF_PHRASE"
   },
   {
     "name": "stay",
@@ -2061,7 +2074,7 @@ verb = [
     "anim": "3",
     "ptpl": "past|by1",
     "compcore": "NP{anim:3}",
-    "compext": "INF_PHRASE{volition: true}"
+    "compext": "INF_PHRASE{volition: true; unpack: vp.compcore.R}"
   },
   {
     "name": "ask.1",
@@ -2875,7 +2888,7 @@ verb = [
     "name": "renovate",
     "proto": "repair",
     "disabled": false,
-    "compcore": "NP{tags:vehicle|structure}"
+    "compcore": "NP{tags:vehicle|structure; size:>6}"
   },
   {
     "name": "fix",
@@ -2993,6 +3006,15 @@ verb = [
     "proto": "take",
     "disabled": false,
     "class": "activity",
+    "anim": "3",
+    "compcore": "TEXT{t: care; message: probably not a good method}",
+    "compext": "@of NP"
+  },
+  {
+    "name": "take10",
+    "proto": "take",
+    "disabled": false,
+    "class": "activity",
     "tags": "person",
     "vtags": "--",
     "volition": "true",
@@ -3012,23 +3034,13 @@ verb = [
     "compext": "--"
   },
   {
-    "name": "take404",
-    "proto": "take4",
-    "disabled": false
-  },
-  {
     "name": "take444",
     "proto": "take4",
     "disabled": false
   },
   {
-    "name": "take454",
-    "proto": "take4",
-    "disabled": false
-  },
-  {
-    "name": "take3.1",
-    "proto": "take3",
+    "name": "take10.1",
+    "proto": "take10",
     "disabled": false,
     "tags": "animal",
     "compcore": "NP{def:indef, name: nap, orsimilar: true}"
@@ -3049,7 +3061,7 @@ verb = [
     "proto": "take",
     "disabled": false,
     "ptpl": "null",
-    "compcore": "NP{name: shortcut}",
+    "compcore": "NP{name: shortcut; comment: what about detour and stuff}",
     "compext": "(30 (GOAL|PATH))"
   },
   {
@@ -3578,6 +3590,7 @@ verb = [
   {
     "name": "carry",
     "proto": "take",
+    "disabled": false,
     "vtags": "motion, grounded"
   },
   {
@@ -4372,7 +4385,7 @@ verb = [
     "anim": "3",
     "volition": "true",
     "ptpl": "past",
-    "compcore": "NP{tags:object&!person|property|substance|component&artifact}"
+    "compcore": "NP{tags:object&!person|realEstate|substance|component&artifact}"
   },
   {
     "name": "buy",
@@ -4385,7 +4398,7 @@ verb = [
     "proto": "purchase",
     "disabled": false,
     "class": "activity",
-    "compcore": "NP{tags:machine|building|property}",
+    "compcore": "NP{tags:machine|building|realEstate}",
     "inflections": "--"
   },
   {

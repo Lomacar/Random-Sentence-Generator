@@ -547,6 +547,11 @@ noun = [
     "partOf": "null"
   },
   {
+    "name": "Wells Fargo",
+    "proto": "IBM",
+    "disabled": false
+  },
+  {
     "name": "General Motors",
     "proto": "IBM",
     "disabled": false
@@ -2093,6 +2098,11 @@ noun = [
     "complements": "(20 of N{number:pl;person:3;tags:person&!appellation})"
   },
   {
+    "name": "syndicate",
+    "proto": "team",
+    "disabled": false
+  },
+  {
     "name": "group1",
     "proto": "team",
     "disabled": false
@@ -2541,6 +2551,30 @@ noun = [
     "partOf": "null",
     "unique": "2",
     "count": "false"
+  },
+  {
+    "name": "Adidas",
+    "proto": "IBM",
+    "disabled": false
+  },
+  {
+    "name": "Nike",
+    "proto": "IBM",
+    "disabled": false
+  },
+  {
+    "name": "Volkswagen",
+    "proto": "IBM",
+    "disabled": false
+  },
+  {
+    "name": "Nestlé",
+    "proto": "IBM"
+  },
+  {
+    "name": "McDonald's",
+    "proto": "IBM",
+    "disabled": false
   },
   {
     "name": "Apple",
@@ -8307,6 +8341,11 @@ noun = [
   {
     "name": "sonata",
     "proto": "song"
+  },
+  {
+    "name": "étude",
+    "proto": "sonata",
+    "disabled": false
   },
   {
     "name": "jig",
