@@ -67,9 +67,9 @@ database.quantifier = [
     //COUNTABLE ONLY
     {name: 'numerous', prequant: false, count: 1},
     
-    {name: 'each', count: 1, prequant: false, number: 'sg', def:'indef', amount: 3}, //currently never reached because quants must be plural
-    {name: 'each', count: 1, prequant: true, def:'indef', amount: 3},
-    {name: 'every', count: 1, prequant: false, number: 'sg', def:'indef'}, //currently never reached because quants must be plural
+    {name: 'each', count: 1, prequant: false, number: 'sg', def:'indef'},
+    {name: 'each', count: 1, prequant: true, def:'def'},
+    {name: 'every', count: 1, prequant: false, number: 'sg', def:'indef'},
     {name: 'both', count: 1, amount: 2},
     
     {name: 'a few', count: 1, amount: 4},

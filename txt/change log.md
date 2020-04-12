@@ -27,7 +27,7 @@
   - replaced set of multiple custom passive constructions with a single one that generates a regular clause first (like WH_CLAUSE construction) and then pciks it apart to make a passive
 - Fixed bug that prevented demonstratives, for how long?!
 - fixed bug with quantifiers on unique nouns
-- added 'each of' and 'every' quantifiers
+- added 'each' and 'every' quantifiers
 
 ### Database
 - universal prohibition: activities and enterprises can't be plural (NP was deciding number and picking pl even if 'activity' was a restriction in tags)
