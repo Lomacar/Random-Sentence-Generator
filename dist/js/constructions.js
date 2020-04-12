@@ -62,8 +62,8 @@ function PASSIVE(r) {
         trans: '>0.5' //and only transitive verbs can be passivized
     }))
     
-    var patient = superSearch('predicate.vp.compcore.c0', B)
-    var agent   = superSearch('subject', B)
+    var patient = superSearch('predicate.vp.compcore.c0.np', B)
+    var agent   = superSearch('subject.np', B)
     var compext = superSearch('predicate.vp.compext', B)
     //var aux     = superSearch('predicate.aux', B)
     var vb      = superSearch('predicate.vp.vword', B)
@@ -72,7 +72,7 @@ function PASSIVE(r) {
     //console.log(stringOut(B))
 
     //re-inflect pronouns
-    if (patient && superSearch('type', patient) == 'pronoun') reinflect(patient, {case: 'nom'})
+    if (patient && patient.type == 'pronoun') reinflect(patient, {case: 'nom'})
     if (agent && superSearch('type', agent) == 'pronoun') reinflect(agent, {case: 'acc'})
     patient = patient || {text: error('Patient not found for passive clause.')}
     agent = agent || {text: error('Agent not found for passive clause.')}
@@ -173,8 +173,9 @@ function NP(r) {
 //        already_plural: true
 //    })]
 // crash caused at SEED 415
-    var pronominal = '' + r.person + r.pronominal
-    var quantinfo = pronominal == '3false' ? {amount: 'np.quant.amount', qname: 'np.quant.name'} : {}
+
+    var isFullNP = '' + r.person + r.pronominal == '3false'
+    var quantinfo = isFullNP ? {amount: 'np.quant.amount', qname: 'np.quant.name'} : {}
 
     return {
         order: "prequant* np",
@@ -183,9 +184,9 @@ function NP(r) {
         labelChildren: true,
         children: {
             prequant: [PREQUANT, {unpack: 'np.R-prequant', ...quantinfo}],
-            np: route(pronominal, {
+            np: route(isFullNP, {
                 rest: [PRONOUN, r2],
-                '3false': [DP]
+                true: [DP]
             })
         }
     }
@@ -210,11 +211,12 @@ function DP(r) {
         hasComplement: "ncomp,nprecomp",
         children: {
             noun: [N, {
-                def: r.def, 
+                def: r.def, //isn't this redundant?
                 prequant: toss( probabilities.prequant  ) //* (1-r.quantified/2) //prequant 1/2 as likely if already quant
             }],
             det: r.nodeterminer ? [blank] : [DET, { //nodeterminer is only used by the verb 'mix' and should be removed
-                unpack: 'noun.R-noposs-quantified'
+                unpack: 'noun.R-noposs-quantified',
+                scope: 'noun', $: '$-noposs-quantified'
             }],
             preadj: r.superlative || toss(0.9) ? [blank] : [SPECIAL_A, 'noun.R'],
             quant: [QUANT, {
@@ -801,7 +803,7 @@ function EQUATIVE(r) {
     }
 }
 
-// "bigger then"
+// "bigger than"
 function COMPARATIVE(r) {
     return {
         order: "mod** adj than np",
@@ -1043,14 +1045,15 @@ function VP(r) {
                 desc: 'verb'
             }],
             compcore: [complement, {
-                'case': 'acc',
-                'complements': 'vword.compcore',
+                case: 'acc',
+                complements: 'vword.compcore',
                 neg: r.neg,
                 desc: 'complement'
             }],
             compext: [complement, {
-                'case': 'dat',
-                'complements': 'vword.compext',
+                case: 'dat',
+                complements: 'vword.compext',
+                scope: 'compcore',
                 neg: r.neg,
                 pasv: false,
                 p_trans: 'vword.trans',
@@ -1621,7 +1624,6 @@ function TITLE(r) {
 
 
 /////////////////////////////////////////////////////////////////////
-
 
 function filler(r) {
     return _.extend(r, {
