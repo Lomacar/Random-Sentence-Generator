@@ -160,6 +160,11 @@ function setProto(a,type){
         if (!proto) error('Prototype "' + a.proto + '" could not be found for '+a.name+'.')
         else a = Object.setPrototypeOf(a, proto )
 
+        //prevent inheritance of inflections if prototype name is different
+        var nameSansNumber = a.name.replace(/([^\^])([\.0-9])*[0-9]+$/,'$1')
+        if (a.proto.indexOf(nameSansNumber)==-1){
+            if (!a.hasOwnProperty('inflections')) a.inflections = null
+        }
 
         if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
         { error('Prototype assignment failed for '+a.name+'.')}
