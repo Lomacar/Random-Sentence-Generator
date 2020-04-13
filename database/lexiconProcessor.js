@@ -160,6 +160,7 @@ function setProto(a,type){
         if (!proto) error('Prototype "' + a.proto + '" could not be found for '+a.name+'.')
         else a = Object.setPrototypeOf(a, proto )
 
+
         if (Object.getPrototypeOf(a) === Object.prototype) //didn't take
         { error('Prototype assignment failed for '+a.name+'.')}
     }
@@ -176,7 +177,8 @@ function createSenses(word,type,number) {
 
     if(proto_sense) {
         if (proto_sense.name==word.name) return //don't create a sense when the word already is the sense
-        if (pickOne(database[type], {name: word.name.replace(/(.+?\.)\d*$/,'$1')+number, type:type})) return //don't create a sense if it is already defined
+        var new_sense_name = word.name+'.'+number
+        if (pickOne(database[type], {name: new_sense_name, type:type})) return //don't create a sense if it is already defined
 
         var new_sense = {}
 
@@ -187,7 +189,7 @@ function createSenses(word,type,number) {
         //overwrite this senses values with the overwrite-values from the prototype sense
         new_sense = _.extend(new_sense,proto_sense) //must be lo-dash extend because it only copies objects real properties!
 
-        new_sense.name = word.name + ( number==1 ? "." : "") + number
+        new_sense.name = new_sense_name
         new_sense.parallelSense = proto_sense
 
         //throw it in the database
