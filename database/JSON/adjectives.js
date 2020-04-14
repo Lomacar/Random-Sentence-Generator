@@ -477,17 +477,19 @@ adjective = [
     "name": "cold",
     "proto": "peaceful",
     "disabled": false,
+    "tags": "place|feelable",
+    "size": "--",
     "superform": "-er"
   },
   {
     "name": "warm",
-    "proto": "peaceful",
+    "proto": "cold",
     "disabled": false,
     "superform": "-er"
   },
   {
     "name": "hot",
-    "proto": "peaceful",
+    "proto": "cold",
     "disabled": false,
     "superform": "-er"
   },
@@ -556,7 +558,7 @@ adjective = [
   {
     "name": "tired",
     "disabled": false,
-    "rank": "2",
+    "rank": "3",
     "anim": ">1",
     "scalar": "2",
     "superform": "more",
@@ -897,6 +899,7 @@ adjective = [
     "proto": "coherent",
     "disabled": false,
     "rank": "2",
+    "tags": "-",
     "anim": "3"
   },
   {
@@ -1715,8 +1718,25 @@ adjective = [
     "disabled": false,
     "rank": "2",
     "tags": "object",
-    "scalar": "1",
+    "scalar": "2",
     "superform": "-er"
+  },
+  {
+    "name": "sweaty",
+    "proto": "dirty",
+    "disabled": false,
+    "tags": "person"
+  },
+  {
+    "name": "slimy",
+    "proto": "greasy",
+    "disabled": false
+  },
+  {
+    "name": "greasy",
+    "proto": "dirty",
+    "disabled": false,
+    "tags": "object & !fluid"
   },
   {
     "name": "shiny",
@@ -1753,6 +1773,17 @@ adjective = [
     "disabled": false,
     "rank": "4",
     "superform": "-er"
+  },
+  {
+    "name": "bland",
+    "proto": "sweet",
+    "disabled": false
+  },
+  {
+    "name": "juicy",
+    "proto": "sweet",
+    "disabled": false,
+    "rank": "2"
   },
   {
     "name": "sour",

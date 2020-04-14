@@ -32,7 +32,7 @@ verb = [
     "proto": "surrender",
     "disabled": false,
     "class": "event",
-    "anim": ">0",
+    "anim": ">1",
     "volition": "true",
     "ptpl": "past",
     "compcore": "NP{tags:touchable|territory}"
@@ -68,6 +68,11 @@ verb = [
     "ptpl": "past",
     "compcore": "NP{tags:artifact}",
     "inflections": "simp.past:made"
+  },
+  {
+    "name": "make101",
+    "proto": "make",
+    "disabled": false
   },
   {
     "name": "remove",
@@ -320,14 +325,6 @@ verb = [
     "volition": "false",
     "ptpl": "null",
     "compcore": "NP{tags:!place}"
-  },
-  {
-    "name": "deserve.1",
-    "proto": "deserve",
-    "disabled": false,
-    "anim": "--",
-    "tang": ">1",
-    "compcore": "NP{anim: <3;tang:>0;tags:!place | building}"
   },
   {
     "name": "panic",
@@ -638,7 +635,8 @@ verb = [
   {
     "name": "drink",
     "proto": "eat",
-    "disabled": false
+    "disabled": false,
+    "inflections": "simp.past: drank, retro: drunk"
   },
   {
     "name": "drink.1",
@@ -656,7 +654,7 @@ verb = [
     "class": "process",
     "vtags": "--",
     "ptpl": "past",
-    "compcore": "NP{tags:(70 food&!liquid  |30 object&!fixed&!liquid)}"
+    "compcore": "NP{tags:(70 food&!liquid  |30 object&!fixed&!liquid); anim:<3|!subject.anim}"
   },
   {
     "name": "exist",
@@ -751,7 +749,7 @@ verb = [
     "proto": "fly",
     "disabled": false,
     "anim": "3",
-    "ptpl": "null",
+    "ptpl": "past|by2",
     "compcore": "NP{tags:substance|object&!fixed}",
     "compext": "to NP{tags:place&!position}"
   },
@@ -935,7 +933,7 @@ verb = [
     "disabled": false,
     "class": "state",
     "vtags": "--",
-    "anim": ">1",
+    "anim": "2|3",
     "tang": "!0",
     "volition": "false",
     "ptpl": "null",
@@ -955,6 +953,7 @@ verb = [
     "proto": "know",
     "disabled": false,
     "vtags": "--",
+    "anim": "3",
     "ptpl": "past",
     "compcore": "NP{tags: person|activity|fieldOfStudy}",
     "compext": "--"
@@ -1834,7 +1833,7 @@ verb = [
     "disabled": false,
     "vtags": "--",
     "ptpl": "past",
-    "compcore": "(45 N{tags: artifact; number:pl;}   |55 NP{tags:activity|game|ideology|enterprise;number:sg})"
+    "compcore": "(45 N{tags: artifact; (number:pl|count:false);}   |55 NP{tags:activity|game|ideology|enterprise;number:sg})"
   },
   {
     "name": "criminalize.1",
@@ -2067,6 +2066,14 @@ verb = [
     "inflections": "prog: lying"
   },
   {
+    "name": "sigh",
+    "proto": "sneeze",
+    "disabled": false,
+    "class": "semel",
+    "anim": ">1.5",
+    "volition": "true"
+  },
+  {
     "name": "ask",
     "disabled": false,
     "class": "event",
@@ -2297,6 +2304,11 @@ verb = [
     "proto": "sneeze",
     "disabled": false,
     "vtags": "--"
+  },
+  {
+    "name": "burp",
+    "proto": "belch",
+    "disabled": false
   },
   {
     "name": "vomit",
@@ -2579,7 +2591,8 @@ verb = [
     "proto": "fly1",
     "disabled": false,
     "vtags": "motion, grounded",
-    "ptpl": "null"
+    "ptpl": "null",
+    "inflections": "simp.past: drove, retro: driven"
   },
   {
     "name": "arrest",

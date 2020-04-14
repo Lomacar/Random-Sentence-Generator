@@ -1212,8 +1212,20 @@ noun = [
     "count": "true"
   },
   {
+    "name": "fruit",
+    "proto": "apple",
+    "disabled": false,
+    "size": "3,4,5"
+  },
+  {
+    "name": "vegetable",
+    "proto": "apple",
+    "disabled": false
+  },
+  {
     "name": "mango",
-    "proto": "apple"
+    "proto": "apple",
+    "disabled": false
   },
   {
     "name": "pineapple",
@@ -1222,6 +1234,7 @@ noun = [
   {
     "name": "mushroom",
     "proto": "apple",
+    "disabled": false,
     "tags": "food,plant"
   },
   {
@@ -1230,6 +1243,15 @@ noun = [
     "disabled": false,
     "tags": "artifact",
     "partOf": "null"
+  },
+  {
+    "name": "hamburger",
+    "proto": "sandwich"
+  },
+  {
+    "name": "burrito",
+    "proto": "sandwich",
+    "disabled": false
   },
   {
     "name": "cake",
@@ -1242,6 +1264,11 @@ noun = [
     "proto": "cake",
     "disabled": false,
     "size": "4"
+  },
+  {
+    "name": "cookie",
+    "proto": "muffin",
+    "disabled": false
   },
   {
     "name": "pizza",
@@ -1783,8 +1810,9 @@ noun = [
     "proto": "American"
   },
   {
-    "name": "European",
-    "proto": "American"
+    "name": "^European",
+    "proto": "American",
+    "disabled": false
   },
   {
     "name": "Egyptian",
@@ -2330,7 +2358,8 @@ noun = [
   },
   {
     "name": "banana",
-    "proto": "apple"
+    "proto": "apple",
+    "disabled": false
   },
   {
     "name": "Barack Obama",
@@ -2646,6 +2675,11 @@ noun = [
     "tags": "collective, -",
     "partOf": "null",
     "size": "7,8"
+  },
+  {
+    "name": "mob",
+    "proto": "crowd",
+    "disabled": false
   },
   {
     "name": "customer",
@@ -4195,7 +4229,25 @@ noun = [
   {
     "name": "watermelon",
     "proto": "apple",
-    "size": 5
+    "disabled": false,
+    "size": "5"
+  },
+  {
+    "name": "brocolli",
+    "proto": "apple"
+  },
+  {
+    "name": "cabbage",
+    "proto": "apple"
+  },
+  {
+    "name": "potato",
+    "proto": "apple"
+  },
+  {
+    "name": "carrot",
+    "proto": "apple",
+    "disabled": false
   },
   {
     "name": "whale-watching",
@@ -4516,7 +4568,7 @@ noun = [
     "proto": "government",
     "disabled": false,
     "partOf": "null",
-    "unique": "1"
+    "unique": "0"
   },
   {
     "name": "toil",
@@ -5616,7 +5668,7 @@ noun = [
     "name": "soup",
     "proto": "juice",
     "disabled": false,
-    "precomp": "((chicken noodle|tomato|vegetable|French onion|pea|lentil|taco|cream of (broccoli|mushroom)))"
+    "precomp": "(N{tags:food; number:sg} | ((chicken noodle|tomato|vegetable|French onion|pea|lentil|taco|cream of (broccoli|mushroom))))"
   },
   {
     "name": "stew",
@@ -7983,8 +8035,13 @@ noun = [
     "name": "jello",
     "proto": "dirt",
     "disabled": false,
-    "tags": "food, semisolid, -",
+    "tags": "artifact, food, semisolid, -",
     "partOf": "null"
+  },
+  {
+    "name": "ice cream",
+    "proto": "jello",
+    "disabled": false
   },
   {
     "name": "toothpaste",
@@ -8029,8 +8086,13 @@ noun = [
     "name": "rice",
     "proto": "dirt",
     "disabled": false,
-    "tags": "food",
+    "tags": "food, artifact",
     "partOf": "null"
+  },
+  {
+    "name": "spaghetti",
+    "proto": "rice",
+    "disabled": false
   },
   {
     "name": "candy",
@@ -8094,7 +8156,8 @@ noun = [
   },
   {
     "name": "chocolate",
-    "proto": "cheese"
+    "proto": "cheese",
+    "disabled": false
   },
   {
     "name": "sugar",
@@ -9042,9 +9105,9 @@ noun = [
     "anim": "0",
     "tang": "2",
     "possessable": "2",
+    "partOf": "null",
     "size": "4,5,6,7,8",
-    "count": "true",
-    "partOf": "null"
+    "count": "true"
   },
   {
     "name": "vegetation",
