@@ -9,3 +9,4 @@ node_modules
 /docs/theme/
 *.zip
 gh-pages.cmd
+database/JSON/*.backup.js
