@@ -62,18 +62,16 @@ function PASSIVE(r) {
         trans: '>0.5' //and only transitive verbs can be passivized
     }))
     
-    var patient = superSearch('predicate.vp.compcore.c0.np', B)
-    var agent   = superSearch('subject.np', B)
+    var patient = superSearch('predicate.vp.compcore', B)
+    var agent   = superSearch('subject', B)
     var compext = superSearch('predicate.vp.compext', B)
     //var aux     = superSearch('predicate.aux', B)
     var vb      = superSearch('predicate.vp.vword', B)
     var adjunct = superSearch('adjunct', B)
 
-    //console.log(stringOut(B))
-
     //re-inflect pronouns
-    if (patient && patient.type == 'pronoun') reinflect(patient, {case: 'nom'})
-    if (agent && superSearch('type', agent) == 'pronoun') reinflect(agent, {case: 'acc'})
+    if (patient && patient.tip().type == 'pronoun') reinflect(patient.tip(), {case: 'nom'})
+    if (agent && agent.tip().type == 'pronoun') reinflect(agent.tip(), {case: 'acc'})
     patient = patient || {text: error('Patient not found for passive clause.')}
     agent = agent || {text: error('Agent not found for passive clause.')}
     //reinflect(vb, {aspect: 'retro'})
@@ -159,7 +157,7 @@ function COPULA(r) {
 
 
 function NP(r) {
-    r = decide(r, "person,pronominal,number")
+    r = decide(r, "person,pronominal")
     var r2 = (r.pasv == true || typeof r.pasv == 'undefined') ? {} : {
         subj_person: 'subject.person',
         subj_number: 'subject.number',
@@ -193,7 +191,7 @@ function NP(r) {
 }
 
 function DP(r) {
-    decide(r, 'def,number,quantified,superlative')
+    decide(r, 'def,quantified,superlative')
     r.noposs = r.noposs || false
 
     var order = r.def == "def" ? "preadj* quant*" : "quant* preadj*"
@@ -214,9 +212,8 @@ function DP(r) {
                 def: r.def, //isn't this redundant?
                 prequant: toss( probabilities.prequant  ) //* (1-r.quantified/2) //prequant 1/2 as likely if already quant
             }],
-            det: r.nodeterminer ? [blank] : [DET, { //nodeterminer is only used by the verb 'mix' and should be removed
-                unpack: 'noun.R-noposs-quantified',
-                scope: 'noun', $: '$-noposs-quantified'
+            det: [DET, { //nodeterminer is only used by the verb 'mix' and should be removed
+                unpack: 'noun.R-noposs-quantified'
             }],
             preadj: r.superlative || toss(0.9) ? [blank] : [SPECIAL_A, 'noun.R'],
             quant: [QUANT, {
@@ -241,7 +238,7 @@ function DP(r) {
                 no_adj: 'noun.unique', //should be noun.proper?
                 superlative: false,
                 desc: 'ap'
-            }, 0.25, 'rank'],
+            }, 0.75, 'rank'],
             nprecomp: [complement, {
                 complements: 'noun.precomp',
                 nogap: true,
@@ -283,8 +280,6 @@ function NP_COORD(r) {
 
 
 function DET(r) {
-    if (r.quantified == true && r.def == 'indef') 
-        return [blank] //prevents any determiner on quantified indefinites
 
     var out = {
         text: ''
@@ -297,6 +292,8 @@ function DET(r) {
         out.text = 'the'
         break;
     default:
+        if (r.quantified == true && r.def == 'indef') 
+        return [blank] //prevents any determiner on quantified indefinites
 
         if (r.def == 'def' && !r.noposs && r.possessable > Math.pow(Math.random(), 0.6) * 9) {
 
@@ -386,7 +383,7 @@ function QUANT (r) {
     var directions = "prequant.def: both, quant.indef: both, prequant.def.false: quantifier, quant.indef.false: quantifier, quant.def.true: numeral"
     var answer = resolve([prequant, r.def, r.count],directions)
 
-    answer = answer=='both'? choose(probabilities.numeral,'numeral',1-probabilities.numeral,'quantifier') : answer
+    if (answer=='both') answer = choose(probabilities.numeral,'numeral',1-probabilities.numeral,'quantifier')
 
     switch (answer) {
 
@@ -1153,14 +1150,16 @@ function WH_CLAUSE(r, c) {
 
         //why,how
         var Ws = ['how']
-        if (c !== INF_PHRASE) Ws.push('why') //"why to" sounds a bit weird, so we avoid it this way
+        if (c !== INF_PHRASE) Ws.push('why') //"why to" sounds wrong, so we avoid it this way
         wh = _.sample(Ws)
 
     } else {
 
         //what,who,whose,where
         function findGaps(branch) {
+            if (branch.descend(['restrictions','nogap'])) return true //prevent noun complements and other things from partaking
             if (branch.gap) gaps.push(branch)
+            if (branch.forceGap) return false //prevent gapping inside nested WHs, THAT_CLAUSEs, etc.
             //look for gaps in sub-branches
             if (branch.children) $.each(branch.children, (k,v)=> findGaps(v))
         }
@@ -1514,7 +1513,7 @@ function LOCATION(r) {
             })],
             lm: [DP, {
                 case: 'dat',
-                number: 'sg',
+                number: 'sg', //plural could be allowed for some prepositions (around, among...)
                 quantified: false,
                 partial: false,
                 tags: '!feature',

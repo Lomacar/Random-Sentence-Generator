@@ -50,11 +50,9 @@ function branch(c, r, p, l, x, y) {
 
     executeBranch.apply(this, [c, r, this])
 
-    //dump almost all other c.properties into this
-    for(var prop in c){
-        if(prop!='head' && prop!='children')
-            this[prop] = this[prop]||c[prop];
-    }
+    //dump c.properties into this
+    _.defaults(this, c)
+
     //for the rare construction that has a built-in restrictions property
     //this prevents the above loop from overwriting passed in restrictions
     _.extend(this.restrictions, r)
@@ -74,6 +72,13 @@ function branch(c, r, p, l, x, y) {
         registerGR(c)
     }
 
+    this.tip = function () {
+        let b = this.head
+        while (b.head){
+            b = b.head
+        }
+        return b
+    }
 
 } //end branch
 
