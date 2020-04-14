@@ -357,10 +357,17 @@ var prohibitions = {
 
     //verb
     aspect: {
-        prog: {class: 'state,event,semel', perm: '>0', pasv:true},
-        retroprog: {class: 'state,event,semel', perm: '>0', pasv:true},
+        prog: {class: 'state,event', perm: '>0', pasv:true},
+        retroprog: {class: 'state,event', perm: '>0', pasv:true},
         retro: {perm: '>0'},
-        prosp: {volition: false, class:'state', perm: '>0'} //makes no difference for some reason
+        prosp: {volition: false, class:'state', perm: '>0'} //doesn't work because of stupid real_aspect THIS WHOLE SECTION IS A SHAM! AUXP needs to be changed! TODO
+    },
+    //TEMPORARY FIX FOR PROBLEM ABOVE
+    real_aspect: {
+        prog: {class: 'state,event', perm: '>0', pasv:true},
+        retroprog: {class: 'state,event', perm: '>0', pasv:true},
+        retro: {perm: '>0'},
+        prosp: {volition: false, class:'state', perm: '>0'}
     },
     tense: {
         future: {aspect: 'retro', class: 'state', perm:true} //just tends to sound too awkward
@@ -370,8 +377,8 @@ var prohibitions = {
     },
 
     //noun
-    number: {               // probably many other tags as well
-        pl: {count: false, tags: 'activity, enterprise, substance'}, //what about proper place names? Only Alps and Himalayas right now
+    number: {               // probably many other tags as well, tags need to respect heirarchy
+        pl: {count: false, tags: 'activity, enterprise'}, //what about proper place names? Only Alps and Himalayas right now
     },
     subj_def: {
         indef: {class: 'state'}

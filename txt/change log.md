@@ -14,6 +14,8 @@
 - "attack" "experience"
 - "buy", "sell", "rent", etc.
 - "chateau", "cafe", etc. with diacritics
+- "fruit", "vegetable", vegetables and "cookie" and other foods
+- "greasy", "slimy", "sweaty", "juicy", "bland"
 - new handling of phrasal verbs using @ symbol to mark the phrasal particle
 
 ### Ontology
@@ -34,3 +36,4 @@
 
 ### Behind the scenes
 - created debugMode (?mode=debug), doesn't do much yet, but lists restrictions when you hover on each construction
+- some performance improvements

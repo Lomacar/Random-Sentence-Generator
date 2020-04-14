@@ -1,3 +1,10 @@
+const CONSTANTS = {
+    //for magicCompare
+    ops: "<>!",
+    coms: "|&"
+}
+CONSTANTS.comtest = new RegExp("["+CONSTANTS.coms+"]", 'g')
+
 //a typeof replacement that can distinguish arrays and nulls
 function typeOf(value) {
     var s = typeof value;
@@ -199,6 +206,7 @@ function toss(probability){
 *           match (every==false, default)
 */
 
+
 function magicCompare (one, two, options, operator) {
     var every = options ? (options.every || false) : false
     var tagmode = options ? (options.tagmode || false) : false
@@ -251,14 +259,11 @@ function magicCompare (one, two, options, operator) {
         return every
     }
 
-    var ops = "<>!"
-    var coms = "|&"
 
     var dealWithComs = function(){
         var parts, results
-        var comtest = new RegExp("["+coms+"]", 'g')
 
-        if (comtest.test(one)){
+        if (CONSTANTS.comtest.test(one)){
 
             //first deal with & surrounded by spaces
             parts = one.split(' & ')
@@ -323,7 +328,7 @@ function magicCompare (one, two, options, operator) {
         //if there is an authorized operator at the beginning of the string, store it
         var op,cleaned
         op = one.substr(0,1)
-        if (ops.findChar(op)) {
+        if (CONSTANTS.ops.findChar(op)) {
             cleaned = one.substr(1)
         } else {
             op = false
@@ -354,6 +359,9 @@ function magicCompare (one, two, options, operator) {
             if (tagmode) {
                 var rex = new RegExp('(^|,) *'+cleaned+' *(,|$)')
                 return rex.test(two) ^ neg
+                
+                //unfortunately this alternative doesn't work when cleaned is like "volume|area"
+                //return two.split(',').includes(cleaned) ^ neg
             }
 
             //return true if string found unless it wasn't supposed to be found

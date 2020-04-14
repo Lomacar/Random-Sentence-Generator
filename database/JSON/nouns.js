@@ -2185,14 +2185,14 @@ noun = [
   },
   {
     "name": "zombie",
-    "anim": 2,
-    "tang": 2,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": 6,
+    "disabled": false,
     "tags": "hasHeight, creature, mobile",
-    "partOf": "null"
+    "anim": "2",
+    "tang": "2",
+    "possessable": "3",
+    "partOf": "null",
+    "size": "6",
+    "count": "true"
   },
   {
     "name": "tendency1",

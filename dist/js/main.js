@@ -8,15 +8,16 @@ function globalRestrictions(r){
     registerGR(r)
 
     //when a global restriction matches the current constructions label, pull it back in to the normal restrictions
-    if (this.label) {
-        var parent
-        try {parent = this.parent.label} catch(e){parent=''}
-        parent = parent ? '('+parent+'\\.)?' : ''
-        var labelFinder = new RegExp('^'+parent+this.label+'\\.[^.]+$')    //regex to find restriction keys like '(parent.)label.something'
+    if (!isEmpty(RESTRICTIONS) && this.label) {
+        // var parent
+        // try {parent = this.parent.label+'.'} catch(e){parent=''}
+        // parent = parent ? '('+parent+'\\.)?' : ''
+        // var labelFinder = new RegExp('^'+parent+this.label+'\\.[^.]+$')    //regex to find restriction keys like '(parent.)label.something'
+        //var label = this.label //for some reason the filter function on the next line works backwards if it compares this.label directly
 
-        var matchingKeys = Object.keys(RESTRICTIONS).filter(function(x){return labelFinder.test(x)})
+        var matchingKeys = Object.keys(RESTRICTIONS).filter((x)=>{return x.indexOf(this.label)>-1}) 
         matchingKeys.forEach( function(m) {
-            var mKey = m.split('.').pop()
+            var mKey = m.replace(/^[^.]+\./,'')
             if(mKey=='tags' && r.tags) {
                 //merge tags together with an &
                 r.tags += ' & ' + RESTRICTIONS[m]
@@ -33,7 +34,7 @@ function globalRestrictions(r){
 function registerGR(r) {
     //transfer restrictions with dots in their names to the global RESTRICTIONS object
     var matchingKeys = Object.keys(r).filter(function(x){
-        return x.match('\\.')
+        return x.findChar('.')
     })
     matchingKeys.forEach( function(m) {
         RESTRICTIONS[m] = r[m]
@@ -55,6 +56,7 @@ function parseRestrictions(restrictions){
     var out_restrictions = {}
 
     $.each(restrictions, function(r){
+        if (restrictions[r]=='$') restrictions[r] = '$.' + restrictions[r] //if restriction is like anim:$ it becomes anim:$.anim
 
         var expando = r=='unpack' //this allows entire words to be unpacked in the restrictions
         var arrr = parseSingleRestriction(restrictions[r], that, expando)
