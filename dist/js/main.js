@@ -9,18 +9,14 @@ function globalRestrictions(r){
 
     //when a global restriction matches the current constructions label, pull it back in to the normal restrictions
     if (!isEmpty(RESTRICTIONS) && this.label) {
-        // var parent
-        // try {parent = this.parent.label+'.'} catch(e){parent=''}
-        // parent = parent ? '('+parent+'\\.)?' : ''
-        // var labelFinder = new RegExp('^'+parent+this.label+'\\.[^.]+$')    //regex to find restriction keys like '(parent.)label.something'
-        //var label = this.label //for some reason the filter function on the next line works backwards if it compares this.label directly
 
-        var matchingKeys = Object.keys(RESTRICTIONS).filter((x)=>{return x.indexOf(this.label)>-1}) 
-        matchingKeys.forEach( function(m) {
-            var mKey = m.replace(/^[^.]+\./,'')
-            if(mKey=='tags' && r.tags) {
+        Object.keys(RESTRICTIONS).forEach( (m)=>{
+            if (m.indexOf(this.label+'.')==-1) return
+
+            var mKey = m.substr(m.indexOf('.')+1) //chop off the first part before the .
+            if(r[mKey] && theseAreTags(mKey)) {
                 //merge tags together with an &
-                r.tags += ' & ' + RESTRICTIONS[m]
+                r[mKey] += ' & ' + RESTRICTIONS[m]
             } else {
                 r[mKey] = RESTRICTIONS[m]
             }
@@ -33,12 +29,11 @@ function globalRestrictions(r){
 
 function registerGR(r) {
     //transfer restrictions with dots in their names to the global RESTRICTIONS object
-    var matchingKeys = Object.keys(r).filter(function(x){
-        return x.findChar('.')
-    })
-    matchingKeys.forEach( function(m) {
+    Object.keys(r).forEach((m)=>{
+        if (m.findChar('.')) {
             RESTRICTIONS[m] = r[m]
             delete r[m]
+        }
     })
 }
 
@@ -300,9 +295,9 @@ function complement(r){
             arg = arg[0].slice(1,-1)
             if(arg.findChar(':')){
                 arg = toObject(arg)
-                arg = $.extend({}, r, arg)
+                arg = mergeR(r, arg)
             } else {
-                arg = $.extend({}, r, {unpack: arg})
+                arg = {...r, unpack: arg}
             }
 
         }
