@@ -590,7 +590,7 @@ verb = [
   {
     "name": "decide",
     "proto": "say",
-    "disabled": true,
+    "disabled": false,
     "vtags": "--",
     "ptpl": "null",
     "compext": "(THAT_CLAUSE|WH_CLAUSE){mood:deontic;aspect:simp;volition:true}",
@@ -2814,16 +2814,6 @@ verb = [
     "compext": "(INF_PHRASE | at NP{tags:activity;number:sg})"
   },
   {
-    "name": "pend",
-    "prohibitions": "aspect:simp|retro",
-    "disabled": false,
-    "class": "activity",
-    "tags": "happening",
-    "vtags": "--",
-    "volition": "false",
-    "ptpl": "pres"
-  },
-  {
     "name": "gamble",
     "disabled": false,
     "class": "activity",
@@ -4655,7 +4645,7 @@ verb = [
     "disabled": false
   },
   {
-    "name": "dissapoint",
+    "name": "disappoint",
     "proto": "surprise",
     "disabled": false
   },
@@ -4676,11 +4666,6 @@ verb = [
   },
   {
     "name": "correct",
-    "disabled": true,
-    "ptpl": "null"
-  },
-  {
-    "name": "disappoint",
     "disabled": true,
     "ptpl": "null"
   },
@@ -4820,6 +4805,7 @@ verb = [
   {
     "name": "depart",
     "proto": "escape",
+    "disabled": false,
     "tags": "person",
     "compext": "SOURCE{name:from}"
   },
@@ -4832,6 +4818,7 @@ verb = [
   {
     "name": "flee",
     "proto": "travel",
+    "disabled": false,
     "inflections": "simp.past:fled"
   },
   {
@@ -6769,7 +6756,7 @@ verb = [
   },
   {
     "name": "take on",
-    "disabled": "TRUE",
+    "disabled": true,
     "ptpl": "null"
   },
   {

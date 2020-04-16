@@ -826,7 +826,7 @@ adjective = [
     "name": "disorganized",
     "disabled": false,
     "rank": "4",
-    "tags": "collective",
+    "tags": "collective|person|occasion|organization|building|room",
     "scalar": "1",
     "superform": "more"
   },
@@ -1967,6 +1967,11 @@ adjective = [
     "rank": "1",
     "tags": "occasion",
     "scalar": "0"
+  },
+  {
+    "name": "impending",
+    "proto": "impromptu",
+    "disabled": false
   },
   {
     "name": "modern",

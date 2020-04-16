@@ -413,7 +413,8 @@ noun = [
   },
   {
     "name": "Mount Rushmore",
-    "proto": "Mount Everest"
+    "proto": "Mount Everest",
+    "disabled": false
   },
   {
     "name": "Mount Kilimanjaro",
@@ -778,9 +779,11 @@ noun = [
   {
     "name": "Fido",
     "proto": "dog",
+    "disabled": false,
+    "tags": "firstname",
+    "possessable": "0",
     "gender": "m",
-    "possessable": 0,
-    "unique": 2,
+    "unique": "2",
     "count": "false"
   },
   {
@@ -793,7 +796,8 @@ noun = [
   },
   {
     "name": "Garfield",
-    "proto": "Fido"
+    "proto": "Fido",
+    "disabled": false
   },
   {
     "name": "Hypnotoad",
@@ -810,8 +814,9 @@ noun = [
   {
     "name": "R^2D^2",
     "proto": "Fido",
-    "anim": 1.5,
-    "tags": "-, machine"
+    "disabled": false,
+    "tags": "-,firstname, machine",
+    "anim": "1.5"
   },
   {
     "name": "city",
@@ -1434,14 +1439,14 @@ noun = [
   },
   {
     "name": "category",
-    "anim": 0,
-    "tang": 0,
-    "possessable": 3,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "disabled": false,
     "tags": "-",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "0",
+    "possessable": "3",
+    "partOf": "null",
+    "size": "0",
+    "count": "true"
   },
   {
     "name": "color",
@@ -2065,14 +2070,14 @@ noun = [
   },
   {
     "name": "sensation",
-    "anim": 0,
-    "tang": 1,
-    "possessable": 1,
-    "unique": 0,
-    "count": "true",
-    "size": 0,
+    "disabled": false,
     "tags": "stimulus, feelable",
-    "partOf": "null"
+    "anim": "0",
+    "tang": "1",
+    "possessable": "1",
+    "partOf": "null",
+    "size": "0",
+    "count": "true"
   },
   {
     "name": "snowman",
@@ -2849,7 +2854,7 @@ noun = [
   {
     "name": "furniture",
     "disabled": false,
-    "tags": "collective",
+    "tags": "collective, furniture",
     "anim": "0",
     "tang": "2",
     "possessable": "5",
@@ -4505,6 +4510,7 @@ noun = [
     "name": "luggage",
     "proto": "furniture",
     "disabled": false,
+    "tags": "-furniture",
     "partOf": "null",
     "size": "5"
   },
@@ -5009,7 +5015,8 @@ noun = [
   },
   {
     "name": "moon",
-    "proto": "planet"
+    "proto": "planet",
+    "disabled": false
   },
   {
     "name": "Earth",
@@ -5668,6 +5675,7 @@ noun = [
     "name": "soup",
     "proto": "juice",
     "disabled": false,
+    "count": "true",
     "precomp": "(N{tags:food; number:sg} | ((chicken noodle|tomato|vegetable|French onion|pea|lentil|taco|cream of (broccoli|mushroom))))"
   },
   {
@@ -7521,7 +7529,8 @@ noun = [
   },
   {
     "name": "Paora",
-    "proto": "Jack"
+    "proto": "Jack",
+    "disabled": false
   },
   {
     "name": "Hitler",
@@ -8918,7 +8927,8 @@ noun = [
   },
   {
     "name": "Hashimoto",
-    "proto": "Smith"
+    "proto": "Smith",
+    "disabled": false
   },
   {
     "name": "Suzuki",
@@ -9834,7 +9844,8 @@ noun = [
   {
     "name": "Philippines",
     "proto": "Japan",
-    "unique": 1
+    "disabled": false,
+    "unique": "1"
   },
   {
     "name": "Ireland",

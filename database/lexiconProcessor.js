@@ -49,7 +49,6 @@ function processLexicon(data, type){
             continue
         }
 
-
         Object.keys(a).forEach(function(val){
             //console.log(val);
             //build list of column names for each word type
@@ -91,8 +90,10 @@ function processLexicon(data, type){
         //add implied tags to words
         for (var w in database[type]) {
             if(database[type][w].tags) {
-                var tag_array = database[type][w].tags.split(',')
-                database[type][w].tags = addImpliedTags(tag_array).join(',')
+                var tag_array = database[type][w].tags.split(/ *, */)
+                tag_array = addImpliedTags(tag_array)
+                tag_array = removeNegatedTags(tag_array)
+                database[type][w].tags = tag_array.join(',')
             }
         }
 
@@ -110,7 +111,7 @@ function processLexicon(data, type){
             var proto = pickOne(database[type], {name: a.proto, type:type})
 
             //merge tags from proto, unless there is a dash, which means don't merge
-            if (a.tagsObject && proto && proto.tagsObject && !a.tags.findChar('-')) {
+            if (a.tagsObject && proto && proto.tagsObject && !/(^|,) *- *(,|$)/g.test(a.tags)) {
 
                 //basically you gotta do the same thing for tags that you do for the word as a whole
                 if (a.tagsObject !== proto.tagsObject) {
@@ -132,7 +133,16 @@ function processLexicon(data, type){
                 delete database[type][z].tagsObject
                 delete database[type][z].parallelSense
             }
-        } //end of tag merging     
+        } //end of tag merging
+        
+        //remove negated tags like "-fixed" after implied tags and prototype tags have been added
+        // for (var w in database[type]) {
+        //     if(database[type][w].tags) {
+        //         var tag_array = database[type][w].tags.split(/ *, */)
+        //         tag_array = removeNegatedTags(tag_array)
+        //         database[type][w].tags = tag_array.join(',')
+        //     }
+        // }
         
     } //end of noun only section
     
@@ -145,9 +155,9 @@ function processLexicon(data, type){
 
     //very final processing
     for (var b in database[type]) {
-        // collapse prototype inheritance
-        database[type][b] = $extend({},database[type][b])
-        
+    // collapse prototype inheritance
+    database[type][b] = $extend({},database[type][b])
+    
         // remove empty strings that were created from "--" which were used to block prototype inheritance
         prune(database[type][b])
     }
@@ -207,9 +217,8 @@ function createSenses(word,type,number) {
 }
 
 function addImpliedTags(tags){
-    var tagz = _.clone(tags)
-    var ont = _.cloneDeep(ontology)
     if(!tags) return
+    var ont = _.cloneDeep(ontology)
     tags.forEach(loop)
 
     function loop(tag){
@@ -228,53 +237,73 @@ function addImpliedTags(tags){
     return tags
 }
 
+//use this for slicing out certain tags marked like "-fixed", after implied tags have been added
+function removeNegatedTags(tags){
+    //turn [bad,good,-bad] into [bad]
+    var badTags = tags.filter((x)=>{return /^-\w/.test(x)})
+                      .map((y)=>{return y.substr(1)})
+
+    if (badTags.length) {
+        var goodTags = tags.filter((x)=>{return !/^-\w/.test(x)})
+        return _.difference(goodTags, badTags)
+    }
+
+    return tags
+}
+
+//add these attributes to the dbkeys list
+dbkeys.verb.push('trans')
+dbkeys.noun.push('proper')
+
 //rule-based assignment of word properties
 function autoAttributes (lex, type) {
+
     lex.forEach(function (w) {
     
-		//label verb transitivity; 1 = core transitivity, 0.5 = noncore, 1.5 = both
-		if (type=='verb') {
+		if (type=='verb') { // VERBS
+
+		    //label verb transitivity; 1 = core transitivity, 0.5 = noncore, 1.5 = both
 			w.trans = 0
 			if (goodVal(w.compcore)) w.trans += 1
 			if (goodVal(w.compext)) w.trans += 0.5
-		}
 		
+            //verbs with an irregular simp.past also have the same retro form, 
 		//verbs with an irregular simp.past also have the same retro form, 
-		//unless they have their own irregular retro too
-		if (type=='verb') {
+            //verbs with an irregular simp.past also have the same retro form, 
+            //unless they have their own irregular retro too
 			if (w.inflections && w.inflections.match(/simp\.past/) && !w.inflections.match(/retro/)){
 				w.inflections = w.inflections.replace(/simp\.past:([^,]+)/,"simp.past: $1, retro: $1")
 			}
-		}
 		
-		//same as last function but for prog and retroprog
-		if (type=='verb') {
+		    //same as last function but for prog and retroprog
 			if (w.inflections && w.inflections.match(/\bprog\b/)){
 				w.inflections = w.inflections.replace(/\bprog\b:([^,]+)/,"prog: $1, retroprog: $1")
-			}
+            }
+            
 		}
 
-		//nouns with capital letters and unique are proper nouns
-		if (type=='noun') {
+		if (type=='noun') { // NOUNS
+            
+            //nouns with capital letters and unique are proper nouns
 			var clean_word = w.name.replace(/^\W+/g,'')
 			if (/[A-Z]/.test(clean_word[0])) {
 				w.proper = true
 				w.proper &= w.unique > 0 // so that nouns like American or Brit aren't considered proper
 			} else w.proper = false
-		}
 		  
-		//noun attributes based on tags
-		if (type=='noun') {
+		    //noun attributes based on tags
 			var tagImplications = {
-				'object' : {count: true, tang: 2},
+				'object&!name' : {count: true, tang: 2},
 				'person' : {anim: 3}
 			}
 			_.forIn(tagImplications, function(imp,tag){
 				if(w.tags && magicCompare(w.tags,tag,{tagmode: true})) {
-					_.forIn(imp,function (val,key) {
+					_.forIn(imp, (val,key)=> {
 						if (!goodVal(w[key])) { //only fill in blanks
 							w[key] = val
-						}
+						} else if (w[key] != val && w.hasOwnProperty(key)) {
+                            console.warn(`${w.name} - ${key}:${w[key]}`.red + ` violates tag implications for `.grey + tag.red)
+                        }
 					})
 					//_.extend(w,imp)
 				}
