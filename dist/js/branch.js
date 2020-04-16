@@ -74,7 +74,7 @@ function branch(c, r, p, l, x, y) {
 
     this.tip = function () {
         let b = this.head
-        while (b.head){
+        while (b && b.head){
             b = b.head
         }
         return b
@@ -169,7 +169,7 @@ function executeBranch(c, r, p){
                             { tempchildren.push(sprout) }
 
                             if (probability == 1) probability = 0
-                            else probability *= 0.6
+                            else probability *= 0.75
                         }
 
                         //sort the multiple child instances if there is sort criteria

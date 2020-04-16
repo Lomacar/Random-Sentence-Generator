@@ -640,11 +640,8 @@ function stringOut(c,id,recur){
 
         //break down arrays of adjectives or whatnot
         if(typeOf(c.children[a])=='array') {
-            var temp = []
             var lastbit = ""
-            $.each(c.children[a], function (index, value){
-                if(goodVal(value.text)) temp.push(stringOut(value,undefined,1))
-            })
+            var temp = c.children[a].map((i)=>{ return stringOut(i,undefined,1) }).filter(Boolean)
             //tempstr = tempstr.join(c.separator[0])
             if (c.separator[1]!==undefined) {
                 var lastbit = c.separator[1] + temp.pop()

@@ -163,14 +163,15 @@ function NP(r) {
         subj_number: 'subject.number',
         subj_gender: 'subject.gender'
     }
-    r2 = _.extend(r, r2) //unbelievably, this line was missing for a long time
-                        //is it only needed for pronouns?
+    r = _.extend(r, r2) //unbelievably, this line was missing for a long time
 
     //sometimes, return a set of coordinated noun phrases instead of a plural noun
 //    if (toss(probabilities.np_coordination) && r.number == 'pl' && !r.already_plural) return [NP_COORD, _.extend(r, {
 //        already_plural: true
 //    })]
 // crash caused at SEED 415
+
+    r.pronominal = r.pronominal && toss(magicCompare(r.anim,3)) //avoid too much 'it'
 
     var isFullNP = '' + r.person + r.pronominal == '3false'
     var quantinfo = isFullNP ? {amount: 'np.quant.amount', qname: 'np.quant.name'} : {}
@@ -183,7 +184,7 @@ function NP(r) {
         children: {
             prequant: [PREQUANT, {unpack: 'np.R-prequant', ...quantinfo}],
             np: route(isFullNP, {
-                rest: [PRONOUN, r2],
+                rest: [PRONOUN, r],
                 true: [DP]
             })
         }
@@ -193,6 +194,8 @@ function NP(r) {
 function DP(r) {
     decide(r, 'def,quantified,superlative')
     r.noposs = r.noposs || false
+
+    if (magicCompare(r.tags,'person')) r.proper = toss(0.2) //an attempt to rein in the abundance of proper names in the lexicon
 
     var order = r.def == "def" ? "preadj* quant*" : "quant* preadj*"
 
@@ -224,7 +227,7 @@ function DP(r) {
             super: route(r.def == 'def' && r.superlative, {
                 true: [A, {
                     unpack: 'noun.R',
-                    no_adj: 'noun.unique', //should be noun.proper?
+                    noadj: 'noun.unique', //should be noun.proper? no, adjectives are difficult on words like 'science, peace, outer space' 
                     superlative: true,
                     scalar: '>0',
                     possessed: 'det.possessed',
@@ -232,13 +235,13 @@ function DP(r) {
                 }],
                 false: [blank]
             }),
-            adj: [AP, {
+            adj: r.proper ? [blank] : [AP, {
                 unpack: 'noun.R',
                 nocomplement: true,
-                no_adj: 'noun.unique', //should be noun.proper?
+                noadj: 'noun.unique', //unfortunately this is really necessary
                 superlative: false,
                 desc: 'ap'
-            }, 0.75, 'rank'],
+            }, 0.3, 'rank'],
             nprecomp: [complement, {
                 complements: 'noun.precomp',
                 nogap: true,
@@ -470,20 +473,21 @@ function N_NUM(r) {
 }
 
 function PRONOUN(r) {
+    
+    //var anim = r.anim!==undefined ? r.anim : choose(1,'<3',2,3) //avoid too much 'it'
+    
     //get a dummy noun so that we can make realistic pronouns
-    r = $.extend(r, get($.extend(r, {
-        type: 'noun'
-    })))
-
+    var dummynoun =  get({...r, type:'noun'})
+    r = {...r, ...dummynoun}
+    
+    if (!magicCompare(r.anim, 3)) r.person = 3 //if restrictions demands something less than sentient, then 1st and 2nd person are excluded
+    else decide(r, 'person')
+    
     //indefinite pronouns!
     if (r.person == 3 && r.def != 'def' && toss(probabilities.indef_pro)) {
         return [INDEF_PN, r]
     }
-
-
-    if (!magicCompare(r.anim, 3)) r.person = 3 //if restrictions demands something less than sentient, then 1st and 2nd person are excluded
-    decide(r, 'person')
-
+    
     if (r.person < 3) {
         r.anim = 3
         r.tags = 'person'
@@ -586,7 +590,7 @@ function INDEF_PN(r) {
 }
 
 function AP(r) {
-    if (r.no_adj > 0) return {
+    if (r.noadj) return {
         text: ''
     }
 
@@ -611,7 +615,7 @@ function AP(r) {
 }
 
 function A(r) {
-    if (r.no_adj > 0) return {
+    if (r.noadj) return {
         text: ''
     }
 
@@ -1347,7 +1351,7 @@ function PRES_PARTICIPLE(r) {
                 type: 'verb',
                 class: 'activity,process',
                 ptpl: 'pres',
-                rank: 1.5
+                rank: 0
             }],
             asp: [aspect, {
                 unpack: 'v'
