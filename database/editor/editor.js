@@ -87,7 +87,7 @@ function populateEditor(data, proto){
 }
 
 
-$('#editor').on("input",  function(e) {
+$('[data-schemaid="root"]').on("input",  function(e) {
     //if you are typing characters or deleting
     //if (typeof e.which == "number" && e.which > 0 && !e.ctrlKey && !e.metaKey && !e.altKey && e.which != 8) {
         newness = true && editor.validate().length == 0
@@ -588,3 +588,20 @@ function insertNode (refNode,ctrl) {
 
     $jt.set_id(hi,name)
 }
+
+
+function showCompatibleWords(){
+    recentlyUsed = [] //get() requires this in the RSG
+
+    var selected = $jt.get_selected(true)[0].text
+    var r = safe(_.find(database[wordClass], {name: selected}), type)
+    if(wordClass=='adjective') r = {...r, unique: false}
+
+    var othertype = wordClass=='adjective'?'noun': wordClass=='verb'?'noun': wordClass=='noun'? 'verb': ''
+    
+    return _.filter(database[othertype], (X)=>{ return r_match(r, X)})
+}
+
+$('#populateWords').click( function() {
+    $("#compatibleWords div").text(showCompatibleWords().map((w)=>{return ' '+w.name}))
+})
