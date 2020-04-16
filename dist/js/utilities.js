@@ -409,10 +409,10 @@ function powerRandom() {
     var max = 9        //most number of digits the number can have
     var max_prec = 3    //maximum possible precision
 
-    var digits = Math.round( Math.pow( curve, (-Math.random()) ) * (max-1) + 1.3 )
-    var rando = parseInt( Math.pow(10, Math.round( digits ))/10 * _.random(1,9,true) )
+    var digits = Math.round( curve ** (-Math.random()) * (max-1) + 1.3 )
+    var rando = parseInt( (10 ** Math.round( digits ))/10 * _.random(1,9,true) )
         rando = Math.max(2, rando)
-    var precision = Math.round( Math.pow( Math.random() , 3 ) * (max_prec-1) + 1 )
+    var precision = Math.round( Math.random() ** 3 * (max_prec-1) + 1 )
         precision = Math.min(precision, rando.toString().length)
 
     var num = +rando.toPrecision(precision);

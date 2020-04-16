@@ -298,7 +298,7 @@ function DET(r) {
         if (r.quantified == true && r.def == 'indef') 
         return [blank] //prevents any determiner on quantified indefinites
 
-        if (r.def == 'def' && !r.noposs && r.possessable > Math.pow(Math.random(), 0.6) * 9) {
+        if (r.def == 'def' && !r.noposs && r.possessable > Math.random()**0.6 * 9) {
 
             if (toss(0.7)) {
                 return GENITIVE(r)
