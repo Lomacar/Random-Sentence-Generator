@@ -251,11 +251,11 @@ function addImpliedTags(tags){
 //use this for slicing out certain tags marked like "-fixed", after implied tags have been added
 function removeNegatedTags(tags){
     //turn [bad,good,-bad] into [bad]
-    var badTags = tags.filter((x)=>{return /^-\w/.test(x)})
-                      .map((y)=>{return y.substr(1)})
+    var badTags = tags.filter(x => /^-\w/.test(x))
+                      .map( y => y.substr(1))
 
     if (badTags.length) {
-        var goodTags = tags.filter((x)=>{return !/^-\w/.test(x)})
+        var goodTags = tags.filter(x => !/^-\w/.test(x))
         return _.difference(goodTags, badTags)
     }
 

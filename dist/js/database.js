@@ -95,9 +95,9 @@ database.quantifier = [
     {name: 'a bit', prequant: true, count: 0}
 ]
 
-//all quantifiers besides the ones allowed to be singular (each, every)
+//all quantifiers besides the ones allowed to be singular (each, every, most, some...)
 //must be marked as plural so that they aren't still selected by QUANT when number is 'sg'
-database.quantifier.forEach((q)=>{if(!q.number) q.number='pl'})
+database.quantifier.forEach( q => {if(!q.number) q.number='pl'})
 
 database.title = [
     {name: 'Dr.'},{name: 'Dr.'},

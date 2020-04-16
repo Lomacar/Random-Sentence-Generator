@@ -90,15 +90,6 @@ function compactString(str){
                // .replace(/•/g,' ')               //remove "&" buffer
 }
 
-//potentially nice function to run a string function on every element in an array
-// e.x. strmap(tags, 'replace', '!', '?')
-function strmap(arr,func,...args) {
-    return arr.map((x)=>{
-        return String.prototype[func].apply(x,args)
-    })
-}
-
-
 
 //removes properties from an object that are empty strings or null
 function prune(obj){

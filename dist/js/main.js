@@ -10,7 +10,7 @@ function globalRestrictions(r){
     //when a global restriction matches the current constructions label, pull it back in to the normal restrictions
     if (!isEmpty(RESTRICTIONS) && this.label) {
 
-        Object.keys(RESTRICTIONS).forEach( (m)=>{
+        Object.keys(RESTRICTIONS).forEach( m =>{
             if (m.indexOf(this.label+'.')==-1) return
 
             var mKey = m.substr(m.indexOf('.')+1) //chop off the first part before the .
@@ -29,7 +29,7 @@ function globalRestrictions(r){
 
 function registerGR(r) {
     //transfer restrictions with dots in their names to the global RESTRICTIONS object
-    Object.keys(r).forEach((m)=>{
+    Object.keys(r).forEach( m =>{
         if (m.findChar('.')) {
             RESTRICTIONS[m] = r[m]
             delete r[m]
@@ -641,7 +641,7 @@ function stringOut(c,id,recur){
         //break down arrays of adjectives or whatnot
         if(typeOf(c.children[a])=='array') {
             var lastbit = ""
-            var temp = c.children[a].map((i)=>{ return stringOut(i,undefined,1) }).filter(Boolean)
+            var temp = c.children[a].map( i => stringOut(i,undefined,1) ).filter(Boolean)
             //tempstr = tempstr.join(c.separator[0])
             if (c.separator[1]!==undefined) {
                 var lastbit = c.separator[1] + temp.pop()
