@@ -154,10 +154,21 @@ function processLexicon(data, type){
 
 
     //very final processing
-    for (var b in database[type]) {
+    var b = database[type].length
+    while (b--) { //backwards so splicing doesn't screw up the loop
+    
     // collapse prototype inheritance
     database[type][b] = $extend({},database[type][b])
     
+        //remove disabled words
+        a = database[type][b]
+        if (a.disabled==true) {
+            database[type].splice(b,1)
+            delete lookup[type][a.name]
+            continue
+        }
+        delete database[type][b].disabled //if it passed the test above, we don't actually need to store "disabled: false"
+        
         // remove empty strings that were created from "--" which were used to block prototype inheritance
         prune(database[type][b])
     }

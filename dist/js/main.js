@@ -37,8 +37,8 @@ function registerGR(r) {
         return x.findChar('.')
     })
     matchingKeys.forEach( function(m) {
-        RESTRICTIONS[m] = r[m]
-        delete r[m]
+            RESTRICTIONS[m] = r[m]
+            delete r[m]
     })
 }
 
@@ -417,27 +417,27 @@ function pickOne(arr, r){
         }
 
         //for main word classes use their corresponding shuffled list to randomly rummage through the database
-//        if(Object.keys(r).length < 8 && (type=="noun" || type=="adjective" || type=="verb")){
-//
-//            randy[type] = randy[type] || _.shuffle(_.range(arr.length))
-//
-//            var randex
-//            while (randex = randy[type].pop()){
-//                if (r_match(r, arr[randex])) {
-//                    return arr[randex]
-//                }
-//            }
-//
-//            //if the old shuffle list failed, renew it and try again
-//            randy[type] = _.shuffle(_.range(arr.length))
-//
-//            while (randex = randy[type].pop()){
-//                if (r_match(r, arr[randex])) {
-//                    return arr[randex]
-//                }
-//            }
-//
-//        }
+    //    if(Object.keys(r).length < 8 && (type=="noun" || type=="adjective" || type=="verb")){
+
+    //        randy[type] = randy[type] || _.shuffle(_.range(arr.length))
+
+    //        var randex
+    //        while (randex = randy[type].pop()){
+    //            if (r_match(r, arr[randex])) {
+    //                return arr[randex]
+    //            }
+    //        }
+
+    //        //if the old shuffle list failed, renew it and try again
+    //        randy[type] = _.shuffle(_.range(arr.length))
+
+    //        while (randex = randy[type].pop()){
+    //            if (r_match(r, arr[randex])) {
+    //                return arr[randex]
+    //            }
+    //        }
+
+    //    }
         var randex
 
         while (arr.length) {
@@ -457,16 +457,12 @@ function pickOne(arr, r){
 //also rejected if restrictions match prohibitions on object
 function r_match(restrictions, test_object){
 
-    if (isEmpty(restrictions)) return true
-
     //short circuit for name match or mismatch
     if (('name' in restrictions) && restrictions.orsimilar==true) {
         if (typeof restrictions.name=='undefined') return false
         if (magicCompare(restrictions.name, test_object.proto)) return true
         else return false
     }
-    //don't use disabled words
-    if(test_object.disabled) return false
 
     //if (restrictions.type=='noun' || restrictions.type=='verb') restrictions = safe(restrictions, restrictions.type)
 
