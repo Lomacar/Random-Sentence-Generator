@@ -699,6 +699,7 @@ noun = [
   },
   {
     "name": "Sally",
+    "proto": "Jack",
     "disabled": false,
     "tags": "person, firstname",
     "anim": "3",
@@ -708,12 +709,12 @@ noun = [
     "gender": "f",
     "size": "6",
     "unique": "2",
-    "count": "false",
-    "precomp": "(10 TITLE{unpack:noun.tags-gender})"
+    "count": "false"
   },
   {
     "name": "Leah",
-    "proto": "Sally"
+    "proto": "Sally",
+    "disabled": false
   },
   {
     "name": "Brandy",
@@ -726,7 +727,8 @@ noun = [
     "proto": "Jack",
     "disabled": false,
     "partOf": "null",
-    "unique": "1"
+    "unique": "1",
+    "precomp": "--"
   },
   {
     "name": "Popemobile",
@@ -5402,7 +5404,7 @@ noun = [
     "name": "trail",
     "proto": "road",
     "disabled": false,
-    "size": "7"
+    "size": "6,7"
   },
   {
     "name": "path",
@@ -5572,16 +5574,6 @@ noun = [
     "possessable": "0",
     "partOf": "null",
     "count": "true"
-  },
-  {
-    "name": "path",
-    "proto": "road",
-    "size": "6,7"
-  },
-  {
-    "name": "trail",
-    "proto": "road",
-    "size": "6,7"
   },
   {
     "name": "water",
@@ -6741,7 +6733,8 @@ noun = [
   },
   {
     "name": "Hermione",
-    "proto": "Sally"
+    "proto": "Sally",
+    "disabled": false
   },
   {
     "name": "Dorothy",
@@ -7019,7 +7012,8 @@ noun = [
   },
   {
     "name": "Billy",
-    "proto": "Jack"
+    "proto": "Jack",
+    "disabled": false
   },
   {
     "name": "Jedediah",
@@ -7037,7 +7031,8 @@ noun = [
   },
   {
     "name": "Webster",
-    "proto": "Jack"
+    "proto": "Jack",
+    "disabled": false
   },
   {
     "name": "Rufus",
@@ -7079,7 +7074,8 @@ noun = [
   },
   {
     "name": "Beatrix",
-    "proto": "Sally"
+    "proto": "Sally",
+    "disabled": false
   },
   {
     "name": "Mavis",
@@ -7525,7 +7521,8 @@ noun = [
   },
   {
     "name": "Siosi",
-    "proto": "Jack"
+    "proto": "Jack",
+    "disabled": false
   },
   {
     "name": "Paora",
@@ -8515,7 +8512,7 @@ noun = [
     "disabled": false,
     "tags": "-, person, lastname",
     "partOf": "null",
-    "precomp": "TITLE{unpack:noun.tags-gender}"
+    "precomp": "(67 TITLE{unpack:noun.tags-gender})"
   },
   {
     "name": "Smith.1",
@@ -8549,7 +8546,8 @@ noun = [
   },
   {
     "name": "Jones",
-    "proto": "Smith"
+    "proto": "Smith",
+    "disabled": false
   },
   {
     "name": "Miller",

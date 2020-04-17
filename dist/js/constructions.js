@@ -11,7 +11,7 @@ function CLAUSE(r) {
             subject: [NP, {
                 case: 'nom',
                 anim: choose(4, 0, 2, ">0&<2", 2, 2, 7, 3),
-                def: choose(8, 'def', 1, 'indef')
+                def: choose(6, 'def', 1, 'indef')
 				//,pronominal: false
             }],
             predicate: [AUXP, _.extend({
@@ -200,9 +200,9 @@ function DP(r) {
     var order = r.def == "def" ? "preadj* quant*" : "quant* preadj*"
 
     //there is too much 'the/this/that one' going on so let's reduce quantification on singular definites
-    if (r.quantified && r.def=='def' && r.number=='sg') r.quantified = toss(0.25)
+    if (r.quantified && r.def=='def' && r.number=='sg') r.quantified = toss(0.15)
     //on the other hand quantified indefinites are so rare...
-    if (!r.quantified && r.def=='indef') r.quantified = toss(0.25)
+    if (!r.quantified && r.def=='indef') r.quantified = toss(0.35)
 
     return {
         order: "det " + order + " super* adj* nprecomp* noun ncomp*",

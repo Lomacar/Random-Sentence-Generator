@@ -9,7 +9,7 @@ var probabilities = {
 
     //nounish
     number:     [1,'pl', 5,'sg'],
-    def:        [2,'def', 1,'indef'],
+    def:        [5,'def', 3,'indef'],
     proper:     [2,true, 7,false],
     partial:    [1,'', 1,'partial'],
     quantified: [2, true, 9, false],
