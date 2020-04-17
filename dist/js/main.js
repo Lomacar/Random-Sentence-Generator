@@ -464,26 +464,26 @@ function r_match(restrictions, test_object){
     //prevent the repetitive use of words
     if (recentlyUsed.indexOf(test_object.name.replace(/\d+/g,'')) > -1) return false
 
-    var prohib = test_object.prohibitions
-    if(goodVal(prohib)) {//prohib = prohib.replace(/ /g, '')
+    var wProhib = test_object.prohibitions
+    if(goodVal(wProhib)) {//prohib = prohib.replace(/ /g, '')
         //reject if restrictions match prohibitions
-        if (prohibited(restrictions, prohib)===true) return false
-        prohib = toObject(prohib)
+        if (prohibited(restrictions, wProhib)===true) return false
+        wProhib = toObject(wProhib)
     }
 
-    for(var r in restrictions){
+    for(var r in test_object){
 
-        var rval = restrictions[r];
+        var rval = test_object[r];
 
         //merge word-level and universal prohibitions for given paradigm (r)
         //word level overwrites universal
-        var prohibz = prohibitions.descend(r,rval)
-        if (typeOf(prohib)=='object') _.extend({},prohibz, prohib)
-        if (prohibz && prohibited(test_object, prohibz)===true) return false
+        var uProhib = prohibitions.descend(r,rval)
+        if (typeOf(wProhib)=='object') _.extend({},uProhib, wProhib)
+        if (uProhib && prohibited(test_object, uProhib)===true) return false
 
-        if (typeof test_object[r] !== 'undefined') {
+        if (typeof restrictions[r] !== 'undefined') {
 
-            if (magicCompare(test_object[r], rval, {tagmode: (r=='tags'||r=='vtags')})) {
+            if (magicCompare(restrictions[r], rval, {tagmode: theseAreTags(r)})) {
                 continue
             } else return false
 
