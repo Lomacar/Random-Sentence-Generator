@@ -64,7 +64,9 @@
 
 - make a way to regenerate a branch with same seed and modified restrictions (for PASSIVE) or different seed and same restrictions (for xray mode)
 
-- handling of passives with indirect objects (ie. give) and datives
+- allow copula in WH_CLAUSE
+
+- allow plurals in WH_CLAUSE like "which people see me"
 
 
 Other things I said before:

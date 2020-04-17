@@ -1057,8 +1057,8 @@ function VP(r) {
                 scope: 'compcore',
                 neg: r.neg,
                 pasv: false,
-                p_trans: 'vword.trans',
-                p_vtags: 'vword.vtags',
+                trans: 'vword.trans',
+                vtags: 'vword.vtags',
                 desc: 'secondary complement'
             }]
         },
@@ -1213,6 +1213,8 @@ function WH_INF_CLAUSE(r) {
 function THAT_CLAUSE(r) {
     delete r.neg
     delete r.pasv
+    delete r.vtags
+    delete r.trans
 
     return {
         order: 'that clause',

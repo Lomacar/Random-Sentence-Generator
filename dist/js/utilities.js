@@ -190,10 +190,10 @@ function toss(probability){
 //function for safely merging restriction objects so that tags are not overwritten
 function mergeR(r1,r2){
     r2 = {...r1, ...r2}
-
+    
     return _.mapValues(r2, (v,k)=>{
         if(goodVal(r1[k]) && theseAreTags(k)) {
-            var out = v + ' & ' + r1[k] 
+            var out = (v===r1[k]) ? v : v + ' & ' + r1[k] 
             if ( out.findChar(',') && CONSTANTS.opregex.test(out) ) 
                 error("Warning: comma-separated tags merged with boolean-type tags: " + out)
             return out
