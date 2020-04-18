@@ -192,17 +192,16 @@ function NP(r) {
 }
 
 function DP(r) {
-    decide(r, 'def,quantified,superlative')
+    decide(r, 'def,superlative')
     r.noposs = r.noposs || false
 
     if (magicCompare(r.tags,'person')) r.proper = toss(0.2) //an attempt to rein in the abundance of proper names in the lexicon
 
     var order = r.def == "def" ? "preadj* quant*" : "quant* preadj*"
 
-    //there is too much 'the/this/that one' going on so let's reduce quantification on singular definites
-    if (r.quantified && r.def=='def' && r.number=='sg') r.quantified = toss(0.15)
-    //on the other hand quantified indefinites are so rare...
-    if (!r.quantified && r.def=='indef') r.quantified = toss(0.35)
+    //if the noun is indefinite, nouns that don't like possession should be eschewed
+    //because indefinite nouns can't be possessed. May cause errors if suitable nouns can't be found.
+    if (!r.possessable && r.def=='indef') r.possessable = '<'+_.random(5)+5                                                         
 
     return {
         order: "det " + order + " super* adj* nprecomp* noun ncomp*",
@@ -213,16 +212,16 @@ function DP(r) {
         children: {
             noun: [N, {
                 def: r.def, //isn't this redundant?
-                prequant: toss( probabilities.prequant  ) //* (1-r.quantified/2) //prequant 1/2 as likely if already quant
+                prequant: toss( probabilities.prequant  ),
             }],
             det: [DET, { //nodeterminer is only used by the verb 'mix' and should be removed
-                unpack: 'noun.R-noposs-quantified'
+                unpack: 'noun.R-noposs'
             }],
             preadj: r.superlative || toss(0.9) ? [blank] : [SPECIAL_A, 'noun.R'],
             quant: [QUANT, {
                 unpack: 'noun.R',
                 prequant: false,
-                quantified: r.quantified
+                quantified: 'noun.quantified' //still used by some lexemes
             }],
             super: route(r.def == 'def' && r.superlative, {
                 true: [A, {
@@ -377,9 +376,17 @@ function GENITIVE(r) {
 
 function QUANT (r) {
     var out = {text: ''}
-    
-    if (!r.quantified || r.unique) return out
 
+    if (r.quantified===false || r.unique) return out
+
+    //there is too much 'the/this/that one' going on so let's reduce quantification on singular definites
+    if (r.def=='def' && r.number=='sg') r.quantified = toss(0.2)
+    //on the other hand quantified indefinites are so rare...
+    else if (r.def=='indef') r.quantified = r.quantified || toss()
+    else r.quantified = r.quantified || false
+
+    if (!r.quantified) return out
+    
     //there are so many dimensions to consider that it is best to use the resolve function
     //to determine whether to allow a number, quantifier, either or none
     var prequant = r.prequant ? 'prequant' : 'quant'
@@ -1307,7 +1314,7 @@ function GP(r) {
 
     return {
         order: "ving compcore* compext*",
-        head: "dummynoun",
+        head: "ving",
         actualHead: "ving",
         labelChildren: true,
         hasComplement: "compcore, compext",
@@ -1554,9 +1561,6 @@ function MOTION(r) {
     //return {text: _.sample(['there','here','somewhere','everywhere'])}
 
     var lmr = {}
-
-    r.trans = r.p_trans || 0
-    if (r.p_vtags) r.vtags = r.p_vtags
 
     if (magicCompare(r.vtags, 'generalMotion')) {
         delete r.vtags
