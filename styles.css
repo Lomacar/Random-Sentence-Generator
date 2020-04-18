@@ -59,6 +59,11 @@ body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align:
 .sentence div {
     transition: opacity 0.5s, padding 0.5s;
 }
+
+.sentence .construction {
+    font-family: 'Comic Neue', 'Crimson Text';
+}
+    
 .sentence div:empty{
     width: 0;
     padding: 0;
@@ -75,7 +80,7 @@ body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align:
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    align-items: stretch;
+    align-self: stretch;
     align-content: space-between;
     justify-content: space-between;
     border: 1px solid hsla(262, 44%, 37%, 0.5);
@@ -93,7 +98,7 @@ body { /*-webkit-column-count: 2; -moz-column-count: 2;*/ margin: 0; text-align:
 }
 .construction {
     display: flex;
-    align-items: stretch;
+    align-items: flex-end;
     margin-top: .1em;
     white-space: nowrap;
 }

@@ -1,3 +1,10 @@
+const CONSTANTS = {
+    //for magicCompare
+    ops: "<>!",
+    coms: "|&",
+    opregex: /[<>|&!]/
+}
+
 //a typeof replacement that can distinguish arrays and nulls
 function typeOf(value) {
     var s = typeof value;
@@ -17,8 +24,7 @@ function typeOf(value) {
 
 //utility to check for empty object
 function isEmpty(o) {
-		for (var p in o) { if (o.hasOwnProperty(p)) return false; }
-		return true;
+	return Object.keys(o).length===0;
 }
 
 //returns true if val is a non-empty string, number or boolean
@@ -84,6 +90,7 @@ function compactString(str){
                // .replace(/•/g,' ')               //remove "&" buffer
 }
 
+
 //removes properties from an object that are empty strings or null
 function prune(obj){
     for(var key in obj) {
@@ -141,10 +148,10 @@ function factorPermutations(lists) {
 }
 
 function error(msg){
-    if(typeof error_num === 'undefined') error_num = 1
-	console.warn('e'+error_num+': '+msg)
+    if(typeof error_num === 'undefined') error_num = 0
 	error_num++
-	return '[e'+(error_num-1)+']'
+	console.warn('e'+error_num+': '+msg)
+	return '[e'+error_num+']'
 }
 
 
@@ -176,7 +183,28 @@ String.prototype.findChar = function (needle) {
 }
 
 function toss(probability){
-    return Math.random() < (probability || 0.5)
+    if (probability===undefined) probability=0.5
+    return Math.random() < probability
+}
+
+
+//function for safely merging restriction objects so that tags are not overwritten
+function mergeR(r1,r2){
+    r2 = {...r1, ...r2}
+    
+    return _.mapValues(r2, (v,k)=>{
+        if(goodVal(r1[k]) && theseAreTags(k)) {
+            var out = (v===r1[k]) ? v : v + ' & ' + r1[k] 
+            if ( out.findChar(',') && CONSTANTS.opregex.test(out) ) 
+                error("Warning: comma-separated tags merged with boolean-type tags: " + out)
+            return out
+        }
+        else return v
+    })
+}
+
+function theseAreTags(str){
+    return ['tags','vtags','partOf','wholeOf'].includes(str)
 }
 
 /*  MAGIC COMPARE
@@ -198,6 +226,7 @@ function toss(probability){
 *           list must match (every==true) or only one value needs to
 *           match (every==false, default)
 */
+
 
 function magicCompare (one, two, options, operator) {
     var every = options ? (options.every || false) : false
@@ -225,8 +254,8 @@ function magicCompare (one, two, options, operator) {
             one = two
             two = temp
         }
-    } else if ( /[<>|&!]/.test(two) ){
-        if ( /[<>|&!]/.test(one) ){
+    } else if ( CONSTANTS.opregex.test(two) ){
+        if ( CONSTANTS.opregex.test(one) ){
             error('Attempted to magicCompare two lists with [<>!&|] in them.' + new Error().stack)
             return false
         }
@@ -251,79 +280,14 @@ function magicCompare (one, two, options, operator) {
         return every
     }
 
-    var ops = "<>!"
-    var coms = "|&"
-
-    var dealWithComs = function(){
-        var parts, results
-        var comtest = new RegExp("["+coms+"]", 'g')
-
-        if (comtest.test(one)){
-
-            //first deal with & surrounded by spaces
-            parts = one.split(' & ')
-            if (parts.length > 1) {
-
-                var part
-                while(part = parts.pop()) {
-
-                    // if/when one sub-comparison fails, return false
-                    if (!magicCompare(part, two, {every:every,tagmode:tagmode}, '&')) return false
-
-                }
-
-                return true
-
-            } else {
-
-                //next deal with !
-                parts = one.split('|')
-                if (parts.length > 1) {
-
-                    var part
-                    while(part = parts.pop()) {
-
-                        // as soon as one sub-comparison turns up true, rejoice!
-                        if (magicCompare(part, two, {every:every,tagmode:tagmode}, '|')) return true
-
-                    }
-
-                    return false
-
-                } else {
-
-                    //finally deal with 'tight' &s, same as the loose & above
-                    parts = one.split('&')
-                    if (parts.length > 1) {
-
-                        var part
-                        while(part = parts.pop()) {
-
-                            if (!magicCompare(part, two, {every:every,tagmode:tagmode}, '&')) return false
-
-                        }
-
-                        return true
-                    }
-                }
-            }
-
-        } else {
-
-            //no more comparators to break down
-            return 'done'
-        }
-
-    }
-
-    var outcome = dealWithComs() //comparators like | and &
+    var outcome = dealWithComs(one,two,every,tagmode) //comparators like | and &
 
     if (outcome=='done'){ //finally look at the nitty gritty
 
         //if there is an authorized operator at the beginning of the string, store it
         var op,cleaned
         op = one.substr(0,1)
-        if (ops.findChar(op)) {
+        if (CONSTANTS.ops.findChar(op)) {
             cleaned = one.substr(1)
         } else {
             op = false
@@ -354,6 +318,9 @@ function magicCompare (one, two, options, operator) {
             if (tagmode) {
                 var rex = new RegExp('(^|,) *'+cleaned+' *(,|$)')
                 return rex.test(two) ^ neg
+                
+                //unfortunately this alternative doesn't work when cleaned is like "volume|area"
+                //return two.split(',').includes(cleaned) ^ neg
             }
 
             //return true if string found unless it wasn't supposed to be found
@@ -370,6 +337,62 @@ function magicCompare (one, two, options, operator) {
 
 }
 
+//a part of magicCompare
+function dealWithComs(one,two,every,tagmode){
+    var parts, results
+    var comtest = new RegExp("["+CONSTANTS.coms+"]", 'g')
+
+    if (comtest.test(one)){
+
+        //first deal with & surrounded by spaces
+        parts = one.split(' & ')
+        if (parts.length > 1) {
+
+            var part
+            while(part = parts.pop()) {
+                // if/when one sub-comparison fails, return false
+                if (!magicCompare(part, two, {every:every,tagmode:tagmode}, '&')) return false
+            }
+
+            return true
+
+        } else {
+
+            //next deal with !
+            parts = one.split('|')
+            if (parts.length > 1) {
+
+                var part
+                while(part = parts.pop()) {
+                    // as soon as one sub-comparison turns up true, rejoice!
+                    if (magicCompare(part, two, {every:every,tagmode:tagmode}, '|')) return true
+                }
+
+                return false
+
+            } else {
+
+                //finally deal with 'tight' &s, same as the loose & above
+                parts = one.split('&')
+                if (parts.length > 1) {
+
+                    var part
+                    while(part = parts.pop()) {
+                        if (!magicCompare(part, two, {every:every,tagmode:tagmode}, '&')) return false
+                    }
+
+                    return true
+                }
+            }
+        }
+
+    } else {
+        //no more comparators to break down
+        return 'done'
+    }
+}
+
+
 //a haphazard attempt at something that generates a random number that sort of follows the power law
 //and gets rounded to a nice "human" amount of precision
 function powerRandom() {
@@ -378,10 +401,10 @@ function powerRandom() {
     var max = 9        //most number of digits the number can have
     var max_prec = 3    //maximum possible precision
 
-    var digits = Math.round( Math.pow( curve, (-Math.random()) ) * (max-1) + 1.3 )
-    var rando = parseInt( Math.pow(10, Math.round( digits ))/10 * _.random(1,9,true) )
+    var digits = Math.round( curve ** (-Math.random()) * (max-1) + 1.3 )
+    var rando = parseInt( (10 ** Math.round( digits ))/10 * _.random(1,9,true) )
         rando = Math.max(2, rando)
-    var precision = Math.round( Math.pow( Math.random() , 3 ) * (max_prec-1) + 1 )
+    var precision = Math.round( Math.random() ** 3 * (max_prec-1) + 1 )
         precision = Math.min(precision, rando.toString().length)
 
     var num = +rando.toPrecision(precision);
@@ -481,6 +504,18 @@ function listOffspring (type, name) {
   return _.map(offspring, 'name')
 }
 
+function getword(type, word, fuzzy){
+    var what = fuzzy ? z : {name: word}
+    return _.filter(database[type], what)
+
+    function z(z){
+        return z.name.includes(word)
+    }
+}
+
+function getverb(word, fuzzy){return getword('verb',word,fuzzy)}
+function getnoun(word, fuzzy){return getword('noun',word,fuzzy)}
+function getadj(word, fuzzy){return getword('adjective',word,fuzzy)}
 
 
 function unitTest(func, expect){

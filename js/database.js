@@ -4,19 +4,21 @@ var probabilities = {
     anim:       [1,0, 1,1, 3,2, 6,3],
     tang:       [9999,0, 1,1, 5,2],
 
-    pronominal: [1,true,8,false], //how likely a NP is to be a pronoun instead
+    pronominal: [1,true,7,false], //how likely a NP is to be a pronoun instead
     indef_pro: 0.75,               //chance to have an indefinite pronoun (compounded with chance to have an indefinite NP)
 
     //nounish
     number:     [1,'pl', 5,'sg'],
-    def:        [3,'def', 1,'indef'],
+    def:        [5,'def', 3,'indef'],
     proper:     [2,true, 7,false],
     partial:    [1,'', 1,'partial'],
     quantified: [2, true, 9, false],
+    numeral: 0.35, //whether to quantify by numeral or quantifier
+    prequant: 0.2,
     np_coordination: 0.2,
 
     //pronominal
-    person:     [1,1, 1,2, 20,3],
+    person:     [1,1, 1,2, 10,3],
     gender:     [3,'m', 3,'f', 1,'n'],
     dem:        [2,true,5,false],
     prox:       [1,'prox', 1,'dist'],
@@ -41,57 +43,61 @@ database.aux_verb = [
 
 database.quantifier = [
     {name: 'a lot', prequant: true, amount: 10},
-    //{name: 'heaps', prequant: true},
     {name: 'tons', prequant: true, amount: 50},
-    //{name: 'plenty', prequant: true},
     {name: 'a bunch', prequant: true, amount: 10},
+    //{name: 'heaps', prequant: true},
+    //{name: 'plenty', prequant: true},
     //{name: 'none', prequant: true, def:'def'},
     //{name: 'no', prequant: false, neg: false},
 
-    {name: 'any', prequant: false, neg: true},
-    {name: 'any', prequant: true, def:'def', neg: true},
+    {name: 'any', neg: true},
+    {name: 'any', count: 0, number: 'sg|pl', neg: true},
 
+    {name: 'most', amount: 4},
+    {name: 'most', count: 0, number: 'sg|pl', amount: 4},
+    {name: 'some', amount: 4},
+    {name: 'some', count: 0, number: 'sg|pl', amount: 4},
+    {name: 'all', prequant: true, def:'def', amount: 4},
+    //{name: 'all', prequant: false},
     //{name: 'enough', prequant: false},
     //{name: 'enough', prequant: true, def:'def'},
     //{name: 'not enough', prequant: false},
     //{name: 'not enough', prequant: true, def:'def'},
-    {name: 'most', prequant: false},
-    {name: 'most', prequant: true, def:'def'},
-    {name: 'some', prequant: false},
-    {name: 'some', prequant: true, def:'def'},
-    //{name: 'all', prequant: false},
-    {name: 'all', prequant: true, def:'def'},
-
+    
+    //COUNTABLE ONLY
     {name: 'numerous', prequant: false, count: 1},
-    {name: 'a couple', prequant: true, count: 1, amount: 3},
+    
+    {name: 'each', count: 1, prequant: false, number: 'sg', def:'indef'},
+    {name: 'each', count: 1, prequant: true, def:'def'},
+    {name: 'every', count: 1, prequant: false, number: 'sg', def:'indef'},
+    {name: 'both', count: 1, amount: 9999999999}, //should prevent 'both of the # nouns'
+    
+    {name: 'a few', count: 1, amount: 4},
+    {name: 'several', count: 1, amount: 5},
+    {name: 'many', count: 1, amount: 8},
 
-    {name: 'a few', prequant: false, count: 1, amount: 4},
-    {name: 'a few', prequant: true, def:'def', count: 1, amount: 4},
-    {name: 'each', prequant: false, number: 'sg', count: 1, amount: 3},
-    {name: 'each', prequant: true, def:'def', count: 1, amount: 3},
-    {name: 'both', prequant: false, count: 1, amount: 2},
-    {name: 'both', prequant: true, def:'def', count: 1, amount: 2},
-    {name: 'several', prequant: false, count: 1, amount: 5},
-    {name: 'several', prequant: true, def:'def', count: 1, amount: 5},
-    {name: 'many', prequant: false, count: 1, amount: 8},
-    {name: 'many', prequant: true, def:'def', count: 1, amount: 8},
     {name: 'a number', prequant: true, count: 1, amount: 7},
     {name: 'dozens', prequant: true, count: 1, amount: 48},
     {name: 'hundreds', prequant: true, count: 1, amount: 400},
+    {name: 'thousands', prequant: true, count: 1, amount: 4000},
+    {name: 'millions', prequant: true, count: 1, amount: 4000000},
 
-    {name: 'much', prequant: false, count: 0},
-    {name: 'much', prequant: true, def:'def', count: 0},
+    //UNCOUNTABLE ONLY
+    {name: 'much', count: 0},
     //{name: 'too much', prequant: false, count: 0},
     //{name: 'too much', prequant: true, def:'def', count: 0},
     //{name: 'too much', prequant: false, count: 0},
     //{name: 'too much', prequant: true, def:'def', count: 0},
     {name: 'a little', prequant: false, count: 0},
-    {name: 'a little', prequant: true, def:'def', count: 0},
     //{name: 'too little', prequant: false, count: 0},
     //{name: 'too little', prequant: true, def:'def', count: 0},
 
     {name: 'a bit', prequant: true, count: 0}
 ]
+
+//all quantifiers besides the ones allowed to be singular (each, every, most, some...)
+//must be marked as plural so that they aren't still selected by QUANT when number is 'sg'
+database.quantifier.forEach( q => {if(!q.number) q.number='pl'})
 
 database.title = [
     {name: 'Dr.'},{name: 'Dr.'},
@@ -137,7 +143,7 @@ database.preposition = [
     {name: 'at',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'point'},
     {name: 'at',    role: 'LOC',     vtags: 'activity&!motion',   'lm.tags': 'building|point|table|border',   'lm.size': '>7'},
     {name: 'at',    role: 'LOC',     vtags: 'activity&!motion',   'lm.tags': 'point|table|border'},
-    {name: 'at',    role: 'LOC',     vtags: 'posture',            'lm.tags': 'point|edge|table'/*, 'ncomp.c0.size': '>trajector.size'*/},
+    {name: 'at',    role: 'LOC',     vtags: 'posture',            'lm.tags': 'point|edge|table'/*, 'ncomp.size': '>trajector.size'*/},
     {name: 'at',    role: 'LOC',     vtags: 'placement',          'lm.tags': 'point'},
     {name: 'at',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'point|line|table|site&!land|position'},
     //{name: 'in',    role: 'LOC',   vtags: '!habit',             'lm.tags': 'volume'},
@@ -150,7 +156,7 @@ database.preposition = [
     {name: 'on',    role: 'LOC',     vtags: 'posture',              'lm.tags': 'furniture'},
     {name: 'on',    role: 'LOC',     vtags: 'habit',              'lm.tags': 'field|passengerVehicle'},
     {name: 'on',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'surface|prominence', 'lm.size': '>trajector.size'},
-    //{name: 'on',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'point & !space|line', 'ncomp.c0.size': '>trajector.size'},
+    //{name: 'on',    role: 'LOC',     vtags: 'copula',             'lm.tags': 'point & !space|line', 'ncomp.size': '>trajector.size'},
     //TODO: under,underneath,below,beneath,between,near,next to,far from,away from,in front of, on top of,
     //      beside, by, behind, inside, outside, among, amid, around
 
@@ -170,11 +176,11 @@ database.preposition = [
     {name: 'across',    role: 'PATH',   vtags: 'jump',         'lm.tags': 'surface|path|boundary & !vertical'},
     {name: 'across',    role: 'PATH',   vtags: 'water|waterSurface', 'lm.tags': 'bodyOfWater'},
 
-    {name: 'over',      role: 'PATH',   vtags: 'grounded',     'lm.tags': 'boundary|edge|bridge|prominence', 'ncomp.c0.tags': '!place'}, //what about low stuff
-    {name: 'over',      role: 'PATH',   vtags: 'contact',      'lm.tags': 'boundary|edge|bridge|prominence', 'ncomp.c0.tags': '!place'}, //
+    {name: 'over',      role: 'PATH',   vtags: 'grounded',     'lm.tags': 'boundary|edge|bridge|prominence', 'ncomp.tags': '!place'}, //what about low stuff
+    {name: 'over',      role: 'PATH',   vtags: 'contact',      'lm.tags': 'boundary|edge|bridge|prominence', 'ncomp.tags': '!place'}, //
     {name: 'over',      role: 'PATH',   vtags: 'air',          'lm.tags': 'thing|place'},
     {name: 'over',      role: 'PATH',   vtags: 'jump',         'lm.tags': 'thing'},
-    {name: 'over',      role: 'PATH',   vtags: 'down',         'lm.tags': 'edge', 'ncomp.c0.tags': '!territory&!position'},
+    {name: 'over',      role: 'PATH',   vtags: 'down',         'lm.tags': 'edge', 'ncomp.tags': '!territory&!position'},
     {name: 'over',      role: 'PATH',   vtags: 'water|waterSurface', 'lm.tags': 'openWater'},
 
     {name: 'around',    role: 'PATH',   vtags: 'grounded|contact|air',         'lm.tags': 'bounded'},
@@ -218,12 +224,12 @@ database.preposition = [
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'down',                                  'lm.tags': 'volume&!elevated|gas',                       'lm.size': '>trajector.size'},
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'bodyOfWater',                                'lm.size': '>trajector.size'}, //this is for 'sink'
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'mass'}, //this is for 'sink'
-    {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'vessel',                                     'lm.size': '>trajector.size'}, //this is for 'sink'
+    {name: 'into',      role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'container',                                  'lm.size': '>trajector.size'}, //this is for 'sink'
     {name: 'into',      role: 'GOAL|DIR',   vtags: 'waterSurface',                          'lm.tags': 'openWater',                                  'lm.size': '>trajector.size'},
 
     {name: 'to',        role: 'GOAL|DIR',   vtags: 'grounded|contact|water|waterSurface',   'lm.tags': 'fixed|occasion'}, //TODO: other things?
     {name: 'to',        role: 'GOAL|DIR',   vtags: 'down',     trans:'<1',                  'lm.tags': 'bottom|surface&grounded'},
-    {name: 'to',        role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'bottom',  'ncomp.c0.tags': 'bodyOfWater|vessel', 'ncomp.c0.size': '>trajector.size'}, //this is for 'sink'
+    {name: 'to',        role: 'GOAL|DIR',   vtags: 'downWater',                             'lm.tags': 'bottom',  'ncomp.tags': 'bodyOfWater|vessel', 'ncomp.size': '>trajector.size'}, //this is for 'sink'
 
     {name: 'toward',    role: 'GOAL|DIR',   vtags: 'grounded|contact|air|jump|vertical|water|waterSurface',       'lm.tags': 'PHYSICAL',    multicomp: false},
 
@@ -260,23 +266,24 @@ database.preposition = [
     {name: 'out of',     role:'SOURCE',  vtags: 'up',               'lm.tags': 'volume',                                            'lm.size': '>trajector.size'},
     {name: 'out of',     role:'SOURCE',  vtags: 'down',             'lm.tags': 'volume&elevated|vessel',                            'lm.size': '>trajector.size'},
 
-    {name: 'off of',     role:'SOURCE',  vtags: 'grounded',                   'lm.tags': 'point|edge|path & !vertical & !space & !bodyOfWater',     'ncomp.c0.tags': 'elevated|hasHeight'},
-    {name: 'off of',     role:'SOURCE',  vtags: 'contact',                    'lm.tags': 'point|edge|path & !space & !bodyOfWater'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'grounded',                   'lm.tags': 'point|edge|path & !vertical & !space & !bodyOfWater',     'ncomp.tags': 'elevated|hasHeight'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'contact',                    'lm.tags': 'point|path & !space & !bodyOfWater'},
     {name: 'off of',     role:'SOURCE',  vtags: 'contact',                    'lm.tags': 'surface&!bodyOfWater|object&!void',                             'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'up',                         'lm.tags': 'surface&!vertical',                                             'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'down',                       'lm.tags': 'surface & elevated|vertical',                                   'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'down',                       'lm.tags': 'object&!grounded&!void',                                        'lm.size': '>trajector.size'},
     {name: 'off of',     role:'SOURCE',  vtags: 'jump',                       'lm.tags': 'surface&!bodyOfWater|object&elevated',                          'lm.size': '>trajector.size'},
-    {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'point&elevated|edge&elevated|path&elevated & !space',     'ncomp.c0.tags': '>subject.size'},
-    {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'edge',                                                    'ncomp.c0.tags': 'elevated|hasHeight', 'ncomp.c0.nocomplement':-1},
+    {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'point&elevated|edge&elevated|path&elevated & !space',     'ncomp.tags': '>subject.size'},
+    {name: 'off of',     role:'SOURCE',  vtags: 'jump|down',                  'lm.tags': 'edge',                                                    'ncomp.tags': 'elevated|hasHeight', 'ncomp.nocomplement':-1},
 
 ]
 
 //predicative prepositional idioms
 var prep_idiom = [
-    {name:'on fire',        tags:'matter&!space&!gas|territory'},
     {name:'in debt',        tags:'person|organization|territory'},
-    {name:'in trouble',     tags:'person|organization|territory'},
+    {name:'in trouble',     tags:'creature|organization|territory'},
+    {name:'in harm\'s way', tags:'creature|organization|territory'},
+    {name:'in danger',      tags:'creature|organization|territory', complements:"(of GP{unpack:subject.R})"},
     {name:'in a hurry',     tags:'creature|vehicle'},
     {name:'in a rush',      tags:'creature|vehicle'},
     {name:'in a rage',      tags:'creature', anim: '>1.5'},
@@ -306,13 +313,16 @@ var prep_idiom = [
     {name:'under control',  tags:'situation|weather|event'},
     {name:'under the weather',  tags:'person'},
     {name:'on the verge of',	prohibitions:"real_aspect:prosp,tense:fut", complements:"GP{unpack:subject.R}"},
+    {name:'on fire',        tags:'matter&!space&!gas|territory'},
     {name:'on',             tags:'creature|vehicle', complements:"POSS_PN{unpack:subject.R} way (60 GOAL{name:to; lm.size:>subject.size})"},
     {name:'on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} own"},
     {name:'on',             anim:'>1', complements:"POSS_PN{unpack:subject.R} deathbed"},
     {name:'on',             anim:'>0', complements:"death's door"},
     {name:'on sale',        tags:'artifact'},
+    {name:'on schedule',    tags:'person|event|undertaking|result'},
     {name:'off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rocker", prohibitions: 'number:pl'},
     {name:'off',            anim:'3', complements:"POSS_PN{unpack:subject.R} rockers", prohibitions: 'number:sg'},
+    {name:'off course',     tags:'person|vehicle'},
     {name:'at',             anim:'3', complements:"the end of POSS_PN{unpack:subject.R} rope"},
     {name:'at odds with',   tags:'person|organization|territory', complements:"NP{tags:person|organization|territory}"},
     {name:'at a standstill',tags:'telic&hasDuration | event&difficulty'},
@@ -347,10 +357,17 @@ var prohibitions = {
 
     //verb
     aspect: {
-        prog: {class: 'state,event,semel', perm: '>0', pasv:true},
-        retroprog: {class: 'state,event,semel', perm: '>0', pasv:true},
+        prog: {class: 'state,event', perm: '>0', pasv:true},
+        retroprog: {class: 'state,event', perm: '>0', pasv:true},
         retro: {perm: '>0'},
-        prosp: {volition: false, class:'state', perm: '>0'} //makes no difference for some reason
+        prosp: {volition: false, class:'state', perm: '>0'} //doesn't work because of stupid real_aspect THIS WHOLE SECTION IS A SHAM! AUXP needs to be changed! TODO
+    },
+    //TEMPORARY FIX FOR PROBLEM ABOVE
+    real_aspect: {
+        prog: {class: 'state,event', perm: '>0', pasv:true},
+        retroprog: {class: 'state,event', perm: '>0', pasv:true},
+        retro: {perm: '>0'},
+        prosp: {volition: false, class:'state', perm: '>0'}
     },
     tense: {
         future: {aspect: 'retro', class: 'state', perm:true} //just tends to sound too awkward
@@ -360,8 +377,11 @@ var prohibitions = {
     },
 
     //noun
-    number: {
-        pl: {count: false},
+    number: {               // probably many other tags as well, tags need to respect heirarchy
+        pl: {count: false, tags: 'activity, enterprise'}, //what about proper place names? Only Alps and Himalayas right now
+    },
+    def: {
+        indef: {possessable: 10}
     },
     subj_def: {
         indef: {class: 'state'}

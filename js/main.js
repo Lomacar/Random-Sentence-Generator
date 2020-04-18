@@ -8,18 +8,15 @@ function globalRestrictions(r){
     registerGR(r)
 
     //when a global restriction matches the current constructions label, pull it back in to the normal restrictions
-    if (this.label) {
-        var parent
-        try {parent = this.parent.label} catch(e){parent=''}
-        parent = parent ? '('+parent+'\\.)?' : ''
-        var labelFinder = new RegExp('^'+parent+this.label+'\\.[^.]+$')    //regex to find restriction keys like '(parent.)label.something'
+    if (!isEmpty(RESTRICTIONS) && this.label) {
 
-        var matchingKeys = Object.keys(RESTRICTIONS).filter(function(x){return labelFinder.test(x)})
-        matchingKeys.forEach( function(m) {
-            var mKey = m.split('.').pop()
-            if(mKey=='tags' && r.tags) {
+        Object.keys(RESTRICTIONS).forEach( m =>{
+            if (m.indexOf(this.label+'.')==-1) return
+
+            var mKey = m.substr(m.indexOf('.')+1) //chop off the first part before the .
+            if(r[mKey] && theseAreTags(mKey)) {
                 //merge tags together with an &
-                r.tags += ' & ' + RESTRICTIONS[m]
+                r[mKey] += ' & ' + RESTRICTIONS[m]
             } else {
                 r[mKey] = RESTRICTIONS[m]
             }
@@ -32,12 +29,11 @@ function globalRestrictions(r){
 
 function registerGR(r) {
     //transfer restrictions with dots in their names to the global RESTRICTIONS object
-    var matchingKeys = Object.keys(r).filter(function(x){
-        return x.match('\\.')
-    })
-    matchingKeys.forEach( function(m) {
-        RESTRICTIONS[m] = r[m]
-        delete r[m]
+    Object.keys(r).forEach( m =>{
+        if (m.findChar('.')) {
+            RESTRICTIONS[m] = r[m]
+            delete r[m]
+        }
     })
 }
 
@@ -55,6 +51,7 @@ function parseRestrictions(restrictions){
     var out_restrictions = {}
 
     $.each(restrictions, function(r){
+        if (restrictions[r]=='$') restrictions[r] = '$.' + restrictions[r] //if restriction is like anim:$ it becomes anim:$.anim
 
         var expando = r=='unpack' //this allows entire words to be unpacked in the restrictions
         var arrr = parseSingleRestriction(restrictions[r], that, expando)
@@ -277,7 +274,7 @@ function complement(r){
 
     complement = compactString(complement)
 
-    var constructions = complement.match(/[A-Z1-9_]+(\b|{[^{}]+})+/g)
+    var constructions = complement.match(/[A-Z][A-Z1-9_]*(\b|{[^{}]+})+/g)
 
     if (constructions == null) return {text: complement} //this must be a simple word complement like fall _down_
 
@@ -298,9 +295,9 @@ function complement(r){
             arg = arg[0].slice(1,-1)
             if(arg.findChar(':')){
                 arg = toObject(arg)
-                arg = $.extend({}, r, arg)
+                arg = mergeR(r, arg)
             } else {
-                arg = $.extend({}, r, {unpack: arg})
+                arg = {...r, unpack: arg}
             }
 
         }
@@ -415,27 +412,27 @@ function pickOne(arr, r){
         }
 
         //for main word classes use their corresponding shuffled list to randomly rummage through the database
-//        if(Object.keys(r).length < 8 && (type=="noun" || type=="adjective" || type=="verb")){
-//
-//            randy[type] = randy[type] || _.shuffle(_.range(arr.length))
-//
-//            var randex
-//            while (randex = randy[type].pop()){
-//                if (r_match(r, arr[randex])) {
-//                    return arr[randex]
-//                }
-//            }
-//
-//            //if the old shuffle list failed, renew it and try again
-//            randy[type] = _.shuffle(_.range(arr.length))
-//
-//            while (randex = randy[type].pop()){
-//                if (r_match(r, arr[randex])) {
-//                    return arr[randex]
-//                }
-//            }
-//
-//        }
+    //    if(Object.keys(r).length < 8 && (type=="noun" || type=="adjective" || type=="verb")){
+
+    //        randy[type] = randy[type] || _.shuffle(_.range(arr.length))
+
+    //        var randex
+    //        while (randex = randy[type].pop()){
+    //            if (r_match(r, arr[randex])) {
+    //                return arr[randex]
+    //            }
+    //        }
+
+    //        //if the old shuffle list failed, renew it and try again
+    //        randy[type] = _.shuffle(_.range(arr.length))
+
+    //        while (randex = randy[type].pop()){
+    //            if (r_match(r, arr[randex])) {
+    //                return arr[randex]
+    //            }
+    //        }
+
+    //    }
         var randex
 
         while (arr.length) {
@@ -455,42 +452,38 @@ function pickOne(arr, r){
 //also rejected if restrictions match prohibitions on object
 function r_match(restrictions, test_object){
 
-    if (isEmpty(restrictions)) return true
-
     //short circuit for name match or mismatch
     if (('name' in restrictions) && restrictions.orsimilar==true) {
         if (typeof restrictions.name=='undefined') return false
         if (magicCompare(restrictions.name, test_object.proto)) return true
         else return false
     }
-    //don't use disabled words
-    if(test_object.disabled) return false
 
     //if (restrictions.type=='noun' || restrictions.type=='verb') restrictions = safe(restrictions, restrictions.type)
 
     //prevent the repetitive use of words
     if (recentlyUsed.indexOf(test_object.name.replace(/\d+/g,'')) > -1) return false
 
-    var prohib = test_object.prohibitions
-    if(goodVal(prohib)) {//prohib = prohib.replace(/ /g, '')
+    var wProhib = test_object.prohibitions
+    if(goodVal(wProhib)) {//prohib = prohib.replace(/ /g, '')
         //reject if restrictions match prohibitions
-        if (prohibited(restrictions, prohib)===true) return false
-        prohib = toObject(prohib)
+        if (prohibited(restrictions, wProhib)===true) return false
+        wProhib = toObject(wProhib)
     }
 
-    for(var r in restrictions){
+    for(var r in test_object){
 
-        var rval = restrictions[r];
+        var rval = test_object[r];
 
         //merge word-level and universal prohibitions for given paradigm (r)
         //word level overwrites universal
-        var prohibz = prohibitions.descend(r,rval)
-        if (typeOf(prohib)=='object') _.extend({},prohibz, prohib)
-        if (prohibz && prohibited(test_object, prohibz)===true) return false
+        var uProhib = prohibitions.descend(r,rval)
+        if (typeOf(wProhib)=='object') _.extend({},uProhib, wProhib)
+        if (uProhib && prohibited(test_object, uProhib)===true) return false
 
-        if (typeof test_object[r] !== 'undefined') {
+        if (typeof restrictions[r] !== 'undefined') {
 
-            if (magicCompare(test_object[r], rval, {tagmode: (r=='tags'||r=='vtags')})) {
+            if (magicCompare(restrictions[r], rval, {tagmode: theseAreTags(r)})) {
                 continue
             } else return false
 
@@ -627,7 +620,6 @@ function stringOut(c,id,recur){
         outString = c.order.replace(/([^_ ])+/g, replacer)
         outString = stringCleaning(outString, c,recur)
     }
-
     else outString = c.text
 
 
@@ -648,11 +640,8 @@ function stringOut(c,id,recur){
 
         //break down arrays of adjectives or whatnot
         if(typeOf(c.children[a])=='array') {
-            var temp = []
             var lastbit = ""
-            $.each(c.children[a], function (index, value){
-                if(goodVal(value.text)) temp.push(stringOut(value,undefined,1))
-            })
+            var temp = c.children[a].map( i => stringOut(i,undefined,1) ).filter(Boolean)
             //tempstr = tempstr.join(c.separator[0])
             if (c.separator[1]!==undefined) {
                 var lastbit = c.separator[1] + temp.pop()
@@ -687,6 +676,20 @@ function stringOut(c,id,recur){
                 //placeholders needed for potential complements
                 '<div id="['+C.list.length+']" '+ constituentClasses +'></div>'
                 : ''
+
+    } else if (debugMode && (c.label == null || c.parent.labelChildren)) {
+
+        var json = c.restrictions ? JSON.stringify(c.restrictions).replace(/,\"/g,"\n\"") : ""
+
+        var label = c.desc||c.label||'clause'
+        var constituentClasses = 'class="constituent '+ishead+' '+c.label+'-"'
+        return outString ?
+            '<div '+ constituentClasses +'><div title=\''+json+'\' class="label">'+label+'</div><div class="construction"> '+stringCleaning(outString,c,recur)+'</div></div>'
+            : c.parent && c.parent.hasComplement ?
+                //placeholders needed for potential complements
+                '<div '+ constituentClasses +'></div>'
+                : ''
+
     } else {
         return outString
     }
@@ -695,10 +698,12 @@ function stringOut(c,id,recur){
 
 function stringCleaning(string, c, recur){
     string = string.replace(/\.([^ \b])/g,"$1")             // remove dots that aren't at the end of words
-                   .replace(/([^\^])\d+([^\]\d]|$)/g,"$1$2")// remove numbers, except for [e123] errors and escaped numbers (^2)
+                   .replace('@','')                        // remove @ used for phrasal verbs
                    .replace(/  +/g,' ')                     // remove extra spaces
                    .replace(/ ,/,',')                       // remove spaces before commas
-
+    if (!debugMode) 
+        string = string.replace(/([^\^])\d+([^\]\d]|$)/g,"$1$2")// remove numbers, except for [e123] errors and escaped numbers (^2)
+    
     //construction specific cleaning
     if (typeof c.postlogic==='function') string = c.postlogic(string)
 
@@ -793,6 +798,8 @@ function decide(r, pdgms, filter){
 
         if (!goodVal(r[pdm])) { //gotta choose one at random, sort of
 
+            //get the paradigm probabilities and filter it against 
+            //universal probabilities that collide with the given restrictions
             var pdm_list = _.clone(probabilities[pdm])
             if (pdm_list) {
                 for (var i = 1; i < pdm_list.length; i += 2) {
@@ -803,7 +810,7 @@ function decide(r, pdgms, filter){
 
                 }
             }
-            out_r[pdm] = choose(pdm_list)
+            out_r[pdm] = choose(pdm_list) //pick a paradigm based on surviving valid probabilities
 
         } else { //keep the existing value
             out_r[pdm] = r[pdm]

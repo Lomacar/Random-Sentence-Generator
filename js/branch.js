@@ -10,7 +10,7 @@ function branch(c, r, p, l, x, y) {
 
     this.randomize = y
 
-    if(xrayMode){
+    if(xrayMode){ //this slows down sentence creation significantly
         this.seed = x || Math.random().toString(32).slice(2);
         Math.seedrandom(this.seed)
         ///console.log(this.seed)
@@ -50,11 +50,9 @@ function branch(c, r, p, l, x, y) {
 
     executeBranch.apply(this, [c, r, this])
 
-    //dump almost all other c.properties into this
-    for(var prop in c){
-        if(prop!='head' && prop!='children')
-            this[prop] = this[prop]||c[prop];
-    }
+    //dump c.properties into this
+    _.defaults(this, c)
+
     //for the rare construction that has a built-in restrictions property
     //this prevents the above loop from overwriting passed in restrictions
     _.extend(this.restrictions, r)
@@ -74,6 +72,13 @@ function branch(c, r, p, l, x, y) {
         registerGR(c)
     }
 
+    this.tip = function () {
+        let b = this.head
+        while (b && b.head){
+            b = b.head
+        }
+        return b
+    }
 
 } //end branch
 
@@ -135,41 +140,40 @@ function executeBranch(c, r, p){
             _ = _.runInContext()
         }
     }
-    //if(!p.label) console.log(route( _.random(2), {0:decide(null,'tense,aspect,mood'),1:Math.random(),'rest':options('(yes | no | maybe so)')} ) );
-    //if(!p.label) console.log( $(stringOut(new branch(N,{},{},'fake'))) );
-
 
 
     //evaluate rest of children
     if('children' in c){
-        for(var child in c.children){
-            if(this.children[child] != this.head){
-                if(typeOf(c.children[child])=='array'){
-                    var R = parseRestrictions.apply( this, [c.children[child][1]] ) //restrictions explicitly passed in to branch
-                    if(R=="LEAVE") this.children[child] = {text: ""} //this is how we deal with branches that our restrictions told us not to follow
+        for(var ch in c.children){
+            if(this.children[ch] != this.head){
+                child = c.children[ch]
+                if(typeOf(child)=='array'){
+
+                    var R = parseRestrictions.apply( this, [child[1]] ) //restrictions explicitly passed in to branch
+                    if(R=="LEAVE") this.children[ch] = {text: ""} //this is how we deal with branches that our restrictions told us not to follow
 
                     else {
                         //if a restriction reset has been requested, clear everything accept nocomplement
-                        if (c.children[child][1] && c.children[child][1].reset) r = {nocomplement: r.nocomplement}
+                        if (R && R.reset) r = {nocomplement: r.nocomplement}
 
-                        var probability = c.children[child][2] || 1 //if children have a probability of occurence
+                        var probability = child[2] || 1 //if children have a probability of occurence
                         var tempchildren = []
                         while (probability > Math.random()) { //repeat until the probability dies
 
                             //Fetch the child branch
-                            var sprout = new branch(c.children[child][0], _.extend({}, c.restrictions, R), p, child)
-                            if (typeOf(sprout) == 'array')
-                            { tempchildren = tempchildren.concat(sprout) }
+                            var childBranch = new branch(child[0], {...c.restrictions, ...R}, p, ch)
+                            if (typeOf(childBranch) == 'array')
+                            { tempchildren = tempchildren.concat(childBranch) }
                             else
-                            { tempchildren.push(sprout) }
+                            { tempchildren.push(childBranch) }
 
                             if (probability == 1) probability = 0
-                            else probability *= 0.6
+                            else probability *= 0.75
                         }
 
                         //sort the multiple child instances if there is sort criteria
-                        if (c.children[child][3]!==undefined) {
-                            var sortby = c.children[child][3]
+                        if (child[3]!==undefined) {
+                            var sortby = child[3]
                             tempchildren = tempchildren.sort(function(b,a){
                                 if (a[sortby]) {
                                     //items being sorted have property directly, like when sorting words
@@ -184,11 +188,11 @@ function executeBranch(c, r, p){
 
                         if (tempchildren.length==1) tempchildren = tempchildren[0]
                         else if (tempchildren.length===0) tempchildren = {text: ""}
-                        this.children[child] = tempchildren
+                        this.children[ch] = tempchildren
                     }
                 }
-                else //presumably this is just a straight object rather than a construction + restrictions to evaluate
-                {this.children[child] = c.children[child]}
+                //presumably this is just a straight object rather than a construction + restrictions to evaluate
+                else this.children[ch] = child
             }
         }
     }
