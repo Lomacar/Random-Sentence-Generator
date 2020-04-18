@@ -1,5 +1,54 @@
 noun = [
   {
+    "name": "Rapunzel",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Snow White",
+    "proto": "Cinderella"
+  },
+  {
+    "name": "Nancy Drew",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Scarlett O'Hara",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Arwen",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Éowyn",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Lara Croft",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Shirley Temple",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Hillary Clinton",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Meryl Streep",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
     "name": "battle",
     "disabled": false,
     "tags": "event",
@@ -1219,6 +1268,11 @@ noun = [
     "count": "true"
   },
   {
+    "name": "pepper",
+    "proto": "apple",
+    "disabled": false
+  },
+  {
     "name": "fruit",
     "proto": "apple",
     "disabled": false,
@@ -1237,6 +1291,12 @@ noun = [
   {
     "name": "pineapple",
     "proto": "apple"
+  },
+  {
+    "name": "jalapeño",
+    "proto": "apple",
+    "disabled": false,
+    "complements": "(pepper)"
   },
   {
     "name": "mushroom",
@@ -2347,6 +2407,31 @@ noun = [
     "disabled": false
   },
   {
+    "name": "Little Red Riding Hood",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Aretha Franklin",
+    "proto": "Cinderella"
+  },
+  {
+    "name": "Jane Goodall",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Queen Victoria",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Oprah",
+    "proto": "Cinderella",
+    "disabled": false,
+    "complements": "(Winfrey)"
+  },
+  {
     "name": "baboon",
     "proto": "dog",
     "disabled": false
@@ -2522,8 +2607,25 @@ noun = [
   {
     "name": "Cinderella",
     "proto": "Sally",
+    "disabled": false,
     "tags": "-,person,fullname",
     "precomp": "--"
+  },
+  {
+    "name": "Tinkerbell",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Beyoncé",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
+    "name": "Daenerys",
+    "proto": "Cinderella",
+    "disabled": false,
+    "complements": "(Targaryen)"
   },
   {
     "name": "Cleopatra",
@@ -2863,7 +2965,7 @@ noun = [
     "partOf": "null",
     "size": "6,7",
     "unique": "0",
-    "count": "true"
+    "count": "false"
   },
   {
     "name": "germaphobe",
@@ -2886,10 +2988,11 @@ noun = [
   },
   {
     "name": "Godzilla",
-    "proto": "Jack",
-    "anim": 2,
-    "size": 8,
-    "tags": "-,beast,fullname"
+    "proto": "Batman",
+    "disabled": false,
+    "tags": "-,beast,fullname",
+    "anim": "2",
+    "size": "8,9"
   },
   {
     "name": "golf cart",
@@ -3611,7 +3714,8 @@ noun = [
     "name": "wizard",
     "proto": "human",
     "disabled": false,
-    "partOf": "null"
+    "partOf": "null",
+    "gender": "m"
   },
   {
     "name": "druid",
@@ -3629,13 +3733,15 @@ noun = [
     "name": "monk",
     "proto": "human",
     "disabled": false,
-    "partOf": "null"
+    "partOf": "null",
+    "gender": "m"
   },
   {
     "name": "nun",
     "proto": "human",
     "disabled": false,
-    "partOf": "null"
+    "partOf": "null",
+    "gender": "f"
   },
   {
     "name": "prophet",
@@ -3980,6 +4086,11 @@ noun = [
     "proto": "Cinderella",
     "disabled": false,
     "partOf": "null"
+  },
+  {
+    "name": "J.K. Rowling",
+    "proto": "Cinderella",
+    "disabled": false
   },
   {
     "name": "rabble-rouser",
@@ -4629,12 +4740,40 @@ noun = [
     "size": "8,9"
   },
   {
-    "name": "ex-girlfriend",
+    "name": "husband",
     "proto": "human",
     "disabled": false,
-    "possessable": "9",
-    "posr": "anim:3,gender:!f",
-    "partOf": "null"
+    "possessable": "10",
+    "posr": "tags:person, gender:!m",
+    "partOf": "null",
+    "gender": "m"
+  },
+  {
+    "name": "fiancé",
+    "proto": "husband",
+    "disabled": false
+  },
+  {
+    "name": "boyfriend",
+    "proto": "husband",
+    "disabled": false
+  },
+  {
+    "name": "wife",
+    "proto": "husband",
+    "disabled": false,
+    "posr": "tags:person, gender:!f",
+    "gender": "f"
+  },
+  {
+    "name": "fiancée",
+    "proto": "wife",
+    "disabled": false
+  },
+  {
+    "name": "girlfriend",
+    "proto": "wife",
+    "disabled": false
   },
   {
     "name": "friend",
@@ -4931,14 +5070,16 @@ noun = [
   {
     "name": "river",
     "proto": "lake",
-    "size": 9,
-    "tags": "path"
+    "disabled": false,
+    "tags": "path",
+    "size": "9"
   },
   {
     "name": "creek",
     "proto": "river",
-    "size": 7,
-    "tags": "-, bodyOfWater"
+    "disabled": false,
+    "tags": "-, bodyOfWater",
+    "size": "7"
   },
   {
     "name": "Alabama",
@@ -4953,7 +5094,8 @@ noun = [
   },
   {
     "name": "Ontario",
-    "proto": "Alabama"
+    "proto": "Alabama",
+    "disabled": false
   },
   {
     "name": "California",
@@ -4975,11 +5117,17 @@ noun = [
   },
   {
     "name": "Kentucky",
-    "proto": "Alabama"
+    "proto": "Alabama",
+    "disabled": false
   },
   {
     "name": "Siberia",
     "proto": "Alabama"
+  },
+  {
+    "name": "Québec",
+    "proto": "Alabama",
+    "disabled": false
   },
   {
     "name": "Middle East",
@@ -5605,6 +5753,11 @@ noun = [
     "partOf": "null"
   },
   {
+    "name": "piña colada",
+    "proto": "martini",
+    "disabled": false
+  },
+  {
     "name": "ale",
     "proto": "beer",
     "disabled": false,
@@ -5615,6 +5768,12 @@ noun = [
     "proto": "beer",
     "disabled": false,
     "partOf": "null"
+  },
+  {
+    "name": "martini.1",
+    "proto": "martini",
+    "disabled": false,
+    "count": "true"
   },
   {
     "name": "alcohol",
@@ -6776,12 +6935,19 @@ noun = [
     "proto": "Cinderella"
   },
   {
+    "name": "Hermione Granger",
+    "proto": "Cinderella",
+    "disabled": false
+  },
+  {
     "name": "Celine Dion",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
+    "disabled": false
   },
   {
     "name": "Cruella Deville",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
+    "disabled": false
   },
   {
     "name": "Mary Poppins",
@@ -6805,7 +6971,8 @@ noun = [
   },
   {
     "name": "Mother Teresa",
-    "proto": "Cinderella"
+    "proto": "Cinderella",
+    "disabled": false
   },
   {
     "name": "Eleanor Roosevelt",
@@ -8171,6 +8338,11 @@ noun = [
     "disabled": false,
     "tags": "food",
     "partOf": "null"
+  },
+  {
+    "name": "pepper1",
+    "proto": "sugar",
+    "disabled": false
   },
   {
     "name": "cereal",

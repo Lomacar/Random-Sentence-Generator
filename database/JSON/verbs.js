@@ -1807,6 +1807,7 @@ verb = [
     "proto": "punch",
     "disabled": false,
     "tags": "creature",
+    "compcore": "NP{tang:2, tags: !fluid}",
     "inflections": "simp.past: bit, retro: bitten"
   },
   {
@@ -1824,6 +1825,7 @@ verb = [
     "class": "event",
     "vtags": "--",
     "anim": "3",
+    "volition": "true",
     "ptpl": "null",
     "compcore": "(70 NP{tags:activity})"
   },
@@ -1841,7 +1843,7 @@ verb = [
     "disabled": false,
     "ptpl": "null",
     "compcore": "--",
-    "compext": "(ACTIVE_STUFF | ACTION{volition:true})"
+    "compext": "(ACTIVE_STUFF|ACTION){volition:true}"
   },
   {
     "name": "support",
