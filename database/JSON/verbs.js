@@ -1882,6 +1882,7 @@ verb = [
   },
   {
     "name": "dream",
+    "prohibitions": "retro:dreamt",
     "disabled": false,
     "class": "activity",
     "vtags": "--",

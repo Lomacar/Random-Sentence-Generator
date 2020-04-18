@@ -1489,9 +1489,6 @@ function ADJUNCT_PP(r) {
 function LOCATION(r) {
     //return {text: _.sample(['there','here','somewhere','everywhere'])}
 
-    r.trans = r.p_trans || 0
-    if (r.p_vtags) r.vtags = r.p_vtags
-
     // trajector is subject of "intransitive" verb and direct object of "transitive" verb
     // TODO: for some reason compcore end up being empty when searching for compcore.size
     var trajector = r.trans < 1 || r.pasv ? {
