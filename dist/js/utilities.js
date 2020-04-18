@@ -183,7 +183,8 @@ String.prototype.findChar = function (needle) {
 }
 
 function toss(probability){
-    return Math.random() < (probability || 0.5)
+    if (probability===undefined) probability=0.5
+    return Math.random() < probability
 }
 
 

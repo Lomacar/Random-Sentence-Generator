@@ -274,7 +274,7 @@ function complement(r){
 
     complement = compactString(complement)
 
-    var constructions = complement.match(/[A-Z1-9_]+(\b|{[^{}]+})+/g)
+    var constructions = complement.match(/[A-Z][A-Z1-9_]*(\b|{[^{}]+})+/g)
 
     if (constructions == null) return {text: complement} //this must be a simple word complement like fall _down_
 

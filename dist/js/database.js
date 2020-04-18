@@ -79,7 +79,7 @@ database.quantifier = [
     {name: 'a number', prequant: true, count: 1, amount: 7},
     {name: 'dozens', prequant: true, count: 1, amount: 48},
     {name: 'hundreds', prequant: true, count: 1, amount: 400},
-    {name: 'thousand', prequant: true, count: 1, amount: 4000},
+    {name: 'thousands', prequant: true, count: 1, amount: 4000},
     {name: 'millions', prequant: true, count: 1, amount: 4000000},
 
     //UNCOUNTABLE ONLY
@@ -379,6 +379,9 @@ var prohibitions = {
     //noun
     number: {               // probably many other tags as well, tags need to respect heirarchy
         pl: {count: false, tags: 'activity, enterprise'}, //what about proper place names? Only Alps and Himalayas right now
+    },
+    def: {
+        indef: {possessable: 10}
     },
     subj_def: {
         indef: {class: 'state'}

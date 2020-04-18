@@ -1319,11 +1319,6 @@ function GP(r) {
         labelChildren: true,
         hasComplement: "compcore, compext",
         children: {
-            dummynoun: [pass_through, {
-                type: 'noun',
-                number: 'sg'
-            }],
-            //v: [get, {type: "verb", unpack: 'subject.R', pasv: false, tense: 'pres', aspect: 'prog', desc:'gerund'}],
             ving: [V, {
                 unpack: 'subject.R',
                 aspect: 'prog',
@@ -1331,7 +1326,6 @@ function GP(r) {
                 pasv: 'false',
                 desc: 'gerund'
             }],
-            //asp:  [aspect, {tense: 'pres', aspect: 'prog'}],
             compcore: [complement, {
                 'case': 'acc',
                 'complements': 'ving.compcore',
